@@ -12,6 +12,7 @@
           <li><a href="/chart">Birth Chart</a></li>
           <li><a href="/transits">Transits</a></li>
           <li><a href="/interpretations">Interpretations</a></li>
+          <li><a href="/chart/test">Chart Test</a></li>
         </ul>
       </div>
     </nav>

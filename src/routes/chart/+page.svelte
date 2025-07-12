@@ -12,6 +12,25 @@
   let loading = false;
   let error: string | null = null;
   let chartDataString = '';
+  
+  // Mock chart data for testing
+  const mockChartData = `Sun,Sagittarius,18°01'
+Moon,Aries,28°43'
+Mercury,Sagittarius,7°52'
+Venus,Virgo,29°37'
+Mars,Aries,26°16'
+Jupiter,Taurus,5°35'
+Saturn,Taurus,17°04'
+Uranus,Aquarius,16°39'
+Neptune,Aquarius,6°25'
+Pluto,Sagittarius,2°42'
+Node,Aries,13°06'
+Lilith,Aries,28°06'
+Chiron,Aries,28°06'
+ASC,Aquarius,6°59'
+MC,Taurus,6°59'`;
+
+  let showTestChart = false;
 
   async function handleCalculateChart(data: BirthData) {
     loading = true;
@@ -40,6 +59,11 @@
     } finally {
       loading = false;
     }
+  }
+
+  function loadTestChart() {
+    chartDataString = mockChartData;
+    showTestChart = true;
   }
 </script>
 
@@ -70,19 +94,29 @@
           <p>Calculating your birth chart...</p>
         </div>
       {/if}
+      
+      <!-- Test Chart Button -->
+      <div class="test-section">
+        <button on:click={loadTestChart} class="test-btn">
+          Load Test Chart Data
+        </button>
+        <p class="test-note">Click to load mock chart data for testing the visualization</p>
+      </div>
     </div>
 
-    {#if chartResult && chartDataString}
+    {#if chartDataString}
       <div class="results-section">
         <div class="chart-visualization">
-          <h2>Your Birth Chart</h2>
+          <h2>{showTestChart ? 'Test Chart Visualization' : 'Your Birth Chart'}</h2>
           <ChartVisualization chartData={chartDataString} />
         </div>
         
-        <div class="chart-data">
-          <h2>Chart Data</h2>
-          <ChartData {chartResult} />
-        </div>
+        {#if chartResult}
+          <div class="chart-data">
+            <h2>Chart Data</h2>
+            <ChartData {chartResult} />
+          </div>
+        {/if}
       </div>
     {/if}
   </div>
@@ -90,85 +124,129 @@
 
 <style>
   .chart-page {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 20px;
   }
 
   .page-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 30px;
   }
 
   .page-header h1 {
     color: #333;
-    margin-bottom: 0.5rem;
+    margin-bottom: 10px;
   }
 
   .page-header p {
     color: #666;
-    font-size: 1.1rem;
+    font-size: 16px;
+  }
+
+  .error {
+    background: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ffcdd2;
   }
 
   .chart-container {
     display: grid;
-    gap: 2rem;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
   }
 
   .form-section {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    padding: 20px;
   }
 
   .loading-container {
     text-align: center;
-    padding: 2rem;
+    padding: 20px;
   }
 
-  .loading-container p {
-    margin-top: 1rem;
+  .loading {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4CAF50;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .test-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .test-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .test-btn:hover {
+    background: #1976D2;
+  }
+
+  .test-note {
+    font-size: 12px;
     color: #666;
+    margin-top: 8px;
+    text-align: center;
   }
 
   .results-section {
-    display: grid;
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   .chart-visualization {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+  }
+
+  .chart-visualization h2 {
+    margin-bottom: 15px;
+    color: #333;
   }
 
   .chart-data {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    padding: 20px;
   }
 
-  @media (min-width: 1024px) {
-    .chart-container {
-      grid-template-columns: 1fr 2fr;
-    }
-    
-    .results-section {
-      grid-template-columns: 1fr 1fr;
-    }
+  .chart-data h2 {
+    margin-bottom: 15px;
+    color: #333;
   }
 
   @media (max-width: 768px) {
-    .page-header {
-      margin-bottom: 2rem;
-    }
-    
-    .form-section,
-    .chart-visualization,
-    .chart-data {
-      padding: 1.5rem;
+    .chart-container {
+      grid-template-columns: 1fr;
     }
   }
 </style> 
