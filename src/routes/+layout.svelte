@@ -22,7 +22,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2024 Astro Chart. Powered by Swiss Ephemeris and D3.js</p>
+    <p>&copy; 2024 Astro Chart. Powered by astronomia and D3.js</p>
   </footer>
 </div>
 
