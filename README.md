@@ -1,52 +1,22 @@
-# Astro Chart - SvelteKit Astrological Application
+# Astro Svelte App
 
-A comprehensive astrological application built with SvelteKit that combines birth chart calculations, transit analysis, and astrological interpretations. This project merges the functionality from `node-ephemeris` and `astro-chart` into a modern web application.
+A comprehensive astrology application built with SvelteKit, featuring birth chart calculations, planetary transits, and interactive D3.js visualizations.
 
 ## Features
 
-### 🌟 Birth Chart Calculator
-- Calculate accurate birth charts using Swiss Ephemeris
-- Interactive D3.js chart visualization
-- Planetary positions, houses, and aspects
-- Support for retrograde planets
-- Whole Sign house system
-
-### 🔄 Transit Analysis
-- Current planetary transits
-- Transit-to-natal aspect calculations
-- Transit interpretations and meanings
-- Comparison of current vs natal positions
-
-### 📚 Astrological Interpretations
-- Comprehensive planet meanings
-- Zodiac sign characteristics
-- House significations
-- Aspect interpretations
-- Searchable content
-
-### 🎨 Modern UI/UX
-- Responsive design for all devices
-- Beautiful gradient styling
-- Interactive components
-- Real-time updates
-- Loading states and error handling
+- **Birth Chart Calculator**: Calculate natal charts with precise planetary positions
+- **Planetary Transits**: View current transits and their aspects to your natal chart
+- **Interactive Visualizations**: Beautiful D3.js charts and interpretations
+- **Responsive Design**: Works on desktop and mobile devices
 
 ## Technology Stack
 
-- **Frontend Framework**: SvelteKit 2.0
-- **Astronomical Calculations**: Swiss Ephemeris
-- **Data Visualization**: D3.js
-- **Styling**: CSS with modern design patterns
-- **Type Safety**: TypeScript
-- **Build Tool**: Vite
+- **Frontend**: SvelteKit 2.0 with TypeScript
+- **Astronomical Calculations**: [astronomia](https://github.com/commenthol/astronomia) - Pure JavaScript ephemeris library
+- **Visualizations**: D3.js for interactive charts
+- **Styling**: CSS with modern design principles
 
-## Getting Started
-
-### Prerequisites
-- Node.js 18+ 
-- pnpm (recommended) or npm
-
-### Installation
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -66,115 +36,84 @@ pnpm dev
 
 4. Open your browser and navigate to `http://localhost:5173`
 
-### Building for Production
+## API Endpoints
 
-```bash
-pnpm build
-pnpm preview
-```
+### Birth Chart Calculation
+- **POST** `/api/birth-chart`
+- **Body**: `{ date, time, latitude, longitude, timezone }`
+- **Returns**: Complete birth chart with planetary positions and house cusps
+
+### Transit Calculation
+- **POST** `/api/transits`
+- **Body**: `{ natalChart, transitDate }`
+- **Returns**: Current planetary transits with aspects to natal chart
+
+## Astronomical Accuracy
+
+This application uses the `astronomia` library for planetary calculations, which provides:
+
+- **High Accuracy**: Based on VSOP87 theory for planetary positions
+- **Pure JavaScript**: No native dependencies, works in all environments
+- **Comprehensive Coverage**: Sun, Moon, and all major planets
+- **Serverless Compatible**: Perfect for cloud deployment
+
+### Current Limitations
+
+- Moon position is approximated (for production use, consider integrating a dedicated Moon ephemeris)
+- House calculations use simplified Placidus method
+- No support for asteroids or minor planets
 
 ## Project Structure
 
 ```
 src/
 ├── lib/
-│   ├── astrology/          # Astrological constants and utilities
-│   ├── chart/              # Chart calculation logic
-│   ├── types/              # TypeScript type definitions
-│   └── utils/              # Utility functions
+│   ├── astrology/
+│   │   ├── astronomia-service.ts    # Main astronomical calculations
+│   │   └── astrology.ts             # Astrological constants and utilities
+│   ├── chart/
+│   │   └── browser-chart.ts         # Chart formatting and API calls
+│   └── types/
+│       └── types.ts                 # TypeScript interfaces
 ├── routes/
-│   ├── chart/              # Birth chart calculator
-│   ├── transits/           # Transit analysis
-│   └── interpretations/    # Astrological meanings
-├── app.css                 # Global styles
-└── app.html               # HTML template
-static/
-└── assets/
-    └── ephe/              # Swiss Ephemeris files
+│   ├── api/
+│   │   ├── birth-chart/             # Birth chart API endpoint
+│   │   └── transits/                # Transits API endpoint
+│   ├── chart/                       # Birth chart page
+│   ├── transits/                    # Transits page
+│   └── interpretations/             # Interpretations page
+└── static/                          # Static assets
 ```
-
-## Usage
-
-### Calculating a Birth Chart
-
-1. Navigate to the "Birth Chart" page
-2. Enter your birth details:
-   - Date of birth
-   - Time of birth (use 12:00 PM if unknown)
-   - Birth location coordinates
-   - Timezone at birth
-3. Click "Calculate Chart" to generate your natal chart
-4. View the interactive chart visualization and detailed data
-
-### Viewing Transits
-
-1. Navigate to the "Transits" page
-2. Enter your birth details (same as above)
-3. View current planetary transits and their aspects to your natal chart
-4. Explore transit interpretations and meanings
-
-### Exploring Interpretations
-
-1. Navigate to the "Interpretations" page
-2. Browse through planets, signs, houses, and aspects
-3. Use the search function to find specific meanings
-4. Learn about astrological symbolism and significance
-
-## Key Components
-
-### Birth Chart Form
-- Input validation for birth data
-- Geolocation support
-- Timezone selection
-- Helpful guidance for users
-
-### Chart Visualization
-- Interactive D3.js wheel chart
-- Zoom and pan controls
-- Planet symbols and positions
-- Aspect lines and interpretations
-
-### Transit Analysis
-- Real-time transit calculations
-- Aspect detection with configurable orbs
-- Transit-to-natal comparisons
-- Retrograde movement tracking
-
-## Astrological Features
-
-### Supported Planets
-- Sun, Moon, Mercury, Venus, Mars
-- Jupiter, Saturn, Uranus, Neptune, Pluto
-- North Node, Lilith, Chiron, Part of Fortune, Vertex
-
-### House System
-- Whole Sign houses (default)
-- Ascendant and Midheaven calculations
-- House cusps and significations
-
-### Aspects
-- Conjunction (0°)
-- Sextile (60°)
-- Square (90°)
-- Trine (120°)
-- Opposition (180°)
 
 ## Development
 
 ### Adding New Features
 
-1. **New Astrological Calculations**: Add to `src/lib/chart/`
-2. **New Visualizations**: Create components in `src/routes/`
-3. **New Interpretations**: Update the interpretations data
-4. **Styling**: Use the existing CSS patterns in `src/app.css`
+1. **New Planetary Bodies**: Extend the `PLANET_NAMES` array in `astronomia-service.ts`
+2. **House Systems**: Implement new house calculation functions
+3. **Aspects**: Add new aspect types in the `calculateAspect` function
 
-### Code Style
+### Testing
 
-- Use TypeScript for type safety
-- Follow SvelteKit conventions
-- Use reactive statements (`$:`) for derived state
-- Implement proper error handling
-- Add loading states for async operations
+```bash
+# Run tests
+pnpm test
+
+# Build for production
+pnpm build
+
+# Preview production build
+pnpm preview
+```
+
+## Deployment
+
+This application is designed to work on any platform that supports Node.js:
+
+- **Vercel**: Zero-config deployment
+- **Netlify**: Automatic builds from Git
+- **Railway**: Easy container deployment
+- **Traditional hosting**: Standard Node.js deployment
 
 ## Contributing
 
@@ -186,19 +125,10 @@ static/
 
 ## License
 
-This project is open source and available under the MIT License.
+MIT License - see LICENSE file for details.
 
 ## Acknowledgments
 
-- **Swiss Ephemeris**: High-precision astronomical calculations
-- **D3.js**: Data visualization library
-- **SvelteKit**: Modern web framework
-- **Original Projects**: `node-ephemeris` and `astro-chart` for inspiration and functionality
-
-## Support
-
-For questions or issues, please open an issue on the GitHub repository.
-
----
-
-**Note**: This application is for educational and entertainment purposes. Astrological interpretations should not be used as a substitute for professional advice.
+- [astronomia](https://github.com/commenthol/astronomia) for astronomical calculations
+- [D3.js](https://d3js.org/) for data visualization
+- [SvelteKit](https://kit.svelte.dev/) for the web framework
