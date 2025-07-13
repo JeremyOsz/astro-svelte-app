@@ -2,12 +2,6 @@
   import { onMount, onDestroy } from 'svelte';
   import { writable, derived, get } from 'svelte/store';
   import * as d3 from 'd3';
-  import { 
-    PLANET_IN_SIGN_INTERPRETATIONS, 
-    SIGN_IN_HOUSE_INTERPRETATIONS,
-    getDetailedAspectInterpretation,
-    PLANET_INTERPRETATIONS
-  } from '../data/interpretations';
   import { CHART_LAYOUT } from '../data/chart-styles';
   import { 
     createTooltip, 
@@ -375,7 +369,63 @@
       const x = Math.cos(angleRad) * symbolRadius;
       const y = Math.sin(angleRad) * symbolRadius;
 
-      g.append('text')
+      // Calculate which house this sign is in
+      // Use the actual sign angle in the astrological coordinate system
+      const signAngle = (index * 30 + 15) % 360; // Use midpoint of the sign
+      const { houseCusps } = get(chartState);
+      let houseNumber = 0;
+      
+      // Find which house this sign falls into (same logic as planets)
+      for (let i = 0; i < 12; i++) {
+        const cusp1 = houseCusps[i];
+        const cusp2 = houseCusps[(i + 1) % 12];
+        const angle1 = cusp1.angle;
+        let angle2 = cusp2.angle;
+
+        // Handle wrap-around for the 12th house to 1st house transition
+        if (angle2 < angle1) {
+          angle2 += 360;
+        }
+
+        let testAngle = signAngle;
+        if (testAngle < angle1) {
+          testAngle += 360;
+        }
+        
+        if (testAngle >= angle1 && testAngle < angle2) {
+          houseNumber = cusp1.house;
+          break;
+        }
+      }
+      
+      // Fallback for angles that might not have been caught
+      if (houseNumber === 0) {
+        houseNumber = houseCusps[11].house;
+      }
+
+      // Create sign data object for tooltip
+      const signData = {
+        sign: sign,
+        house: houseNumber,
+        angle: signAngle
+      };
+
+      // Create a group for the sign and its hover area
+      const signGroup = g.append('g');
+      
+      // Add invisible hover area with smaller radius
+      signGroup.append('circle')
+        .attr('cx', x)
+        .attr('cy', y)
+        .attr('r', isMobile ? 8 : 12) // Smaller hover radius
+        .attr('fill', 'transparent')
+        .style('cursor', 'pointer')
+        .on('mouseover', (event) => handleMouseOver(event, signData))
+        .on('mouseout', handleMouseOut)
+        .on('click', (event) => handleClick(event, signData));
+
+      // Add the sign symbol
+      signGroup.append('text')
         .attr('x', x)
         .attr('y', y)
         .attr('text-anchor', 'middle')
@@ -383,6 +433,7 @@
         .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
         .attr('font-size', isMobile ? 10 : 24)
         .attr('fill', zodiacColors[sign])
+        .style('pointer-events', 'none') // Disable pointer events on text since circle handles them
         .text(zodiacSymbols[sign]);
     });
 

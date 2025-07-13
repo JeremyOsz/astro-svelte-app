@@ -4,7 +4,8 @@ import {
   SIGN_IN_HOUSE_INTERPRETATIONS,
   getDetailedAspectInterpretation,
   PLANET_INTERPRETATIONS,
-  ASPECT_INTERPRETATIONS
+  ASPECT_INTERPRETATIONS,
+  HOUSES
 } from '../data/interpretations';
 
 let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>;
@@ -31,9 +32,15 @@ export function handleMouseOver(event: MouseEvent, d: any) {
   if (d.aspect) { // It's an aspect
     title = `Aspect: ${d.planet1} ${d.aspect} ${d.planet2}`;
     interpretationHtml = getAspectInterpretation(d.aspect, d.planet1, d.planet2, d.orb);
-  } else { // It's a planet
+  } else if (d.planet) { // It's a planet
     title = `Planet: ${d.planet} in ${d.sign} (House ${d.house})`;
     interpretationHtml = getPlanetInterpretation(d);
+  } else if (d.sign && d.house !== undefined && !d.planet) { // It's a sign (no planet property)
+    title = `Sign: ${d.sign} in House ${d.house}`;
+    interpretationHtml = getSignInterpretation(d.sign, d.house);
+  } else { // Fallback
+    title = "Unknown element";
+    interpretationHtml = "No interpretation available.";
   }
 
   showInterpretation(event, interpretationHtml, title);
@@ -109,6 +116,20 @@ function getAspectInterpretation(aspect: string, planet1: string, planet2: strin
       <h3>${planet1} ${aspect} ${planet2}</h3>
       ${detailedInfo}
       ${interpretationHtml}
+    </div>
+  `;
+}
+
+function getSignInterpretation(sign: string, house: number) {
+  const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
+  const houseKey = `${house}${house === 1 ? 'st' : house === 2 ? 'nd' : house === 3 ? 'rd' : 'th'}`;
+  const houseGeneral = HOUSES[houseKey] || "House information not available.";
+  
+  return `
+    <div class="interpretation-content">
+      <h3>${sign} in House ${house}</h3>
+      <p><strong>House ${house} represents:</strong> ${houseGeneral}</p>
+      <p><strong>${sign} in House ${house}:</strong> ${signInHouse}</p>
     </div>
   `;
 }
