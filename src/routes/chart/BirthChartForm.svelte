@@ -151,7 +151,7 @@
   }
 </script>
 
-<div class="max-w-md mx-auto">
+<div class="mx-auto">
   <h2 class="text-2xl font-semibold text-gray-900 mb-6">Enter Birth Details</h2>
   
   {#if error}
@@ -179,9 +179,13 @@
       {#if showCityDropdown}
         <ul class="absolute z-10 bg-white border border-gray-200 rounded-lg mt-1 w-full max-h-48 overflow-auto shadow-lg">
           {#each cityResults as city, index}
+            <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
             <li
               class="px-4 py-2 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors {index === selectedIndex ? 'bg-blue-100' : 'hover:bg-blue-50'}"
+              role="button"
+              tabindex="0"
               on:click={() => selectCity(city)}
+              on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && selectCity(city)}
               on:mouseenter={() => selectedIndex = index}
             >
               <div class="font-medium">{city.name}</div>

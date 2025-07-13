@@ -3,6 +3,7 @@
   import { writable } from 'svelte/store';
   import D3Chart from '../../lib/chart/D3Chart.svelte';
   import BirthChartForm from './BirthChartForm.svelte';
+  import * as Accordion from "$lib/components/ui/accordion";
 
   let chartComponent: D3Chart;
   let chartData: string = '';
@@ -87,26 +88,82 @@ MC,Leo,10°14'`;
     <p class="text-gray-600 text-base">Generate your personalized astrological birth chart with detailed planetary positions and aspects</p>
   </div>
 
-  <div class="flex flex-col-reverse md:grid md:grid-cols-[350px_1fr] gap-8">
-    <!-- Controls section: left on desktop, bottom on mobile -->
-    <div class="grid-span-1 bg-white rounded-lg shadow-md p-5 h-fit">
-      <h2 class="text-xl font-semibold text-gray-800 mb-5 pb-3 border-b-2 border-green-500">Controls</h2>
+  <!-- Collapsible Inputs Section on Top -->
+  <div class="mb-8">
+    <Accordion.Root type="single" class="w-full">
+      <Accordion.Item value="birth-data">
+        <Accordion.Trigger class="bg-white rounded-lg p-4 w-full hover:bg-gray-50 transition-colors cursor-pointer">
+          <div class="flex items-center justify-between w-full">
+            <h2 class="text-xl font-semibold text-gray-800">Birth Data Calculator</h2>
+          </div>
+        </Accordion.Trigger>
+        <Accordion.Content class="bg-white rounded-lg shadow-md p-5 mt-2">
+          <BirthChartForm on:chartGenerated={handleChartGenerated} />
+        </Accordion.Content>
+      </Accordion.Item>
       
-      <div class="mb-6 pb-5 border-b border-gray-200">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Birth Data Calculator</h3>
-        <BirthChartForm on:chartGenerated={handleChartGenerated} />
-      </div>
+      <Accordion.Item value="test-inputs">
+        <Accordion.Trigger class="bg-white rounded-lg shadow-md p-4 w-full hover:bg-gray-50 transition-colors cursor-pointer mt-2">
+          <div class="flex items-center justify-between w-full">
+            <h2 class="text-xl font-semibold text-gray-800">Test Inputs & Chart Data</h2>
+          </div>
+        </Accordion.Trigger>
+        <Accordion.Content class="bg-white rounded-lg shadow-md p-5 mt-2">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="text-base font-medium text-gray-700 mb-4">Test Data</h3>
+              <div class="flex gap-3 mb-4">
+                <button on:click={loadTestData} class="px-4 py-2 bg-green-500 text-white rounded-md text-sm hover:bg-green-600 transition-colors">
+                  Load Test Data
+                </button>
+                <button on:click={clearChart} class="px-4 py-2 bg-red-500 text-white rounded-md text-sm hover:bg-red-600 transition-colors">
+                  Clear Chart
+                </button>
+              </div>
+            </div>
+            
+            <div>
+              <h3 class="text-base font-medium text-gray-700 mb-4">Chart Data Input</h3>
+              <p class="text-xs text-gray-600 mb-3">Edit the chart data below to see changes:</p>
+              <textarea 
+                class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-3 resize-y"
+                bind:value={$chartDataStore}
+                placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
+                rows="8"
+              ></textarea>
+            </div>
+          </div>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>
+  </div>
 
-      <div class="mb-6 pb-5 border-b border-gray-200">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Test Data</h3>
-        <button on:click={loadTestData} class="px-4 py-2 bg-green-500 text-white rounded-md text-sm mr-3 mb-3 hover:bg-green-600 transition-colors">
-          Load Test Data
-        </button>
-        <button on:click={clearChart} class="px-4 py-2 bg-red-500 text-white rounded-md text-sm mr-3 mb-3 hover:bg-red-600 transition-colors">
-          Clear Chart
-        </button>
-      </div>
+  <!-- Chart and Legend Section Side by Side -->
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-6">
+    <!-- Chart section: left column -->
+    <div class="bg-white rounded-lg shadow-md p-5">
+      <h2 class="text-xl font-semibold text-gray-800 mb-5 pb-3 border-b-2 border-green-500">Chart Visualization</h2>
+      {#if showChart}
+        <D3Chart 
+          bind:this={chartComponent}
+          chartData={$chartDataStore}
+          {showDegreeMarkers}
+          {showExtendedPlanets}
+          {showAspectLines}
+          {showPlanetLabels}
+          bind:zoomLevel={zoomLevel}
+        />
+      {:else}
+        <div class="flex items-center justify-center h-96 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 text-base">
+          <p>Enter your birth details or load test data to see the chart visualization</p>
+        </div>
+      {/if}
+    </div>
 
+    <!-- Legend and Controls section: right column -->
+    <div class="bg-white rounded-lg shadow-md p-5 h-fit">
+      <h2 class="text-xl font-semibold text-gray-800 mb-5 pb-3 border-b-2 border-green-500">Chart Controls & Legend</h2>
+      
       <div class="mb-6 pb-5 border-b border-gray-200">
         <h3 class="text-base font-medium text-gray-700 mb-4">Chart Options</h3>
         <label class="flex items-center mb-3 cursor-pointer text-sm">
@@ -139,37 +196,172 @@ MC,Leo,10°14'`;
         </div>
       </div>
 
+      <div class="mb-6 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-medium text-gray-700 mb-4">Zodiac Signs</h3>
+        <div class="text-xs text-gray-600 space-y-1">
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♈</span>
+            <span>Aries (Fire)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♉</span>
+            <span>Taurus (Earth)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♊</span>
+            <span>Gemini (Air)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♋</span>
+            <span>Cancer (Water)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♌</span>
+            <span>Leo (Fire)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♍</span>
+            <span>Virgo (Earth)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♎</span>
+            <span>Libra (Air)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♏</span>
+            <span>Scorpio (Water)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♐</span>
+            <span>Sagittarius (Fire)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♑</span>
+            <span>Capricorn (Earth)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♒</span>
+            <span>Aquarius (Air)</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2 text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♓</span>
+            <span>Pisces (Water)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-medium text-gray-700 mb-4">Planet Symbols</h3>
+        <div class="text-xs text-gray-600 space-y-1">
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☉</span>
+            <span>Sun</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☽</span>
+            <span>Moon</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☿</span>
+            <span>Mercury</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♀</span>
+            <span>Venus</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♂</span>
+            <span>Mars</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♃</span>
+            <span>Jupiter</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♄</span>
+            <span>Saturn</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♅</span>
+            <span>Uranus</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♆</span>
+            <span>Neptune</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♇</span>
+            <span>Pluto</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☊</span>
+            <span>North Node</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">⚸</span>
+            <span>Black Moon Lilith</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">⚷</span>
+            <span>Chiron</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">⊗</span>
+            <span>Part of Fortune</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">Vx</span>
+            <span>Vertex</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">Asc</span>
+            <span>Ascendant</span>
+          </div>
+          <div class="flex items-center">
+            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">MC</span>
+            <span>Midheaven</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6 pb-5 border-b border-gray-200">
+        <h3 class="text-base font-medium text-gray-700 mb-4">Aspect Lines</h3>
+        <div class="text-xs text-gray-600 space-y-1">
+          <div class="flex items-center">
+            <div class="w-4 h-px bg-red-500 mr-2"></div>
+            <span>Conjunction (0°)</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-4 h-px bg-red-600 mr-2"></div>
+            <span>Opposition (180°)</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-4 h-px bg-blue-500 mr-2"></div>
+            <span>Square (90°)</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-4 h-px bg-blue-600 mr-2"></div>
+            <span>Trine (120°)</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-4 h-px bg-green-500 mr-2"></div>
+            <span>Sextile (60°)</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-4 h-px bg-gray-400 mr-2"></div>
+            <span>Quincunx (150°)</span>
+          </div>
+        </div>
+      </div>
+
       <div class="mb-0">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Chart Data Input</h3>
-        <p class="text-xs text-gray-600 mb-3">Edit the chart data below to see changes:</p>
-        <textarea 
-          class="w-full h-64 font-mono text-xs border border-gray-300 rounded-md p-3 resize-y mb-3"
-          bind:value={$chartDataStore}
-          placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
-          rows="15"
-        ></textarea>
+        <h3 class="text-base font-medium text-gray-700 mb-4">Instructions</h3>
+        <div class="text-xs text-gray-600 space-y-2">
+          <p>Hover over planets and aspects to see detailed interpretations.</p>
+          <p>Click the checkboxes to toggle different chart elements.</p>
+          <p>Update the chart data in the textarea above to see different charts.</p>
+        </div>
       </div>
     </div>
-    
-    <!-- Chart section: right on desktop, top on mobile -->
-    <div class="grid-span-1 bg-white rounded-lg shadow-md p-5 mb-8 lg:mb-0">
-      <h2 class="text-xl font-semibold text-gray-800 mb-5 pb-3 border-b-2 border-green-500">Chart Visualization</h2>
-      {#if showChart}
-        <D3Chart 
-          bind:this={chartComponent}
-          chartData={$chartDataStore}
-          {showDegreeMarkers}
-          {showExtendedPlanets}
-          {showAspectLines}
-          {showPlanetLabels}
-          bind:zoomLevel={zoomLevel}
-        />
-      {:else}
-        <div class="flex items-center justify-center h-96 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 text-base">
-          <p>Enter your birth details or load test data to see the chart visualization</p>
-        </div>
-      {/if}
-    </div>
   </div>
-
 </div> 
