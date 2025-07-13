@@ -106,40 +106,48 @@
   }
 </script>
 
-<div class="birth-chart-form">
-  <h2>Enter Birth Details</h2>
+<div class="max-w-md mx-auto">
+  <h2 class="text-2xl font-semibold text-gray-900 mb-6">Enter Birth Details</h2>
   
   {#if error}
-    <div class="error">
+    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
       <strong>Error:</strong> {error}
     </div>
   {/if}
   
-  <form on:submit|preventDefault={handleSubmit}>
-    <div class="form-group">
-      <label for="birth-date">Birth Date *</label>
+  <form on:submit|preventDefault={handleSubmit} class="space-y-6">
+    <div class="space-y-2">
+      <label for="birth-date" class="block text-sm font-medium text-gray-700">
+        Birth Date *
+      </label>
       <input
         id="birth-date"
         type="date"
         bind:value={birthDate}
         required
         max={new Date().toISOString().split('T')[0]}
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
       />
     </div>
 
-    <div class="form-group">
-      <label for="birth-time">Birth Time *</label>
+    <div class="space-y-2">
+      <label for="birth-time" class="block text-sm font-medium text-gray-700">
+        Birth Time *
+      </label>
       <input
         id="birth-time"
         type="time"
         bind:value={birthTime}
         required
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
       />
-      <small>If you don't know your exact birth time, use 12:00 PM</small>
+      <p class="text-xs text-gray-500">If you don't know your exact birth time, use 12:00 PM</p>
     </div>
 
-    <div class="form-group">
-      <label for="latitude">Latitude *</label>
+    <div class="space-y-2">
+      <label for="latitude" class="block text-sm font-medium text-gray-700">
+        Latitude *
+      </label>
       <input
         id="latitude"
         type="number"
@@ -147,12 +155,15 @@
         step="0.000001"
         placeholder="e.g., 40.7128"
         required
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
       />
-      <small>Positive for North, negative for South</small>
+      <p class="text-xs text-gray-500">Positive for North, negative for South</p>
     </div>
 
-    <div class="form-group">
-      <label for="longitude">Longitude *</label>
+    <div class="space-y-2">
+      <label for="longitude" class="block text-sm font-medium text-gray-700">
+        Longitude *
+      </label>
       <input
         id="longitude"
         type="number"
@@ -160,13 +171,21 @@
         step="0.000001"
         placeholder="e.g., -74.0060"
         required
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
       />
-      <small>Positive for East, negative for West</small>
+      <p class="text-xs text-gray-500">Positive for East, negative for West</p>
     </div>
 
-    <div class="form-group">
-      <label for="timezone">Timezone *</label>
-      <select id="timezone" bind:value={timezone} required>
+    <div class="space-y-2">
+      <label for="timezone" class="block text-sm font-medium text-gray-700">
+        Timezone *
+      </label>
+      <select 
+        id="timezone" 
+        bind:value={timezone} 
+        required
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+      >
         <option value="">Select timezone</option>
         {#each timezoneOptions as option}
           <option value={option.value}>{option.label}</option>
@@ -174,117 +193,39 @@
       </select>
     </div>
 
-    <div class="form-actions">
-      <button type="button" class="btn-secondary" on:click={setCurrentLocation}>
+    <div class="flex flex-col sm:flex-row gap-3 pt-4">
+      <button 
+        type="button" 
+        on:click={setCurrentLocation}
+        class="flex-1 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+      >
         Use Current Location
       </button>
-      <button type="submit" class="btn-primary" disabled={loading}>
+      <button 
+        type="submit" 
+        disabled={loading}
+        class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium"
+      >
         {loading ? 'Calculating...' : 'Calculate Chart'}
       </button>
     </div>
   </form>
 
-  <div class="form-help">
-    <h3>Need Help?</h3>
-    <ul>
-      <li><strong>Birth Time:</strong> If you don't know your exact birth time, use 12:00 PM. This will give you a noon chart.</li>
-      <li><strong>Coordinates:</strong> You can find your birth location coordinates using Google Maps or other mapping services.</li>
-      <li><strong>Timezone:</strong> Make sure to use the timezone that was in effect at your birth time (accounting for daylight saving time if applicable).</li>
+  <div class="mt-8 p-6 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+    <h3 class="text-lg font-medium text-gray-900 mb-3">Need Help?</h3>
+    <ul class="space-y-2 text-sm text-gray-600">
+      <li class="flex items-start">
+        <span class="font-medium mr-2">Birth Time:</span>
+        If you don't know your exact birth time, use 12:00 PM. This will give you a noon chart.
+      </li>
+      <li class="flex items-start">
+        <span class="font-medium mr-2">Coordinates:</span>
+        You can find your birth location coordinates using Google Maps or other mapping services.
+      </li>
+      <li class="flex items-start">
+        <span class="font-medium mr-2">Timezone:</span>
+        Make sure to use the timezone that was in effect at your birth time (accounting for daylight saving time if applicable).
+      </li>
     </ul>
   </div>
-</div>
-
-<style>
-  .birth-chart-form {
-    max-width: 500px;
-  }
-
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #333;
-  }
-
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    margin-bottom: 0.25rem;
-  }
-
-  .form-group small {
-    display: block;
-    color: #666;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
-  .btn-secondary {
-    background: #6c757d;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s;
-  }
-
-  .btn-secondary:hover {
-    background: #5a6268;
-  }
-
-  .form-help {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 0.5rem;
-    border-left: 4px solid #667eea;
-  }
-
-  .form-help h3 {
-    margin-top: 0;
-    color: #333;
-    font-size: 1.1rem;
-  }
-
-  .form-help ul {
-    margin: 0;
-    padding-left: 1.5rem;
-  }
-
-  .form-help li {
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: #555;
-  }
-
-  .error {
-    color: #dc3545;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    .form-actions {
-      flex-direction: column;
-    }
-    
-    .form-help {
-      padding: 1rem;
-    }
-  }
-</style> 
+</div> 
