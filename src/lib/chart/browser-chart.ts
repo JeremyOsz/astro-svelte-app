@@ -69,8 +69,8 @@ export async function formatChartFromInput(date: string, time: string, location:
   // Add ASC and MC
   const ascSign = getSignByDegree(chart.ascendant);
   const mcSign = getSignByDegree(chart.mc);
-  lines.push(`ASC,${ascSign.name},${formatDegrees(chart.ascendant % 30)}`);
-  lines.push(`MC,${mcSign.name},${formatDegrees(chart.mc % 30)}`);
+  lines.push(`ASC,${ascSign},${formatDegrees(chart.ascendant % 30)}`);
+  lines.push(`MC,${mcSign},${formatDegrees(chart.mc % 30)}`);
 
   // Stub for Lilith, Chiron, Fortune, Vertex (not calculated)
   lines.push('Lilith,Capricorn,25°14 7');

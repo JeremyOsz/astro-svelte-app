@@ -1,6 +1,7 @@
 // Consolidated astrological data
 // This file contains all the astrological constants, symbols, and reference data
 
+// Core zodiac data
 export const ZODIAC_SIGNS = [
   'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
   'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
@@ -27,6 +28,23 @@ export const ZODIAC_COLORS: Record<string, string> = {
   'Pisces': '#039be5'      // Water - Blue
 };
 
+// Enhanced zodiac data with elements, qualities, and rulers
+export const ZODIAC_DETAILED = [
+  { name: 'Aries', element: 'Fire', quality: 'Cardinal', ruler: 'Mars', symbol: '♈', startDegree: 0, endDegree: 30 },
+  { name: 'Taurus', element: 'Earth', quality: 'Fixed', ruler: 'Venus', symbol: '♉', startDegree: 30, endDegree: 60 },
+  { name: 'Gemini', element: 'Air', quality: 'Mutable', ruler: 'Mercury', symbol: '♊', startDegree: 60, endDegree: 90 },
+  { name: 'Cancer', element: 'Water', quality: 'Cardinal', ruler: 'Moon', symbol: '♋', startDegree: 90, endDegree: 120 },
+  { name: 'Leo', element: 'Fire', quality: 'Fixed', ruler: 'Sun', symbol: '♌', startDegree: 120, endDegree: 150 },
+  { name: 'Virgo', element: 'Earth', quality: 'Mutable', ruler: 'Mercury', symbol: '♍', startDegree: 150, endDegree: 180 },
+  { name: 'Libra', element: 'Air', quality: 'Cardinal', ruler: 'Venus', symbol: '♎', startDegree: 180, endDegree: 210 },
+  { name: 'Scorpio', element: 'Water', quality: 'Fixed', ruler: 'Pluto', symbol: '♏', startDegree: 210, endDegree: 240 },
+  { name: 'Sagittarius', element: 'Fire', quality: 'Mutable', ruler: 'Jupiter', symbol: '♐', startDegree: 240, endDegree: 270 },
+  { name: 'Capricorn', element: 'Earth', quality: 'Cardinal', ruler: 'Saturn', symbol: '♑', startDegree: 270, endDegree: 300 },
+  { name: 'Aquarius', element: 'Air', quality: 'Fixed', ruler: 'Uranus', symbol: '♒', startDegree: 300, endDegree: 330 },
+  { name: 'Pisces', element: 'Water', quality: 'Mutable', ruler: 'Neptune', symbol: '♓', startDegree: 330, endDegree: 360 }
+] as const;
+
+// Planet data
 export const PLANET_SYMBOLS: Record<string, string> = {
   'Sun': '☉', 'Moon': '☽', 'Mercury': '☿', 'Venus': '♀', 'Mars': '♂', 
   'Jupiter': '♃', 'Saturn': '♄', 'Uranus': '♅', 'Neptune': '♆', 'Pluto': '♇', 
@@ -41,6 +59,7 @@ export const CORE_ASPECT_BODIES = [
   'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC'
 ];
 
+// Aspect definitions
 export const ASPECT_DEFINITIONS = {
   'Conjunction': { angle: 0, orb: 8, color: '#228B22', weight: 2.5, style: 'solid' },
   'Opposition': { angle: 180, orb: 8, color: '#FF0000', weight: 2.5, style: 'solid' },
@@ -71,38 +90,16 @@ export const ASPECTS = [
   { name: 'Sextile', angle: 60, orb: 4 }
 ] as const;
 
-// Chart layout constants
-export const CHART_LAYOUT = {
-  DESKTOP: {
-    chartSize: 800,
-    zodiacOuterRadius: 350,
-    zodiacInnerRadius: 300,
-    planetRingRadius: 270,
-    labelRadius: 230,
-    houseLineInnerRadius: 170,
-    houseNumRadius: 180,
-    aspectHubRadius: 170
-  },
-  TABLET: {
-    chartSize: 600,
-    zodiacOuterRadius: 250,
-    zodiacInnerRadius: 220,
-    planetRingRadius: 200,
-    labelRadius: 170,
-    houseLineInnerRadius: 120,
-    houseNumRadius: 130,
-    aspectHubRadius: 120
-  },
-  MOBILE: {
-    chartSize: 300,
-    zodiacOuterRadius: 150,
-    zodiacInnerRadius: 130,
-    planetRingRadius: 115,
-    labelRadius: 100,
-    houseLineInnerRadius: 75,
-    houseNumRadius: 80,
-    aspectHubRadius: 75
-  }
-} as const;
+// Utility functions
+export function getSignByDegree(degree: number): string {
+  const normalizedDegree = degree % 360;
+  const signIndex = Math.floor(normalizedDegree / 30);
+  return ZODIAC_SIGNS[signIndex];
+}
 
-export const CLUSTER_THRESHOLD = 12; 
+export function getSignDetails(signName: string) {
+  return ZODIAC_DETAILED.find(sign => sign.name === signName);
+}
+
+export const DEGREES_PER_SIGN = 30;
+export const WHOLE_SIGN_HOUSES = Array.from({ length: 12 }, (_, i) => i + 1); 

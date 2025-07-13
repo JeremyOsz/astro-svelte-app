@@ -1,6 +1,10 @@
+// @ts-expect-error: No type definitions for 'astronomia' modules
 import { julian } from 'astronomia';
+// @ts-expect-error: No type definitions for 'astronomia/planetposition'
 import { Planet } from 'astronomia/planetposition';
+// @ts-expect-error: No type definitions for 'astronomia/solar'
 import { apparentLongitude } from 'astronomia/solar';
+import { ZODIAC_SIGNS } from '../data/astrological-data';
 
 export interface PlanetPosition {
   name: string;
@@ -40,11 +44,6 @@ export interface TransitData {
 // Planet definitions for astronomia
 const PLANET_NAMES = [
   'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'
-];
-
-const ZODIAC_SIGNS = [
-  'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-  'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
 ];
 
 export function getSignByDegree(degree: number): string {

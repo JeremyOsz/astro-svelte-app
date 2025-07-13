@@ -1,28 +1,37 @@
 // Astrological constants and utilities
 // Note: This is a mock implementation. For production use, integrate with Swiss Ephemeris
 
-export const ZODIAC_SIGNS = [
-  { name: 'Aries', element: 'Fire', quality: 'Cardinal', ruler: 'Mars', symbol: '♈', startDegree: 0, endDegree: 30 },
-  { name: 'Taurus', element: 'Earth', quality: 'Fixed', ruler: 'Venus', symbol: '♉', startDegree: 30, endDegree: 60 },
-  { name: 'Gemini', element: 'Air', quality: 'Mutable', ruler: 'Mercury', symbol: '♊', startDegree: 60, endDegree: 90 },
-  { name: 'Cancer', element: 'Water', quality: 'Cardinal', ruler: 'Moon', symbol: '♋', startDegree: 90, endDegree: 120 },
-  { name: 'Leo', element: 'Fire', quality: 'Fixed', ruler: 'Sun', symbol: '♌', startDegree: 120, endDegree: 150 },
-  { name: 'Virgo', element: 'Earth', quality: 'Mutable', ruler: 'Mercury', symbol: '♍', startDegree: 150, endDegree: 180 },
-  { name: 'Libra', element: 'Air', quality: 'Cardinal', ruler: 'Venus', symbol: '♎', startDegree: 180, endDegree: 210 },
-  { name: 'Scorpio', element: 'Water', quality: 'Fixed', ruler: 'Pluto', symbol: '♏', startDegree: 210, endDegree: 240 },
-  { name: 'Sagittarius', element: 'Fire', quality: 'Mutable', ruler: 'Jupiter', symbol: '♐', startDegree: 240, endDegree: 270 },
-  { name: 'Capricorn', element: 'Earth', quality: 'Cardinal', ruler: 'Saturn', symbol: '♑', startDegree: 270, endDegree: 300 },
-  { name: 'Aquarius', element: 'Air', quality: 'Fixed', ruler: 'Uranus', symbol: '♒', startDegree: 300, endDegree: 330 },
-  { name: 'Pisces', element: 'Water', quality: 'Mutable', ruler: 'Neptune', symbol: '♓', startDegree: 330, endDegree: 360 }
-];
+import { ZODIAC_DETAILED, getSignByDegree } from '../data/astrological-data';
+
+// Re-export the detailed zodiac data for backward compatibility
+export const ZODIAC_SIGNS = ZODIAC_DETAILED;
+
+// Re-export utility functions
+export { getSignByDegree };
+
+// Additional utility functions specific to this module
+export function getSignByDegreeWithDetails(degree: number) {
+  const normalizedDegree = degree % 360;
+  const signIndex = Math.floor(normalizedDegree / 30);
+  return ZODIAC_DETAILED[signIndex];
+}
+
+export function getElementBySign(signName: string): string {
+  const sign = ZODIAC_DETAILED.find(s => s.name === signName);
+  return sign?.element || '';
+}
+
+export function getQualityBySign(signName: string): string {
+  const sign = ZODIAC_DETAILED.find(s => s.name === signName);
+  return sign?.quality || '';
+}
+
+export function getRulerBySign(signName: string): string {
+  const sign = ZODIAC_DETAILED.find(s => s.name === signName);
+  return sign?.ruler || '';
+}
 
 export const DEGREES_PER_SIGN = 30;
-
-export function getSignByDegree(degree: number) {
-  const normalizedDegree = degree % 360;
-  const signIndex = Math.floor(normalizedDegree / DEGREES_PER_SIGN);
-  return ZODIAC_SIGNS[signIndex];
-}
 
 export const WHOLE_SIGN_HOUSES = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12

@@ -1,5 +1,5 @@
 import type { BirthData, BirthChart, PlanetPosition } from '../types/types';
-import { ZODIAC_SIGNS, PLANETS, WHOLE_SIGN_HOUSES, DEGREES_PER_SIGN, getSignByDegree } from '../astrology/astrology';
+import { ZODIAC_DETAILED, PLANETS, WHOLE_SIGN_HOUSES, DEGREES_PER_SIGN, getSignByDegree } from '../data/astrological-data';
 
 export function calculateBirthChart(birthData: BirthData): BirthChart {
   // Validate date format and values
@@ -22,7 +22,7 @@ export function calculateBirthChart(birthData: BirthData): BirthChart {
   const ascendant = 45.5; // Mock ascendant at 15° Taurus
   
   // Generate mock planet positions based on the birth date
-  const planets: PlanetPosition[] = PLANETS.map((planet, index) => {
+  const planets: PlanetPosition[] = ZODIAC_DETAILED.map((planet, index) => {
     // Create somewhat realistic positions based on the birth date
     const baseLongitude = (year * 0.1 + month * 2.5 + day * 0.08 + index * 30) % 360;
     const longitude = (baseLongitude + (hour * 15) + (minute * 0.25)) % 360;
@@ -30,8 +30,8 @@ export function calculateBirthChart(birthData: BirthData): BirthChart {
     
     // Determine house in Whole Sign system
     const ascendantSign = getSignByDegree(ascendant);
-    const ascendantIndex = ZODIAC_SIGNS.findIndex(s => s.name === ascendantSign.name);
-    const planetIndex = ZODIAC_SIGNS.findIndex(s => s.name === sign.name);
+    const ascendantIndex = ZODIAC_DETAILED.findIndex(s => s.name === ascendantSign);
+    const planetIndex = ZODIAC_DETAILED.findIndex(s => s.name === sign);
     let house = ((planetIndex - ascendantIndex + 12) % 12) + 1;
     
     // Some planets are occasionally retrograde
@@ -40,7 +40,10 @@ export function calculateBirthChart(birthData: BirthData): BirthChart {
     return {
       name: planet.name,
       longitude,
-      sign: sign.name,
+      latitude: 0, // Mock latitude
+      distance: 1, // Mock distance
+      sign: sign,
+      degree: longitude % 30, // Degree within the sign
       house,
       retrograde
     };
@@ -48,9 +51,10 @@ export function calculateBirthChart(birthData: BirthData): BirthChart {
   
   return {
     ascendant,
-    midheaven: ascendant + 90, // In Whole Sign, MC is 90° from Ascendant
+    mc: ascendant + 90, // In Whole Sign, MC is 90° from Ascendant
     houses: [...WHOLE_SIGN_HOUSES], // Use the static Whole Sign house array
     planets,
+    date,
     latitude: birthData.latitude,
     longitude: birthData.longitude
   };
@@ -101,9 +105,9 @@ export function formatChartFromInput(date: string, time: string, location: strin
 
   // Add ASC and MC
   const ascSign = getSignByDegree(chart.ascendant);
-  const mcSign = getSignByDegree(chart.midheaven);
-  lines.push(`ASC,${ascSign.name},${formatDegrees(chart.ascendant % 30)}`);
-  lines.push(`MC,${mcSign.name},${formatDegrees(chart.midheaven % 30)}`);
+  const mcSign = getSignByDegree(chart.mc);
+  lines.push(`ASC,${ascSign},${formatDegrees(chart.ascendant % 30)}`);
+  lines.push(`MC,${mcSign},${formatDegrees(chart.mc % 30)}`);
 
   // Stub for Lilith, Chiron, Fortune, Vertex (not calculated)
   lines.push('Lilith,Capricorn,25°14 7');
