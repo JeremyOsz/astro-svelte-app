@@ -81,6 +81,7 @@ MC,Leo,10°14'`;
 
   // Resize handlers
   function handleResizeStart(event: MouseEvent) {
+    console.log('Resize start', event.clientX);
     isResizing = true;
     resizeStartX = event.clientX;
     resizeStartWidth = sidebarWidth;
@@ -139,12 +140,23 @@ MC,Leo,10°14'`;
 <svelte:head>
   <title>Astrological Birth Chart - Astro Chart</title>
   <meta name="description" content="Generate and visualize your astrological birth chart" />
+  {#if isResizing}
+    <style>
+      body { cursor: col-resize !important; }
+    </style>
+  {/if}
 </svelte:head>
 
 <Sidebar.Provider bind:open={sidebarOpen}>
   <div class="flex min-h-screen w-full">
-    <!-- Collapsible Sidebar -->
-    <aside class="w-80 border-r bg-muted/40 transition-all duration-300 ease-in-out overflow-hidden" class:w-0={!sidebarOpen} class:w-80={sidebarOpen}>
+    <!-- Collapsible and Resizable Sidebar -->
+    <aside 
+      class="relative border-r bg-muted/40 overflow-hidden" 
+      class:transition-all={!isResizing}
+      class:duration-300={!isResizing}
+      class:ease-in-out={!isResizing}
+      style="width: {sidebarOpen ? sidebarWidth : 0}px"
+    >
       <div class="h-full flex flex-col p-4 space-y-6" class:hidden={!sidebarOpen}>
         <div class="text-center">
           <h1 class="text-2xl font-bold text-gray-800">Birth Chart Calculator</h1>
@@ -184,6 +196,20 @@ MC,Leo,10°14'`;
           </div>
         </div>
       </div>
+      <!-- Resize Handle -->
+      {#if sidebarOpen}
+        <div 
+          class="absolute top-0 right-0 w-3 h-full hover:bg-gray-300 cursor-col-resize transition-colors duration-150 z-10 group"
+          class:bg-gray-500={isResizing}
+          on:mousedown={handleResizeStart}
+          role="button"
+          tabindex="0"
+          aria-label="Resize sidebar"
+        >
+          <!-- Visual indicator -->
+          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-0.5 h-8 bg-gray-600 rounded-full group-hover:bg-gray-800"></div>
+        </div>
+      {/if}
     </aside>
 
     <!-- Main Content Area -->
