@@ -337,7 +337,7 @@
         .attr('y', y)
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
-        .attr('font-family', 'Noto Sans Symbols, Arial, sans-serif')
+        .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
         .attr('font-size', isMobile ? 10 : 24)
         .attr('fill', zodiacColors[sign])
         .text(zodiacSymbols[sign]);
@@ -362,8 +362,8 @@
 
       const x1 = Math.cos(angle) * (zodiacInnerRadius);
       const y1 = Math.sin(angle) * (zodiacInnerRadius);
-      const x2 = Math.cos(angle) * (zodiacInnerRadius - tickLength);
-      const y2 = Math.sin(angle) * (zodiacInnerRadius - tickLength);
+      const x2 = Math.cos(angle) * (zodiacInnerRadius + tickLength);
+      const y2 = Math.sin(angle) * (zodiacInnerRadius + tickLength);
       
       g.append('line')
         .attr('x1', x1).attr('y1', y1)
@@ -485,9 +485,10 @@
           .attr('y', Math.sin(angleRad) * planetRingRadius)
           .attr('text-anchor', 'middle')
           .attr('dominant-baseline', 'middle')
-          .attr('font-family', 'Noto Sans Symbols, Arial, sans-serif')
+          .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
           .attr('font-size', isMobile ? 16 : 28)
-          .attr('fill', p.isRetrograde ? '#e53935' : '#000')
+          .attr('fill', p.isRetrograde ? '#e53935' : '#333')
+          .style('cursor', 'pointer')
           .text(planetSymbols[p.planet])
           .on('click', (event) => {
             event.stopPropagation();
@@ -498,7 +499,7 @@
         if (showPlanetLabels) {
           const labelX = Math.cos(angleRad) * labelRadius;
           const labelY = Math.sin(angleRad) * labelRadius;
-          const rotation = displayAngle > 90 && displayAngle < 270 ? displayAngle + 90 : displayAngle - 90;
+          const rotation = (displayAngle > 90 && displayAngle < 270) ? displayAngle + 90 : displayAngle + 90;
 
           group.append('line')
               .attr('class', 'planet-notch')
@@ -515,36 +516,48 @@
             .attr('transform', `translate(${labelX}, ${labelY}) rotate(${rotation})`);
           
           if (isMobile) {
-            labelGroup.append('text')
+            const labelText = labelGroup.append('text')
               .attr('text-anchor', 'middle')
               .attr('y', 4)
-              .attr('font-size', 9)
-              .text(`${p.degree}°${zodiacSymbols[p.sign]}${p.isRetrograde ? 'Rx' : ''}`);
+              .attr('font-size', 9);
+            
+            labelText.append('tspan').text(`${p.degree}°`);
+            labelText.append('tspan').style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif").style('fill', zodiacColors[p.sign]).text(zodiacSymbols[p.sign]);
+            if (p.isRetrograde) {
+                labelText.append('tspan').text('Rx');
+            }
           } else {
             labelGroup.append('text')
               .attr('class', 'planet-label-degree')
               .attr('text-anchor', 'middle')
               .attr('y', -8)
+              .style('font-size', '12px')
+              .style('font-weight', 'bold')
               .text(p.degree);
 
             labelGroup.append('text')
               .attr('class', 'planet-label-sign')
               .attr('text-anchor', 'middle')
               .attr('y', 5)
-              .attr('font-family', 'Noto Sans Symbols, Arial, sans-serif')
+              .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
+              .style('font-size', '10px')
+              .style('fill', zodiacColors[p.sign])
               .text(zodiacSymbols[p.sign]);
 
             labelGroup.append('text')
               .attr('class', 'planet-label-minute')
               .attr('text-anchor', 'middle')
-              .attr('y', 16)
+              .attr('y', 20)
+              .style('font-size', '11px')
               .text(p.minute.toString().padStart(2, '0'));
             
             if (p.isRetrograde) {
               labelGroup.append('text')
                 .attr('class', 'retrograde-label')
-                .attr('x', 15)
-                .attr('y', 16)
+                .attr('x', 0)
+                .attr('y', 34)
+                .style('font-size', '10px')
+                .style('fill', '#e53935')
                 .text('Rx');
             }
           }

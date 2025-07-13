@@ -21,7 +21,7 @@
 Moon,Capricorn,26°20'
 Mercury,Sagittarius,14°28',R
 Venus,Scorpio,4°00'
-Mars,Sagittarius,7°36'
+Mars,Gemini,7°36'
 Jupiter,Virgo,13°55',R
 Saturn,Aquarius,3°32'
 Uranus,Capricorn,12°23'

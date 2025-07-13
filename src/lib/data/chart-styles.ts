@@ -39,6 +39,8 @@ export const CHART_LAYOUT = {
   export const CLUSTER_THRESHOLD = 12;
 
 export const CHART_STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols:wght@400;700&display=swap');
+
 /* Astrological Chart Styles */
 .astrological-chart {
   font-family: 'Arial', sans-serif;
