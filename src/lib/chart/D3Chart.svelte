@@ -8,7 +8,7 @@
     getDetailedAspectInterpretation,
     PLANET_INTERPRETATIONS
   } from '../data/interpretations';
-  import { CHART_LAYOUT, CHART_STYLES, injectChartStyles, removeChartStyles } from '../data/chart-styles';
+  import { CHART_LAYOUT } from '../data/chart-styles';
   import { 
     createTooltip, 
     handleMouseOver, 
@@ -118,7 +118,6 @@
 
   // Lifecycle
   onMount(() => {
-    injectChartStyles();
     detectDeviceType();
     parseChartData();
     createChart();
@@ -126,9 +125,8 @@
     createTooltip();
   });
 
-  onDestroy(() => {
-    removeChartStyles();
-  });
+  // No global CSS injection needed anymore
+  onDestroy(() => {});
 
   // Reactive statements
   $: if (chartData) {

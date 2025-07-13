@@ -921,30 +921,6 @@ export const SIGN_IN_HOUSE_INTERPRETATIONS = {
     }
 }
 
-// Function to get transit interpretation
-export function getTransitInterpretation(aspect: string, transitPlanet: string, natalPlanet: string): string {
-    // Get the basic aspect interpretation
-    const aspectInterpretation = MAJOR_ASPECTS[aspect] || '';
-
-    // Get the planet combination interpretation
-    const planetKey = `${transitPlanet}-${natalPlanet}`;
-    const planetInterpretation = PLANET_COMBINATIONS[planetKey] || '';
-
-    // Combine interpretations
-    let interpretation = '';
-    if (aspectInterpretation) {
-        interpretation += `The ${aspect} aspect indicates ${aspectInterpretation.toLowerCase()}\n`;
-    }
-    if (planetInterpretation) {
-        interpretation += `This transit between ${transitPlanet} and ${natalPlanet} specifically relates to ${planetInterpretation.toLowerCase()}\n`;
-    }
-
-    // Add house-specific interpretations
-    interpretation += `\nThis transit may manifest in the areas of life ruled by the houses involved.`;
-
-    return interpretation;
-}
-
 // Function to get detailed aspect interpretation
 export function getDetailedAspectInterpretation(aspect: string, planet1: string, planet2: string): string {
     const aspectData = ASPECT_INTERPRETATIONS[aspect];
