@@ -6,7 +6,7 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import * as Sheet from "$lib/components/ui/sheet";
   import { Button } from "$lib/components/ui/button";
-  import { PanelLeft, Settings } from 'lucide-svelte';
+  import { PanelLeft, Settings, X } from 'lucide-svelte';
 
   let chartComponent: D3Chart;
   let chartData: string = '';
@@ -26,6 +26,7 @@
   let isResizing = false;
   let resizeStartX = 0;
   let resizeStartWidth = 0;
+  let isMobile = false;
 
   // Constraints for sidebar width
   const MIN_SIDEBAR_WIDTH = 240;
@@ -52,6 +53,11 @@ MC,Leo,10°14'`;
   
   const chartDataStore = writable(mockChartData);
 
+  // Check if device is mobile
+  $: if (typeof window !== 'undefined') {
+    isMobile = window.innerWidth < 768;
+  }
+
   onMount(() => {
     // Load test data by default
     loadTestData();
@@ -59,8 +65,24 @@ MC,Leo,10°14'`;
     // Load saved sidebar width from localStorage
     const savedWidth = localStorage.getItem('sidebarWidth');
     if (savedWidth) {
-      sidebarWidth = Math.max(MIN_SIDEBAR_WIDTH, Math.min(MAX_SIDEBAR_WIDTH, parseInt(savedWidth)));
+      sidebarWidth = Math.max(MIN_SIDEBAR_WIDTH, parseInt(savedWidth));
     }
+
+    // Handle window resize
+    const handleResize = () => {
+      isMobile = window.innerWidth < 768;
+      // Close sidebar on mobile when rotating to portrait
+      if (isMobile && sidebarOpen) {
+        sidebarOpen = false;
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial check
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   });
 
   function handleChartGenerated(event: CustomEvent<string>) {
@@ -81,7 +103,10 @@ MC,Leo,10°14'`;
 
   // Resize handlers
   function handleResizeStart(event: MouseEvent) {
-    console.log('Resize start', event.clientX);
+    // Prevent resize on mobile devices
+    if (isMobile) return;
+    
+
     isResizing = true;
     resizeStartX = event.clientX;
     resizeStartWidth = sidebarWidth;
@@ -148,17 +173,48 @@ MC,Leo,10°14'`;
 </svelte:head>
 
 <Sidebar.Provider bind:open={sidebarOpen}>
-  <div class="flex min-h-screen w-full">
+  <div class="flex min-h-screen w-full relative">
+    <!-- Mobile backdrop -->
+    {#if sidebarOpen}
+      <div 
+        class="fixed inset-0 bg-black/50 z-40 md:hidden"
+        on:click={() => sidebarOpen = false}
+        on:keydown={(e) => e.key === 'Escape' && (sidebarOpen = false)}
+        role="button"
+        tabindex="0"
+        aria-label="Close sidebar"
+      ></div>
+    {/if}
+
     <!-- Collapsible and Resizable Sidebar -->
     <aside 
-      class="relative border-r bg-muted/40 overflow-hidden" 
+      class="relative border-r overflow-hidden z-50
+             md:relative md:z-auto md:bg-muted/40
+             fixed inset-y-0 left-0 bg-white
+             md:border-r border-r-0 md:border-r" 
       class:transition-all={!isResizing}
       class:duration-300={!isResizing}
       class:ease-in-out={!isResizing}
-      style="width: {sidebarOpen ? sidebarWidth : 0}px"
+      style="width: {sidebarOpen ? (isMobile ? '100vw' : `${sidebarWidth}px`) : '0px'}"
     >
       <div class="h-full flex flex-col p-4 space-y-6" class:hidden={!sidebarOpen}>
-        <div class="text-center">
+        <!-- Mobile header with close button -->
+        <div class="flex items-center justify-between md:hidden">
+          <h1 class="text-xl font-bold text-gray-800">Birth Chart</h1>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onclick={() => sidebarOpen = false}
+            class="h-8 w-8"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </Button>
+        </div>
+
+        <!-- Desktop header -->
+        <div class="text-center hidden md:block">
           <h1 class="text-2xl font-bold text-gray-800">Birth Chart Calculator</h1>
           <p class="text-sm text-gray-600">Generate your personalized astrological birth chart</p>
         </div>
@@ -175,10 +231,10 @@ MC,Leo,10°14'`;
             <h3 class="text-lg font-semibold text-gray-800 mb-3">Test Data</h3>
             <div class="space-y-3">
               <div class="flex gap-2">
-                <Button variant="outline" size="sm" class="flex-1" onclick={loadTestData}>
+                <Button variant="outline" size="sm" class="flex-1 h-10" onclick={loadTestData}>
                   Load Test Data
                 </Button>
-                <Button variant="outline" size="sm" class="flex-1" onclick={clearChart}>
+                <Button variant="outline" size="sm" class="flex-1 h-10" onclick={clearChart}>
                   Clear Chart
                 </Button>
               </div>
@@ -196,8 +252,9 @@ MC,Leo,10°14'`;
           </div>
         </div>
       </div>
-      <!-- Resize Handle -->
-      {#if sidebarOpen}
+      
+      <!-- Resize Handle (Desktop only) -->
+      {#if sidebarOpen && !isMobile}
         <div 
           class="absolute top-0 right-0 w-3 h-full hover:bg-gray-300 cursor-col-resize transition-colors duration-150 z-10 group"
           class:bg-gray-500={isResizing}
@@ -213,7 +270,7 @@ MC,Leo,10°14'`;
     </aside>
 
     <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col">
+    <main class="flex-1 flex flex-col min-w-0 w-full md:w-auto">
       <!-- Header with controls -->
       <div class="border-b bg-background px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -221,29 +278,43 @@ MC,Leo,10°14'`;
             variant="ghost" 
             size="icon" 
             onclick={() => sidebarOpen = !sidebarOpen}
-            class="h-8 w-8 cursor-pointer"
+            class="h-8 w-8"
           >
             <PanelLeft class="h-4 w-4" />
           </Button>
-          <h2 class="text-xl font-semibold text-gray-800">Chart Visualization</h2>
+          <h2 class="text-xl font-semibold text-gray-800 hidden sm:block">Chart Visualization</h2>
+          <h2 class="text-lg font-semibold text-gray-800 sm:hidden">Chart</h2>
         </div>
         
         <Sheet.Root bind:open={sheetOpen}>
           <Sheet.Trigger>
-            <Button variant="outline" size="sm" class='cursor-pointer'>             
-            <Settings class="h-4 w-4 mr-2" />
-            Controls & Legend
+            <Button variant="outline" size="sm" class="h-10">
+              <Settings class="h-4 w-4 mr-2" />
+              <span class="hidden sm:inline">Controls & Legend</span>
+              <span class="sm:hidden">Controls</span>
             </Button>
           </Sheet.Trigger>
-          <Sheet.Content side="right" class="w-96 sm:w-[540px]">
-            <Sheet.Header>
-              <Sheet.Title>Chart Controls & Legend</Sheet.Title>
-              <Sheet.Description>
-                Customize your chart appearance and view the legend
-              </Sheet.Description>
-            </Sheet.Header>
+          <Sheet.Content side="right" class="w-full sm:w-96 md:w-[540px] flex flex-col">
+                        <div class="sticky top-0 bg-white border-b z-10 flex-shrink-0">
+              <div class="flex items-start justify-between p-6">
+                <Sheet.Header class="p-0 flex-1">
+                  <Sheet.Title>Chart Controls & Legend</Sheet.Title>
+                  <Sheet.Description>
+                    Customize your chart appearance and view the legend
+                  </Sheet.Description>
+                </Sheet.Header>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onclick={() => sheetOpen = false}
+                  class="h-8 w-8 ml-4 flex-shrink-0 cursor-pointer"
+                >
+                  <X class="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
             
-            <div class="flex-1 overflow-y-auto p-4">
+            <div class="flex-1 overflow-y-auto p-4 min-h-0">
               <div class="space-y-8 pb-8">
                 <!-- Chart Options -->
                 <div class="space-y-4">
@@ -253,7 +324,7 @@ MC,Leo,10°14'`;
                       <input 
                         type="checkbox" 
                         bind:checked={showDegreeMarkers} 
-                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       >
                       <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Show Degree Markers</span>
                     </label>
@@ -261,7 +332,7 @@ MC,Leo,10°14'`;
                       <input 
                         type="checkbox" 
                         bind:checked={showExtendedPlanets} 
-                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       >
                       <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Show Extended Planets</span>
                     </label>
@@ -269,7 +340,7 @@ MC,Leo,10°14'`;
                       <input 
                         type="checkbox" 
                         bind:checked={showAspectLines} 
-                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       >
                       <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Show Aspect Lines</span>
                     </label>
@@ -277,7 +348,7 @@ MC,Leo,10°14'`;
                       <input 
                         type="checkbox" 
                         bind:checked={showPlanetLabels} 
-                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       >
                       <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Show Planet Labels</span>
                     </label>
@@ -288,14 +359,14 @@ MC,Leo,10°14'`;
                 <div class="space-y-4">
                   <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Zoom Controls</h3>
                   <div class="space-y-4">
-                    <div class="flex gap-2">
-                      <Button size="sm" variant="outline" class="flex-1 h-10" onclick={handleZoomIn}>
+                    <div class="grid grid-cols-3 gap-2">
+                      <Button size="sm" variant="outline" class="h-12" onclick={handleZoomIn}>
                         <span class="text-lg font-bold">+</span>
                       </Button>
-                      <Button size="sm" variant="outline" class="flex-1 h-10" onclick={handleZoomOut}>
+                      <Button size="sm" variant="outline" class="h-12" onclick={handleZoomOut}>
                         <span class="text-lg font-bold">−</span>
                       </Button>
-                      <Button size="sm" variant="outline" class="flex-1 h-10" onclick={handleZoomReset}>
+                      <Button size="sm" variant="outline" class="h-12" onclick={handleZoomReset}>
                         Reset
                       </Button>
                     </div>
@@ -566,9 +637,9 @@ MC,Leo,10°14'`;
       </div>
 
       <!-- Chart Content -->
-      <div class="flex-1 p-4">
+      <div class="flex-1 p-2 sm:p-4 min-h-0">
         {#if showChart}
-          <div class="bg-white rounded-lg shadow-md p-4 h-full">
+          <div class="bg-white rounded-lg shadow-md p-2 sm:p-4 h-full">
             <D3Chart 
               bind:this={chartComponent}
               chartData={$chartDataStore}
@@ -581,7 +652,9 @@ MC,Leo,10°14'`;
           </div>
         {:else}
           <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
-            <p class="text-gray-500 text-lg">Enter your birth details or load test data to see the chart visualization</p>
+            <div class="text-center p-4">
+              <p class="text-gray-500 text-sm sm:text-lg">Enter your birth details or load test data to see the chart visualization</p>
+            </div>
           </div>
         {/if}
       </div>
