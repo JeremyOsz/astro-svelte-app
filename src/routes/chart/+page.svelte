@@ -6,7 +6,7 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import * as Sheet from "$lib/components/ui/sheet";
   import { Button } from "$lib/components/ui/button";
-  import { Menu, Settings } from 'lucide-svelte';
+  import { PanelLeft, Settings } from 'lucide-svelte';
 
   let chartComponent: D3Chart;
   let chartData: string = '';
@@ -22,6 +22,14 @@
   // Sidebar and sheet state
   let sidebarOpen = true;
   let sheetOpen = false;
+  let sidebarWidth = 320; // Default width in pixels
+  let isResizing = false;
+  let resizeStartX = 0;
+  let resizeStartWidth = 0;
+
+  // Constraints for sidebar width
+  const MIN_SIDEBAR_WIDTH = 240;
+  const MAX_SIDEBAR_WIDTH = 600;
 
   // Mock chart data for testing
   const mockChartData = `Sun,Sagittarius,17°09'
@@ -47,6 +55,12 @@ MC,Leo,10°14'`;
   onMount(() => {
     // Load test data by default
     loadTestData();
+    
+    // Load saved sidebar width from localStorage
+    const savedWidth = localStorage.getItem('sidebarWidth');
+    if (savedWidth) {
+      sidebarWidth = Math.max(MIN_SIDEBAR_WIDTH, Math.min(MAX_SIDEBAR_WIDTH, parseInt(savedWidth)));
+    }
   });
 
   function handleChartGenerated(event: CustomEvent<string>) {
@@ -63,6 +77,44 @@ MC,Leo,10°14'`;
   function clearChart() {
     chartDataStore.set('');
     showChart = false;
+  }
+
+  // Resize handlers
+  function handleResizeStart(event: MouseEvent) {
+    isResizing = true;
+    resizeStartX = event.clientX;
+    resizeStartWidth = sidebarWidth;
+    
+    // Add global event listeners
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeEnd);
+    
+    // Prevent text selection during resize
+    document.body.style.userSelect = 'none';
+    event.preventDefault();
+  }
+
+  function handleResizeMove(event: MouseEvent) {
+    if (!isResizing) return;
+    
+    const deltaX = event.clientX - resizeStartX;
+    const newWidth = Math.max(MIN_SIDEBAR_WIDTH, Math.min(MAX_SIDEBAR_WIDTH, resizeStartWidth + deltaX));
+    
+    sidebarWidth = newWidth;
+  }
+
+  function handleResizeEnd() {
+    isResizing = false;
+    
+    // Remove global event listeners
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeEnd);
+    
+    // Restore text selection
+    document.body.style.userSelect = '';
+    
+    // Save to localStorage
+    localStorage.setItem('sidebarWidth', sidebarWidth.toString());
   }
 
   function handleZoomIn() {
@@ -91,15 +143,15 @@ MC,Leo,10°14'`;
 
 <Sidebar.Provider bind:open={sidebarOpen}>
   <div class="flex min-h-screen w-full">
-    <!-- Sidebar with Birth Chart Calculator -->
-    <aside class="w-80 border-r bg-muted/40 p-4 lg:block">
-      <div class="space-y-6">
+    <!-- Collapsible Sidebar -->
+    <aside class="w-80 border-r bg-muted/40 transition-all duration-300 ease-in-out overflow-hidden" class:w-0={!sidebarOpen} class:w-80={sidebarOpen}>
+      <div class="h-full flex flex-col p-4 space-y-6" class:hidden={!sidebarOpen}>
         <div class="text-center">
           <h1 class="text-2xl font-bold text-gray-800">Birth Chart Calculator</h1>
           <p class="text-sm text-gray-600">Generate your personalized astrological birth chart</p>
         </div>
         
-        <div class="space-y-4">
+        <div class="space-y-4 flex-1 overflow-y-auto">
           <!-- Birth Chart Form -->
           <div>
             <h3 class="text-lg font-semibold text-gray-800 mb-3">Birth Details</h3>
@@ -139,15 +191,22 @@ MC,Leo,10°14'`;
       <!-- Header with controls -->
       <div class="border-b bg-background px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <Sidebar.Trigger class="lg:hidden" />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onclick={() => sidebarOpen = !sidebarOpen}
+            class="h-8 w-8 cursor-pointer"
+          >
+            <PanelLeft class="h-4 w-4" />
+          </Button>
           <h2 class="text-xl font-semibold text-gray-800">Chart Visualization</h2>
         </div>
         
         <Sheet.Root bind:open={sheetOpen}>
           <Sheet.Trigger>
-            <Button variant="outline" size="sm">
-              <Settings class="h-4 w-4 mr-2" />
-              Controls & Legend
+            <Button variant="outline" size="sm" class='cursor-pointer'>             
+            <Settings class="h-4 w-4 mr-2" />
+            Controls & Legend
             </Button>
           </Sheet.Trigger>
           <Sheet.Content side="right" class="w-96 sm:w-[540px]">
@@ -158,7 +217,7 @@ MC,Leo,10°14'`;
               </Sheet.Description>
             </Sheet.Header>
             
-            <div class="flex-1 overflow-y-auto p-2">
+            <div class="flex-1 overflow-y-auto p-4">
               <div class="space-y-8 pb-8">
                 <!-- Chart Options -->
                 <div class="space-y-4">
