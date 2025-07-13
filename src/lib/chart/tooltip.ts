@@ -33,7 +33,7 @@ export function handleMouseOver(event: MouseEvent, d: any) {
     interpretationHtml = getAspectInterpretation(d.aspect, d.planet1, d.planet2, d.orb);
   } else { // It's a planet
     title = `Planet: ${d.planet} in ${d.sign} (House ${d.house})`;
-    interpretationHtml = getPlanetInterpretation(d.planet, d.sign, d.house);
+    interpretationHtml = getPlanetInterpretation(d);
   }
 
   showInterpretation(event, interpretationHtml, title);
@@ -57,14 +57,20 @@ export function handleClick(event: MouseEvent, d: any) {
   }
 }
 
-function getPlanetInterpretation(planet: string, sign: string, house: number) {
+function getPlanetInterpretation(planetData: any) {
+  const { planet, sign, house, degree, minute, isRetrograde } = planetData;
   const planetInSign = (PLANET_IN_SIGN_INTERPRETATIONS as any)[planet]?.[sign] || "No interpretation available.";
   const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
   const planetMeaning = (PLANET_INTERPRETATIONS as any)[planet]?.description || "";
 
+  // Format position
+  const position = `${degree}°${minute.toString().padStart(2, '0')}'`;
+  const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
+  
   return `
     <div class="interpretation-content">
       <h3>${planet} in ${sign} (House ${house})</h3>
+      <p><strong>Position:</strong> ${position} ${sign}${retrogradeText}</p>
       <p><strong>${planet}:</strong> ${planetMeaning}</p>
       <p><strong>In ${sign}:</strong> ${planetInSign}</p>
       <p><strong>In House ${house}:</strong> ${signInHouse}</p>
