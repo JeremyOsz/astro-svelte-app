@@ -3,6 +3,7 @@
   import type { BirthData } from '$lib/types/types';
   import { calculateBirthChart, formatDegrees } from '$lib/chart/browser-chart';
   import { getSignByDegree } from '$lib/astrology/astronomia-service';
+  import { searchCities, estimateTimezoneFromLongitude, getCountryName, type CitySearchResult } from '$lib/services/city-service';
 
   const dispatch = createEventDispatcher<{ chartGenerated: string }>();
 
@@ -13,6 +14,70 @@
   let timezone = '';
   let loading = false;
   let error: string | null = null;
+  let citySearch = '';
+  let cityResults: CitySearchResult[] = [];
+  let showCityDropdown = false;
+  let searchTimeout: ReturnType<typeof setTimeout> | null = null;
+  let selectedIndex = -1;
+
+  function onCityInput(e: Event) {
+    citySearch = (e.target as HTMLInputElement).value;
+    selectedIndex = -1;
+    
+    // Clear previous timeout
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+    
+    if (citySearch.length > 1) {
+      // Debounce search to avoid too many searches while typing
+      searchTimeout = setTimeout(() => {
+        cityResults = searchCities(citySearch, 8);
+        showCityDropdown = cityResults.length > 0;
+      }, 300);
+    } else {
+      cityResults = [];
+      showCityDropdown = false;
+    }
+  }
+
+  function onCityKeydown(e: KeyboardEvent) {
+    if (!showCityDropdown) return;
+    
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        selectedIndex = Math.min(selectedIndex + 1, cityResults.length - 1);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        selectedIndex = Math.max(selectedIndex - 1, -1);
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (selectedIndex >= 0 && selectedIndex < cityResults.length) {
+          selectCity(cityResults[selectedIndex]);
+        }
+        break;
+      case 'Escape':
+        showCityDropdown = false;
+        selectedIndex = -1;
+        break;
+    }
+  }
+
+  function selectCity(city: CitySearchResult) {
+    citySearch = city.fullLocation;
+    latitude = city.lat;
+    longitude = city.lng;
+    
+    // Auto-set timezone based on longitude
+    const estimatedOffset = estimateTimezoneFromLongitude(parseFloat(city.lng));
+    timezone = estimatedOffset.toString();
+    
+    showCityDropdown = false;
+    selectedIndex = -1;
+  }
 
   // Common timezone options
   const timezoneOptions = [
@@ -116,6 +181,42 @@
   {/if}
   
   <form on:submit|preventDefault={handleSubmit} class="space-y-6">
+    <div class="space-y-2 relative">
+      <label for="city-search" class="block text-sm font-medium text-gray-700">
+        Birth City
+      </label>
+          <input
+      id="city-search"
+      type="text"
+      placeholder="Start typing city name..."
+      bind:value={citySearch}
+      on:input={onCityInput}
+      on:keydown={onCityKeydown}
+      autocomplete="off"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+    />
+             {#if showCityDropdown}
+         <ul class="absolute z-10 bg-white border border-gray-200 rounded-lg mt-1 w-full max-h-48 overflow-auto shadow-lg">
+           {#each cityResults as city, index}
+             <li
+               class="px-4 py-2 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors {index === selectedIndex ? 'bg-blue-100' : 'hover:bg-blue-50'}"
+               on:click={() => selectCity(city)}
+               on:mouseenter={() => selectedIndex = index}
+             >
+               <div class="font-medium">{city.name}</div>
+               <div class="text-sm text-gray-600">
+                 {#if city.adminName}
+                   {city.adminName}, {getCountryName(city.country)}
+                 {:else}
+                   {getCountryName(city.country)}
+                 {/if}
+               </div>
+             </li>
+           {/each}
+         </ul>
+       {/if}
+    </div>
+
     <div class="space-y-2">
       <label for="birth-date" class="block text-sm font-medium text-gray-700">
         Birth Date *
@@ -155,7 +256,8 @@
         step="0.000001"
         placeholder="e.g., 40.7128"
         required
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+        readonly
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
       />
       <p class="text-xs text-gray-500">Positive for North, negative for South</p>
     </div>
@@ -171,7 +273,8 @@
         step="0.000001"
         placeholder="e.g., -74.0060"
         required
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+        readonly
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
       />
       <p class="text-xs text-gray-500">Positive for East, negative for West</p>
     </div>
