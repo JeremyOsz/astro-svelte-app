@@ -2,8 +2,20 @@
   import { onMount, onDestroy } from 'svelte';
   import { writable, derived, get } from 'svelte/store';
   import * as d3 from 'd3';
-  import interpretations from '../data/interpretations.json';
+  import { 
+    PLANET_IN_SIGN_INTERPRETATIONS, 
+    SIGN_IN_HOUSE_INTERPRETATIONS,
+    getDetailedAspectInterpretation,
+    PLANET_INTERPRETATIONS
+  } from '../data/interpretations';
   import { CHART_LAYOUT, CHART_STYLES, injectChartStyles, removeChartStyles } from '../data/chart-styles';
+  import { 
+    createTooltip, 
+    handleMouseOver, 
+    handleMouseOut, 
+    handleClick, 
+    unpinTooltip 
+  } from './tooltip';
 
   // Props
   export let chartData: string = '';
@@ -111,6 +123,7 @@
     parseChartData();
     createChart();
     setupZoom();
+    createTooltip();
   });
 
   onDestroy(() => {
@@ -217,6 +230,38 @@
         visualDegree: (asc.angle + 180) % 360
       });
     }
+
+    // Assign houses to planets
+    parsedData.forEach((planet: PlanetData) => {
+      if (!planet.angle) return;
+      let planetHouse = 0;
+      for (let i = 0; i < 12; i++) {
+        const cusp1 = houseCusps[i];
+        const cusp2 = houseCusps[(i + 1) % 12];
+        const angle1 = cusp1.angle;
+        let angle2 = cusp2.angle;
+
+        // Handle wrap-around for the 12th house to 1st house transition
+        if (angle2 < angle1) {
+          angle2 += 360;
+        }
+
+        let planetAngle = planet.angle;
+        if (planetAngle < angle1) {
+          planetAngle += 360;
+        }
+        
+        if (planetAngle >= angle1 && planetAngle < angle2) {
+          planetHouse = cusp1.house;
+          break;
+        }
+      }
+      // A fallback for angles that might not have been caught
+      if (planetHouse === 0) {
+        planetHouse = houseCusps[11].house;
+      }
+      (planet as any).house = planetHouse;
+    });
 
     // Calculate visual degrees for clustering
     let planetsToDraw = parsedData.filter(p => planetSymbols[p.planet] && !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
@@ -439,21 +484,32 @@
       const angle1 = (180 - (planet1.visualDegree - ascAngle)) * Math.PI / 180;
       const angle2 = (180 - (planet2.visualDegree - ascAngle)) * Math.PI / 180;
       
-      const line = g.append('line')
-        .attr('class', 'aspect-line')
+      const aspectGroup = g.append('g').attr('class', 'aspect-group');
+
+      // Visible line for display
+      aspectGroup.append('line')
         .attr('x1', Math.cos(angle1) * aspectHubRadius)
         .attr('y1', Math.sin(angle1) * aspectHubRadius)
         .attr('x2', Math.cos(angle2) * aspectHubRadius)
         .attr('y2', Math.sin(angle2) * aspectHubRadius)
         .attr('stroke', aspect.color)
         .attr('stroke-width', aspect.weight)
-        .attr('stroke-dasharray', aspect.style === 'dotted' ? '1,3' : aspect.style === 'dashed' ? '4,4' : 'none');
-        
-      line.on('click', (event) => {
-        event.stopPropagation();
-        const interpretation = getAspectInterpretation(aspect.aspect, aspect.planet1, aspect.planet2);
-        showInterpretation(event, interpretation, `Aspect: ${aspect.planet1} ${aspect.aspect} ${aspect.planet2}`);
-      });
+        .attr('stroke-dasharray', aspect.style === 'dotted' ? '1,3' : aspect.style === 'dashed' ? '4,4' : 'none')
+        .style('pointer-events', 'none');
+
+      // Invisible wider line for interaction
+      aspectGroup.append('line')
+        .attr('class', 'aspect-interaction-line')
+        .attr('x1', Math.cos(angle1) * aspectHubRadius)
+        .attr('y1', Math.sin(angle1) * aspectHubRadius)
+        .attr('x2', Math.cos(angle2) * aspectHubRadius)
+        .attr('y2', Math.sin(angle2) * aspectHubRadius)
+        .attr('stroke', 'transparent')
+        .attr('stroke-width', 15) // Wider for easier hovering
+        .style('cursor', 'pointer')
+        .on('mouseover', (event) => handleMouseOver(event, aspect))
+        .on('mouseout', handleMouseOut)
+        .on('click', (event) => handleClick(event, aspect));
     });
   }
 
@@ -490,11 +546,9 @@
           .attr('fill', p.isRetrograde ? '#e53935' : '#333')
           .style('cursor', 'pointer')
           .text(planetSymbols[p.planet])
-          .on('click', (event) => {
-            event.stopPropagation();
-            const interpretation = getPlanetInterpretation(p.planet, p.sign, p.house);
-            showInterpretation(event, interpretation, `Planet: ${p.planet} in ${p.sign} (House ${p.house})`);
-          });
+          .on('mouseover', (event) => handleMouseOver(event, p))
+          .on('mouseout', handleMouseOut)
+          .on('click', (event) => handleClick(event, p));
 
         if (showPlanetLabels) {
           const labelX = Math.cos(angleRad) * labelRadius;
@@ -601,74 +655,13 @@
   }
 
   // Interpretation functions
-  let tooltip: any;
-  let tooltipPinned = false;
-
-  function getPlanetInterpretation(planet: string, sign: string, house: number) {
-    const planetInterpretations = (interpretations.planets as any)[planet];
-    return `
-      <h2>${planet} in ${sign}</h2>
-      <p><strong>${planet}:</strong> ${planetInterpretations.meaning}</p>
-      <p><strong>In ${sign}:</strong> ${planetInterpretations.sign_interpretations[sign]}</p>
-      <p><strong>House:</strong> ${house}</p>
-    `;
-  }
-
-  function getAspectInterpretation(aspect: string, planet1: string, planet2: string) {
-    const aspectData = (interpretations.aspects as any)[aspect];
-    const planetPair = `${planet1}_${planet2}`;
-    const reversePlanetPair = `${planet2}_${planet1}`;
-    const specificInterpretation = aspectData.planets[planetPair] || aspectData.planets[reversePlanetPair];
-
-    return `
-      <h2>${planet1} ${aspect} ${planet2}</h2>
-      <p><strong>Orb:</strong> ${aspectData.orb.toFixed(1)}°</p>
-      <p><strong>General:</strong> ${aspectData.general}</p>
-      <p><strong>Specific:</strong> ${specificInterpretation}</p>
-    `;
-  }
-
-  function showInterpretation(event: MouseEvent, interpretationHtml: string, title: string) {
-    if (tooltip) {
-      tooltip.remove();
-    }
-
-    tooltip = d3.select('body')
-      .append('div')
-      .attr('class', 'chart-tooltip')
-      .style('opacity', 0)
-      .style('position', 'absolute')
-      .style('pointer-events', 'none');
-
-    tooltip.html(interpretationHtml);
-
-    const svgPoint = svg.node()?.createSVGPoint();
-    if (svgPoint) {
-      svgPoint.x = event.clientX;
-      svgPoint.y = event.clientY;
-      const clientPoint = svgPoint.matrixTransform(svg.node()?.getScreenCTM()?.inverse());
-
-      tooltip.style('left', (clientPoint.x + 5) + 'px')
-             .style('top', (clientPoint.y - 28) + 'px');
-    }
-
-    tooltip.transition()
-      .duration(200)
-      .style('opacity', .9);
-
-    tooltip.on('mouseover', function() {
-      tooltipPinned = true;
-    }).on('mouseout', function() {
-      tooltipPinned = false;
-    });
-  }
-
   function setupZoom() {
     if (!svg) return;
     const { chartSize } = get(chartDimensions);
     if (!chartSize) return;
 
     const g = svg.select('.chart-group');
+    if (!g.node()) return;
     
     const zoom = d3.zoom()
       .scaleExtent([0.5, 3]) // Set min/max zoom levels
@@ -676,7 +669,8 @@
         g.attr('transform', event.transform);
       });
 
-    svg.call(zoom as any);
+    svg.call(zoom as any)
+      .on('click', unpinTooltip);
   }
 
   function updateZoom() {
@@ -724,10 +718,59 @@
     border-radius: 5px;
     background: #fafafa;
     overflow: hidden;
+    position: relative;
   }
 
   :global(.chart-svg) {
     max-width: 100%;
     height: auto;
   }
+
+  :global(.chart-tooltip) {
+  background: #fcf8ed;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+  color: #222;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  min-width: 320px;
+  max-width: 420px;
+  padding: 0;
+  z-index: 1001;
+  transition: opacity 0.2s ease-in-out;
+}
+
+:global(.tooltip-header) {
+  background-color: #fcf8ed;
+  padding: 16px 20px 0 20px;
+  font-weight: 700;
+  font-size: 22px;
+  color: #222;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: none;
+}
+:global(.tooltip-body) {
+  padding: 10px 20px 18px 20px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #222;
+}
+
+:global(.interpretation-content h3) {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+}
+
+:global(.interpretation-content p) {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #222;
+}
+
+:global(.interpretation-content p:last-child) {
+  margin-bottom: 0;
+}
 </style> 

@@ -204,27 +204,28 @@ export const CHART_STYLES = `
 
 /* Tooltip styles */
 .chart-tooltip {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  pointer-events: none;
-  z-index: 1000;
-  max-width: 200px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: #fcf8ed;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+  color: #222;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  min-width: 320px;
+  max-width: 420px;
+  padding: 0;
+  z-index: 1001;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .chart-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+  background-color: #fcf8ed;
+  padding: 16px 20px 0 20px;
+  font-weight: 700;
+  font-size: 22px;
+  color: #222;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: none;
 }
 
 /* Chart controls */
