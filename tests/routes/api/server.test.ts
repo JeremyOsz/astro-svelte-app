@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { POST } from './+server';
-import { mockTransitData } from '../../../test/utils/test-helpers';
+import { POST } from '../../../src/routes/api/transits/+server';
+import { mockTransitData } from '../../../src/test/utils/test-helpers';
 
 // Mock the calculateTransits function
 vi.mock('$lib/astrology/astronomia-service', () => ({

@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { POST } from './+server';
-import { mockBirthData } from '../../../test/utils/test-helpers';
+import { POST } from '../../../../src/routes/api/birth-chart/+server';
+import { mockBirthDataMinimal } from '../../../../src/test/utils/test-helpers';
 
 // Mock the calculateBirthChart function
-vi.mock('$lib/chart/mock-chart', () => ({
+vi.mock('$lib/astrology/astronomia-service', () => ({
   calculateBirthChart: vi.fn(),
 }));
 
-import { calculateBirthChart } from '$lib/chart/mock-chart';
+import { calculateBirthChart } from '$lib/astrology/astronomia-service';
 
-describe('/api/chart', () => {
+describe('/api/birth-chart', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -37,10 +37,10 @@ describe('/api/chart', () => {
 
       vi.mocked(calculateBirthChart).mockReturnValue(mockChartData);
 
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(mockBirthData),
+        body: JSON.stringify(mockBirthDataMinimal),
       });
 
       const event = { request } as any;
@@ -57,14 +57,18 @@ describe('/api/chart', () => {
         longitude: mockChartData.longitude,
       });
       expect(data.date).toBeDefined();
-      expect(calculateBirthChart).toHaveBeenCalledWith(mockBirthData);
+      expect(calculateBirthChart).toHaveBeenCalledWith(
+        new Date(mockBirthDataMinimal.date),
+        mockBirthDataMinimal.latitude,
+        mockBirthDataMinimal.longitude
+      );
     });
 
     it('should return 400 error when date is missing', async () => {
-      const invalidData = { ...mockBirthData };
+      const invalidData = { ...mockBirthDataMinimal };
       invalidData.date = undefined as any;
 
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(invalidData),
@@ -75,34 +79,15 @@ describe('/api/chart', () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBe('Missing required birth data fields');
-      expect(calculateBirthChart).not.toHaveBeenCalled();
-    });
-
-    it('should return 400 error when time is missing', async () => {
-      const invalidData = { ...mockBirthData };
-      invalidData.time = undefined as any;
-
-      const request = new Request('http://localhost:5173/api/chart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(invalidData),
-      });
-
-      const event = { request } as any;
-      const response = await POST(event);
-      const data = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(data.error).toBe('Missing required birth data fields');
+      expect(data.error).toBe('Missing required fields: date, latitude, longitude');
       expect(calculateBirthChart).not.toHaveBeenCalled();
     });
 
     it('should return 400 error when latitude is missing', async () => {
-      const invalidData = { ...mockBirthData };
+      const invalidData = { ...mockBirthDataMinimal };
       invalidData.latitude = undefined as any;
 
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(invalidData),
@@ -113,15 +98,15 @@ describe('/api/chart', () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBe('Missing required birth data fields');
+      expect(data.error).toBe('Missing required fields: date, latitude, longitude');
       expect(calculateBirthChart).not.toHaveBeenCalled();
     });
 
     it('should return 400 error when longitude is missing', async () => {
-      const invalidData = { ...mockBirthData };
+      const invalidData = { ...mockBirthDataMinimal };
       invalidData.longitude = undefined as any;
 
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(invalidData),
@@ -132,33 +117,14 @@ describe('/api/chart', () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBe('Missing required birth data fields');
-      expect(calculateBirthChart).not.toHaveBeenCalled();
-    });
-
-    it('should return 400 error when timezone is missing', async () => {
-      const invalidData = { ...mockBirthData };
-      invalidData.timezone = undefined as any;
-
-      const request = new Request('http://localhost:5173/api/chart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(invalidData),
-      });
-
-      const event = { request } as any;
-      const response = await POST(event);
-      const data = await response.json();
-
-      expect(response.status).toBe(400);
-      expect(data.error).toBe('Missing required birth data fields');
+      expect(data.error).toBe('Missing required fields: date, latitude, longitude');
       expect(calculateBirthChart).not.toHaveBeenCalled();
     });
 
     it('should handle null latitude (validation passes)', async () => {
-      const invalidData = { ...mockBirthData, latitude: null };
+      const invalidData = { ...mockBirthDataMinimal, latitude: null };
 
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(invalidData),
@@ -173,26 +139,9 @@ describe('/api/chart', () => {
     });
 
     it('should handle null longitude (validation passes)', async () => {
-      const invalidData = { ...mockBirthData, longitude: null };
+      const invalidData = { ...mockBirthDataMinimal, longitude: null };
 
-      const request = new Request('http://localhost:5173/api/chart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(invalidData),
-      });
-
-      const event = { request } as any;
-      const response = await POST(event);
-      const data = await response.json();
-
-      expect(response.status).toBe(200);
-      expect(calculateBirthChart).toHaveBeenCalled();
-    });
-
-    it('should handle null timezone (validation passes)', async () => {
-      const invalidData = { ...mockBirthData, timezone: null };
-
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(invalidData),
@@ -211,10 +160,10 @@ describe('/api/chart', () => {
         throw new Error('Calculation failed');
       });
 
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(mockBirthData),
+        body: JSON.stringify(mockBirthDataMinimal),
       });
 
       const event = { request } as any;
@@ -223,11 +172,15 @@ describe('/api/chart', () => {
 
       expect(response.status).toBe(500);
       expect(data.error).toBe('Failed to calculate birth chart');
-      expect(calculateBirthChart).toHaveBeenCalledWith(mockBirthData);
+      expect(calculateBirthChart).toHaveBeenCalledWith(
+        new Date(mockBirthDataMinimal.date),
+        mockBirthDataMinimal.latitude,
+        mockBirthDataMinimal.longitude
+      );
     });
 
     it('should return 500 error when request.json() throws an error', async () => {
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: 'invalid json',
@@ -243,7 +196,7 @@ describe('/api/chart', () => {
     });
 
     it('should handle empty request body', async () => {
-      const request = new Request('http://localhost:5173/api/chart', {
+      const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -255,6 +208,28 @@ describe('/api/chart', () => {
       expect(response.status).toBe(500);
       expect(data.error).toBe('Failed to calculate birth chart');
       expect(calculateBirthChart).not.toHaveBeenCalled();
+    });
+
+    it('should handle invalid date format', async () => {
+      const invalidData = { ...mockBirthDataMinimal, date: 'invalid-date' };
+
+      const request = new Request('http://localhost:5173/api/birth-chart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(invalidData),
+      });
+
+      const event = { request } as any;
+      const response = await POST(event);
+      const data = await response.json();
+
+      expect(response.status).toBe(500);
+      expect(data.error).toBe('Failed to calculate birth chart');
+      expect(calculateBirthChart).toHaveBeenCalledWith(
+        new Date('invalid-date'),
+        mockBirthDataMinimal.latitude,
+        mockBirthDataMinimal.longitude
+      );
     });
   });
 }); 
