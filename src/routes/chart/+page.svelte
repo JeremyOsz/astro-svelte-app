@@ -217,6 +217,8 @@ MC,Leo,10°14'`;
         <div class="text-center hidden md:block">
           <h1 class="text-2xl font-bold text-gray-800">Birth Chart Calculator</h1>
           <p class="text-sm text-gray-600">Generate your personalized astrological birth chart</p>
+          <p class="text-sm text-gray-600"><br>(Generation not currently working, please use the test data or copy your own from astro-seek)</p>
+
         </div>
         
         <div class="space-y-4 flex-1 overflow-y-auto">
@@ -241,6 +243,8 @@ MC,Leo,10°14'`;
               
               <div>
                 <label class="text-sm font-medium text-gray-700 mb-2 block">Chart Data</label>
+                <p class="text-sm text-gray-600 mb-2">For testing - Copy and paste your chart data from astro-seek - on your chart page click 'copy positions' and paste here</p>
+                <p class="text-sm text-gray-600 mb-2">Changing the string will change the chart</p>
                 <textarea 
                   class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
                   bind:value={$chartDataStore}
