@@ -46,7 +46,7 @@ MC,Leo,10°14'`;
   function loadChartScript() {
     // Create script element for the chart - use the simpler reference implementation
     const script = document.createElement('script');
-    script.src = '/chart-reference.js';
+    script.src = '/js/chart-reference.js';
     script.onload = () => {
       // Wait a bit for the script to initialize
       setTimeout(() => {

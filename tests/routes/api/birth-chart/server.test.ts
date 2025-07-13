@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from '../../../../src/routes/api/birth-chart/+server';
-import { mockBirthDataMinimal } from '../../../../src/test/utils/test-helpers';
+import { mockBirthDataMinimal } from '../../../utils/test-helpers';
 
 // Mock the calculateBirthChart function
 vi.mock('$lib/astrology/astronomia-service', () => ({
