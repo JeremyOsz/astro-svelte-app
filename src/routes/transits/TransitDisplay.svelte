@@ -1,6 +1,6 @@
 <script lang="ts">
   import { formatDegrees } from '$lib/chart/browser-chart';
-  import { getSignByDegree } from '$lib/astrology/astrology';
+  import { getSignByDegree } from '$lib/astrology/astrology-utils';
 
   export let natalChart: any;
   export let currentTransits: any;
@@ -100,9 +100,9 @@
               {getAspectDescription(aspect.aspect)}
             </div>
             <div class="aspect-positions">
-              <small>
-                {aspect.transitPlanet}: {formatDegrees(aspect.transitLongitude % 30)} {getSignByDegree(aspect.transitLongitude).name} | 
-                {aspect.natalPlanet}: {formatDegrees(aspect.natalLongitude % 30)} {getSignByDegree(aspect.natalLongitude).name}
+                            <small>
+                {aspect.transitPlanet}: {formatDegrees(aspect.transitLongitude % 30)} {getSignByDegree(aspect.transitLongitude)} |
+                {aspect.natalPlanet}: {formatDegrees(aspect.natalLongitude % 30)} {getSignByDegree(aspect.natalLongitude)}
               </small>
             </div>
           </div>

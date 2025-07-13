@@ -14,6 +14,7 @@ export interface PlanetPosition {
   sign: string;
   degree: number;
   house?: number;
+  retrograde?: boolean;
 }
 
 export interface BirthChart {

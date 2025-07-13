@@ -12,7 +12,7 @@ A comprehensive astrology application built with SvelteKit, featuring birth char
 ## Technology Stack
 
 - **Frontend**: SvelteKit 2.0 with TypeScript
-- **Astronomical Calculations**: [astronomia](https://github.com/commenthol/astronomia) - Pure JavaScript ephemeris library
+- **Astronomical Calculations**: [Prokerala API](https://api.prokerala.com/) - Professional astrology API service
 - **Visualizations**: D3.js for interactive charts
 - **Styling**: CSS with modern design principles
 
@@ -29,12 +29,21 @@ cd astro-svelte-app
 pnpm install
 ```
 
-3. Start the development server:
+3. Set up Prokerala API credentials:
+   - Sign up for a free account at [https://api.prokerala.com/](https://api.prokerala.com/)
+   - Get your Client ID and Client Secret from the dashboard
+   - Create a `.env` file in the root directory with:
+   ```
+   PROKERALA_CLIENT_ID=your_client_id_here
+   PROKERALA_CLIENT_SECRET=your_client_secret_here
+   ```
+
+4. Start the development server:
 ```bash
 pnpm dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+5. Open your browser and navigate to `http://localhost:5173`
 
 ## API Endpoints
 

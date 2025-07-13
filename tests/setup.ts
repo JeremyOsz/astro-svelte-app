@@ -10,8 +10,8 @@ global.console = {
   error: vi.fn(),
 };
 
-// Mock fetch if needed
-global.fetch = vi.fn();
+// Don't mock fetch for integration tests - we want to test actual API calls
+// global.fetch = vi.fn();
 
 // Setup any global test utilities here
 export {}; 

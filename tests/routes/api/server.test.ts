@@ -3,11 +3,11 @@ import { POST } from '../../../src/routes/api/transits/+server';
 import { mockTransitData } from '../../utils/test-helpers';
 
 // Mock the calculateTransits function
-vi.mock('$lib/astrology/astronomia-service', () => ({
+vi.mock('$lib/astrology/prokerala-service', () => ({
   calculateTransits: vi.fn(),
 }));
 
-import { calculateTransits } from '$lib/astrology/astronomia-service';
+import { calculateTransits } from '$lib/astrology/prokerala-service';
 
 describe('/api/transits', () => {
   beforeEach(() => {

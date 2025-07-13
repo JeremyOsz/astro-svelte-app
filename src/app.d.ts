@@ -10,4 +10,10 @@ declare global {
 	}
 }
 
+// Environment variables declaration for SvelteKit
+declare module '$env/static/private' {
+	export const PROKERALA_CLIENT_ID: string;
+	export const PROKERALA_CLIENT_SECRET: string;
+}
+
 export {};

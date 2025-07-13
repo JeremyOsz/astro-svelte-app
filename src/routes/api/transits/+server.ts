@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { calculateTransits, type BirthChart } from '$lib/astrology/astronomia-service';
+import { calculateTransits, type BirthChart } from '$lib/astrology/prokerala-service';
 
 export const POST: RequestHandler = async ({ request }) => {
   try {

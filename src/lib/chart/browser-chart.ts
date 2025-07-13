@@ -1,5 +1,5 @@
 import type { BirthData, BirthChart, PlanetPosition } from '../types/types';
-import { ZODIAC_SIGNS, PLANETS, WHOLE_SIGN_HOUSES, DEGREES_PER_SIGN, getSignByDegree } from '../astrology/astrology';
+import { ZODIAC_SIGNS, PLANETS, WHOLE_SIGN_HOUSES, DEGREES_PER_SIGN, getSignByDegree } from '../astrology/astrology-utils';
 
 export async function calculateBirthChart(birthData: BirthData): Promise<BirthChart> {
   try {
