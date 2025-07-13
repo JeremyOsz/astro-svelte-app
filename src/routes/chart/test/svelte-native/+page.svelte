@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
   import D3Chart from '../../../../lib/chart/D3Chart.svelte';
   import { formatChartFromInput } from '../../../../lib/chart/browser-chart';
 
   let chartComponent: D3Chart;
-  let chartDataInput: HTMLTextAreaElement;
   let birthDate: string = '';
   let birthTime: string = '';
   let birthLocation: string = '';
@@ -21,7 +21,7 @@
 Moon,Capricorn,26°20'
 Mercury,Sagittarius,14°28',R
 Venus,Scorpio,4°00'
-Mars,Gemini,7°36'
+Mars,Sagittarius,7°36'
 Jupiter,Virgo,13°55',R
 Saturn,Aquarius,3°32'
 Uranus,Capricorn,12°23'
@@ -34,6 +34,8 @@ Fortune,Libra,22°29'
 Vertex,Aries,29°44'
 ASC,Sagittarius,1°40'
 MC,Leo,10°14'`;
+  
+  const chartDataStore = writable(mockChartData);
 
   onMount(() => {
     // Load test data by default
@@ -41,15 +43,11 @@ MC,Leo,10°14'`;
   });
 
   function loadTestData() {
-    if (chartDataInput) {
-      chartDataInput.value = mockChartData;
-    }
+    chartDataStore.set(mockChartData);
   }
 
   function clearChart() {
-    if (chartDataInput) {
-      chartDataInput.value = '';
-    }
+    chartDataStore.set('');
   }
 
   async function calculateFromBirthData() {
@@ -60,9 +58,7 @@ MC,Leo,10°14'`;
 
     try {
       const formattedData = await formatChartFromInput(birthDate, birthTime, birthLocation);
-      if (chartDataInput) {
-        chartDataInput.value = formattedData;
-      }
+      chartDataStore.set(formattedData);
     } catch (error) {
       console.error('Error calculating birth chart:', error);
       alert('Error calculating birth chart. Please check your input data.');
@@ -168,8 +164,8 @@ MC,Leo,10°14'`;
         <h3>Chart Data Input</h3>
         <p class="input-note">Edit the chart data below to see changes:</p>
         <textarea 
-          id="chart-data-input" 
-          bind:this={chartDataInput}
+          class="chart-data-input"
+          bind:value={$chartDataStore}
           placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
           rows="15"
         ></textarea>
@@ -180,12 +176,12 @@ MC,Leo,10°14'`;
       <h2>Chart Visualization</h2>
       <D3Chart 
         bind:this={chartComponent}
-        chartData={chartDataInput?.value || ''}
+        chartData={$chartDataStore}
         {showDegreeMarkers}
         {showExtendedPlanets}
         {showAspectLines}
         {showPlanetLabels}
-        {zoomLevel}
+        bind:zoomLevel={zoomLevel}
       />
     </div>
   </div>
@@ -259,7 +255,6 @@ MC,Leo,10°14'`;
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
-    color: #555;
   }
 
   .input-group input {
@@ -338,18 +333,19 @@ MC,Leo,10°14'`;
     background: #3d8b40;
   }
 
-  .zoom-btn:nth-child(3) {
+  #zoom-reset {
     background: #2196F3;
     font-size: 12px;
     padding: 8px 8px;
   }
 
-  .zoom-btn:nth-child(3):hover {
+  #zoom-reset:hover {
     background: #1976D2;
   }
 
   .zoom-level {
     text-align: center;
+    margin-top: 8px;
     font-size: 14px;
     color: #666;
   }
@@ -365,9 +361,9 @@ MC,Leo,10°14'`;
     margin-bottom: 10px;
   }
 
-  #chart-data-input {
+  .chart-data-input {
     width: 100%;
-    height: 200px;
+    height: 250px;
     font-family: monospace;
     font-size: 12px;
     border: 1px solid #ddd;
