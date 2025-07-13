@@ -3,7 +3,8 @@
   import type { BirthData } from '$lib/types/types';
   import { calculateBirthChart, formatDegrees } from '$lib/chart/browser-chart';
   import { getSignByDegree } from '$lib/astrology/astronomia-service';
-  import { searchCities, estimateTimezoneFromLongitude, getCountryName, type CitySearchResult } from '$lib/services/city-service';
+  import { searchCities, getCountryName, type CitySearchResult } from '$lib/services/city-service';
+  import { getBirthTimezone, formatTimezoneOffset } from '$lib/services/timezone-service';
 
   const dispatch = createEventDispatcher<{ chartGenerated: string }>();
 
@@ -17,6 +18,7 @@
   let showCityDropdown = false;
   let searchTimeout: ReturnType<typeof setTimeout> | null = null;
   let selectedIndex = -1;
+  let timezoneInfo: { timezone: string; offset: number; isDST: boolean } | null = null;
 
   function onCityInput(e: Event) {
     citySearch = (e.target as HTMLInputElement).value;
@@ -25,6 +27,7 @@
     // Clear selected city if user starts typing again
     if (selectedCity && citySearch !== selectedCity.fullLocation) {
       selectedCity = null;
+      timezoneInfo = null;
     }
     
     // Clear previous timeout
@@ -74,18 +77,27 @@
     selectedCity = city;
     showCityDropdown = false;
     selectedIndex = -1;
+    
+    // Update timezone info if we have both city and birth date
+    updateTimezoneInfo();
   }
 
-  // Function to get timezone for birth date and location
-  function getTimezoneForBirth(city: CitySearchResult, birthDate: string): number {
-    // For now, use longitude-based estimation
-    // In a more sophisticated version, you'd use historical timezone data
-    const estimatedOffset = estimateTimezoneFromLongitude(parseFloat(city.lng));
-    
-    // TODO: Consider historical timezone changes and daylight saving time
-    // based on the birth date and location
-    
-    return estimatedOffset;
+  function updateTimezoneInfo() {
+    if (selectedCity && birthDate && birthTime) {
+      timezoneInfo = getBirthTimezone(
+        parseFloat(selectedCity.lat),
+        parseFloat(selectedCity.lng),
+        birthDate,
+        birthTime
+      );
+    } else {
+      timezoneInfo = null;
+    }
+  }
+
+  // Update timezone info when birth date or time changes
+  $: if (selectedCity && birthDate && birthTime) {
+    updateTimezoneInfo();
   }
 
   async function handleSubmit() {
@@ -98,15 +110,20 @@
     error = null;
 
     try {
-      // Get timezone for the birth date and location
-      const timezone = getTimezoneForBirth(selectedCity, birthDate);
+      // Get historical timezone for the birth date and location
+      const timezone = getBirthTimezone(
+        parseFloat(selectedCity.lat),
+        parseFloat(selectedCity.lng),
+        birthDate,
+        birthTime
+      );
 
       const birthData: BirthData = {
         date: birthDate,
         time: birthTime,
         latitude: parseFloat(selectedCity.lat),
         longitude: parseFloat(selectedCity.lng),
-        timezone: timezone
+        timezone: timezone.offset
       };
 
       const chartResult = await calculateBirthChart(birthData);
@@ -181,10 +198,24 @@
       {/if}
       
       {#if selectedCity}
-        <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-800">
-          <span class="font-medium">Selected:</span> {selectedCity.fullLocation}
-          <br>
-          <span class="text-green-600">Coordinates: {selectedCity.lat}, {selectedCity.lng}</span>
+        <div class="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+          <div class="text-sm">
+            <div class="font-medium text-green-800">{selectedCity.fullLocation}</div>
+            <div class="text-green-600 mt-1">
+              <span class="font-medium">Coordinates:</span> {selectedCity.lat}, {selectedCity.lng}
+            </div>
+            {#if timezoneInfo}
+              <div class="text-green-600 mt-1">
+                <span class="font-medium">Timezone:</span> {formatTimezoneOffset(timezoneInfo.offset)}
+                {#if timezoneInfo.isDST}
+                  <span class="text-xs ml-1 px-1 py-0.5 bg-green-200 rounded">DST</span>
+                {/if}
+              </div>
+              <div class="text-xs text-green-500 mt-1">
+                Using {timezoneInfo.timezone}
+              </div>
+            {/if}
+          </div>
         </div>
       {/if}
     </div>
@@ -233,15 +264,15 @@
     <ul class="space-y-2 text-sm text-gray-600">
       <li class="flex items-start">
         <span class="font-medium mr-2">Location:</span>
-        Select your birth city from the dropdown. Coordinates and timezone will be automatically determined.
+        Select your birth city from the dropdown. Coordinates are automatically determined.
+      </li>
+      <li class="flex items-start">
+        <span class="font-medium mr-2">Historical Timezone:</span>
+        The system uses historical timezone data to calculate the correct timezone for your birth date and location, accounting for daylight saving time.
       </li>
       <li class="flex items-start">
         <span class="font-medium mr-2">Birth Time:</span>
         If you don't know your exact birth time, use 12:00 PM. This will give you a noon chart.
-      </li>
-      <li class="flex items-start">
-        <span class="font-medium mr-2">Timezone:</span>
-        The system automatically calculates the timezone based on your birth location and date.
       </li>
     </ul>
   </div>
