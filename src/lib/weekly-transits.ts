@@ -5,34 +5,7 @@
 // Output the report in the terminal or export it as a text/markdown file.
 
 import * as swisseph from 'swisseph';
-
-// Define the planets we want to track
-const PLANETS = {
-  SUN: 0,
-  MOON: 1,
-  MERCURY: 2,
-  VENUS: 3,
-  MARS: 4,
-  JUPITER: 5,
-  SATURN: 6,
-  URANUS: 7,
-  NEPTUNE: 8,
-  PLUTO: 9
-};
-
-const ZODIAC_SIGNS = [
-  'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-  'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
-];
-
-// Define major aspects and their orbs
-const ASPECTS = [
-  { name: 'Conjunction', angle: 0, orb: 8 },
-  { name: 'Opposition', angle: 180, orb: 8 },
-  { name: 'Trine', angle: 120, orb: 6 },
-  { name: 'Square', angle: 90, orb: 6 },
-  { name: 'Sextile', angle: 60, orb: 4 }
-];
+import { PLANETS, ZODIAC_SIGNS, ASPECTS } from './data/astrological-data';
 
 interface Transit {
   date: Date;

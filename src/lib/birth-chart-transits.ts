@@ -1,15 +1,7 @@
 import * as swisseph from 'swisseph';
 import { BirthChart, PlanetPosition } from './types';
 import { getTransitInterpretation } from './transit-interpretations';
-
-// Define major aspects and their orbs
-const ASPECTS = [
-  { name: 'Conjunction', angle: 0, orb: 8 },
-  { name: 'Opposition', angle: 180, orb: 8 },
-  { name: 'Trine', angle: 120, orb: 6 },
-  { name: 'Square', angle: 90, orb: 6 },
-  { name: 'Sextile', angle: 60, orb: 4 }
-];
+import { ASPECTS, ZODIAC_SIGNS } from './data/astrological-data';
 
 // Define planet IDs
 const PLANET_IDS = {

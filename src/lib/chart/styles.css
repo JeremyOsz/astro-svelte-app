@@ -1,3 +1,8 @@
+/* 
+ * Chart styles are now consolidated in src/lib/data/chart-styles.ts
+ * This file is kept for backward compatibility but should be phased out
+ * Use the TypeScript version for new development
+ */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols:wght@400;700&display=swap');
 
 * {
