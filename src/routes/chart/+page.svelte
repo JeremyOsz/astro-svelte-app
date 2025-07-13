@@ -1,125 +1,51 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { BirthData } from '$lib/types/types';
-  import { calculateBirthChart, formatDegrees } from '$lib/chart/browser-chart';
-  import { getSignByDegree } from '$lib/astrology/astronomia-service';
   import BirthChartForm from './BirthChartForm.svelte';
-  import ChartVisualization from './ChartVisualization.svelte';
-  import ChartData from './ChartData.svelte';
 
-  let birthData: BirthData | null = null;
-  let chartResult: any = null;
-  let loading = false;
-  let error: string | null = null;
-  let chartDataString = '';
-  
-  // Mock chart data for testing
-  const mockChartData = `Sun,Sagittarius,18°01'
-Moon,Aries,28°43'
-Mercury,Sagittarius,7°52'
-Venus,Virgo,29°37'
-Mars,Aries,26°16'
-Jupiter,Taurus,5°35'
-Saturn,Taurus,17°04'
-Uranus,Aquarius,16°39'
-Neptune,Aquarius,6°25'
-Pluto,Sagittarius,2°42'
-Node,Aries,13°06'
-Lilith,Aries,28°06'
-Chiron,Aries,28°06'
-ASC,Aquarius,6°59'
-MC,Taurus,6°59'`;
+  let chartData: string = '';
+  let showChart = false;
 
-  let showTestChart = false;
-
-  async function handleCalculateChart(data: BirthData) {
-    loading = true;
-    error = null;
-    
-    try {
-      birthData = data;
-      chartResult = await calculateBirthChart(data);
-      
-      // Format chart data for visualization
-      const lines: string[] = chartResult.planets.map((planet: any) => {
-        const degStr = formatDegrees(planet.degree);
-        const retro = planet.retrograde ? ',R' : '';
-        return `${planet.name},${planet.sign},${degStr}${retro}`;
-      });
-
-      // Add ASC and MC
-      const ascSign = getSignByDegree(chartResult.ascendant);
-      const mcSign = getSignByDegree(chartResult.mc);
-      lines.push(`ASC,${ascSign},${formatDegrees(chartResult.ascendant % 30)}`);
-      lines.push(`MC,${mcSign},${formatDegrees(chartResult.mc % 30)}`);
-
-      chartDataString = lines.join('\n');
-    } catch (err) {
-      error = err instanceof Error ? err.message : 'An error occurred while calculating the chart';
-    } finally {
-      loading = false;
-    }
+  function handleChartGenerated(event: CustomEvent<string>) {
+    chartData = event.detail;
+    showChart = true;
   }
 
-  function loadTestChart() {
-    chartDataString = mockChartData;
-    showTestChart = true;
+  function handleReset() {
+    chartData = '';
+    showChart = false;
   }
 </script>
 
 <svelte:head>
-  <title>Birth Chart Calculator - Astro Chart</title>
-  <meta name="description" content="Calculate your birth chart with precise planetary positions using Swiss Ephemeris" />
+  <title>Astrological Birth Chart - Astro Chart</title>
+  <meta name="description" content="Generate and visualize your astrological birth chart" />
 </svelte:head>
 
 <div class="chart-page">
   <div class="page-header">
-    <h1>Birth Chart Calculator</h1>
-    <p>Enter your birth details to calculate your natal chart with precise planetary positions.</p>
+    <h1>Astrological Birth Chart</h1>
+    <p>Generate your personalized astrological birth chart with detailed planetary positions and aspects</p>
   </div>
 
-  {#if error}
-    <div class="error">
-      <strong>Error:</strong> {error}
+  {#if !showChart}
+    <BirthChartForm on:chartGenerated={handleChartGenerated} />
+  {:else}
+    <div class="chart-section">
+      <div class="chart-header">
+        <h2>Chart Generated Successfully!</h2>
+        <button class="reset-btn" on:click={handleReset}>Generate New Chart</button>
+      </div>
+      
+      <div class="chart-message">
+        <p>Your chart data has been generated. To view the interactive chart visualization, please visit:</p>
+        <a href="/chart/test" class="test-link">Chart Test Page</a>
+        <p class="chart-data-preview">
+          <strong>Preview of your chart data:</strong><br>
+          <code>{chartData.split('\n').slice(0, 5).join('\n')}...</code>
+        </p>
+      </div>
     </div>
   {/if}
-
-  <div class="chart-container">
-    <div class="form-section">
-      <BirthChartForm on:calculate={({ detail }: { detail: BirthData }) => handleCalculateChart(detail)} />
-      
-      {#if loading}
-        <div class="loading-container">
-          <div class="loading"></div>
-          <p>Calculating your birth chart...</p>
-        </div>
-      {/if}
-      
-      <!-- Test Chart Button -->
-      <div class="test-section">
-        <button on:click={loadTestChart} class="test-btn">
-          Load Test Chart Data
-        </button>
-        <p class="test-note">Click to load mock chart data for testing the visualization</p>
-      </div>
-    </div>
-
-    {#if chartDataString}
-      <div class="results-section">
-        <div class="chart-visualization">
-          <h2>{showTestChart ? 'Test Chart Visualization' : 'Your Birth Chart'}</h2>
-          <ChartVisualization chartData={chartDataString} />
-        </div>
-        
-        {#if chartResult}
-          <div class="chart-data">
-            <h2>Chart Data</h2>
-            <ChartData {chartResult} />
-          </div>
-        {/if}
-      </div>
-    {/if}
-  </div>
 </div>
 
 <style>
@@ -131,122 +57,125 @@ MC,Taurus,6°59'`;
 
   .page-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
   }
 
   .page-header h1 {
-    color: #333;
+    font-size: 2.5rem;
+    color: #2c3e50;
     margin-bottom: 10px;
   }
 
   .page-header p {
-    color: #666;
-    font-size: 16px;
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
-  .error {
-    background: #ffebee;
-    color: #c62828;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    border: 1px solid #ffcdd2;
+  .chart-section {
+    margin-top: 40px;
   }
 
-  .chart-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 30px;
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ecf0f1;
   }
 
-  .form-section {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    padding: 20px;
+  .chart-header h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin: 0;
   }
 
-  .loading-container {
-    text-align: center;
-    padding: 20px;
-  }
-
-  .loading {
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #4CAF50;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 10px;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  .test-section {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-  }
-
-  .test-btn {
-    background: #2196F3;
+  .reset-btn {
+    padding: 10px 20px;
+    background: #e74c3c;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
-    width: 100%;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
   }
 
-  .test-btn:hover {
-    background: #1976D2;
+  .reset-btn:hover {
+    background: #c0392b;
   }
 
-  .test-note {
-    font-size: 12px;
-    color: #666;
-    margin-top: 8px;
+  .chart-message {
     text-align: center;
-  }
-
-  .results-section {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .chart-visualization {
-    background: #fff;
+    padding: 40px 20px;
+    background: #f8f9fa;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    margin-top: 20px;
+  }
+
+  .chart-message p {
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .test-link {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    margin: 20px 0;
+    transition: background-color 0.3s ease;
+  }
+
+  .test-link:hover {
+    background: #5a67d8;
+  }
+
+  .chart-data-preview {
+    margin-top: 30px;
     padding: 20px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
   }
 
-  .chart-visualization h2 {
-    margin-bottom: 15px;
-    color: #333;
-  }
-
-  .chart-data {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    padding: 20px;
-  }
-
-  .chart-data h2 {
-    margin-bottom: 15px;
-    color: #333;
+  .chart-data-preview code {
+    display: block;
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #374151;
+    white-space: pre-wrap;
+    text-align: left;
+    margin-top: 10px;
   }
 
   @media (max-width: 768px) {
-    .chart-container {
-      grid-template-columns: 1fr;
+    .chart-page {
+      padding: 15px;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+    }
+
+    .chart-header {
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .chart-header h2 {
+      font-size: 1.5rem;
     }
   }
 </style> 

@@ -1,3 +1,12 @@
+declare global {
+  interface Window {
+    interpretationsData?: any;
+    initChart?: (containerElement: HTMLElement, chartDataString: string, interpretationsData?: any) => Promise<void>;
+  }
+}
+
+export {};
+
 declare module 'astronomia' {
   export const julian: {
     DateToJD(date: Date): number;

@@ -1,14 +1,18 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import type { BirthData } from '$lib/types/types';
+  import { calculateBirthChart, formatDegrees } from '$lib/chart/browser-chart';
+  import { getSignByDegree } from '$lib/astrology/astronomia-service';
 
-  const dispatch = createEventDispatcher<{ calculate: BirthData }>();
+  const dispatch = createEventDispatcher<{ chartGenerated: string }>();
 
   let birthDate = '';
   let birthTime = '';
   let latitude = '';
   let longitude = '';
   let timezone = '';
+  let loading = false;
+  let error: string | null = null;
 
   // Common timezone options
   const timezoneOptions = [
@@ -39,21 +43,46 @@
     { value: '12', label: 'UTC+12 (New Zealand)' }
   ];
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!birthDate || !birthTime || !latitude || !longitude || !timezone) {
       alert('Please fill in all fields');
       return;
     }
 
-    const birthData: BirthData = {
-      date: birthDate,
-      time: birthTime,
-      latitude: parseFloat(latitude),
-      longitude: parseFloat(longitude),
-      timezone: parseInt(timezone)
-    };
+    loading = true;
+    error = null;
 
-    dispatch('calculate', birthData);
+    try {
+      const birthData: BirthData = {
+        date: birthDate,
+        time: birthTime,
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+        timezone: parseInt(timezone)
+      };
+
+      const chartResult = await calculateBirthChart(birthData);
+      
+      // Format chart data for visualization
+      const lines: string[] = chartResult.planets.map((planet: any) => {
+        const degStr = formatDegrees(planet.degree);
+        const retro = planet.retrograde ? ',R' : '';
+        return `${planet.name},${planet.sign},${degStr}${retro}`;
+      });
+
+      // Add ASC and MC
+      const ascSign = getSignByDegree(chartResult.ascendant);
+      const mcSign = getSignByDegree(chartResult.mc);
+      lines.push(`ASC,${ascSign},${formatDegrees(chartResult.ascendant % 30)}`);
+      lines.push(`MC,${mcSign},${formatDegrees(chartResult.mc % 30)}`);
+
+      const chartDataString = lines.join('\n');
+      dispatch('chartGenerated', chartDataString);
+    } catch (err) {
+      error = err instanceof Error ? err.message : 'An error occurred while calculating the chart';
+    } finally {
+      loading = false;
+    }
   }
 
   function setCurrentLocation() {
@@ -79,6 +108,12 @@
 
 <div class="birth-chart-form">
   <h2>Enter Birth Details</h2>
+  
+  {#if error}
+    <div class="error">
+      <strong>Error:</strong> {error}
+    </div>
+  {/if}
   
   <form on:submit|preventDefault={handleSubmit}>
     <div class="form-group">
@@ -143,8 +178,8 @@
       <button type="button" class="btn-secondary" on:click={setCurrentLocation}>
         Use Current Location
       </button>
-      <button type="submit" class="btn-primary">
-        Calculate Chart
+      <button type="submit" class="btn-primary" disabled={loading}>
+        {loading ? 'Calculating...' : 'Calculate Chart'}
       </button>
     </div>
   </form>
@@ -232,6 +267,15 @@
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
     color: #555;
+  }
+
+  .error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   @media (max-width: 768px) {

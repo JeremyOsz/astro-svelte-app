@@ -1,46 +1,33 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import * as d3 from 'd3';
 
   let chartContainer: HTMLDivElement;
   let chartDataInput: HTMLTextAreaElement;
 
-  // Mock chart data for testing
-  const mockChartData = `Sun,Sagittarius,18°01'
-Moon,Aries,28°43'
-Mercury,Sagittarius,7°52'
-Venus,Virgo,29°37'
-Mars,Aries,26°16'
-Jupiter,Taurus,5°35'
-Saturn,Taurus,17°04'
-Uranus,Aquarius,16°39'
-Neptune,Aquarius,6°25'
-Pluto,Sagittarius,2°42'
-Node,Aries,13°06'
-Lilith,Aries,28°06'
-Chiron,Aries,28°06'
-ASC,Aquarius,6°59'
-MC,Taurus,6°59'`;
+  // Mock chart data for testing - matches reference format
+  const mockChartData = `Sun,Sagittarius,17°09'
+Moon,Capricorn,26°20'
+Mercury,Sagittarius,14°28',R
+Venus,Scorpio,4°00'
+Mars,Sagittarius,7°36'
+Jupiter,Virgo,13°55',R
+Saturn,Aquarius,3°32'
+Uranus,Capricorn,12°23'
+Neptune,Capricorn,15°24'
+Pluto,Scorpio,21°20'
+Node,Capricorn,10°59',R
+Lilith,Capricorn,25°14'
+Chiron,Leo,9°20',R
+Fortune,Libra,22°29'
+Vertex,Aries,29°44'
+ASC,Sagittarius,1°40'
+MC,Leo,10°14'`;
 
   onMount(() => {
-    // Load interpretations first, then the D3 chart script
-    loadInterpretations();
+    // Load the D3 chart script directly
+    loadD3ChartScript();
   });
-
-  function loadInterpretations() {
-    // Load interpretations data first
-    const interpretationsScript = document.createElement('script');
-    interpretationsScript.src = '/assets/interpretations/interpretations.js';
-    interpretationsScript.onload = () => {
-      // Then load the D3 chart script
-      loadD3ChartScript();
-    };
-    interpretationsScript.onerror = () => {
-      console.error('Failed to load interpretations data');
-      // Still try to load the chart script
-      loadD3ChartScript();
-    };
-    document.head.appendChild(interpretationsScript);
-  }
 
   function loadD3ChartScript() {
     // Check if script is already loaded
@@ -49,9 +36,17 @@ MC,Taurus,6°59'`;
       return;
     }
 
-    // Create script element
+    // Make D3 available globally for the chart script
+    (window as any).d3 = d3;
+    
+    // Load the chart script
+    loadChartScript();
+  }
+
+  function loadChartScript() {
+    // Create script element for the chart - use the simpler reference implementation
     const script = document.createElement('script');
-    script.src = '/d3chart.js';
+    script.src = '/chart-reference.js';
     script.onload = () => {
       // Wait a bit for the script to initialize
       setTimeout(() => {
@@ -71,7 +66,123 @@ MC,Taurus,6°59'`;
     
     // Initialize the chart if the function exists
     if (typeof window !== 'undefined' && (window as any).initChart) {
-      (window as any).initChart();
+      // Wait for DOM to be ready
+      setTimeout(() => {
+        (window as any).initChart();
+        // Set up event listeners manually since they might not be attached properly
+        setupEventListeners();
+      }, 100);
+    }
+  }
+
+  function setupEventListeners() {
+    // Toggle controls
+    const toggleDegree = document.getElementById('toggle-degree');
+    const toggleExtended = document.getElementById('toggle-extended');
+    const toggleAspects = document.getElementById('toggle-aspects');
+    const toggleLabels = document.getElementById('toggle-labels');
+    
+    if (toggleDegree) {
+      toggleDegree.addEventListener('change', function(e) {
+        (window as any).showDegreeMarkers = (e.target as HTMLInputElement).checked;
+        (window as any).createChart();
+      });
+    }
+    
+    if (toggleExtended) {
+      toggleExtended.addEventListener('change', function(e) {
+        (window as any).showExtendedPlanets = (e.target as HTMLInputElement).checked;
+        (window as any).createChart();
+      });
+    }
+    
+    if (toggleAspects) {
+      toggleAspects.addEventListener('change', function(e) {
+        (window as any).showAspectLines = (e.target as HTMLInputElement).checked;
+        (window as any).createChart();
+      });
+    }
+    
+    if (toggleLabels) {
+      toggleLabels.addEventListener('change', function(e) {
+        (window as any).showPlanetLabels = (e.target as HTMLInputElement).checked;
+        (window as any).createChart();
+      });
+    }
+    
+    // Zoom controls
+    const zoomIn = document.getElementById('zoom-in');
+    const zoomOut = document.getElementById('zoom-out');
+    const zoomReset = document.getElementById('zoom-reset');
+    
+    if (zoomIn) {
+      zoomIn.addEventListener('click', function() {
+        const svg = d3.select('#chart-container svg');
+        const node = svg.node() as Element;
+        if (node) {
+          const zoom = d3.zoomTransform(node);
+          const newScale = Math.min(3, zoom.k * 1.2);
+          svg.transition().duration(300).call(
+            d3.zoom().transform as any,
+            d3.zoomIdentity.scale(newScale).translate(zoom.x, zoom.y)
+          );
+          
+          // Update zoom level display
+          const zoomLevelText = document.getElementById('zoom-level-text');
+          if (zoomLevelText) {
+            zoomLevelText.textContent = Math.round(newScale * 100) + '%';
+          }
+        }
+      });
+    }
+    
+    if (zoomOut) {
+      zoomOut.addEventListener('click', function() {
+        const svg = d3.select('#chart-container svg');
+        const node = svg.node() as Element;
+        if (node) {
+          const zoom = d3.zoomTransform(node);
+          const newScale = Math.max(0.5, zoom.k / 1.2);
+          svg.transition().duration(300).call(
+            d3.zoom().transform as any,
+            d3.zoomIdentity.scale(newScale).translate(zoom.x, zoom.y)
+          );
+          
+          // Update zoom level display
+          const zoomLevelText = document.getElementById('zoom-level-text');
+          if (zoomLevelText) {
+            zoomLevelText.textContent = Math.round(newScale * 100) + '%';
+          }
+        }
+      });
+    }
+    
+    if (zoomReset) {
+      zoomReset.addEventListener('click', function() {
+        const svg = d3.select('#chart-container svg');
+        svg.transition().duration(300).call(
+          d3.zoom().transform as any,
+          d3.zoomIdentity
+        );
+        
+        // Update zoom level display
+        const zoomLevelText = document.getElementById('zoom-level-text');
+        if (zoomLevelText) {
+          zoomLevelText.textContent = '100%';
+        }
+      });
+    }
+    
+    // Update chart button
+    const updateChartBtn = document.getElementById('update-chart-btn');
+    if (updateChartBtn) {
+      updateChartBtn.addEventListener('click', function() {
+        if (typeof window !== 'undefined' && (window as any).parseDataAndGenerateHouses) {
+          (window as any).parseDataAndGenerateHouses();
+          (window as any).calculateAspects();
+          (window as any).createChart();
+        }
+      });
     }
   }
 
