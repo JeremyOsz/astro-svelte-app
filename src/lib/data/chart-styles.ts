@@ -107,6 +107,33 @@ export const CHART_STYLES = `
   font-weight: 500;
 }
 
+/* Detailed Planet Labels */
+.planet-label-group text {
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-family: 'Arial', sans-serif;
+}
+
+.planet-label-degree {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.planet-label-sign {
+  font-family: 'Noto Sans Symbols', 'Arial', sans-serif;
+  font-size: 10px;
+}
+
+.planet-label-minute {
+  font-size: 12px;
+}
+
+.retrograde-label {
+  font-size: 10px;
+  fill: #e53935;
+  font-style: italic;
+}
+
 /* House styles */
 .house-line {
   stroke: #999;
