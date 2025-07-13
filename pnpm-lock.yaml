@@ -20,6 +20,9 @@ importers:
       d3:
         specifier: ^7.9.0
         version: 7.9.0
+      lucide-svelte:
+        specifier: ^0.525.0
+        version: 0.525.0(svelte@5.35.6)
       luxon:
         specifier: ^3.7.1
         version: 3.7.1
@@ -1240,6 +1243,11 @@ packages:
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
+  lucide-svelte@0.525.0:
+    resolution: {integrity: sha512-kfuN6JcCqTfCz2B76aXnyGLAzEBRSYw5GaUspM5RNHQZS5aI5yaKu06fbaofOk8cDvUtY0AUm/zAix7aUX6Q3A==}
+    peerDependencies:
+      svelte: ^3 || ^4 || ^5.0.0-next.42
 
   luxon@3.7.1:
     resolution: {integrity: sha512-RkRWjA926cTvz5rAb1BqyWkKbbjzCGchDUIKMCUvNi17j6f6j8uHGDV82Aqcqtzd+icoYpELmG3ksgGiFNNcNg==}
@@ -2688,6 +2696,10 @@ snapshots:
   loupe@3.1.4: {}
 
   lru-cache@10.4.3: {}
+
+  lucide-svelte@0.525.0(svelte@5.35.6):
+    dependencies:
+      svelte: 5.35.6
 
   luxon@3.7.1: {}
 

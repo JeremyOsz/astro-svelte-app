@@ -3,7 +3,10 @@
   import { writable } from 'svelte/store';
   import D3Chart from '../../lib/chart/D3Chart.svelte';
   import BirthChartForm from './BirthChartForm.svelte';
-  import * as Accordion from "$lib/components/ui/accordion";
+  import * as Sidebar from "$lib/components/ui/sidebar";
+  import * as Sheet from "$lib/components/ui/sheet";
+  import { Button } from "$lib/components/ui/button";
+  import { Menu, Settings } from 'lucide-svelte';
 
   let chartComponent: D3Chart;
   let chartData: string = '';
@@ -15,6 +18,10 @@
   let showAspectLines = true;
   let showPlanetLabels = true;
   let zoomLevel = 1;
+
+  // Sidebar and sheet state
+  let sidebarOpen = true;
+  let sheetOpen = false;
 
   // Mock chart data for testing
   const mockChartData = `Sun,Sagittarius,17°09'
@@ -82,286 +89,417 @@ MC,Leo,10°14'`;
   <meta name="description" content="Generate and visualize your astrological birth chart" />
 </svelte:head>
 
-<div class="max-w-7xl mx-auto p-5">
-  <div class="text-center mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-3">Astrological Birth Chart</h1>
-    <p class="text-gray-600 text-base">Generate your personalized astrological birth chart with detailed planetary positions and aspects</p>
-  </div>
+<Sidebar.Provider bind:open={sidebarOpen}>
+  <div class="flex min-h-screen w-full">
+    <!-- Sidebar with Birth Chart Calculator -->
+    <aside class="w-80 border-r bg-muted/40 p-4 lg:block">
+      <div class="space-y-6">
+        <div class="text-center">
+          <h1 class="text-2xl font-bold text-gray-800">Birth Chart Calculator</h1>
+          <p class="text-sm text-gray-600">Generate your personalized astrological birth chart</p>
+        </div>
+        
+        <div class="space-y-4">
+          <!-- Birth Chart Form -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Birth Details</h3>
+            <BirthChartForm on:chartGenerated={handleChartGenerated} />
+          </div>
 
-  <!-- Collapsible Inputs Section on Top -->
-  <div class="mb-8">
-    <Accordion.Root type="single" class="w-full">
-      <Accordion.Item value="birth-data">
-        <Accordion.Trigger class="bg-white rounded-lg p-4 w-full hover:bg-gray-50 transition-colors cursor-pointer">
-          <div class="flex items-center justify-between w-full">
-            <h2 class="text-xl font-semibold text-gray-800">Birth Data Calculator</h2>
-          </div>
-        </Accordion.Trigger>
-        <Accordion.Content class="bg-white rounded-lg shadow-md p-5 mt-2">
-          <BirthChartForm on:chartGenerated={handleChartGenerated} />
-        </Accordion.Content>
-      </Accordion.Item>
-      
-      <Accordion.Item value="test-inputs">
-        <Accordion.Trigger class="bg-white rounded-lg shadow-md p-4 w-full hover:bg-gray-50 transition-colors cursor-pointer mt-2">
-          <div class="flex items-center justify-between w-full">
-            <h2 class="text-xl font-semibold text-gray-800">Test Inputs & Chart Data</h2>
-          </div>
-        </Accordion.Trigger>
-        <Accordion.Content class="bg-white rounded-lg shadow-md p-5 mt-2">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h3 class="text-base font-medium text-gray-700 mb-4">Test Data</h3>
-              <div class="flex gap-3 mb-4">
-                <button on:click={loadTestData} class="px-4 py-2 bg-green-500 text-white rounded-md text-sm hover:bg-green-600 transition-colors">
+          <!-- Test Data Section -->
+          <div class="border-t pt-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Test Data</h3>
+            <div class="space-y-3">
+              <div class="flex gap-2">
+                <Button variant="outline" size="sm" class="flex-1" onclick={loadTestData}>
                   Load Test Data
-                </button>
-                <button on:click={clearChart} class="px-4 py-2 bg-red-500 text-white rounded-md text-sm hover:bg-red-600 transition-colors">
+                </Button>
+                <Button variant="outline" size="sm" class="flex-1" onclick={clearChart}>
                   Clear Chart
-                </button>
+                </Button>
+              </div>
+              
+              <div>
+                <label class="text-sm font-medium text-gray-700 mb-2 block">Chart Data</label>
+                <textarea 
+                  class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
+                  bind:value={$chartDataStore}
+                  placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
+                  rows="8"
+                ></textarea>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col">
+      <!-- Header with controls -->
+      <div class="border-b bg-background px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <Sidebar.Trigger class="lg:hidden" />
+          <h2 class="text-xl font-semibold text-gray-800">Chart Visualization</h2>
+        </div>
+        
+        <Sheet.Root bind:open={sheetOpen}>
+          <Sheet.Trigger>
+            <Button variant="outline" size="sm">
+              <Settings class="h-4 w-4 mr-2" />
+              Controls & Legend
+            </Button>
+          </Sheet.Trigger>
+          <Sheet.Content side="right" class="w-96 sm:w-[540px]">
+            <Sheet.Header>
+              <Sheet.Title>Chart Controls & Legend</Sheet.Title>
+              <Sheet.Description>
+                Customize your chart appearance and view the legend
+              </Sheet.Description>
+            </Sheet.Header>
             
-            <div>
-              <h3 class="text-base font-medium text-gray-700 mb-4">Chart Data Input</h3>
-              <p class="text-xs text-gray-600 mb-3">Edit the chart data below to see changes:</p>
-              <textarea 
-                class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-3 resize-y"
-                bind:value={$chartDataStore}
-                placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
-                rows="8"
-              ></textarea>
+            <div class="flex-1 overflow-y-auto p-2">
+              <div class="space-y-8 pb-8">
+                <!-- Chart Options -->
+                <div class="space-y-4">
+                  <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Chart Options</h3>
+                  <div class="space-y-4">
+                    <label class="flex items-center space-x-3 cursor-pointer group">
+                      <input 
+                        type="checkbox" 
+                        bind:checked={showDegreeMarkers} 
+                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      >
+                      <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Show Degree Markers</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer group">
+                      <input 
+                        type="checkbox" 
+                        bind:checked={showExtendedPlanets} 
+                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      >
+                      <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Show Extended Planets</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer group">
+                      <input 
+                        type="checkbox" 
+                        bind:checked={showAspectLines} 
+                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      >
+                      <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Show Aspect Lines</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer group">
+                      <input 
+                        type="checkbox" 
+                        bind:checked={showPlanetLabels} 
+                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      >
+                      <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900">Show Planet Labels</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Zoom Controls -->
+                <div class="space-y-4">
+                  <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Zoom Controls</h3>
+                  <div class="space-y-4">
+                    <div class="flex gap-2">
+                      <Button size="sm" variant="outline" class="flex-1 h-10" onclick={handleZoomIn}>
+                        <span class="text-lg font-bold">+</span>
+                      </Button>
+                      <Button size="sm" variant="outline" class="flex-1 h-10" onclick={handleZoomOut}>
+                        <span class="text-lg font-bold">−</span>
+                      </Button>
+                      <Button size="sm" variant="outline" class="flex-1 h-10" onclick={handleZoomReset}>
+                        Reset
+                      </Button>
+                    </div>
+                    <div class="text-center py-2 bg-gray-50 rounded-md">
+                      <span class="text-sm text-gray-600">Zoom: </span>
+                      <span class="text-sm font-semibold text-gray-900">{Math.round(zoomLevel * 100)}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Zodiac Signs Legend -->
+                <div class="space-y-4">
+                  <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Zodiac Signs</h3>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♈</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Aries</span>
+                        <div class="text-xs text-gray-500">Fire Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♉</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Taurus</span>
+                        <div class="text-xs text-gray-500">Earth Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♊</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Gemini</span>
+                        <div class="text-xs text-gray-500">Air Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♋</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Cancer</span>
+                        <div class="text-xs text-gray-500">Water Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♌</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Leo</span>
+                        <div class="text-xs text-gray-500">Fire Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♍</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Virgo</span>
+                        <div class="text-xs text-gray-500">Earth Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♎</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Libra</span>
+                        <div class="text-xs text-gray-500">Air Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♏</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Scorpio</span>
+                        <div class="text-xs text-gray-500">Water Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♐</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Sagittarius</span>
+                        <div class="text-xs text-gray-500">Fire Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♑</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Capricorn</span>
+                        <div class="text-xs text-gray-500">Earth Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♒</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Aquarius</span>
+                        <div class="text-xs text-gray-500">Air Sign</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♓</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Pisces</span>
+                        <div class="text-xs text-gray-500">Water Sign</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Planet Symbols Legend -->
+                <div class="space-y-4">
+                  <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Planet Symbols</h3>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-yellow-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☉</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Sun</span>
+                        <div class="text-xs text-gray-500">Core Identity</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-slate-400" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☽</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Moon</span>
+                        <div class="text-xs text-gray-500">Emotions</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-gray-600" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☿</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Mercury</span>
+                        <div class="text-xs text-gray-500">Communication</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-pink-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♀</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Venus</span>
+                        <div class="text-xs text-gray-500">Love & Beauty</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-red-600" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♂</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Mars</span>
+                        <div class="text-xs text-gray-500">Action & Energy</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-orange-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♃</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Jupiter</span>
+                        <div class="text-xs text-gray-500">Expansion</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-purple-600" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♄</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Saturn</span>
+                        <div class="text-xs text-gray-500">Structure</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-cyan-600" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♅</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Uranus</span>
+                        <div class="text-xs text-gray-500">Innovation</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-blue-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♆</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Neptune</span>
+                        <div class="text-xs text-gray-500">Spirituality</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-red-800" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♇</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Pluto</span>
+                        <div class="text-xs text-gray-500">Transformation</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-green-600" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☊</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">North Node</span>
+                        <div class="text-xs text-gray-500">Soul Purpose</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <span class="text-xl text-violet-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">⚸</span>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Lilith</span>
+                        <div class="text-xs text-gray-500">Dark Moon</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Aspect Lines Legend -->
+                <div class="space-y-4">
+                  <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Aspect Lines</h3>
+                  <div class="space-y-3">
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <div class="w-6 h-0.5 bg-red-500 rounded"></div>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Conjunction (0°)</span>
+                        <div class="text-xs text-gray-500">Unity & blending of energies</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <div class="w-6 h-0.5 bg-red-600 rounded"></div>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Opposition (180°)</span>
+                        <div class="text-xs text-gray-500">Tension & balance</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <div class="w-6 h-0.5 bg-blue-500 rounded"></div>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Square (90°)</span>
+                        <div class="text-xs text-gray-500">Challenge & growth</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <div class="w-6 h-0.5 bg-blue-600 rounded"></div>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Trine (120°)</span>
+                        <div class="text-xs text-gray-500">Harmony & flow</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <div class="w-6 h-0.5 bg-green-500 rounded"></div>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Sextile (60°)</span>
+                        <div class="text-xs text-gray-500">Opportunity & cooperation</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors">
+                      <div class="w-6 h-0.5 bg-gray-400 rounded"></div>
+                      <div class="flex-1">
+                        <span class="text-sm font-medium text-gray-900">Quincunx (150°)</span>
+                        <div class="text-xs text-gray-500">Adjustment & adaptation</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="space-y-4">
+                  <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Instructions</h3>
+                  <div class="space-y-3 text-sm text-gray-600">
+                    <div class="flex items-start space-x-2">
+                      <span class="text-blue-500 mt-0.5">•</span>
+                      <span>Hover over planets and aspects to see detailed interpretations</span>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                      <span class="text-blue-500 mt-0.5">•</span>
+                      <span>Use the checkboxes above to toggle different chart elements</span>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                      <span class="text-blue-500 mt-0.5">•</span>
+                      <span>Update the chart data in the sidebar to see different charts</span>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                      <span class="text-blue-500 mt-0.5">•</span>
+                      <span>Use zoom controls to get a closer look at details</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </Sheet.Content>
+        </Sheet.Root>
+      </div>
+
+      <!-- Chart Content -->
+      <div class="flex-1 p-4">
+        {#if showChart}
+          <div class="bg-white rounded-lg shadow-md p-4 h-full">
+            <D3Chart 
+              bind:this={chartComponent}
+              chartData={$chartDataStore}
+              {showDegreeMarkers}
+              {showExtendedPlanets}
+              {showAspectLines}
+              {showPlanetLabels}
+              bind:zoomLevel={zoomLevel}
+            />
           </div>
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion.Root>
+        {:else}
+          <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
+            <p class="text-gray-500 text-lg">Enter your birth details or load test data to see the chart visualization</p>
+          </div>
+        {/if}
+      </div>
+    </main>
   </div>
-
-  <!-- Chart and Legend Section Side by Side -->
-  <div class="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-6">
-    <!-- Chart section: left column -->
-    <div class="bg-white rounded-lg shadow-md p-5">
-      <h2 class="text-xl font-semibold text-gray-800 mb-5 pb-3 border-b-2 border-green-500">Chart Visualization</h2>
-      {#if showChart}
-        <D3Chart 
-          bind:this={chartComponent}
-          chartData={$chartDataStore}
-          {showDegreeMarkers}
-          {showExtendedPlanets}
-          {showAspectLines}
-          {showPlanetLabels}
-          bind:zoomLevel={zoomLevel}
-        />
-      {:else}
-        <div class="flex items-center justify-center h-96 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 text-base">
-          <p>Enter your birth details or load test data to see the chart visualization</p>
-        </div>
-      {/if}
-    </div>
-
-    <!-- Legend and Controls section: right column -->
-    <div class="bg-white rounded-lg shadow-md p-5 h-fit">
-      <h2 class="text-xl font-semibold text-gray-800 mb-5 pb-3 border-b-2 border-green-500">Chart Controls & Legend</h2>
-      
-      <div class="mb-6 pb-5 border-b border-gray-200">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Chart Options</h3>
-        <label class="flex items-center mb-3 cursor-pointer text-sm">
-          <input type="checkbox" bind:checked={showDegreeMarkers} class="mr-3">
-          Show Degree Markers
-        </label>
-        <label class="flex items-center mb-3 cursor-pointer text-sm">
-          <input type="checkbox" bind:checked={showExtendedPlanets} class="mr-3">
-          Show Extended Planets
-        </label>
-        <label class="flex items-center mb-3 cursor-pointer text-sm">
-          <input type="checkbox" bind:checked={showAspectLines} class="mr-3">
-          Show Aspect Lines
-        </label>
-        <label class="flex items-center mb-3 cursor-pointer text-sm">
-          <input type="checkbox" bind:checked={showPlanetLabels} class="mr-3">
-          Show Planet Labels
-        </label>
-      </div>
-
-      <div class="mb-6 pb-5 border-b border-gray-200">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Zoom Controls</h3>
-        <div class="flex gap-2 mb-3">
-          <button on:click={handleZoomIn} class="bg-green-500 text-white border-none px-3 py-2 rounded text-base font-bold min-w-10 hover:bg-green-600 active:bg-green-700 transition-colors">+</button>
-          <button on:click={handleZoomOut} class="bg-green-500 text-white border-none px-3 py-2 rounded text-base font-bold min-w-10 hover:bg-green-600 active:bg-green-700 transition-colors">−</button>
-          <button on:click={handleZoomReset} class="bg-green-500 text-white border-none px-3 py-2 rounded text-base font-bold min-w-10 hover:bg-green-600 active:bg-green-700 transition-colors">Reset</button>
-        </div>
-        <div class="text-center mt-2 text-sm text-gray-600">
-          Zoom: <span class="font-bold text-gray-800">{Math.round(zoomLevel * 100)}%</span>
-        </div>
-      </div>
-
-      <div class="mb-6 pb-5 border-b border-gray-200">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Zodiac Signs</h3>
-        <div class="text-xs text-gray-600 space-y-1">
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♈</span>
-            <span>Aries (Fire)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♉</span>
-            <span>Taurus (Earth)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♊</span>
-            <span>Gemini (Air)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♋</span>
-            <span>Cancer (Water)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♌</span>
-            <span>Leo (Fire)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♍</span>
-            <span>Virgo (Earth)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♎</span>
-            <span>Libra (Air)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♏</span>
-            <span>Scorpio (Water)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-red-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♐</span>
-            <span>Sagittarius (Fire)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-amber-700" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♑</span>
-            <span>Capricorn (Earth)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-blue-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♒</span>
-            <span>Aquarius (Air)</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2 text-indigo-500" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♓</span>
-            <span>Pisces (Water)</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="mb-6 pb-5 border-b border-gray-200">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Planet Symbols</h3>
-        <div class="text-xs text-gray-600 space-y-1">
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☉</span>
-            <span>Sun</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☽</span>
-            <span>Moon</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☿</span>
-            <span>Mercury</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♀</span>
-            <span>Venus</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♂</span>
-            <span>Mars</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♃</span>
-            <span>Jupiter</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♄</span>
-            <span>Saturn</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♅</span>
-            <span>Uranus</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♆</span>
-            <span>Neptune</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">♇</span>
-            <span>Pluto</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">☊</span>
-            <span>North Node</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">⚸</span>
-            <span>Black Moon Lilith</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">⚷</span>
-            <span>Chiron</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">⊗</span>
-            <span>Part of Fortune</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">Vx</span>
-            <span>Vertex</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">Asc</span>
-            <span>Ascendant</span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-lg mr-2" style="font-family: 'Noto Sans Symbols', Arial, sans-serif;">MC</span>
-            <span>Midheaven</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="mb-6 pb-5 border-b border-gray-200">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Aspect Lines</h3>
-        <div class="text-xs text-gray-600 space-y-1">
-          <div class="flex items-center">
-            <div class="w-4 h-px bg-red-500 mr-2"></div>
-            <span>Conjunction (0°)</span>
-          </div>
-          <div class="flex items-center">
-            <div class="w-4 h-px bg-red-600 mr-2"></div>
-            <span>Opposition (180°)</span>
-          </div>
-          <div class="flex items-center">
-            <div class="w-4 h-px bg-blue-500 mr-2"></div>
-            <span>Square (90°)</span>
-          </div>
-          <div class="flex items-center">
-            <div class="w-4 h-px bg-blue-600 mr-2"></div>
-            <span>Trine (120°)</span>
-          </div>
-          <div class="flex items-center">
-            <div class="w-4 h-px bg-green-500 mr-2"></div>
-            <span>Sextile (60°)</span>
-          </div>
-          <div class="flex items-center">
-            <div class="w-4 h-px bg-gray-400 mr-2"></div>
-            <span>Quincunx (150°)</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="mb-0">
-        <h3 class="text-base font-medium text-gray-700 mb-4">Instructions</h3>
-        <div class="text-xs text-gray-600 space-y-2">
-          <p>Hover over planets and aspects to see detailed interpretations.</p>
-          <p>Click the checkboxes to toggle different chart elements.</p>
-          <p>Update the chart data in the textarea above to see different charts.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> 
+</Sidebar.Provider> 
