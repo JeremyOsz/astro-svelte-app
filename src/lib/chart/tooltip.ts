@@ -3,7 +3,8 @@ import {
   PLANET_IN_SIGN_INTERPRETATIONS,
   SIGN_IN_HOUSE_INTERPRETATIONS,
   getDetailedAspectInterpretation,
-  PLANET_INTERPRETATIONS
+  PLANET_INTERPRETATIONS,
+  ASPECT_INTERPRETATIONS
 } from '../data/interpretations';
 
 let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>;
@@ -29,7 +30,7 @@ export function handleMouseOver(event: MouseEvent, d: any) {
   let interpretationHtml, title;
   if (d.aspect) { // It's an aspect
     title = `Aspect: ${d.planet1} ${d.aspect} ${d.planet2}`;
-    interpretationHtml = getAspectInterpretation(d.aspect, d.planet1, d.planet2);
+    interpretationHtml = getAspectInterpretation(d.aspect, d.planet1, d.planet2, d.orb);
   } else { // It's a planet
     title = `Planet: ${d.planet} in ${d.sign} (House ${d.house})`;
     interpretationHtml = getPlanetInterpretation(d.planet, d.sign, d.house);
@@ -71,12 +72,37 @@ function getPlanetInterpretation(planet: string, sign: string, house: number) {
   `;
 }
 
-function getAspectInterpretation(aspect: string, planet1: string, planet2: string) {
+function getAspectInterpretation(aspect: string, planet1: string, planet2: string, orbValue?: number) {
   const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
+  const aspectData = (ASPECT_INTERPRETATIONS as any)[aspect];
+  
+  let detailedInfo = '';
+  if (aspectData) {
+    const orbInfo = orbValue !== undefined ? `${orbValue.toFixed(2)}°` : aspectData.orb;
+    detailedInfo = `
+      <p><strong>Orb:</strong> ${orbInfo}</p>
+      <p><strong>Nature:</strong> ${aspectData.nature}</p>
+    `;
+  }
+  
+  // Split interpretation into general and specific parts
+  const interpretationParts = interpretation.split('\n\n');
+  const generalInterpretation = interpretationParts[0] || '';
+  const specificInterpretation = interpretationParts[1] || '';
+  
+  let interpretationHtml = '';
+  if (generalInterpretation) {
+    interpretationHtml += `<p><strong>General:</strong> ${generalInterpretation}</p>`;
+  }
+  if (specificInterpretation) {
+    interpretationHtml += `<p><strong>Specific:</strong> ${specificInterpretation}</p>`;
+  }
+  
   return `
     <div class="interpretation-content">
       <h3>${planet1} ${aspect} ${planet2}</h3>
-      <p>${interpretation}</p>
+      ${detailedInfo}
+      ${interpretationHtml}
     </div>
   `;
 }

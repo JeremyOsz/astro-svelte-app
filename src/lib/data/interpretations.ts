@@ -926,8 +926,11 @@ export function getDetailedAspectInterpretation(aspect: string, planet1: string,
     const aspectData = ASPECT_INTERPRETATIONS[aspect];
     if (!aspectData) return '';
 
-    const planetKey = `${planet1}_${planet2}`;
-    const interpretation = aspectData.planets[planetKey];
+    // Try both possible planet key combinations
+    const planetKey1 = `${planet1}_${planet2}`;
+    const planetKey2 = `${planet2}_${planet1}`;
+    
+    const interpretation = aspectData.planets[planetKey1] || aspectData.planets[planetKey2];
 
     if (interpretation) {
         return `${aspectData.general}\n\n${interpretation}`;
