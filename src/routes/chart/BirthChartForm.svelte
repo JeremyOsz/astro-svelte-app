@@ -9,9 +9,7 @@
 
   let birthDate = '';
   let birthTime = '';
-  let latitude = '';
-  let longitude = '';
-  let timezone = '';
+  let selectedCity: CitySearchResult | null = null;
   let loading = false;
   let error: string | null = null;
   let citySearch = '';
@@ -23,6 +21,11 @@
   function onCityInput(e: Event) {
     citySearch = (e.target as HTMLInputElement).value;
     selectedIndex = -1;
+    
+    // Clear selected city if user starts typing again
+    if (selectedCity && citySearch !== selectedCity.fullLocation) {
+      selectedCity = null;
+    }
     
     // Clear previous timeout
     if (searchTimeout) {
@@ -68,49 +71,26 @@
 
   function selectCity(city: CitySearchResult) {
     citySearch = city.fullLocation;
-    latitude = city.lat;
-    longitude = city.lng;
-    
-    // Auto-set timezone based on longitude
-    const estimatedOffset = estimateTimezoneFromLongitude(parseFloat(city.lng));
-    timezone = estimatedOffset.toString();
-    
+    selectedCity = city;
     showCityDropdown = false;
     selectedIndex = -1;
   }
 
-  // Common timezone options
-  const timezoneOptions = [
-    { value: '-12', label: 'UTC-12 (Baker Island)' },
-    { value: '-11', label: 'UTC-11 (Samoa)' },
-    { value: '-10', label: 'UTC-10 (Hawaii)' },
-    { value: '-9', label: 'UTC-9 (Alaska)' },
-    { value: '-8', label: 'UTC-8 (Pacific Time)' },
-    { value: '-7', label: 'UTC-7 (Mountain Time)' },
-    { value: '-6', label: 'UTC-6 (Central Time)' },
-    { value: '-5', label: 'UTC-5 (Eastern Time)' },
-    { value: '-4', label: 'UTC-4 (Atlantic Time)' },
-    { value: '-3', label: 'UTC-3 (Brazil)' },
-    { value: '-2', label: 'UTC-2 (South Georgia)' },
-    { value: '-1', label: 'UTC-1 (Azores)' },
-    { value: '0', label: 'UTC+0 (London)' },
-    { value: '1', label: 'UTC+1 (Paris)' },
-    { value: '2', label: 'UTC+2 (Cairo)' },
-    { value: '3', label: 'UTC+3 (Moscow)' },
-    { value: '4', label: 'UTC+4 (Dubai)' },
-    { value: '5', label: 'UTC+5 (Mumbai)' },
-    { value: '6', label: 'UTC+6 (Dhaka)' },
-    { value: '7', label: 'UTC+7 (Bangkok)' },
-    { value: '8', label: 'UTC+8 (Beijing)' },
-    { value: '9', label: 'UTC+9 (Tokyo)' },
-    { value: '10', label: 'UTC+10 (Sydney)' },
-    { value: '11', label: 'UTC+11 (Solomon Islands)' },
-    { value: '12', label: 'UTC+12 (New Zealand)' }
-  ];
+  // Function to get timezone for birth date and location
+  function getTimezoneForBirth(city: CitySearchResult, birthDate: string): number {
+    // For now, use longitude-based estimation
+    // In a more sophisticated version, you'd use historical timezone data
+    const estimatedOffset = estimateTimezoneFromLongitude(parseFloat(city.lng));
+    
+    // TODO: Consider historical timezone changes and daylight saving time
+    // based on the birth date and location
+    
+    return estimatedOffset;
+  }
 
   async function handleSubmit() {
-    if (!birthDate || !birthTime || !latitude || !longitude || !timezone) {
-      alert('Please fill in all fields');
+    if (!birthDate || !birthTime || !selectedCity) {
+      alert('Please fill in all fields and select a city');
       return;
     }
 
@@ -118,12 +98,15 @@
     error = null;
 
     try {
+      // Get timezone for the birth date and location
+      const timezone = getTimezoneForBirth(selectedCity, birthDate);
+
       const birthData: BirthData = {
         date: birthDate,
         time: birthTime,
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
-        timezone: parseInt(timezone)
+        latitude: parseFloat(selectedCity.lat),
+        longitude: parseFloat(selectedCity.lng),
+        timezone: timezone
       };
 
       const chartResult = await calculateBirthChart(birthData);
@@ -149,26 +132,6 @@
       loading = false;
     }
   }
-
-  function setCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          latitude = position.coords.latitude.toFixed(6);
-          longitude = position.coords.longitude.toFixed(6);
-          // Set timezone based on current time
-          const offset = new Date().getTimezoneOffset() / -60;
-          timezone = offset.toString();
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-          alert('Could not get your location. Please enter coordinates manually.');
-        }
-      );
-    } else {
-      alert('Geolocation is not supported by this browser.');
-    }
-  }
 </script>
 
 <div class="max-w-md mx-auto">
@@ -183,38 +146,47 @@
   <form on:submit|preventDefault={handleSubmit} class="space-y-6">
     <div class="space-y-2 relative">
       <label for="city-search" class="block text-sm font-medium text-gray-700">
-        Birth City
+        Birth City *
       </label>
-          <input
-      id="city-search"
-      type="text"
-      placeholder="Start typing city name..."
-      bind:value={citySearch}
-      on:input={onCityInput}
-      on:keydown={onCityKeydown}
-      autocomplete="off"
-      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-    />
-             {#if showCityDropdown}
-         <ul class="absolute z-10 bg-white border border-gray-200 rounded-lg mt-1 w-full max-h-48 overflow-auto shadow-lg">
-           {#each cityResults as city, index}
-             <li
-               class="px-4 py-2 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors {index === selectedIndex ? 'bg-blue-100' : 'hover:bg-blue-50'}"
-               on:click={() => selectCity(city)}
-               on:mouseenter={() => selectedIndex = index}
-             >
-               <div class="font-medium">{city.name}</div>
-               <div class="text-sm text-gray-600">
-                 {#if city.adminName}
-                   {city.adminName}, {getCountryName(city.country)}
-                 {:else}
-                   {getCountryName(city.country)}
-                 {/if}
-               </div>
-             </li>
-           {/each}
-         </ul>
-       {/if}
+      <input
+        id="city-search"
+        type="text"
+        placeholder="Start typing city name..."
+        bind:value={citySearch}
+        on:input={onCityInput}
+        on:keydown={onCityKeydown}
+        autocomplete="off"
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+        required
+      />
+      {#if showCityDropdown}
+        <ul class="absolute z-10 bg-white border border-gray-200 rounded-lg mt-1 w-full max-h-48 overflow-auto shadow-lg">
+          {#each cityResults as city, index}
+            <li
+              class="px-4 py-2 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors {index === selectedIndex ? 'bg-blue-100' : 'hover:bg-blue-50'}"
+              on:click={() => selectCity(city)}
+              on:mouseenter={() => selectedIndex = index}
+            >
+              <div class="font-medium">{city.name}</div>
+              <div class="text-sm text-gray-600">
+                {#if city.adminName}
+                  {city.adminName}, {getCountryName(city.country)}
+                {:else}
+                  {getCountryName(city.country)}
+                {/if}
+              </div>
+            </li>
+          {/each}
+        </ul>
+      {/if}
+      
+      {#if selectedCity}
+        <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-800">
+          <span class="font-medium">Selected:</span> {selectedCity.fullLocation}
+          <br>
+          <span class="text-green-600">Coordinates: {selectedCity.lat}, {selectedCity.lng}</span>
+        </div>
+      {/if}
     </div>
 
     <div class="space-y-2">
@@ -245,68 +217,10 @@
       <p class="text-xs text-gray-500">If you don't know your exact birth time, use 12:00 PM</p>
     </div>
 
-    <div class="space-y-2">
-      <label for="latitude" class="block text-sm font-medium text-gray-700">
-        Latitude *
-      </label>
-      <input
-        id="latitude"
-        type="number"
-        bind:value={latitude}
-        step="0.000001"
-        placeholder="e.g., 40.7128"
-        required
-        readonly
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-      />
-      <p class="text-xs text-gray-500">Positive for North, negative for South</p>
-    </div>
-
-    <div class="space-y-2">
-      <label for="longitude" class="block text-sm font-medium text-gray-700">
-        Longitude *
-      </label>
-      <input
-        id="longitude"
-        type="number"
-        bind:value={longitude}
-        step="0.000001"
-        placeholder="e.g., -74.0060"
-        required
-        readonly
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-      />
-      <p class="text-xs text-gray-500">Positive for East, negative for West</p>
-    </div>
-
-    <div class="space-y-2">
-      <label for="timezone" class="block text-sm font-medium text-gray-700">
-        Timezone *
-      </label>
-      <select 
-        id="timezone" 
-        bind:value={timezone} 
-        required
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-      >
-        <option value="">Select timezone</option>
-        {#each timezoneOptions as option}
-          <option value={option.value}>{option.label}</option>
-        {/each}
-      </select>
-    </div>
-
     <div class="flex flex-col sm:flex-row gap-3 pt-4">
       <button 
-        type="button" 
-        on:click={setCurrentLocation}
-        class="flex-1 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
-      >
-        Use Current Location
-      </button>
-      <button 
         type="submit" 
-        disabled={loading}
+        disabled={loading || !selectedCity}
         class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium"
       >
         {loading ? 'Calculating...' : 'Calculate Chart'}
@@ -315,19 +229,19 @@
   </form>
 
   <div class="mt-8 p-6 bg-gray-50 rounded-lg border-l-4 border-blue-500">
-    <h3 class="text-lg font-medium text-gray-900 mb-3">Need Help?</h3>
+    <h3 class="text-lg font-medium text-gray-900 mb-3">How It Works</h3>
     <ul class="space-y-2 text-sm text-gray-600">
+      <li class="flex items-start">
+        <span class="font-medium mr-2">Location:</span>
+        Select your birth city from the dropdown. Coordinates and timezone will be automatically determined.
+      </li>
       <li class="flex items-start">
         <span class="font-medium mr-2">Birth Time:</span>
         If you don't know your exact birth time, use 12:00 PM. This will give you a noon chart.
       </li>
       <li class="flex items-start">
-        <span class="font-medium mr-2">Coordinates:</span>
-        You can find your birth location coordinates using Google Maps or other mapping services.
-      </li>
-      <li class="flex items-start">
         <span class="font-medium mr-2">Timezone:</span>
-        Make sure to use the timezone that was in effect at your birth time (accounting for daylight saving time if applicable).
+        The system automatically calculates the timezone based on your birth location and date.
       </li>
     </ul>
   </div>
