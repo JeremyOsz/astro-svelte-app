@@ -26,12 +26,20 @@ export const POST: RequestHandler = async ({ request }) => {
     }
     
     // Test with a simple birth chart calculation
-    const testDate = new Date('1990-01-01T12:00:00');
-    const testLat = 40.7128; // New York
-    const testLng = -74.0060;
-    
+    // const melbourneBirthData = {
+    //   // Birth time: 1991-12-10 04:59 AEDT (UTC+11)
+    //   // UTC time: 1991-12-09 17:59 UTC
+    //   date: new Date('1991-12-09T17:59:00.000Z'),
+    //   latitude: -37.814,
+    //   longitude: 144.96332,
+    //   timezone: 11 // UTC+11 (AEDT)
+    // };
+    const testDate = new Date('1991-12-09T17:59:00.000Z');
+    const testLat = -37.814;
+    const testLng = 144.96332;
+
     const chart = await calculateBirthChart(testDate, testLat, testLng);
-    
+    console.log(chart);
     return json({
       success: true,
       message: 'Prokerala API integration working!',

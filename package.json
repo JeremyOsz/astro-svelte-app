@@ -55,10 +55,10 @@
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.11",
-		"astronomia": "^4.1.1",
 		"cities.json": "^1.1.50",
 		"d3": "^7.9.0",
 		"lucide-svelte": "^0.525.0",
-		"luxon": "^3.7.1"
+		"luxon": "^3.7.1",
+		"vsop87": "^1.0.5"
 	}
 }

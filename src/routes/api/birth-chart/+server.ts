@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { calculateBirthChart } from '$lib/astrology/prokerala-service';
+import { calculateBirthChart } from '$lib/astrology/astronomia-service';
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
@@ -30,7 +30,7 @@ export const POST: RequestHandler = async ({ request }) => {
       birthDate = new Date(`${date}T12:00:00`);
     }
     
-    const chart = calculateBirthChart(birthDate, latitude, longitude);
+    const chart = await calculateBirthChart(birthDate, latitude, longitude);
     
     return json(chart);
   } catch (error) {

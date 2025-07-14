@@ -1,0 +1,163 @@
+{
+  planets: [
+    {
+      name: 'Sun',
+      longitude: 233.41673998337944,
+      latitude: 0,
+      distance: 0,
+      sign: 'Vrischika',
+      degree: 23.416739983379443,
+      house: 12,
+      retrograde: false
+    },
+    {
+      name: 'Moon',
+      longitude: 272.5955753080806,
+      latitude: 0,
+      distance: 0,
+      sign: 'Makara',
+      degree: 2.5955753080805835,
+      house: 2,
+      retrograde: false
+    },
+    {
+      name: 'Mercury',
+      longitude: 230.72439610888912,
+      latitude: 0,
+      distance: 0,
+      sign: 'Vrischika',
+      degree: 20.724396108889124,
+      house: 12,
+      retrograde: true
+    },
+    {
+      name: 'Venus',
+      longitude: 190.25778158377258,
+      latitude: 0,
+      distance: 0,
+      sign: 'Tula',
+      degree: 10.257781583772584,
+      house: 11,
+      retrograde: false
+    },
+    {
+      name: 'Mars',
+      longitude: 223.86677802429523,
+      latitude: 0,
+      distance: 0,
+      sign: 'Vrischika',
+      degree: 13.866778024295229,
+      house: 12,
+      retrograde: false
+    },
+    {
+      name: 'Jupiter',
+      longitude: 140.176654877547,
+      latitude: 0,
+      distance: 0,
+      sign: 'Simha',
+      degree: 20.17665487754701,
+      house: 10,
+      retrograde: false
+    },
+    {
+      name: 'Saturn',
+      longitude: 279.8040898441054,
+      latitude: 0,
+      distance: 0,
+      sign: 'Makara',
+      degree: 9.80408984410542,
+      house: 2,
+      retrograde: false
+    },
+    {
+      name: 'Uranus',
+      longitude: 258.6450426035742,
+      latitude: 0,
+      distance: 0,
+      sign: 'Dhanu',
+      degree: 18.64504260357421,
+      house: 1,
+      retrograde: false
+    },
+    {
+      name: 'Neptune',
+      longitude: 261.6631057940928,
+      latitude: 0,
+      distance: 0,
+      sign: 'Dhanu',
+      degree: 21.663105794092814,
+      house: 1,
+      retrograde: false
+    },
+    {
+      name: 'Pluto',
+      longitude: 207.59253654691943,
+      latitude: 0,
+      distance: 0,
+      sign: 'Tula',
+      degree: 27.592536546919433,
+      house: 12,
+      retrograde: false
+    },
+    {
+      name: 'Chiron',
+      longitude: 105.59230746980413,
+      latitude: 0,
+      distance: 0,
+      sign: 'Karka',
+      degree: 15.592307469804126,
+      house: 8,
+      retrograde: true
+    },
+    {
+      name: 'Lilith',
+      longitude: 271.5023873459392,
+      latitude: 0,
+      distance: 0,
+      sign: 'Makara',
+      degree: 1.502387345939212,
+      house: 2,
+      retrograde: false
+    },
+    {
+      name: 'True Rahu',
+      longitude: 256.1380987182671,
+      latitude: 0,
+      distance: 0,
+      sign: 'Dhanu',
+      degree: 16.138098718267088,
+      house: 1,
+      retrograde: false
+    },
+    {
+      name: 'True Ketu',
+      longitude: 76.13809871826709,
+      latitude: 0,
+      distance: 0,
+      sign: 'Mithuna',
+      degree: 16.138098718267088,
+      house: 7,
+      retrograde: false
+    }
+  ],
+  houses: [
+    241.6654348888368,
+    266.1123396155055,
+    287.42066822537697,
+    310.2443212198905,
+    338.9457169585267,
+    17.685369520790232,
+    61.665434888836785,
+    86.1123396155055,
+    107.42066822537697,
+    130.2443212198905,
+    158.9457169585267,
+    197.6853695207902
+  ],
+  ascendant: 241.6654348888368,
+  mc: 130.2443212198905,
+  date: 1991-12-09T17:59:00.000Z,
+  latitude: -37.814,
+  longitude: 144.96332
+}
