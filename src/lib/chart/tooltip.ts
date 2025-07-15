@@ -58,9 +58,9 @@ export function handleClick(event: MouseEvent, d: any) {
     pinnedData = null;
     hideInterpretation();
   } else {
-    tooltipPinned = true;
     pinnedData = d;
-    handleMouseOver(event, d); // Show and pin the tooltip
+    handleMouseOver(event, d); // Show tooltip first
+    tooltipPinned = true;      // Then pin it so future hovers don't overwrite
   }
 }
 

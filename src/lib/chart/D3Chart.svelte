@@ -499,8 +499,8 @@
         .attr('r', isMobile ? 8 : 12) // Smaller hover radius
         .attr('fill', 'transparent')
         .style('cursor', 'pointer')
-        .on('mouseover', (event) => handleMouseOver(event, signData))
-        .on('mouseout', handleMouseOut)
+        .on('mouseover', (!isMobile ? ((event: any) => handleMouseOver(event, signData)) : null) as any)
+        .on('mouseout', (!isMobile ? handleMouseOut : null) as any)
         .on('click', (event) => handleClick(event, signData));
 
       // Add the sign symbol
@@ -644,8 +644,8 @@
         .attr('stroke', 'transparent')
         .attr('stroke-width', 15) // Wider for easier hovering
         .style('cursor', 'pointer')
-        .on('mouseover', (event) => handleMouseOver(event, aspect))
-        .on('mouseout', handleMouseOut)
+        .on('mouseover', (!isMobile ? ((event: any) => handleMouseOver(event, aspect)) : null) as any)
+        .on('mouseout', (!isMobile ? handleMouseOut : null) as any)
         .on('click', (event) => handleClick(event, aspect));
     });
   }
@@ -682,8 +682,8 @@
           .attr('fill', p.isRetrograde ? '#e53935' : '#333')
           .style('cursor', 'pointer')
           .text(planetSymbols[p.planet])
-          .on('mouseover', (event) => handleMouseOver(event, p))
-          .on('mouseout', handleMouseOut)
+          .on('mouseover', (!isMobile ? ((event: any) => handleMouseOver(event, p)) : null) as any)
+          .on('mouseout', (!isMobile ? handleMouseOut : null) as any)
           .on('click', (event) => handleClick(event, p));
 
         if (showPlanetLabels) {
