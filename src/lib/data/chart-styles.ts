@@ -25,14 +25,14 @@ export const CHART_LAYOUT = {
       aspectHubRadius: 120
     },
     MOBILE: {
-      chartSize: 300,
-      zodiacOuterRadius: 150,
-      zodiacInnerRadius: 130,
-      planetRingRadius: 115,
+      chartSize: 350,
+      zodiacOuterRadius: 170,
+      zodiacInnerRadius: 140,
+      planetRingRadius: 125,
       labelRadius: 100,
-      houseLineInnerRadius: 75,
-      houseNumRadius: 80,
-      aspectHubRadius: 75
+      houseLineInnerRadius: 100,
+      houseNumRadius: 110,
+      aspectHubRadius: 100
     }
   } as const;
   

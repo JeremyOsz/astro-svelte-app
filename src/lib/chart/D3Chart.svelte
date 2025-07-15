@@ -518,6 +518,9 @@
 
     // Degree tick marks
     for (let i = 0; i < 360; i++) {
+      // Hide most degree tick marks on mobile; keep only sign dividers
+      if (isMobile && i % 30 !== 0) continue;
+
       const angle = (180 - (i - house1CuspAngle)) * Math.PI / 180;
       let tickLength = 4;
       let stroke = '#ddd';
@@ -531,6 +534,12 @@
         tickLength = 5; stroke = '#ddd'; strokeWidth = 1;
       } else if (!showDegreeMarkers) {
         continue;
+      }
+
+      // Reduce tick size and thickness on mobile for a cleaner look
+      if (isMobile) {
+        tickLength *= 0.7;
+        strokeWidth *= 0.7;
       }
 
       const x1 = Math.cos(angle) * (zodiacInnerRadius);
@@ -596,7 +605,7 @@
   }
 
   function drawAspects(g: d3.Selection<SVGGElement, unknown, null, undefined>, house1CuspAngle: number) {
-    const { aspects, data } = get(chartState);
+    const { aspects, data, isMobile } = get(chartState);
     const { aspectHubRadius } = get(chartDimensions);
 
     g.append('circle')
@@ -621,7 +630,7 @@
         .attr('x2', Math.cos(angle2) * aspectHubRadius)
         .attr('y2', Math.sin(angle2) * aspectHubRadius)
         .attr('stroke', aspect.color)
-        .attr('stroke-width', aspect.weight)
+        .attr('stroke-width', isMobile ? aspect.weight * 0.6 : aspect.weight)
         .attr('stroke-dasharray', aspect.style === 'dotted' ? '1,3' : aspect.style === 'dashed' ? '4,4' : 'none')
         .style('pointer-events', 'none');
 
@@ -690,7 +699,7 @@
               .attr('x2', Math.cos(angleRad) * (planetRingRadius + (isMobile ? 10 : 20)))
               .attr('y2', Math.sin(angleRad) * (planetRingRadius + (isMobile ? 10 : 20)))
               .attr('stroke', '#000')
-              .attr('stroke-width', 1);
+              .attr('stroke-width', isMobile ? 0.8 : 1);
 
           const labelGroup = group.append('g')
             .attr('class', 'planet-label-group')
@@ -908,5 +917,27 @@
 
 :global(.interpretation-content p:last-child) {
   margin-bottom: 0;
+}
+
+/* --- Mobile responsiveness tweaks --- */
+@media (max-width: 767px) {
+  .chart-container {
+    min-height: 360px;
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+  }
+
+  /* Ensure the SVG scales to container width */
+  .chart-container svg {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Smaller tooltip on mobile */
+  :global(.chart-tooltip) {
+    min-width: 260px;
+    max-width: 320px;
+  }
 }
 </style> 
