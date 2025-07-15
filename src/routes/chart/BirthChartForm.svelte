@@ -22,7 +22,8 @@
   let birthTime = '';
   let selectedCityData: any = null;
   let formError = ''; // Client-side form validation error
-
+  let cityInputBlurred = false;
+  
   function onCityInput(e: Event) {
     citySearch = (e.target as HTMLInputElement).value;
     selectedIndex = -1;
@@ -241,11 +242,12 @@
         bind:value={citySearch}
         on:input={onCityInput}
         on:keydown={onCityKeydown}
+        on:blur={() => cityInputBlurred = true}
         autocomplete="off"
         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors {selectedCityData ? 'border-green-300 bg-green-50' : citySearch ? 'border-yellow-300 bg-yellow-50' : 'border-gray-300'}"
         required
       />
-      {#if citySearch && !selectedCityData}
+      {#if citySearch && !selectedCityData && !showCityDropdown && cityInputBlurred}
         <p class="text-sm text-yellow-600 mt-1">Please select a city from the dropdown above</p>
       {/if}
       <input 
