@@ -13,6 +13,11 @@
   let searchTimeout: ReturnType<typeof setTimeout> | null = null;
   let selectedIndex = -1;
   let timezoneInfo: { timezone: string; offset: number; isDST: boolean } | null = null;
+  
+  // Form state to preserve values
+  let birthDate = '';
+  let birthTime = '';
+  let selectedCityData: any = null;
 
   function onCityInput(e: Event) {
     citySearch = (e.target as HTMLInputElement).value;
@@ -65,19 +70,21 @@
     showCityDropdown = false;
     selectedIndex = -1;
     
+    // Store city data
+    selectedCityData = {
+      name: city.name,
+      fullLocation: city.fullLocation,
+      lat: city.lat,
+      lng: city.lng,
+      country: city.country,
+      adminName: city.adminName
+    };
+    
     // Update hidden input with city data
     const cityInput = document.getElementById('city-data') as HTMLInputElement;
     if (cityInput) {
-      const cityData = {
-        name: city.name,
-        fullLocation: city.fullLocation,
-        lat: city.lat,
-        lng: city.lng,
-        country: city.country,
-        adminName: city.adminName
-      };
-      cityInput.value = JSON.stringify(cityData);
-      console.log('City selected:', cityData);
+      cityInput.value = JSON.stringify(selectedCityData);
+      console.log('City selected:', selectedCityData);
     }
     
     // Update timezone info
@@ -85,29 +92,20 @@
   }
 
   function updateTimezoneInfo(city: CitySearchResult) {
-    const birthDateInput = document.getElementById('birth-date') as HTMLInputElement;
-    const birthTimeInput = document.getElementById('birth-time') as HTMLInputElement;
-    
-    if (birthDateInput?.value && birthTimeInput?.value) {
+    if (birthDate && birthTime) {
       timezoneInfo = getBirthTimezone(
         parseFloat(city.lat),
         parseFloat(city.lng),
-        birthDateInput.value,
-        birthTimeInput.value
+        birthDate,
+        birthTime
       );
     }
   }
 
   // Update timezone info when birth date or time changes
   function onDateTimeChange() {
-    const cityInput = document.getElementById('city-data') as HTMLInputElement;
-    if (cityInput?.value) {
-      try {
-        const city = JSON.parse(cityInput.value);
-        updateTimezoneInfo(city);
-      } catch (e) {
-        // Invalid JSON, ignore
-      }
+    if (selectedCityData && birthDate && birthTime) {
+      updateTimezoneInfo(selectedCityData);
     }
   }
 </script>
@@ -245,6 +243,7 @@
         id="birth-date"
         type="date"
         name="birthDate"
+        bind:value={birthDate}
         on:change={onDateTimeChange}
         required
         max={new Date().toISOString().split('T')[0]}
@@ -260,6 +259,7 @@
         id="birth-time"
         type="time"
         name="birthTime"
+        bind:value={birthTime}
         on:change={onDateTimeChange}
         required
         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"

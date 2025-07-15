@@ -341,8 +341,7 @@
     // Calculate aspects
     const aspects = calculateAspects(parsedData);
 
-    console.log('D3Chart: Updating chart state with', parsedData.length, 'planets');
-    console.log('D3Chart: First few planets in state:', parsedData.slice(0, 3).map(p => `${p.planet}: ${p.sign} ${p.degree}°${p.minute}'`));
+
     
     chartState.update(state => ({
       ...state,
@@ -352,9 +351,7 @@
     }));
     
     // Create chart after state is updated
-    console.log('D3Chart: About to create chart with new data');
     createChart();
-    console.log('D3Chart: Chart creation completed');
   }
 
   function calculateAspects(planets: PlanetData[]) {
@@ -397,8 +394,7 @@
     const { showAspectLines, showPlanetLabels } = get(chartSettings);
     const { data, houseCusps, aspects } = get(chartState);
 
-    console.log('D3Chart: Chart state data count:', data.length);
-    console.log('D3Chart: Chart state first few planets:', data.slice(0, 3).map((p: PlanetData) => `${p.planet}: ${p.sign} ${p.degree}°${p.minute}'`));
+
     
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
     if (!asc) {
@@ -674,8 +670,7 @@
       planetsToDraw = planetsToDraw.filter((p: PlanetData) => !extendedPlanetNames.includes(p.planet));
     }
 
-    console.log('D3Chart: Drawing planets - count:', planetsToDraw.length);
-    console.log('D3Chart: First few planets to draw:', planetsToDraw.slice(0, 3).map(p => `${p.planet}: ${p.sign} ${p.degree}°${p.minute}' at angle ${p.visualDegree}`));
+
 
          // Simple approach: create planet groups directly without D3 data binding
      planetsToDraw.forEach((p: PlanetData) => {
@@ -683,7 +678,7 @@
        const displayAngle = (180 - (p.visualDegree - ascAngle));
        const angleRad = displayAngle * Math.PI / 180;
 
-       console.log(`D3Chart: Creating planet ${p.planet} at angle ${p.visualDegree} (display: ${displayAngle})`);
+
 
        // Planet glyph
        group.append('text')

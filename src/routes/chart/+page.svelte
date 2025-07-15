@@ -55,6 +55,14 @@ Vertex,Aries,29°44'
 ASC,Sagittarius,1°40'
 MC,Leo,10°14'`;
 
+  // Store for manual chart data input - make it reactive to chart store
+  let textareaStore = '';
+  
+  // Update textarea when chart store changes (but only if it's different to avoid loops)
+  $: if ($chartStore.chartData && $chartStore.chartData !== textareaStore) {
+    textareaStore = $chartStore.chartData;
+  }
+
   // Check if device is mobile
   $: if (typeof window !== 'undefined') {
     isMobile = window.innerWidth < 768;
@@ -250,24 +258,37 @@ MC,Leo,10°14'`;
                 </Button>
               </div>
               
-              <!-- <div>
+              <div>
                 <label class="text-sm font-medium text-gray-700 mb-2 block">Chart Data</label>
                 <p class="text-sm text-gray-600 mb-2">For testing - Copy and paste your chart data from astro-seek - on your chart page click 'copy positions' and paste here</p>
                 <p class="text-sm text-gray-600 mb-2">Changing the string will change the chart</p>
+                <div class="flex gap-2 mb-2">
+                  <Button variant="outline" size="sm" onclick={() => textareaStore = mockChartData}>
+                    Load Test Data
+                  </Button>
+                  <Button variant="outline" size="sm" onclick={() => textareaStore = ''}>
+                    Clear
+                  </Button>
+                </div>
                 <textarea 
                   class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
-                  bind:value={$textareaStore}
+                  bind:value={textareaStore}
                   on:input={() => {
-                    if ($textareaStore.trim()) {
-                      chartStore.setChartData($textareaStore);
-                    } else {
+                    console.log('Textarea input:', textareaStore);
+                    // Only update store if the data is actually different to avoid loops
+                    if (textareaStore.trim() && textareaStore !== $chartStore.chartData) {
+                      chartStore.setChartData(textareaStore);
+                    } else if (!textareaStore.trim() && $chartStore.chartData) {
                       chartStore.clear();
                     }
                   }}
                   placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
                   rows="8"
                 ></textarea>
-              </div> -->
+                <div class="text-xs text-gray-500 mt-1">
+                  Current value: {textareaStore ? textareaStore.substring(0, 50) + '...' : 'empty'}
+                </div>
+              </div>
             </div>
           </div>
         </div>
