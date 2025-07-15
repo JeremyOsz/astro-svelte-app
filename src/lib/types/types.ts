@@ -28,3 +28,18 @@ export interface BirthChart {
   latitude: number;
   longitude: number;
 }
+
+export interface TransitData {
+  planet: string;
+  currentLongitude: number;
+  currentSign: string;
+  currentDegree: number;
+  natalLongitude: number;
+  natalSign: string;
+  natalDegree: number;
+  aspect?: {
+    type: string;
+    orb: number;
+    exact: boolean;
+  };
+}

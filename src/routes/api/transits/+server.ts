@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { SwissEphemerisService } from '$lib/astrology/swiss-ephemeris-service';
-import type { BirthChart } from '$lib/astrology/astronomia-service';
+import type { BirthChart } from '$lib/types/types';
 
 export const POST: RequestHandler = async ({ request }) => {
   try {

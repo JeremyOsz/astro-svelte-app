@@ -74,4 +74,33 @@ export const QUALITY_COLORS = {
   Cardinal: '#e91e63',
   Fixed: '#9c27b0',
   Mutable: '#3f51b5'
-}; 
+};
+
+export function getDegreeInSign(degree: number): number {
+  return (degree % 30);
+}
+
+export function calculateAspect(long1: number, long2: number): { type: string; orb: number; exact: boolean } | undefined {
+  const diff = Math.abs(long1 - long2);
+  const orb = Math.min(diff, 360 - diff);
+  
+  const aspects = [
+    { type: 'Conjunction', degrees: 0, orb: 8 },
+    { type: 'Sextile', degrees: 60, orb: 4 },
+    { type: 'Square', degrees: 90, orb: 8 },
+    { type: 'Trine', degrees: 120, orb: 8 },
+    { type: 'Opposition', degrees: 180, orb: 8 }
+  ];
+  
+  for (const aspect of aspects) {
+    if (Math.abs(orb - aspect.degrees) <= aspect.orb) {
+      return {
+        type: aspect.type,
+        orb: Math.abs(orb - aspect.degrees),
+        exact: Math.abs(orb - aspect.degrees) <= 1
+      };
+    }
+  }
+  
+  return undefined;
+} 

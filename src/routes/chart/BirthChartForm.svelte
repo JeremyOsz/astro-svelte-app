@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import type { BirthData } from '$lib/types/types';
   import { calculateBirthChart, formatDegrees } from '$lib/chart/browser-chart';
-  import { getSignByDegree } from '$lib/astrology/astronomia-service';
+  import { getSignByDegree } from '$lib/astrology/astrology';
   import { searchCities, getCountryName, type CitySearchResult } from '$lib/services/city-service';
   import { getBirthTimezone, formatTimezoneOffset } from '$lib/services/timezone-service';
 

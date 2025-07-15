@@ -1,4 +1,4 @@
-import type { BirthChart, PlanetPosition } from './astronomia-service';
+import type { BirthChart, PlanetPosition } from "$lib/types/types";
 
 interface SwissEphemerisBirthData {
   date: string;
