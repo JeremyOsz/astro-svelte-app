@@ -2,9 +2,10 @@
   import { enhance } from '$app/forms';
   import { searchCities, getCountryName, type CitySearchResult } from '$lib/services/city-service';
   import { getBirthTimezone, formatTimezoneOffset } from '$lib/services/timezone-service';
-
-  export let chartData: string | null = null;
-  export let error: string | null = null;
+  import { chartStore } from '$lib/stores/chart-store';
+  
+  // Subscribe to the chart store
+  $: ({ chartData, error } = $chartStore);
 
   let citySearch = '';
   let cityResults: CitySearchResult[] = [];
@@ -141,24 +142,26 @@
         if (result.type === 'success' && result.data) {
           console.log('Form action data:', result.data);
           
-          // Handle the chart data directly from the form action result
-          if (result.data.chartData) {
-            // Dispatch a custom event to update the chart
-            const event = new CustomEvent('chartDataUpdate', {
-              detail: {
-                chartData: result.data.chartData,
-                error: result.data.error
-              }
-            });
-            document.dispatchEvent(event);
-            console.log('Dispatched chartDataUpdate event');
+          // Update the store with the chart data
+          if (result.data && typeof result.data === 'object' && 'chartData' in result.data) {
+            const data = result.data as { chartData?: string; error?: string };
+            if (data.chartData) {
+              chartStore.setChartData(data.chartData);
+              console.log('Updated chart store with data:', data.chartData);
+            }
           }
           
-          // Update the page
+          // Update the page data
           await update();
           console.log('Page updated with new data');
         } else if (result.type === 'failure') {
           console.error('Form failed:', result.data);
+          if (result.data && typeof result.data === 'object' && 'error' in result.data) {
+            const data = result.data as { error?: string };
+            if (data.error) {
+              chartStore.setError(data.error);
+            }
+          }
         }
       };
     }}

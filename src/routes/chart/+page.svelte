@@ -8,13 +8,17 @@
   import { Button } from "$lib/components/ui/button";
   import { PanelLeft, Settings, X } from 'lucide-svelte';
   import type { PageData } from './$types';
+  import { chartStore } from '$lib/stores/chart-store';
+
+  // Create a writable store for the textarea
+  const textareaStore = writable('');
 
   export let data: PageData;
 
   let chartComponent: D3Chart;
-  let chartData: string = data.chartData || '';
-  let error: string | null = data.error || null;
   let showChart = false;
+  let chartData: string | null = null;
+  let error: string | null = null;
 
   // Chart settings
   let showDegreeMarkers = true;
@@ -62,48 +66,20 @@ MC,Leo,10°14'`;
     isMobile = window.innerWidth < 768;
   }
 
-  // Update chart data when data changes
-  $: {
-    console.log('Data prop changed:', data);
-    console.log('chartData from data:', data.chartData);
-    console.log('error from data:', data.error);
+  // Subscribe to the chart store
+  $: ({ chartData, error, isLoading } = $chartStore);
+  
+  // Update textarea when chart data changes
+  $: if (chartData && chartData !== $textareaStore) {
+    textareaStore.set(chartData);
   }
-
-  $: if (data.chartData) {
-    try {
-      // The server action now returns a formatted string, not JSON
-      const formattedChartData = data.chartData as string;
-      console.log('Received chart data from server:', formattedChartData);
-      
-      if (formattedChartData && typeof formattedChartData === 'string' && formattedChartData.trim()) {
-        chartData = formattedChartData;
-        chartDataStore.set(formattedChartData);
-        showChart = true;
-        console.log('Chart data updated, showing chart');
-        console.log('chartDataStore value:', $chartDataStore);
-      } else {
-        console.error('Empty chart data received');
-        error = 'No chart data received from API';
-        showChart = false;
-      }
-    } catch (parseError) {
-      console.error('Error processing chart data:', parseError);
-      error = 'Error processing chart data';
-      showChart = false;
-    }
-  }
-
-  $: if (data.error) {
-    error = data.error;
-    // Clear chart data when there's an error
-    chartData = '';
-    chartDataStore.set('');
+  
+  // Update showChart based on chart data
+  $: if (chartData && chartData.trim()) {
+    showChart = true;
+    console.log('Chart data available, showing chart:', chartData);
+  } else {
     showChart = false;
-  }
-
-  // Clear error when new chart data is successfully processed
-  $: if (data.chartData && !data.error) {
-    error = null;
   }
 
   onMount(() => {
@@ -132,41 +108,21 @@ MC,Leo,10°14'`;
     window.addEventListener('resize', handleResize);
     handleResize(); // Initial check
 
-    // Listen for chart data updates from form actions
-    const handleChartDataUpdate = (event: CustomEvent) => {
-      console.log('Received chartDataUpdate event:', event.detail);
-      const { chartData: newChartData, error: newError } = event.detail;
-      
-      if (newChartData) {
-        chartData = newChartData;
-        chartDataStore.set(newChartData);
-        showChart = true;
-        error = null;
-        console.log('Chart data updated via event');
-      }
-      
-      if (newError) {
-        error = newError;
-        showChart = false;
-      }
-    };
 
-    document.addEventListener('chartDataUpdate', handleChartDataUpdate as EventListener);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      document.removeEventListener('chartDataUpdate', handleChartDataUpdate as EventListener);
     };
   });
 
   function loadTestData() {
-    chartDataStore.set(mockChartData);
-    showChart = true;
+    chartStore.setChartData(mockChartData);
+    textareaStore.set(mockChartData);
   }
 
   function clearChart() {
-    chartDataStore.set('');
-    showChart = false;
+    chartStore.clear();
+    textareaStore.set('');
   }
 
   // Resize handlers
@@ -291,7 +247,7 @@ MC,Leo,10°14'`;
           <!-- Birth Chart Form -->
           <div>
             <h3 class="text-lg font-semibold text-gray-800 mb-3">Birth Details</h3>
-            <BirthChartForm {chartData} {error} />
+            <BirthChartForm />
           </div>
 
           <!-- Test Data Section -->
@@ -313,7 +269,14 @@ MC,Leo,10°14'`;
                 <p class="text-sm text-gray-600 mb-2">Changing the string will change the chart</p>
                 <textarea 
                   class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
-                  bind:value={$chartDataStore}
+                  bind:value={$textareaStore}
+                  on:input={() => {
+                    if ($textareaStore.trim()) {
+                      chartStore.setChartData($textareaStore);
+                    } else {
+                      chartStore.clear();
+                    }
+                  }}
                   placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
                   rows="8"
                 ></textarea>
@@ -712,7 +675,7 @@ MC,Leo,10°14'`;
           <div class="bg-white rounded-lg shadow-md p-2 sm:p-4 h-full">
             <D3Chart 
               bind:this={chartComponent}
-              chartData={$chartDataStore}
+              chartData={chartData || ''}
               {showDegreeMarkers}
               {showExtendedPlanets}
               {showAspectLines}

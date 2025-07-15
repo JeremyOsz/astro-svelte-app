@@ -93,6 +93,8 @@ function transformChartData(apiResponse: any): string {
     'Part of Fortune': 'Fortune'
   };
   
+
+  
   // Extract planets from the objects
   if (apiResponse.objects) {
     console.log('Found objects, processing...');
