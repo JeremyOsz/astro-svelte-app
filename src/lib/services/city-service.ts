@@ -123,18 +123,7 @@ export function getCityByNameAndCountry(name: string, country: string): City | n
   return city || null;
 }
 
-/**
- * Get timezone offset estimate based on longitude
- * This is a rough estimate - for production use a proper timezone API
- * @param longitude - Longitude coordinate
- * @returns Estimated timezone offset in hours
- */
-export function estimateTimezoneFromLongitude(longitude: number): number {
-  // Rough estimation: 15 degrees per hour
-  const offset = Math.round(longitude / 15);
-  // Clamp to valid timezone range
-  return Math.max(-12, Math.min(12, offset));
-}
+// Removed estimateTimezoneFromLongitude, no longer needed
 
 /**
  * Clear the search cache (useful for memory management)
