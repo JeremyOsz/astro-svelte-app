@@ -1,7 +1,16 @@
 import { writable } from 'svelte/store';
 
+export interface BirthData {
+  date: string;
+  time: string;
+  place: string;
+  latitude: number;
+  longitude: number;
+}
+
 export interface ChartState {
   chartData: string | null;
+  birthData: BirthData | null;
   error: string | null;
   isLoading: boolean;
   version: number; // Add version number for reactivity
@@ -10,6 +19,7 @@ export interface ChartState {
 function createChartStore() {
   const { subscribe, set, update } = writable<ChartState>({
     chartData: null,
+    birthData: null,
     error: null,
     isLoading: false,
     version: 0
@@ -17,10 +27,11 @@ function createChartStore() {
 
   return {
     subscribe,
-    setChartData: (chartData: string) => {
+    setChartData: (chartData: string, birthData?: BirthData) => {
       update(state => ({
         ...state,
         chartData,
+        birthData: birthData || state.birthData,
         error: null,
         isLoading: false,
         version: state.version + 1 // Increment version to force reactivity
@@ -45,6 +56,7 @@ function createChartStore() {
     clear: () => {
       set({
         chartData: null,
+        birthData: null,
         error: null,
         isLoading: false,
         version: 0

@@ -114,7 +114,33 @@
 
   {#if chartData}
     <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
-      <strong>Success!</strong> Birth chart calculated successfully.
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-green-800">
+            Birth Chart Calculated Successfully
+          </h3>
+          {#if $chartStore.birthData}
+            <div class="mt-2 text-sm text-green-700">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <span class="font-medium">Date:</span> {$chartStore.birthData.date}
+                </div>
+                <div>
+                  <span class="font-medium">Time:</span> {$chartStore.birthData.time}
+                </div>
+                <div class="sm:col-span-2">
+                  <span class="font-medium">Location:</span> {$chartStore.birthData.place}
+                </div>
+              </div>
+            </div>
+          {/if}
+        </div>
+      </div>
     </div>
   {/if}
   
@@ -185,12 +211,21 @@
         if (result.type === 'success' && result.data) {
           console.log('Form action data:', result.data);
           
-          // Update the store with the chart data
+          // Update the store with the chart data and birth data
           if (result.data && typeof result.data === 'object') {
-            const data = result.data as { chartData?: string; error?: string };
+            const data = result.data as { chartData?: string; birthData?: any; error?: string };
             if (data.chartData) {
-              chartStore.setChartData(data.chartData);
-              console.log('Updated chart store with data:', data.chartData);
+              // Create birth data object from form data
+              const birthData = {
+                date: birthDate,
+                time: birthTime,
+                place: selectedCityData?.fullLocation || '',
+                latitude: selectedCityData?.lat ? parseFloat(selectedCityData.lat) : 0,
+                longitude: selectedCityData?.lng ? parseFloat(selectedCityData.lng) : 0
+              };
+              
+              chartStore.setChartData(data.chartData, birthData);
+              console.log('Updated chart store with data:', data.chartData, 'and birth data:', birthData);
             } else if (data.error) {
               chartStore.setError(data.error);
             }
@@ -226,7 +261,7 @@
         on:keydown={onCityKeydown}
         on:blur={() => cityInputBlurred = true}
         autocomplete="off"
-        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors {selectedCityData ? 'border-green-300 bg-green-50' : citySearch ? 'border-yellow-300 bg-yellow-50' : 'border-gray-300'}"
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors {citySearch ? 'border-yellow-300 bg-yellow-50' : 'border-gray-300'}"
         required
       />
       {#if citySearch && !selectedCityData && !showCityDropdown && cityInputBlurred}

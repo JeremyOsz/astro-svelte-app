@@ -92,9 +92,19 @@ export const actions: Actions = {
       
       console.log('Transformed chart data:', chartData);
       
-      // Return success with the chart data
+      // Create birth data object
+      const birthData = {
+        date: birthDate,
+        time: birthTime,
+        place: cityData.fullLocation,
+        latitude: parseFloat(cityData.lat),
+        longitude: parseFloat(cityData.lng)
+      };
+      
+      // Return success with the chart data and birth data
       return {
         chartData,
+        birthData,
         error: null
       };
       
