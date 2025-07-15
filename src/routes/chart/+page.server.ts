@@ -37,6 +37,8 @@ export const actions: Actions = {
         house_system: 'whole_sign'
       };
       
+      console.log('Sending API request with data:', JSON.stringify(apiData, null, 2));
+      
       // Call the external API
       const response = await fetch('http://127.0.0.1:8001/birth-chart', {
         method: 'POST',
@@ -53,6 +55,7 @@ export const actions: Actions = {
       
       const chartResult = await response.json();
       
+      console.log('API Response Status:', response.status);
       console.log('Raw API response:', JSON.stringify(chartResult, null, 2));
       console.log('API response keys:', Object.keys(chartResult));
       
@@ -68,7 +71,6 @@ export const actions: Actions = {
       
       // Return success with the chart data
       return {
-        success: true,
         chartData,
         error: null
       };
@@ -85,15 +87,13 @@ export const actions: Actions = {
 
 function transformChartData(apiResponse: any): string {
   console.log('Transforming API response:', apiResponse);
-  const lines: string[] = [];
+  const planetLines: string[] = [];
   
   // Name mappings for the chart component
   const nameMappings: Record<string, string> = {
     'North Node': 'Node',
     'Part of Fortune': 'Fortune'
   };
-  
-
   
   // Extract planets from the objects
   if (apiResponse.objects) {
@@ -106,6 +106,12 @@ function transformChartData(apiResponse: any): string {
       if (object.name && object.longitude && object.longitude.raw !== undefined) {
         console.log('Valid object found:', object.name);
         let name = object.name;
+        
+        // Skip house cusps - they will be handled separately
+        if (name.includes('House')) {
+          console.log('Skipping house cusp:', name);
+          return;
+        }
         
         // Apply name mapping if needed
         if (nameMappings[name]) {
@@ -131,8 +137,8 @@ function transformChartData(apiResponse: any): string {
           line += ',R';
         }
         
-        lines.push(line);
-        console.log('Added line:', line);
+        planetLines.push(line);
+        console.log('Added planet line:', line);
       } else {
         console.log('Skipping object - missing required fields:', {
           hasName: !!object.name,
@@ -156,7 +162,7 @@ function transformChartData(apiResponse: any): string {
     const sign = zodiacSigns[signIndex];
     
     const ascLine = `ASC,${sign},${degrees}°${minutes.toString().padStart(2, '0')}'`;
-    lines.push(ascLine);
+    planetLines.push(ascLine);
     console.log('Added ASC line:', ascLine);
   }
   
@@ -171,13 +177,16 @@ function transformChartData(apiResponse: any): string {
     const sign = zodiacSigns[signIndex];
     
     const mcLine = `MC,${sign},${degrees}°${minutes.toString().padStart(2, '0')}'`;
-    lines.push(mcLine);
+    planetLines.push(mcLine);
     console.log('Added MC line:', mcLine);
   }
   
-  console.log('Final chart data lines:', lines);
-  return lines.join('\n');
+  // Combine planets and angles only (let D3Chart handle house cusps automatically)
+  console.log('Final chart data lines:', planetLines);
+  return planetLines.join('\n');
 }
+
+
 
 function formatDegrees(decimal: number): string {
   const deg = Math.floor(decimal);

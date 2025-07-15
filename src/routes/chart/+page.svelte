@@ -10,14 +10,10 @@
   import type { PageData } from './$types';
   import { chartStore } from '$lib/stores/chart-store';
 
-  // Create a writable store for the textarea
-  const textareaStore = writable('');
-
   export let data: PageData;
 
   let chartComponent: D3Chart;
   let showChart = false;
-  let chartData: string | null = null;
   let error: string | null = null;
 
   // Chart settings
@@ -58,8 +54,6 @@ Fortune,Libra,22°29'
 Vertex,Aries,29°44'
 ASC,Sagittarius,1°40'
 MC,Leo,10°14'`;
-  
-  const chartDataStore = writable(chartData || mockChartData);
 
   // Check if device is mobile
   $: if (typeof window !== 'undefined') {
@@ -67,28 +61,25 @@ MC,Leo,10°14'`;
   }
 
   // Subscribe to the chart store
-  $: ({ chartData, error, isLoading } = $chartStore);
-  
-  // Update textarea when chart data changes
-  $: if (chartData && chartData !== $textareaStore) {
-    textareaStore.set(chartData);
-  }
+  $: ({ chartData: storeChartData, error, isLoading } = $chartStore);
+  console.log('Chart store updated:', { storeChartData, error, isLoading });
   
   // Update showChart based on chart data
-  $: if (chartData && chartData.trim()) {
+  $: if (storeChartData && storeChartData.trim()) {
     showChart = true;
-    console.log('Chart data available, showing chart:', chartData);
+    console.log('Chart data available, showing chart');
   } else {
     showChart = false;
+    console.log('No chart data, hiding chart');
   }
 
   onMount(() => {
-    // Load test data by default if no chart data
-    if (!chartData) {
-      loadTestData();
-    } else {
-      showChart = true;
-    }
+    // Don't auto-load test data - let user submit form instead
+    // if (!storeChartData) {
+    //   loadTestData();
+    // } else {
+    //   showChart = true;
+    // }
     
     // Load saved sidebar width from localStorage
     const savedWidth = localStorage.getItem('sidebarWidth');
@@ -108,8 +99,6 @@ MC,Leo,10°14'`;
     window.addEventListener('resize', handleResize);
     handleResize(); // Initial check
 
-
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -117,12 +106,10 @@ MC,Leo,10°14'`;
 
   function loadTestData() {
     chartStore.setChartData(mockChartData);
-    textareaStore.set(mockChartData);
   }
 
   function clearChart() {
     chartStore.clear();
-    textareaStore.set('');
   }
 
   // Resize handlers
@@ -263,7 +250,7 @@ MC,Leo,10°14'`;
                 </Button>
               </div>
               
-              <div>
+              <!-- <div>
                 <label class="text-sm font-medium text-gray-700 mb-2 block">Chart Data</label>
                 <p class="text-sm text-gray-600 mb-2">For testing - Copy and paste your chart data from astro-seek - on your chart page click 'copy positions' and paste here</p>
                 <p class="text-sm text-gray-600 mb-2">Changing the string will change the chart</p>
@@ -280,7 +267,7 @@ MC,Leo,10°14'`;
                   placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
                   rows="8"
                 ></textarea>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -319,6 +306,7 @@ MC,Leo,10°14'`;
           <h2 class="text-lg font-semibold text-gray-800 sm:hidden">Chart</h2>
         </div>
         
+        <!-- Controls & Legend -->
         <Sheet.Root bind:open={sheetOpen}>
           <Sheet.Trigger>
             <Button variant="outline" size="sm" class="h-10">
@@ -675,7 +663,6 @@ MC,Leo,10°14'`;
           <div class="bg-white rounded-lg shadow-md p-2 sm:p-4 h-full">
             <D3Chart 
               bind:this={chartComponent}
-              chartData={chartData || ''}
               {showDegreeMarkers}
               {showExtendedPlanets}
               {showAspectLines}

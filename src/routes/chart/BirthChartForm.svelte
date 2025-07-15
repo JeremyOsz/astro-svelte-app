@@ -143,11 +143,13 @@
           console.log('Form action data:', result.data);
           
           // Update the store with the chart data
-          if (result.data && typeof result.data === 'object' && 'chartData' in result.data) {
+          if (result.data && typeof result.data === 'object') {
             const data = result.data as { chartData?: string; error?: string };
             if (data.chartData) {
               chartStore.setChartData(data.chartData);
               console.log('Updated chart store with data:', data.chartData);
+            } else if (data.error) {
+              chartStore.setError(data.error);
             }
           }
           
