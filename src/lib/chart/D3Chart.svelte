@@ -215,12 +215,45 @@
     console.log('D3Chart: Parsing chart data:', trimmedData);
     console.log('D3Chart: Data lines:', trimmedData.split('\n'));
 
-    const parsedData: PlanetData[] = trimmedData.split('\n').filter((line: string) => line.trim() !== '').map((line: string) => {
+    const lines = trimmedData.split('\n').filter((line: string) => line.trim() !== '');
+    const parsedData: PlanetData[] = [];
+    let houseCusps: HouseCusp[] = [];
+    let hasApiHouseCusps = false;
+
+    // First pass: look for house cusps line
+    const houseCuspsLine = lines.find(line => line.startsWith('#HOUSES:'));
+    if (houseCuspsLine) {
+      const houseCuspsStr = houseCuspsLine.replace('#HOUSES:', '');
+      const houseCuspDegrees = houseCuspsStr.split(',').map(deg => parseFloat(deg.trim()));
+      if (houseCuspDegrees.length === 12 && houseCuspDegrees.every(deg => !isNaN(deg))) {
+        houseCusps = houseCuspDegrees.map((angle, index) => ({ house: index + 1, angle }));
+        hasApiHouseCusps = true;
+        console.log('D3Chart: Using API house cusps:', houseCusps);
+      }
+    }
+
+    // Second pass: parse planets
+    lines.forEach((line: string) => {
+      if (line.startsWith('#')) return; // Skip comment lines
+      
       const parts = line.split(',');
       let name = parts[0].trim();
       const sign = parts[1].trim();
       const degreePart = parts[2].trim();
-      const isRetrograde = parts.length > 3 && parts[3].trim() === 'R';
+      
+      // Check for house number (4th part) and retrograde (5th part)
+      let houseNumber: number | undefined;
+      let isRetrograde = false;
+      
+      if (parts.length > 3) {
+        const part3 = parts[3].trim();
+        if (part3 === 'R') {
+          isRetrograde = true;
+        } else if (!isNaN(parseInt(part3))) {
+          houseNumber = parseInt(part3);
+          isRetrograde = parts.length > 4 && parts[4].trim() === 'R';
+        }
+      }
       
       // Normalize planet names to match the expected format
       if (name === 'Asc') name = 'ASC';
@@ -230,7 +263,7 @@
       
       const degreeMatch = degreePart.match(/^(\d+)°(\d+)'$/);
       if (!degreeMatch || !zodiacSigns.includes(sign)) {
-        return null;
+        return;
       }
       
       const degree = parseInt(degreeMatch[1]);
@@ -238,7 +271,7 @@
       const signIndex = zodiacSigns.indexOf(sign);
       const absoluteDegree = signIndex * 30 + degree + minute / 60;
 
-      return {
+      const planetData: PlanetData = {
         planet: name,
         sign: sign,
         degree: degree,
@@ -247,7 +280,15 @@
         angle: absoluteDegree,
         visualDegree: absoluteDegree
       };
-    }).filter((p): p is PlanetData => p !== null);
+
+      // Use API house number if available, otherwise calculate
+      if (houseNumber !== undefined) {
+        (planetData as any).house = houseNumber;
+        console.log(`D3Chart: Using API house for ${name}: ${houseNumber}`);
+      }
+
+      parsedData.push(planetData);
+    });
 
     console.log('D3Chart: Parsed data count:', parsedData.length);
     console.log('D3Chart: Parsed planets:', parsedData.map(p => p.planet));
@@ -268,14 +309,15 @@
     }
     console.log('D3Chart: Found ASC at angle:', asc.angle);
 
-    const ascSignIndex = zodiacSigns.indexOf(asc.sign); // 0 = Aries, 1 = Taurus, etc.
-    const ascDegree = asc.degree + asc.minute / 60;
-
-    const houseCusps: HouseCusp[] = [];
-    for (let i = 0; i < 12; i++) {
-      const signIndex = (ascSignIndex + i) % 12;
-      const angle = signIndex * 30; // 0, 30, 60, ...
-      houseCusps.push({ house: i + 1, angle });
+    // If we don't have API house cusps, calculate them using whole sign system
+    if (!hasApiHouseCusps) {
+      const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+      for (let i = 0; i < 12; i++) {
+        const signIndex = (ascSignIndex + i) % 12;
+        const angle = signIndex * 30; // 0, 30, 60, ...
+        houseCusps.push({ house: i + 1, angle });
+      }
+      console.log('D3Chart: Calculated house cusps (whole sign):', houseCusps);
     }
 
     // Add missing angles
@@ -304,10 +346,38 @@
       });
     }
 
-    // Assign houses to planets (whole sign system)
+    // Assign houses to planets if not already assigned by API
     parsedData.forEach((planet: PlanetData) => {
-      const planetSignIndex = zodiacSigns.indexOf(planet.sign);
-      (planet as any).house = ((planetSignIndex - ascSignIndex + 12) % 12) + 1;
+      if ((planet as any).house === undefined) {
+        // Calculate house based on house cusps
+        const planetAngle = planet.angle;
+        let houseNumber = 1;
+        
+        for (let i = 0; i < houseCusps.length; i++) {
+          const cusp1 = houseCusps[i];
+          const cusp2 = houseCusps[(i + 1) % 12];
+          const angle1 = cusp1.angle;
+          let angle2 = cusp2.angle;
+
+          // Handle wrap-around for the 12th house to 1st house transition
+          if (angle2 < angle1) {
+            angle2 += 360;
+          }
+
+          let testAngle = planetAngle;
+          if (testAngle < angle1) {
+            testAngle += 360;
+          }
+          
+          if (testAngle >= angle1 && testAngle < angle2) {
+            houseNumber = cusp1.house;
+            break;
+          }
+        }
+        
+        (planet as any).house = houseNumber;
+        console.log(`D3Chart: Calculated house for ${planet.planet}: ${houseNumber}`);
+      }
     });
 
     // Calculate visual degrees for clustering
@@ -320,8 +390,6 @@
     // Calculate aspects
     const aspects = calculateAspects(parsedData);
 
-
-    
     chartState.update(state => ({
       ...state,
       data: parsedData,
@@ -373,8 +441,6 @@
     const { showAspectLines, showPlanetLabels } = get(chartSettings);
     const { data, houseCusps, aspects } = get(chartState);
 
-
-    
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
     if (!asc) {
       console.log('D3Chart: No ASC found in data');
@@ -382,6 +448,7 @@
     }
     const ascAngle = asc.angle;
     console.log('D3Chart: ASC angle:', ascAngle);
+    console.log('D3Chart: House cusps:', houseCusps);
     
     const container = d3.select(chartContainer);
     console.log('D3Chart: Container selected:', container.node());
@@ -403,8 +470,10 @@
       .attr('transform', `translate(${chartSize / 2}, ${chartSize / 2})`);
 
     console.log('D3Chart: Drawing chart elements...');
-    // Instead of rotating by ASC degree, rotate by 1st house cusp (whole sign: start of ASC sign)
+    // Use the 1st house cusp angle from the API (or calculated whole sign)
     const house1CuspAngle = houseCusps[0].angle;
+    console.log('D3Chart: Using house 1 cusp angle:', house1CuspAngle);
+    
     // Draw chart elements
     drawZodiacWheel(g, house1CuspAngle);
     console.log('D3Chart: Zodiac wheel drawn');
@@ -438,49 +507,47 @@
       .attr('stroke', '#ccc')
       .attr('stroke-width', isMobile ? 1 : 2);
 
+    // Get the Ascendant to determine the starting sign
+    const { data } = get(chartState);
+    const asc = data.find((p: PlanetData) => p.planet === 'ASC');
+    if (!asc) {
+      console.log('D3Chart: No ASC found for zodiac wheel');
+      return;
+    }
+    
+    // Calculate the offset to make the Ascendant's sign start at the top (0°)
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+    const ascSignStartAngle = ascSignIndex * 30; // 0° of the Ascendant's sign
+    const zodiacOffset = ascSignStartAngle - house1CuspAngle;
+    
+    console.log('D3Chart: Zodiac wheel setup:', {
+      ascSign: asc.sign,
+      ascSignIndex,
+      ascSignStartAngle,
+      house1CuspAngle,
+      zodiacOffset
+    });
+
     // Zodiac sign segments and symbols
     zodiacSigns.forEach((sign, index) => {
-      const signStartDeg = (180 - ((index * 30) - house1CuspAngle));
-      const signMidDeg = (180 - ((index * 30 + 15) - house1CuspAngle));
-      const angleRad = signMidDeg * Math.PI / 180;
-      const symbolRadius = zodiacInnerRadius + (isMobile ? 13 : 25);
+      // Calculate the visual position of each sign relative to the Ascendant's sign
+      const signAngle = (index * 30 + 15) % 360; // Midpoint of the sign
+      const adjustedSignAngle = signAngle - zodiacOffset;
+      const displayAngle = (180 - adjustedSignAngle) * Math.PI / 180;
       
-      const x = Math.cos(angleRad) * symbolRadius;
-      const y = Math.sin(angleRad) * symbolRadius;
+      const symbolRadius = zodiacInnerRadius + (isMobile ? 13 : 25);
+      const x = Math.cos(displayAngle) * symbolRadius;
+      const y = Math.sin(displayAngle) * symbolRadius;
 
       // Calculate which house this sign is in
-      // Use the actual sign angle in the astrological coordinate system
-      const signAngle = (index * 30 + 15) % 360; // Use midpoint of the sign
       const { houseCusps } = get(chartState);
       let houseNumber = 0;
       
-      // Find which house this sign falls into (same logic as planets)
-      for (let i = 0; i < 12; i++) {
-        const cusp1 = houseCusps[i];
-        const cusp2 = houseCusps[(i + 1) % 12];
-        const angle1 = cusp1.angle;
-        let angle2 = cusp2.angle;
-
-        // Handle wrap-around for the 12th house to 1st house transition
-        if (angle2 < angle1) {
-          angle2 += 360;
-        }
-
-        let testAngle = signAngle;
-        if (testAngle < angle1) {
-          testAngle += 360;
-        }
-        
-        if (testAngle >= angle1 && testAngle < angle2) {
-          houseNumber = cusp1.house;
-          break;
-        }
-      }
-      
-      // Fallback for angles that might not have been caught
-      if (houseNumber === 0) {
-        houseNumber = houseCusps[11].house;
-      }
+      // For Whole Sign system, the house is determined by the sign's position relative to the Ascendant's sign
+      const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+      const signIndex = zodiacSigns.indexOf(sign);
+      const houseOffset = (signIndex - ascSignIndex + 12) % 12;
+      houseNumber = houseOffset + 1;
 
       // Create sign data object for tooltip
       const signData = {
@@ -521,7 +588,8 @@
       // Hide most degree tick marks on mobile; keep only sign dividers
       if (isMobile && i % 30 !== 0) continue;
 
-      const angle = (180 - (i - house1CuspAngle)) * Math.PI / 180;
+      const adjustedAngle = i - zodiacOffset;
+      const displayAngle = (180 - adjustedAngle) * Math.PI / 180;
       let tickLength = 4;
       let stroke = '#ddd';
       let strokeWidth = 1;
@@ -542,10 +610,10 @@
         strokeWidth *= 0.7;
       }
 
-      const x1 = Math.cos(angle) * (zodiacInnerRadius);
-      const y1 = Math.sin(angle) * (zodiacInnerRadius);
-      const x2 = Math.cos(angle) * (zodiacInnerRadius + tickLength);
-      const y2 = Math.sin(angle) * (zodiacInnerRadius + tickLength);
+      const x1 = Math.cos(displayAngle) * (zodiacInnerRadius);
+      const y1 = Math.sin(displayAngle) * (zodiacInnerRadius);
+      const x2 = Math.cos(displayAngle) * (zodiacInnerRadius + tickLength);
+      const y2 = Math.sin(displayAngle) * (zodiacInnerRadius + tickLength);
       
       g.append('line')
         .attr('x1', x1).attr('y1', y1)
@@ -560,8 +628,21 @@
     const { zodiacInnerRadius, houseLineInnerRadius, houseNumRadius } = get(chartDimensions);
     const axes = data.filter((p: PlanetData) => ['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
 
+    // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
+    const asc = data.find((p: PlanetData) => p.planet === 'ASC');
+    if (!asc) {
+      console.log('D3Chart: No ASC found for house line positioning');
+      return;
+    }
+    
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+    const ascSignStartAngle = ascSignIndex * 30;
+    const zodiacOffset = ascSignStartAngle - house1CuspAngle;
+
+    // Draw house lines at the actual cusp angles
     houseCusps.forEach((cusp: HouseCusp) => {
-      const angle = (180 - (cusp.angle - house1CuspAngle)) * Math.PI / 180;
+      const adjustedAngle = cusp.angle - zodiacOffset;
+      const angle = (180 - adjustedAngle) * Math.PI / 180;
       const isAxis = axes.some((ax: PlanetData) => Math.abs(ax.angle - cusp.angle) < 0.1);
       
       g.append('line')
@@ -573,8 +654,10 @@
         .attr('stroke-width', isAxis ? (isMobile ? 1.2 : 2) : 1);
     });
 
+    // Draw axis labels (ASC, MC, DSC, IC)
     axes.forEach((point: PlanetData) => {
-      const angle = (180 - (point.angle - house1CuspAngle)) * Math.PI / 180;
+      const adjustedAngle = point.angle - zodiacOffset;
+      const angle = (180 - adjustedAngle) * Math.PI / 180;
       const textAnchor = Math.cos(angle) > 0.1 ? 'start' : Math.cos(angle) < -0.1 ? 'end' : 'middle';
       const xOffset = textAnchor === 'start' ? 6 : textAnchor === 'end' ? -6 : 0;
       
@@ -589,10 +672,22 @@
         .text(planetSymbols[point.planet]);
     });
 
-    houseCusps.forEach((cusp: HouseCusp) => {
-      const midpointAngle = (180 - ((cusp.angle + 15) - house1CuspAngle)) * Math.PI / 180;
-      const x = Math.cos(midpointAngle) * houseNumRadius;
-      const y = Math.sin(midpointAngle) * houseNumRadius;
+    // Draw house numbers at the midpoint of each house
+    houseCusps.forEach((cusp: HouseCusp, index: number) => {
+      const nextCusp = houseCusps[(index + 1) % 12];
+      const midpointAngle = (cusp.angle + nextCusp.angle) / 2;
+      
+      // Handle wrap-around for the 12th house to 1st house transition
+      let adjustedMidpoint = midpointAngle;
+      if (nextCusp.angle < cusp.angle) {
+        adjustedMidpoint = (cusp.angle + (nextCusp.angle + 360)) / 2;
+      }
+      
+      const adjustedDisplayAngle = adjustedMidpoint - zodiacOffset;
+      const displayAngle = (180 - adjustedDisplayAngle) * Math.PI / 180;
+      const x = Math.cos(displayAngle) * houseNumRadius;
+      const y = Math.sin(displayAngle) * houseNumRadius;
+      
       g.append('text')
         .attr('x', x)
         .attr('y', y)
@@ -608,6 +703,17 @@
     const { aspects, data, isMobile } = get(chartState);
     const { aspectHubRadius } = get(chartDimensions);
 
+    // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
+    const asc = data.find((p: PlanetData) => p.planet === 'ASC');
+    if (!asc) {
+      console.log('D3Chart: No ASC found for aspect positioning');
+      return;
+    }
+    
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+    const ascSignStartAngle = ascSignIndex * 30;
+    const zodiacOffset = ascSignStartAngle - house1CuspAngle;
+
     g.append('circle')
       .attr('r', aspectHubRadius)
       .attr('fill', 'none')
@@ -618,8 +724,10 @@
       const planet2 = data.find((p: PlanetData) => p.planet === aspect.planet2);
       if (!planet1 || !planet2) return;
 
-      const angle1 = (180 - (planet1.visualDegree - house1CuspAngle)) * Math.PI / 180;
-      const angle2 = (180 - (planet2.visualDegree - house1CuspAngle)) * Math.PI / 180;
+      const adjustedAngle1 = planet1.visualDegree - zodiacOffset;
+      const adjustedAngle2 = planet2.visualDegree - zodiacOffset;
+      const angle1 = (180 - adjustedAngle1) * Math.PI / 180;
+      const angle2 = (180 - adjustedAngle2) * Math.PI / 180;
       
       const aspectGroup = g.append('g').attr('class', 'aspect-group');
 
@@ -655,18 +763,28 @@
     const { showExtendedPlanets, showPlanetLabels } = get(chartSettings);
     const { planetRingRadius, zodiacInnerRadius, labelRadius } = get(chartDimensions);
 
+    // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
+    const asc = data.find((p: PlanetData) => p.planet === 'ASC');
+    if (!asc) {
+      console.log('D3Chart: No ASC found for planet positioning');
+      return;
+    }
+    
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+    const ascSignStartAngle = ascSignIndex * 30;
+    const zodiacOffset = ascSignStartAngle - house1CuspAngle;
+
     let planetsToDraw = data.filter((p: PlanetData) => planetSymbols[p.planet] && !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
     if (!showExtendedPlanets) {
       planetsToDraw = planetsToDraw.filter((p: PlanetData) => !extendedPlanetNames.includes(p.planet));
     }
 
-
-
-         // Simple approach: create planet groups directly without D3 data binding
-     planetsToDraw.forEach((p: PlanetData) => {
-       const group = g.append('g').attr('class', 'planet-group');
-       const displayAngle = (180 - (p.visualDegree - house1CuspAngle));
-       const angleRad = displayAngle * Math.PI / 180;
+    // Simple approach: create planet groups directly without D3 data binding
+    planetsToDraw.forEach((p: PlanetData) => {
+      const group = g.append('g').attr('class', 'planet-group');
+      const adjustedAngle = p.visualDegree - zodiacOffset;
+      const displayAngle = (180 - adjustedAngle);
+      const angleRad = displayAngle * Math.PI / 180;
 
 
 

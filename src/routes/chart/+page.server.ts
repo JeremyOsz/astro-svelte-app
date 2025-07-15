@@ -123,12 +123,49 @@ export const actions: Actions = {
 function transformChartData(apiResponse: any): string {
   console.log('Transforming API response:', apiResponse);
   const planetLines: string[] = [];
+  const houseCusps: number[] = [];
   
   // Name mappings for the chart component
   const nameMappings: Record<string, string> = {
     'North Node': 'Node',
     'Part of Fortune': 'Fortune'
   };
+  
+  // Extract house cusps from the API response
+  console.log('=== SEARCHING FOR HOUSE CUSPS ===');
+  console.log('API response keys:', Object.keys(apiResponse));
+  
+  if (apiResponse.houses && Array.isArray(apiResponse.houses)) {
+    console.log('Found houses array:', apiResponse.houses);
+    houseCusps.push(...apiResponse.houses);
+  } else if (apiResponse.native && apiResponse.native.houses) {
+    console.log('Found houses in native:', apiResponse.native.houses);
+    houseCusps.push(...apiResponse.native.houses);
+  } else {
+    console.log('No house cusps found in expected locations');
+    console.log('Checking for house cusps in objects...');
+    
+    // Look for house cusps in the objects
+    if (apiResponse.objects) {
+      Object.entries(apiResponse.objects).forEach(([key, object]: [string, any]) => {
+        if (object.name && object.name.includes('House')) {
+          console.log('Found house cusp object:', key, object);
+          if (object.longitude && object.longitude.raw !== undefined) {
+            houseCusps.push(object.longitude.raw);
+            console.log('Added house cusp:', object.longitude.raw);
+          }
+        }
+      });
+    }
+    
+    // Sort house cusps if we found them
+    if (houseCusps.length > 0) {
+      houseCusps.sort((a, b) => a - b);
+      console.log('Sorted house cusps:', houseCusps);
+    } else {
+      console.log('No house cusps found in API response, will use fallback calculation');
+    }
+  }
   
   // Extract planets from the objects
   if (apiResponse.objects) {
@@ -164,8 +201,16 @@ function transformChartData(apiResponse: any): string {
         const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
         const sign = zodiacSigns[signIndex];
         
-        // Format: Planet,Sign,Degree°Minutes'
+        // Get house number from API if available
+        const houseNumber = object.house?.number || object.house || '';
+        
+        // Format: Planet,Sign,Degree°Minutes',House
         let line = `${name},${sign},${degrees}°${minutes.toString().padStart(2, '0')}'`;
+        
+        // Add house number if available
+        if (houseNumber !== '') {
+          line += `,${houseNumber}`;
+        }
         
         // Add retrograde indicator if applicable
         if (object.movement && object.movement.retrograde) {
@@ -216,9 +261,26 @@ function transformChartData(apiResponse: any): string {
     console.log('Added MC line:', mcLine);
   }
   
-  // Combine planets and angles only (let D3Chart handle house cusps automatically)
+  // Add house cusps line if we have them
+  console.log('=== HOUSE CUSPS SUMMARY ===');
+  console.log('House cusps found:', houseCusps.length);
+  console.log('House cusps:', houseCusps);
+  
+  if (houseCusps.length === 12) {
+    const houseCuspsLine = `#HOUSES:${houseCusps.join(',')}`;
+    planetLines.push(houseCuspsLine);
+    console.log('Added house cusps line:', houseCuspsLine);
+  } else {
+    console.log('WARNING: Expected 12 house cusps, but found', houseCusps.length);
+  }
+  
+  // Combine planets, angles, and house cusps
+  console.log('=== FINAL CHART DATA ===');
+  console.log('Total lines:', planetLines.length);
   console.log('Final chart data lines:', planetLines);
-  return planetLines.join('\n');
+  const finalData = planetLines.join('\n');
+  console.log('Final chart data string:', finalData);
+  return finalData;
 }
 
 
