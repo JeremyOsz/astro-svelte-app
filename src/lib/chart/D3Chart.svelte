@@ -268,9 +268,14 @@
     }
     console.log('D3Chart: Found ASC at angle:', asc.angle);
 
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign); // 0 = Aries, 1 = Taurus, etc.
+    const ascDegree = asc.degree + asc.minute / 60;
+
     const houseCusps: HouseCusp[] = [];
     for (let i = 0; i < 12; i++) {
-      houseCusps.push({ house: i + 1, angle: (asc.angle + i * 30) % 360 });
+      const signIndex = (ascSignIndex + i) % 12;
+      const angle = signIndex * 30; // 0, 30, 60, ...
+      houseCusps.push({ house: i + 1, angle });
     }
 
     // Add missing angles
@@ -299,36 +304,10 @@
       });
     }
 
-    // Assign houses to planets
+    // Assign houses to planets (whole sign system)
     parsedData.forEach((planet: PlanetData) => {
-      if (!planet.angle) return;
-      let planetHouse = 0;
-      for (let i = 0; i < 12; i++) {
-        const cusp1 = houseCusps[i];
-        const cusp2 = houseCusps[(i + 1) % 12];
-        const angle1 = cusp1.angle;
-        let angle2 = cusp2.angle;
-
-        // Handle wrap-around for the 12th house to 1st house transition
-        if (angle2 < angle1) {
-          angle2 += 360;
-        }
-
-        let planetAngle = planet.angle;
-        if (planetAngle < angle1) {
-          planetAngle += 360;
-        }
-        
-        if (planetAngle >= angle1 && planetAngle < angle2) {
-          planetHouse = cusp1.house;
-          break;
-        }
-      }
-      // A fallback for angles that might not have been caught
-      if (planetHouse === 0) {
-        planetHouse = houseCusps[11].house;
-      }
-      (planet as any).house = planetHouse;
+      const planetSignIndex = zodiacSigns.indexOf(planet.sign);
+      (planet as any).house = ((planetSignIndex - ascSignIndex + 12) % 12) + 1;
     });
 
     // Calculate visual degrees for clustering
@@ -424,23 +403,25 @@
       .attr('transform', `translate(${chartSize / 2}, ${chartSize / 2})`);
 
     console.log('D3Chart: Drawing chart elements...');
+    // Instead of rotating by ASC degree, rotate by 1st house cusp (whole sign: start of ASC sign)
+    const house1CuspAngle = houseCusps[0].angle;
     // Draw chart elements
-    drawZodiacWheel(g, ascAngle);
+    drawZodiacWheel(g, house1CuspAngle);
     console.log('D3Chart: Zodiac wheel drawn');
-    drawHouseLinesAndNumbers(g, ascAngle);
+    drawHouseLinesAndNumbers(g, house1CuspAngle);
     console.log('D3Chart: House lines drawn');
     if (showAspectLines) {
-      drawAspects(g, ascAngle);
+      drawAspects(g, house1CuspAngle);
       console.log('D3Chart: Aspects drawn');
     }
-    drawPlanets(g, ascAngle);
+    drawPlanets(g, house1CuspAngle);
     console.log('D3Chart: Planets drawn');
     
     setupZoom(); // Re-setup zoom for the new SVG
     console.log('D3Chart: Zoom setup complete');
   }
 
-  function drawZodiacWheel(g: d3.Selection<SVGGElement, unknown, null, undefined>, ascAngle: number) {
+  function drawZodiacWheel(g: d3.Selection<SVGGElement, unknown, null, undefined>, house1CuspAngle: number) {
     const { zodiacOuterRadius, zodiacInnerRadius } = get(chartDimensions);
     const { isMobile } = get(chartState);
     const { showDegreeMarkers } = get(chartSettings);
@@ -459,8 +440,8 @@
 
     // Zodiac sign segments and symbols
     zodiacSigns.forEach((sign, index) => {
-      const signStartDeg = (180 - ((index * 30) - ascAngle));
-      const signMidDeg = (180 - ((index * 30 + 15) - ascAngle));
+      const signStartDeg = (180 - ((index * 30) - house1CuspAngle));
+      const signMidDeg = (180 - ((index * 30 + 15) - house1CuspAngle));
       const angleRad = signMidDeg * Math.PI / 180;
       const symbolRadius = zodiacInnerRadius + (isMobile ? 13 : 25);
       
@@ -537,7 +518,7 @@
 
     // Degree tick marks
     for (let i = 0; i < 360; i++) {
-      const angle = (180 - (i - ascAngle)) * Math.PI / 180;
+      const angle = (180 - (i - house1CuspAngle)) * Math.PI / 180;
       let tickLength = 4;
       let stroke = '#ddd';
       let strokeWidth = 1;
@@ -565,13 +546,13 @@
     }
   }
 
-  function drawHouseLinesAndNumbers(g: d3.Selection<SVGGElement, unknown, null, undefined>, ascAngle: number) {
+  function drawHouseLinesAndNumbers(g: d3.Selection<SVGGElement, unknown, null, undefined>, house1CuspAngle: number) {
     const { houseCusps, data, isMobile } = get(chartState);
     const { zodiacInnerRadius, houseLineInnerRadius, houseNumRadius } = get(chartDimensions);
     const axes = data.filter((p: PlanetData) => ['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
 
     houseCusps.forEach((cusp: HouseCusp) => {
-      const angle = (180 - (cusp.angle - ascAngle)) * Math.PI / 180;
+      const angle = (180 - (cusp.angle - house1CuspAngle)) * Math.PI / 180;
       const isAxis = axes.some((ax: PlanetData) => Math.abs(ax.angle - cusp.angle) < 0.1);
       
       g.append('line')
@@ -584,7 +565,7 @@
     });
 
     axes.forEach((point: PlanetData) => {
-      const angle = (180 - (point.angle - ascAngle)) * Math.PI / 180;
+      const angle = (180 - (point.angle - house1CuspAngle)) * Math.PI / 180;
       const textAnchor = Math.cos(angle) > 0.1 ? 'start' : Math.cos(angle) < -0.1 ? 'end' : 'middle';
       const xOffset = textAnchor === 'start' ? 6 : textAnchor === 'end' ? -6 : 0;
       
@@ -600,7 +581,7 @@
     });
 
     houseCusps.forEach((cusp: HouseCusp) => {
-      const midpointAngle = (180 - ((cusp.angle + 15) - ascAngle)) * Math.PI / 180;
+      const midpointAngle = (180 - ((cusp.angle + 15) - house1CuspAngle)) * Math.PI / 180;
       const x = Math.cos(midpointAngle) * houseNumRadius;
       const y = Math.sin(midpointAngle) * houseNumRadius;
       g.append('text')
@@ -614,7 +595,7 @@
     });
   }
 
-  function drawAspects(g: d3.Selection<SVGGElement, unknown, null, undefined>, ascAngle: number) {
+  function drawAspects(g: d3.Selection<SVGGElement, unknown, null, undefined>, house1CuspAngle: number) {
     const { aspects, data } = get(chartState);
     const { aspectHubRadius } = get(chartDimensions);
 
@@ -628,8 +609,8 @@
       const planet2 = data.find((p: PlanetData) => p.planet === aspect.planet2);
       if (!planet1 || !planet2) return;
 
-      const angle1 = (180 - (planet1.visualDegree - ascAngle)) * Math.PI / 180;
-      const angle2 = (180 - (planet2.visualDegree - ascAngle)) * Math.PI / 180;
+      const angle1 = (180 - (planet1.visualDegree - house1CuspAngle)) * Math.PI / 180;
+      const angle2 = (180 - (planet2.visualDegree - house1CuspAngle)) * Math.PI / 180;
       
       const aspectGroup = g.append('g').attr('class', 'aspect-group');
 
@@ -660,7 +641,7 @@
     });
   }
 
-  function drawPlanets(g: d3.Selection<SVGGElement, unknown, null, undefined>, ascAngle: number) {
+  function drawPlanets(g: d3.Selection<SVGGElement, unknown, null, undefined>, house1CuspAngle: number) {
     const { data, isMobile } = get(chartState);
     const { showExtendedPlanets, showPlanetLabels } = get(chartSettings);
     const { planetRingRadius, zodiacInnerRadius, labelRadius } = get(chartDimensions);
@@ -675,7 +656,7 @@
          // Simple approach: create planet groups directly without D3 data binding
      planetsToDraw.forEach((p: PlanetData) => {
        const group = g.append('g').attr('class', 'planet-group');
-       const displayAngle = (180 - (p.visualDegree - ascAngle));
+       const displayAngle = (180 - (p.visualDegree - house1CuspAngle));
        const angleRad = displayAngle * Math.PI / 180;
 
 
@@ -786,12 +767,22 @@
       const clusterSize = cluster.length;
       if (clusterSize > 1) {
         const totalArc = (clusterSize - 1) * 9;
+        // Clamp the cluster arc to the sign boundaries
+        const signIndex = zodiacSigns.indexOf(cluster[0].sign);
+        const signStart = signIndex * 30;
+        const signEnd = signStart + 30;
         const avgAngle = cluster.reduce((sum, p) => sum + p.angle, 0) / clusterSize;
-        const startAngle = avgAngle - totalArc / 2;
+        let startAngle = avgAngle - totalArc / 2;
+        // Clamp startAngle and each planet's visualDegree to [signStart, signEnd)
+        if (startAngle < signStart) startAngle = signStart;
+        if (startAngle + totalArc > signEnd) startAngle = signEnd - totalArc;
         cluster.forEach((p: PlanetData, i: number) => {
           const originalPlanet = allPlanets.find(cp => cp.planet === p.planet);
           if (originalPlanet) {
-            originalPlanet.visualDegree = startAngle + i * (totalArc / (clusterSize - 1));
+            let vdeg = startAngle + i * (totalArc / (clusterSize - 1));
+            if (vdeg < signStart) vdeg = signStart;
+            if (vdeg >= signEnd) vdeg = signEnd - 0.01;
+            originalPlanet.visualDegree = vdeg;
           }
         });
       }
