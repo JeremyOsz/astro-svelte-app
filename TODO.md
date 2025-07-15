@@ -7,3 +7,6 @@
 - Flesh out Interpretations browser
 - Make transits chart
 - fix house alignment
+- Fix fonts on safari
+- Store Birth Data
+- Loading state for chart
