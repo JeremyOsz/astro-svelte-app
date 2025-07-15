@@ -686,7 +686,7 @@
           .on('mouseout', (!isMobile ? handleMouseOut : null) as any)
           .on('click', (event) => handleClick(event, p));
 
-        if (showPlanetLabels) {
+        if (showPlanetLabels && !isMobile) {
           const labelX = Math.cos(angleRad) * labelRadius;
           const labelY = Math.sin(angleRad) * labelRadius;
           const rotation = (displayAngle > 90 && displayAngle < 270) ? displayAngle + 90 : displayAngle + 90;
@@ -938,6 +938,27 @@
   :global(.chart-tooltip) {
     min-width: 260px;
     max-width: 320px;
+  }
+
+  :global(.tooltip-header) {
+    padding: 12px 16px 0 16px;
+    font-size: 18px;
+  }
+
+  :global(.tooltip-body) {
+    padding: 8px 16px 14px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  :global(.interpretation-content h3) {
+    font-size: 14px;
+    margin: 0 0 8px;
+  }
+
+  :global(.interpretation-content p) {
+    font-size: 13px;
+    margin: 0 0 8px;
   }
 }
 </style> 

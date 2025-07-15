@@ -2,6 +2,7 @@
   import { chartStore } from '$lib/stores/chart-store';
   import { get } from 'svelte/store';
   import { getPlanetInterpretation, getAspectInterpretation, getSignInterpretation } from './tooltip';
+  import { onMount } from 'svelte';
 
   interface PlanetData {
     planet: string;
@@ -61,18 +62,32 @@
   let aspectInterpretations: string[] = [];
   let signInterpretations: string[] = [];
 
-  $: updateInterpretations();
+  // Subscribe to chart store changes
+  $: {
+    const { chartData } = $chartStore;
+    if (chartData) {
+      updateInterpretations();
+    }
+  }
+
+  // Also run on mount
+  onMount(() => {
+    updateInterpretations();
+  });
 
   function updateInterpretations() {
     const { chartData } = get(chartStore);
+    console.log('InterpretationList: updateInterpretations called with chartData:', chartData?.substring(0, 100));
     if (!chartData || !chartData.trim()) {
       planetInterpretations = [];
       aspectInterpretations = [];
       signInterpretations = [];
+      console.log('InterpretationList: No chart data, clearing interpretations');
       return;
     }
 
     const { planets, aspects, houseCusps } = parseChartData(chartData.trim());
+    console.log('InterpretationList: Parsed data:', { planets: planets.length, aspects: aspects.length, houseCusps: houseCusps.length });
 
     planetInterpretations = planets.map(p => getPlanetInterpretation(p));
     aspectInterpretations = aspects.map(a =>
@@ -83,6 +98,11 @@
     signInterpretations = houseCusps.map(({ sign, house }) =>
       getSignInterpretation(sign, house)
     );
+    console.log('InterpretationList: Generated interpretations:', { 
+      planets: planetInterpretations.length, 
+      aspects: aspectInterpretations.length, 
+      signs: signInterpretations.length 
+    });
   }
 
   function parseChartData(data: string) {
