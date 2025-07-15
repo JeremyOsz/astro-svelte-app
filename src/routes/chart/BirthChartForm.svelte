@@ -134,6 +134,8 @@
         birthTime: formData.get('birthTime'),
         cityData: formData.get('cityData')
       });
+      // Set loading state when form submission starts
+      chartStore.setLoading(true);
       
       return async ({ result, update }) => {
         console.log('Form result:', result);
@@ -163,6 +165,7 @@
             }
           }
         }
+        // Loading state is automatically cleared by setChartData or setError
       };
     }}
     class="space-y-6"

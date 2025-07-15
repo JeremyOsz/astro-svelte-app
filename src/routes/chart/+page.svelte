@@ -698,7 +698,16 @@ MC,Leo,10°14'`;
 
       <!-- Chart Content -->
       <div class="flex-1 p-2 sm:p-4 min-h-0">
-        {#if showChart}
+        <!-- Loading State -->
+        {#if isLoading}
+          <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
+            <div class="text-center p-8">
+              <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+              <p class="text-gray-600 text-lg font-medium">Generating your birth chart...</p>
+              <p class="text-gray-500 text-sm mt-2">This may take a few moments</p>
+            </div>
+          </div>
+        {:else if showChart}
           <div class="bg-white rounded-lg shadow-md p-2 sm:p-4">
             <D3Chart 
               bind:this={chartComponent}
