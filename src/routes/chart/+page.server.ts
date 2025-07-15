@@ -40,18 +40,39 @@ export const actions: Actions = {
       console.log('Sending API request with data:', JSON.stringify(apiData, null, 2));
       
       // Call the external API
-      const API_BASE_URL = env.EPHEMERIS_API_URL || 'http://127.0.0.1:8001';
+      const API_BASE_URL = 'https://immanuel-astro.onrender.com';
+      const API_KEY = env.EPHEMERIS_API_KEY || '';
+      
+      // Debug logs for API configuration
+      console.log('=== API CONFIGURATION DEBUG ===');
+      console.log('API Base URL:', API_BASE_URL);
+      console.log('API Key present:', !!API_KEY);
+      console.log('API Key length:', API_KEY.length);
+      console.log('API Key preview:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
+      console.log('Full request URL:', `${API_BASE_URL}/birth-chart`);
+      
       const response = await fetch(`${API_BASE_URL}/birth-chart`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': env.EPHEMERIS_API_KEY || ''
+          'X-API-Key': API_KEY
         },
         body: JSON.stringify(apiData)
       });
       
       if (!response.ok) {
-        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+        console.error('=== API REQUEST FAILED ===');
+        console.error('Response status:', response.status);
+        console.error('Response status text:', response.statusText);
+        console.error('API Base URL:', API_BASE_URL);
+        console.error('API Key present:', !!API_KEY);
+        console.error('API Key length:', API_KEY.length);
+        console.error('API Key preview:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
+        
+        const errorText = await response.text();
+        console.error('Response body:', errorText);
+        
+        throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
       }
       
       const chartResult = await response.json();
@@ -77,7 +98,19 @@ export const actions: Actions = {
       };
       
     } catch (error) {
-      console.error('Error calculating birth chart:', error);
+      console.error('=== BIRTH CHART CALCULATION ERROR ===');
+      console.error('Error details:', error);
+      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
+      console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+      
+      // Log API configuration on error
+      const API_BASE_URL = 'https://immanuel-astro.onrender.com';
+      const API_KEY = env.EPHEMERIS_API_KEY || '';
+      console.error('API Base URL:', API_BASE_URL);
+      console.error('API Key present:', !!API_KEY);
+      console.error('API Key length:', API_KEY.length);
+      console.error('API Key preview:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
+      
       return fail(500, {
         error: error instanceof Error ? error.message : 'An error occurred while calculating the chart',
         chartData: null
