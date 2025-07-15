@@ -268,9 +268,14 @@
     }
     console.log('D3Chart: Found ASC at angle:', asc.angle);
 
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign); // 0 = Aries, 1 = Taurus, etc.
+    const ascDegree = asc.degree + asc.minute / 60;
+
     const houseCusps: HouseCusp[] = [];
     for (let i = 0; i < 12; i++) {
-      houseCusps.push({ house: i + 1, angle: (asc.angle + i * 30) % 360 });
+      const signIndex = (ascSignIndex + i) % 12;
+      const angle = signIndex * 30; // 0, 30, 60, ...
+      houseCusps.push({ house: i + 1, angle });
     }
 
     // Add missing angles
@@ -299,36 +304,10 @@
       });
     }
 
-    // Assign houses to planets
+    // Assign houses to planets (whole sign system)
     parsedData.forEach((planet: PlanetData) => {
-      if (!planet.angle) return;
-      let planetHouse = 0;
-      for (let i = 0; i < 12; i++) {
-        const cusp1 = houseCusps[i];
-        const cusp2 = houseCusps[(i + 1) % 12];
-        const angle1 = cusp1.angle;
-        let angle2 = cusp2.angle;
-
-        // Handle wrap-around for the 12th house to 1st house transition
-        if (angle2 < angle1) {
-          angle2 += 360;
-        }
-
-        let planetAngle = planet.angle;
-        if (planetAngle < angle1) {
-          planetAngle += 360;
-        }
-        
-        if (planetAngle >= angle1 && planetAngle < angle2) {
-          planetHouse = cusp1.house;
-          break;
-        }
-      }
-      // A fallback for angles that might not have been caught
-      if (planetHouse === 0) {
-        planetHouse = houseCusps[11].house;
-      }
-      (planet as any).house = planetHouse;
+      const planetSignIndex = zodiacSigns.indexOf(planet.sign);
+      (planet as any).house = ((planetSignIndex - ascSignIndex + 12) % 12) + 1;
     });
 
     // Calculate visual degrees for clustering
@@ -571,7 +550,7 @@
     const axes = data.filter((p: PlanetData) => ['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
 
     houseCusps.forEach((cusp: HouseCusp) => {
-      const angle = (180 - (cusp.angle - ascAngle)) * Math.PI / 180;
+      const angle = (180 - (cusp.angle)) * Math.PI / 180;
       const isAxis = axes.some((ax: PlanetData) => Math.abs(ax.angle - cusp.angle) < 0.1);
       
       g.append('line')
@@ -600,7 +579,7 @@
     });
 
     houseCusps.forEach((cusp: HouseCusp) => {
-      const midpointAngle = (180 - ((cusp.angle + 15) - ascAngle)) * Math.PI / 180;
+      const midpointAngle = (180 - ((cusp.angle) - ascAngle)) * Math.PI / 180;
       const x = Math.cos(midpointAngle) * houseNumRadius;
       const y = Math.sin(midpointAngle) * houseNumRadius;
       g.append('text')
