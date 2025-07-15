@@ -1,18 +1,11 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import type { BirthData } from '$lib/types/types';
-  import { calculateBirthChart, formatDegrees } from '$lib/chart/browser-chart';
-  import { getSignByDegree } from '$lib/astrology/astrology';
+  import { enhance } from '$app/forms';
   import { searchCities, getCountryName, type CitySearchResult } from '$lib/services/city-service';
   import { getBirthTimezone, formatTimezoneOffset } from '$lib/services/timezone-service';
 
-  const dispatch = createEventDispatcher<{ chartGenerated: string }>();
+  export let chartData: string | null = null;
+  export let error: string | null = null;
 
-  let birthDate = '';
-  let birthTime = '';
-  let selectedCity: CitySearchResult | null = null;
-  let loading = false;
-  let error: string | null = null;
   let citySearch = '';
   let cityResults: CitySearchResult[] = [];
   let showCityDropdown = false;
@@ -23,12 +16,6 @@
   function onCityInput(e: Event) {
     citySearch = (e.target as HTMLInputElement).value;
     selectedIndex = -1;
-    
-    // Clear selected city if user starts typing again
-    if (selectedCity && citySearch !== selectedCity.fullLocation) {
-      selectedCity = null;
-      timezoneInfo = null;
-    }
     
     // Clear previous timeout
     if (searchTimeout) {
@@ -74,79 +61,52 @@
 
   function selectCity(city: CitySearchResult) {
     citySearch = city.fullLocation;
-    selectedCity = city;
     showCityDropdown = false;
     selectedIndex = -1;
     
-    // Update timezone info if we have both city and birth date
-    updateTimezoneInfo();
+    // Update hidden input with city data
+    const cityInput = document.getElementById('city-data') as HTMLInputElement;
+    if (cityInput) {
+      const cityData = {
+        name: city.name,
+        fullLocation: city.fullLocation,
+        lat: city.lat,
+        lng: city.lng,
+        country: city.country,
+        adminName: city.adminName
+      };
+      cityInput.value = JSON.stringify(cityData);
+      console.log('City selected:', cityData);
+    }
+    
+    // Update timezone info
+    updateTimezoneInfo(city);
   }
 
-  function updateTimezoneInfo() {
-    if (selectedCity && birthDate && birthTime) {
+  function updateTimezoneInfo(city: CitySearchResult) {
+    const birthDateInput = document.getElementById('birth-date') as HTMLInputElement;
+    const birthTimeInput = document.getElementById('birth-time') as HTMLInputElement;
+    
+    if (birthDateInput?.value && birthTimeInput?.value) {
       timezoneInfo = getBirthTimezone(
-        parseFloat(selectedCity.lat),
-        parseFloat(selectedCity.lng),
-        birthDate,
-        birthTime
+        parseFloat(city.lat),
+        parseFloat(city.lng),
+        birthDateInput.value,
+        birthTimeInput.value
       );
-    } else {
-      timezoneInfo = null;
     }
   }
 
   // Update timezone info when birth date or time changes
-  $: if (selectedCity && birthDate && birthTime) {
-    updateTimezoneInfo();
-  }
-
-  async function handleSubmit() {
-    if (!birthDate || !birthTime || !selectedCity) {
-      alert('Please fill in all fields and select a city');
-      return;
-    }
-
-    loading = true;
-    error = null;
-
-    try {
-      // Get historical timezone for the birth date and location
-      const timezone = getBirthTimezone(
-        parseFloat(selectedCity.lat),
-        parseFloat(selectedCity.lng),
-        birthDate,
-        birthTime
-      );
-
-      const birthData: BirthData = {
-        date: birthDate,
-        time: birthTime,
-        latitude: parseFloat(selectedCity.lat),
-        longitude: parseFloat(selectedCity.lng),
-        timezone: timezone.offset
-      };
-
-      const chartResult = await calculateBirthChart(birthData);
-      
-      // Format chart data for visualization
-      const lines: string[] = chartResult.planets.map((planet: any) => {
-        const degStr = formatDegrees(planet.degree);
-        const retro = planet.retrograde ? ',R' : '';
-        return `${planet.name},${planet.sign},${degStr}${retro}`;
-      });
-
-      // Add ASC and MC
-      const ascSign = getSignByDegree(chartResult.ascendant);
-      const mcSign = getSignByDegree(chartResult.mc);
-      lines.push(`ASC,${ascSign},${formatDegrees(chartResult.ascendant % 30)}`);
-      lines.push(`MC,${mcSign},${formatDegrees(chartResult.mc % 30)}`);
-
-      const chartDataString = lines.join('\n');
-      dispatch('chartGenerated', chartDataString);
-    } catch (err) {
-      error = err instanceof Error ? err.message : 'An error occurred while calculating the chart';
-    } finally {
-      loading = false;
+  function onDateTimeChange() {
+    const cityInput = document.getElementById('city-data') as HTMLInputElement;
+    if (cityInput?.value) {
+      try {
+        const city = JSON.parse(cityInput.value);
+        updateTimezoneInfo(city);
+      } catch (e) {
+        // Invalid JSON, ignore
+      }
     }
   }
 </script>
@@ -159,8 +119,51 @@
       <strong>Error:</strong> {error}
     </div>
   {/if}
+
+  {#if chartData}
+    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+      <strong>Success!</strong> Birth chart calculated successfully.
+    </div>
+  {/if}
   
-  <form on:submit|preventDefault={handleSubmit} class="space-y-6">
+  <form 
+    method="POST" 
+    action="?/calculate"
+    use:enhance={({ formData }) => {
+      console.log('Form submitted with data:', {
+        birthDate: formData.get('birthDate'),
+        birthTime: formData.get('birthTime'),
+        cityData: formData.get('cityData')
+      });
+      
+      return async ({ result, update }) => {
+        console.log('Form result:', result);
+        if (result.type === 'success' && result.data) {
+          console.log('Form action data:', result.data);
+          
+          // Handle the chart data directly from the form action result
+          if (result.data.chartData) {
+            // Dispatch a custom event to update the chart
+            const event = new CustomEvent('chartDataUpdate', {
+              detail: {
+                chartData: result.data.chartData,
+                error: result.data.error
+              }
+            });
+            document.dispatchEvent(event);
+            console.log('Dispatched chartDataUpdate event');
+          }
+          
+          // Update the page
+          await update();
+          console.log('Page updated with new data');
+        } else if (result.type === 'failure') {
+          console.error('Form failed:', result.data);
+        }
+      };
+    }}
+    class="space-y-6"
+  >
     <div class="space-y-2 relative">
       <label for="city-search" class="block text-sm font-medium text-gray-700">
         Birth City *
@@ -176,6 +179,14 @@
         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
         required
       />
+      <input 
+        id="city-data" 
+        type="hidden" 
+        name="cityData" 
+        required
+        value=""
+      />
+      
       {#if showCityDropdown}
         <ul class="absolute z-10 bg-white border border-gray-200 rounded-lg mt-1 w-full max-h-48 overflow-auto shadow-lg">
           {#each cityResults as city, index}
@@ -201,13 +212,10 @@
         </ul>
       {/if}
       
-      {#if selectedCity}
+      {#if citySearch && !showCityDropdown && citySearch.length > 1}
         <div class="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
           <div class="text-sm">
-            <div class="font-medium text-green-800">{selectedCity.fullLocation}</div>
-            <div class="text-green-600 mt-1">
-              <span class="font-medium">Coordinates:</span> {selectedCity.lat}, {selectedCity.lng}
-            </div>
+            <div class="font-medium text-green-800">{citySearch}</div>
             {#if timezoneInfo}
               <div class="text-green-600 mt-1">
                 <span class="font-medium">Timezone:</span> {formatTimezoneOffset(timezoneInfo.offset)}
@@ -231,7 +239,8 @@
       <input
         id="birth-date"
         type="date"
-        bind:value={birthDate}
+        name="birthDate"
+        on:change={onDateTimeChange}
         required
         max={new Date().toISOString().split('T')[0]}
         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
@@ -245,7 +254,8 @@
       <input
         id="birth-time"
         type="time"
-        bind:value={birthTime}
+        name="birthTime"
+        on:change={onDateTimeChange}
         required
         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
       />
@@ -255,10 +265,9 @@
     <div class="flex flex-col sm:flex-row gap-3 pt-4">
       <button 
         type="submit" 
-        disabled={loading || !selectedCity}
-        class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium"
+        class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium cursor-pointer"
       >
-        {loading ? 'Calculating...' : 'Calculate Chart'}
+        Calculate Chart
       </button>
     </div>
   </form>

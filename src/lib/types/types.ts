@@ -1,5 +1,5 @@
 export interface BirthData {
-  date: string;       // ISO format date string (YYYY-MM-DD)
+  date: string;       // ISO format date string (YYYY-MM-DD) or datetime (YYYY-MM-DDTHH:MM)
   time: string;       // 24-hour format (HH:MM)
   latitude: number;   // Decimal degrees (positive for North)
   longitude: number;  // Decimal degrees (positive for East)

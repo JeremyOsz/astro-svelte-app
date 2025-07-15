@@ -1,4 +1,5 @@
 import type { BirthChart, PlanetPosition } from "$lib/types/types";
+import { env } from '$env/dynamic/private';
 
 interface SwissEphemerisBirthData {
   date: string;
@@ -15,8 +16,13 @@ interface SwissEphemerisResponse {
 }
 
 // Use local server for development, but use the production API URL if set in environment
-const API_BASE_URL = process.env.EPHEMERIS_API_URL || 'http://127.0.0.1:8001';
-const API_KEY = process.env.EPHEMERIS_API_KEY;
+const API_BASE_URL = env.EPHEMERIS_API_URL || 'http://127.0.0.1:8001';
+const API_KEY = env.EPHEMERIS_API_KEY;
+
+// Ensure this service is only used on the server side
+if (typeof window !== 'undefined') {
+  throw new Error('SwissEphemerisService should only be used on the server side');
+}
 
 export class SwissEphemerisService {
   private static async makeRequest(endpoint: string, data: any): Promise<any> {
@@ -62,7 +68,15 @@ export class SwissEphemerisService {
         house_system: houseSystem,
       };
 
+      console.log('=== SWISS EPHEMERIS API REQUEST ===');
+      console.log('URL:', `${API_BASE_URL}/birth-chart`);
+      console.log('Request Data:', JSON.stringify(requestData, null, 2));
+      console.log('API Key:', API_KEY ? 'Present' : 'Missing');
+
       const response = await this.makeRequest('/birth-chart', requestData);
+      
+      console.log('=== SWISS EPHEMERIS API RESPONSE ===');
+      console.log('Response:', JSON.stringify(response, null, 2));
       
       // Transform the response to match your existing BirthChart interface
       return this.transformBirthChartResponse(response, date, latitude, longitude);
@@ -78,6 +92,10 @@ export class SwissEphemerisService {
     latitude: number,
     longitude: number
   ): BirthChart {
+    console.log('=== TRANSFORMING RESPONSE ===');
+    console.log('Response keys:', Object.keys(response));
+    console.log('Response structure:', JSON.stringify(response, null, 2));
+    
     // This transformation will need to be updated based on the actual API response structure
     // For now, I'll create a basic structure that you can adjust
     
@@ -87,7 +105,9 @@ export class SwissEphemerisService {
     // The actual response structure will depend on what the Swiss Ephemeris API returns
     // You'll need to map the response fields to your PlanetPosition interface
     if (response.planets) {
-      response.planets.forEach((planet: any) => {
+      console.log('Found planets array with', response.planets.length, 'planets');
+      response.planets.forEach((planet: any, index: number) => {
+        console.log(`Planet ${index + 1}:`, planet);
         planets.push({
           name: planet.name,
           longitude: planet.longitude,
@@ -98,12 +118,49 @@ export class SwissEphemerisService {
           house: planet.house,
         });
       });
+    } else if (response.objects) {
+      console.log('Found objects with', Object.keys(response.objects).length, 'objects');
+      // Look for planets in the objects
+      Object.entries(response.objects).forEach(([key, object]: [string, any]) => {
+        console.log(`Object ${key}:`, object);
+        // Check if this is a planet (you might need to adjust this logic based on the actual structure)
+        if (object.type && object.type.name === 'Planet') {
+          planets.push({
+            name: object.name,
+            longitude: object.longitude.raw,
+            latitude: object.latitude?.raw || 0,
+            distance: object.distance?.raw || 1,
+            sign: object.sign.name,
+            degree: object.sign_longitude.raw,
+            house: object.house?.number || 1,
+            retrograde: object.speed?.raw < 0 || false,
+          });
+        }
+      });
+    } else {
+      console.log('No planets found in response. Available keys:', Object.keys(response));
     }
 
     // Extract houses, ascendant, and MC from the response
     const houses = response.houses || [];
-    const ascendant = response.ascendant || 0;
-    const mc = response.mc || 0;
+    
+    // Look for ASC and MC in the objects
+    let ascendant = 0;
+    let mc = 0;
+    
+    if (response.objects) {
+      Object.entries(response.objects).forEach(([key, object]: [string, any]) => {
+        if (object.name === 'Ascendant') {
+          ascendant = object.longitude.raw;
+        } else if (object.name === 'MC' || object.name === 'Midheaven') {
+          mc = object.longitude.raw;
+        }
+      });
+    }
+    
+    // Fallback to direct properties if not found in objects
+    if (ascendant === 0) ascendant = response.ascendant || 0;
+    if (mc === 0) mc = response.mc || 0;
 
     return {
       planets,

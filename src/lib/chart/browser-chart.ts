@@ -1,21 +1,29 @@
 import type { BirthData, BirthChart, PlanetPosition } from '../types/types';
 import { ZODIAC_SIGNS, PLANETS, WHOLE_SIGN_HOUSES, DEGREES_PER_SIGN, getSignByDegree } from '../astrology/astrology';
-import { SwissEphemerisService } from '../astrology/swiss-ephemeris-service';
 
 export async function calculateBirthChart(birthData: BirthData): Promise<BirthChart> {
   try {
-    // Combine date and time
-    const dateTime = new Date(`${birthData.date}T${birthData.time}`);
-    
-    const chart = await SwissEphemerisService.calculateBirthChart(
-      dateTime,
-      birthData.latitude,
-      birthData.longitude,
-      birthData.place || 'Unknown Location',
-      birthData.house_system || 'whole_sign'
-    );
-    
-    return chart;
+    // Use the API endpoint instead of calling the service directly
+    const response = await fetch('/api/birth-chart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        date: birthData.date,
+        latitude: birthData.latitude,
+        longitude: birthData.longitude,
+        place: birthData.place || 'Unknown Location',
+        house_system: birthData.house_system || 'whole_sign',
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to calculate birth chart');
+    }
+
+    return await response.json();
   } catch (error) {
     console.error('Error calculating birth chart:', error);
     throw error;

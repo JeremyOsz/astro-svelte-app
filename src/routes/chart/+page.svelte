@@ -7,9 +7,13 @@
   import * as Sheet from "$lib/components/ui/sheet";
   import { Button } from "$lib/components/ui/button";
   import { PanelLeft, Settings, X } from 'lucide-svelte';
+  import type { PageData } from './$types';
+
+  export let data: PageData;
 
   let chartComponent: D3Chart;
-  let chartData: string = '';
+  let chartData: string = data.chartData || '';
+  let error: string | null = data.error || null;
   let showChart = false;
 
   // Chart settings
@@ -51,16 +55,64 @@ Vertex,Aries,29°44'
 ASC,Sagittarius,1°40'
 MC,Leo,10°14'`;
   
-  const chartDataStore = writable(mockChartData);
+  const chartDataStore = writable(chartData || mockChartData);
 
   // Check if device is mobile
   $: if (typeof window !== 'undefined') {
     isMobile = window.innerWidth < 768;
   }
 
+  // Update chart data when data changes
+  $: {
+    console.log('Data prop changed:', data);
+    console.log('chartData from data:', data.chartData);
+    console.log('error from data:', data.error);
+  }
+
+  $: if (data.chartData) {
+    try {
+      // The server action now returns a formatted string, not JSON
+      const formattedChartData = data.chartData as string;
+      console.log('Received chart data from server:', formattedChartData);
+      
+      if (formattedChartData && typeof formattedChartData === 'string' && formattedChartData.trim()) {
+        chartData = formattedChartData;
+        chartDataStore.set(formattedChartData);
+        showChart = true;
+        console.log('Chart data updated, showing chart');
+        console.log('chartDataStore value:', $chartDataStore);
+      } else {
+        console.error('Empty chart data received');
+        error = 'No chart data received from API';
+        showChart = false;
+      }
+    } catch (parseError) {
+      console.error('Error processing chart data:', parseError);
+      error = 'Error processing chart data';
+      showChart = false;
+    }
+  }
+
+  $: if (data.error) {
+    error = data.error;
+    // Clear chart data when there's an error
+    chartData = '';
+    chartDataStore.set('');
+    showChart = false;
+  }
+
+  // Clear error when new chart data is successfully processed
+  $: if (data.chartData && !data.error) {
+    error = null;
+  }
+
   onMount(() => {
-    // Load test data by default
-    loadTestData();
+    // Load test data by default if no chart data
+    if (!chartData) {
+      loadTestData();
+    } else {
+      showChart = true;
+    }
     
     // Load saved sidebar width from localStorage
     const savedWidth = localStorage.getItem('sidebarWidth');
@@ -80,16 +132,32 @@ MC,Leo,10°14'`;
     window.addEventListener('resize', handleResize);
     handleResize(); // Initial check
 
+    // Listen for chart data updates from form actions
+    const handleChartDataUpdate = (event: CustomEvent) => {
+      console.log('Received chartDataUpdate event:', event.detail);
+      const { chartData: newChartData, error: newError } = event.detail;
+      
+      if (newChartData) {
+        chartData = newChartData;
+        chartDataStore.set(newChartData);
+        showChart = true;
+        error = null;
+        console.log('Chart data updated via event');
+      }
+      
+      if (newError) {
+        error = newError;
+        showChart = false;
+      }
+    };
+
+    document.addEventListener('chartDataUpdate', handleChartDataUpdate as EventListener);
+
     return () => {
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('chartDataUpdate', handleChartDataUpdate as EventListener);
     };
   });
-
-  function handleChartGenerated(event: CustomEvent<string>) {
-    chartData = event.detail;
-    chartDataStore.set(chartData);
-    showChart = true;
-  }
 
   function loadTestData() {
     chartDataStore.set(mockChartData);
@@ -217,15 +285,13 @@ MC,Leo,10°14'`;
         <div class="text-center hidden md:block">
           <h1 class="text-2xl font-bold text-gray-800">Birth Chart Calculator</h1>
           <p class="text-sm text-gray-600">Generate your personalized astrological birth chart</p>
-          <p class="text-sm text-gray-600"><br>(Generation not currently working, please use the test data or copy your own from astro-seek)</p>
-
         </div>
         
         <div class="space-y-4 flex-1 overflow-y-auto">
           <!-- Birth Chart Form -->
           <div>
             <h3 class="text-lg font-semibold text-gray-800 mb-3">Birth Details</h3>
-            <BirthChartForm on:chartGenerated={handleChartGenerated} />
+            <BirthChartForm {chartData} {error} />
           </div>
 
           <!-- Test Data Section -->
