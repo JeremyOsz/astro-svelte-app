@@ -38,29 +38,25 @@ export function formatDegrees(decimal: number): string {
 }
 
 // Mock geocoder for demonstration
-function mockGeocode(location: string): { latitude: number; longitude: number; timezone: number } {
+function mockGeocode(location: string): { latitude: number; longitude: number } {
   // For demo, return New York, NY, USA
-  // Latitude: 40.7128, Longitude: -74.0060, Timezone: -5 (EST, not accounting for DST)
-  // You can expand this with more locations or integrate a real geocoder
   return {
     latitude: 40.7128,
-    longitude: -74.0060,
-    timezone: -5
+    longitude: -74.0060
   };
 }
 
 // Main function
 export async function formatChartFromInput(date: string, time: string, location: string): Promise<string> {
   // Geocode location
-  const { latitude, longitude, timezone } = mockGeocode(location);
+  const { latitude, longitude } = mockGeocode(location);
 
   // Build BirthData
   const birthData = {
     date,
     time,
     latitude,
-    longitude,
-    timezone
+    longitude
   };
 
   // Calculate chart

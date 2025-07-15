@@ -43,7 +43,6 @@ export const mockBirthData: BirthData = {
   time: '12:00',
   latitude: 40.7128,
   longitude: -74.0060,
-  timezone: -5,
 };
 
 export const mockBirthDataMinimal = {
