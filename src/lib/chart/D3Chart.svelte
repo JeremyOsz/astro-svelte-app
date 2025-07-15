@@ -767,12 +767,22 @@
       const clusterSize = cluster.length;
       if (clusterSize > 1) {
         const totalArc = (clusterSize - 1) * 9;
+        // Clamp the cluster arc to the sign boundaries
+        const signIndex = zodiacSigns.indexOf(cluster[0].sign);
+        const signStart = signIndex * 30;
+        const signEnd = signStart + 30;
         const avgAngle = cluster.reduce((sum, p) => sum + p.angle, 0) / clusterSize;
-        const startAngle = avgAngle - totalArc / 2;
+        let startAngle = avgAngle - totalArc / 2;
+        // Clamp startAngle and each planet's visualDegree to [signStart, signEnd)
+        if (startAngle < signStart) startAngle = signStart;
+        if (startAngle + totalArc > signEnd) startAngle = signEnd - totalArc;
         cluster.forEach((p: PlanetData, i: number) => {
           const originalPlanet = allPlanets.find(cp => cp.planet === p.planet);
           if (originalPlanet) {
-            originalPlanet.visualDegree = startAngle + i * (totalArc / (clusterSize - 1));
+            let vdeg = startAngle + i * (totalArc / (clusterSize - 1));
+            if (vdeg < signStart) vdeg = signStart;
+            if (vdeg >= signEnd) vdeg = signEnd - 0.01;
+            originalPlanet.visualDegree = vdeg;
           }
         });
       }
