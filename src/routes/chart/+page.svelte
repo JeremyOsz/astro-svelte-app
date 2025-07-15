@@ -37,6 +37,7 @@
   let resizeStartX = 0;
   let resizeStartWidth = 0;
   let isMobile = false;
+  let mounted = false; // Track if component has mounted
 
   // Constraints for sidebar width
   const MIN_SIDEBAR_WIDTH = 240;
@@ -69,13 +70,9 @@ MC,Leo,10°14'`;
     textareaStore = $chartStore.chartData;
   }
 
-  // Check if device is mobile
-  $: if (typeof window !== 'undefined') {
+  // Mobile detection for sidebar behavior only
+  $: if (mounted && typeof window !== 'undefined') {
     isMobile = window.innerWidth < 768;
-    // On mobile, if chart is empty, close sidebar by default
-    if (isMobile && !showChart && sidebarOpen) {
-      sidebarOpen = false;
-    }
   }
 
   // Subscribe to the chart store
@@ -93,9 +90,20 @@ MC,Leo,10°14'`;
 
   // Accordion open state for mobile
   let mobileAccordionValue = '';
-  $: mobileAccordionValue = isMobile ? (!showChart ? 'birth-form' : '') : '';
+  $: mobileAccordionValue = !showChart ? 'birth-form' : '';
 
   onMount(() => {
+    // Mark as hydrated to enable mobile detection
+    mounted = true;
+    
+    // Initial mobile detection
+    isMobile = window.innerWidth < 768;
+    
+    // Close sidebar on mobile if chart is empty
+    if (isMobile && !showChart && sidebarOpen) {
+      sidebarOpen = false;
+    }
+    
     // Don't auto-load test data - let user submit form instead
     // if (!storeChartData) {
     //   loadTestData();
@@ -119,7 +127,6 @@ MC,Leo,10°14'`;
     };
 
     window.addEventListener('resize', handleResize);
-    handleResize(); // Initial check
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -208,33 +215,31 @@ MC,Leo,10°14'`;
 <Sidebar.Provider bind:open={sidebarOpen}>
   <div class="flex flex-col md:flex-row min-h-screen w-full relative">
     <!-- Mobile: Accordion for Birth Data -->
-    {#if isMobile}
-      <div class="w-full max-w-xl mx-auto mt-2 px-2">
+    <div class="w-full max-w-xl mx-auto mt-2 px-2 md:hidden">
         <Accordion.Accordion type="single" bind:value={mobileAccordionValue}>
           <Accordion.AccordionItem value="birth-form">
             <Accordion.AccordionTrigger class="text-lg font-semibold">
               Enter Birth Data
             </Accordion.AccordionTrigger>
             <Accordion.AccordionContent>
-              <BirthChartForm />
+              <BirthChartForm formPrefix="mobile_" />
             </Accordion.AccordionContent>
           </Accordion.AccordionItem>
         </Accordion.Accordion>
       </div>
-    {/if}
     <!-- Desktop: Sidebar -->
-    {#if !isMobile}
-      <!-- Collapsible and Resizable Sidebar -->
-      <aside 
-        class="relative border-r overflow-hidden z-50
-               md:relative md:z-auto md:bg-muted/40
-               fixed inset-y-0 left-0 bg-white
-               md:border-r border-r-0 md:border-r" 
-        class:transition-all={!isResizing}
-        class:duration-300={!isResizing}
-        class:ease-in-out={!isResizing}
-        style="width: {sidebarOpen ? (isMobile ? '100vw' : `${sidebarWidth}px`) : '0px'}"
-      >
+    <!-- Collapsible and Resizable Sidebar -->
+    <aside 
+      class="relative border-r overflow-hidden z-50
+             md:relative md:z-auto md:bg-muted/40
+             fixed inset-y-0 left-0 bg-white
+             md:border-r border-r-0 md:border-r
+             hidden md:block" 
+      class:transition-all={!isResizing}
+      class:duration-300={!isResizing}
+      class:ease-in-out={!isResizing}
+      style="width: {sidebarOpen ? `${sidebarWidth}px` : '0px'}"
+    >
         <div class="h-full flex flex-col p-4 space-y-6" class:hidden={!sidebarOpen}>
           <!-- Mobile header with close button -->
           <div class="flex items-center justify-between md:hidden">
@@ -261,7 +266,7 @@ MC,Leo,10°14'`;
             <!-- Birth Chart Form -->
             <div>
               <h3 class="text-lg font-semibold text-gray-800 mb-3">Birth Details</h3>
-              <BirthChartForm />
+              <BirthChartForm formPrefix="desktop_" />
             </div>
 
             <!-- Test Data Section -->
@@ -327,7 +332,6 @@ MC,Leo,10°14'`;
           </div>
         {/if}
       </aside>
-    {/if}
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col min-w-0 w-full md:w-auto">
       <!-- Header with controls -->

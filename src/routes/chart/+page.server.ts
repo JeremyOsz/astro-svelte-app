@@ -14,9 +14,10 @@ export const actions: Actions = {
     const formData = await request.formData();
     
     try {
-      const birthDate = formData.get('birthDate') as string;
-      const birthTime = formData.get('birthTime') as string;
-      const cityDataStr = formData.get('cityData') as string;
+      // Handle both prefixed and non-prefixed field names
+      const birthDate = (formData.get('birthDate') || formData.get('mobile_birthDate') || formData.get('desktop_birthDate')) as string;
+      const birthTime = (formData.get('birthTime') || formData.get('mobile_birthTime') || formData.get('desktop_birthTime')) as string;
+      const cityDataStr = (formData.get('cityData') || formData.get('mobile_cityData') || formData.get('desktop_cityData')) as string;
       
       if (!birthDate || !birthTime || !cityDataStr) {
         return fail(400, {

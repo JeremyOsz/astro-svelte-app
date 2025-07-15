@@ -3,6 +3,9 @@
   import { searchCities, getCountryName, type CitySearchResult } from '$lib/services/city-service';
   import { getBirthTimezone, formatTimezoneOffset } from '$lib/services/timezone-service';
   import { chartStore } from '$lib/stores/chart-store';
+ 
+  // Props to differentiate mobile vs desktop forms
+  export let formPrefix: string = '';
   
   // Subscribe to the chart store
   $: ({ chartData, error } = $chartStore);
@@ -18,6 +21,7 @@
   let birthDate = '';
   let birthTime = '';
   let selectedCityData: any = null;
+  let formError = ''; // Client-side form validation error
 
   function onCityInput(e: Event) {
     citySearch = (e.target as HTMLInputElement).value;
@@ -81,7 +85,7 @@
     };
     
     // Update hidden input with city data
-    const cityInput = document.getElementById('city-data') as HTMLInputElement;
+    const cityInput = document.getElementById(`${formPrefix}city-data`) as HTMLInputElement;
     if (cityInput) {
       cityInput.value = JSON.stringify(selectedCityData);
       console.log('City selected:', selectedCityData);
@@ -119,6 +123,12 @@
     </div>
   {/if}
 
+  {#if formError}
+    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+      <strong>Please fix the following:</strong> {formError}
+    </div>
+  {/if}
+
   {#if chartData}
     <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
       <strong>Success!</strong> Birth chart calculated successfully.
@@ -128,11 +138,61 @@
   <form 
     method="POST" 
     action="?/calculate"
+    on:submit={(e) => {
+      // Clear previous errors
+      formError = '';
+      
+      console.log('Form submission validation:', {
+        birthDate,
+        birthTime,
+        selectedCityData,
+        citySearch
+      });
+      
+      // Validate all required fields
+      if (!birthDate) {
+        formError = 'Please select your birth date';
+        e.preventDefault();
+        return;
+      }
+      
+      if (!birthTime) {
+        formError = 'Please select your birth time';
+        e.preventDefault();
+        return;
+      }
+      
+      if (!selectedCityData) {
+        formError = 'Please select a city from the dropdown';
+        e.preventDefault();
+        return;
+      }
+      
+      // Update the hidden city data input
+      const cityInput = document.getElementById(`${formPrefix}city-data`) as HTMLInputElement;
+      if (cityInput) {
+        cityInput.value = JSON.stringify(selectedCityData);
+        console.log('Updated city data input:', cityInput.value);
+      }
+      
+      console.log('Form validation passed, proceeding with submission');
+    }}
     use:enhance={({ formData }) => {
+      console.log('=== ENHANCE FUNCTION DEBUG ===');
+      console.log('Form data entries:');
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+      
+      // Get the correct field names based on prefix
+      const birthDateField = formPrefix ? `${formPrefix}birthDate` : 'birthDate';
+      const birthTimeField = formPrefix ? `${formPrefix}birthTime` : 'birthTime';
+      const cityDataField = formPrefix ? `${formPrefix}cityData` : 'cityData';
+      
       console.log('Form submitted with data:', {
-        birthDate: formData.get('birthDate'),
-        birthTime: formData.get('birthTime'),
-        cityData: formData.get('cityData')
+        birthDate: formData.get(birthDateField),
+        birthTime: formData.get(birthTimeField),
+        cityData: formData.get(cityDataField)
       });
       // Set loading state when form submission starts
       chartStore.setLoading(true);
@@ -182,13 +242,16 @@
         on:input={onCityInput}
         on:keydown={onCityKeydown}
         autocomplete="off"
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors {selectedCityData ? 'border-green-300 bg-green-50' : citySearch ? 'border-yellow-300 bg-yellow-50' : 'border-gray-300'}"
         required
       />
+      {#if citySearch && !selectedCityData}
+        <p class="text-sm text-yellow-600 mt-1">Please select a city from the dropdown above</p>
+      {/if}
       <input 
-        id="city-data" 
+        id="{formPrefix}city-data" 
         type="hidden" 
-        name="cityData" 
+        name="{formPrefix}cityData" 
         required
         value=""
       />
@@ -245,7 +308,7 @@
       <input
         id="birth-date"
         type="date"
-        name="birthDate"
+        name="{formPrefix}birthDate"
         bind:value={birthDate}
         on:change={onDateTimeChange}
         required
@@ -261,7 +324,7 @@
       <input
         id="birth-time"
         type="time"
-        name="birthTime"
+        name="{formPrefix}birthTime"
         bind:value={birthTime}
         on:change={onDateTimeChange}
         required
