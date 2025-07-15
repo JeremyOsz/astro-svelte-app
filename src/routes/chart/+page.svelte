@@ -21,7 +21,6 @@
   let showExtendedPlanets = true;
   let showAspectLines = true;
   let showPlanetLabels = true;
-  let zoomLevel = 1;
 
   // Sidebar and sheet state
   let sidebarOpen = true;
@@ -31,6 +30,7 @@
   let resizeStartX = 0;
   let resizeStartWidth = 0;
   let isMobile = false;
+  let showMobileInstructions = false;
 
   // Constraints for sidebar width
   const MIN_SIDEBAR_WIDTH = 240;
@@ -107,6 +107,11 @@ MC,Leo,10°14'`;
     window.addEventListener('resize', handleResize);
     handleResize(); // Initial check
 
+    // Show mobile instructions if this is the first time
+    if (isMobile && !localStorage.getItem('mobileInstructionsShown')) {
+      showMobileInstructions = true;
+    }
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -178,6 +183,11 @@ MC,Leo,10°14'`;
     if (chartComponent) {
       chartComponent.zoomReset();
     }
+  }
+
+  function dismissMobileInstructions() {
+    showMobileInstructions = false;
+    localStorage.setItem('mobileInstructionsShown', 'true');
   }
 </script>
 
@@ -327,16 +337,27 @@ MC,Leo,10°14'`;
           <h2 class="text-lg font-semibold text-gray-800 sm:hidden">Chart</h2>
         </div>
         
-        <!-- Controls & Legend -->
-        <Sheet.Root bind:open={sheetOpen}>
-          <Sheet.Trigger>
-            <Button variant="outline" size="sm" class="h-10">
-              <Settings class="h-4 w-4 mr-2" />
-              <span class="hidden sm:inline">Controls & Legend</span>
-              <span class="sm:hidden">Controls</span>
-            </Button>
-          </Sheet.Trigger>
-          <Sheet.Content side="right" class="w-full sm:w-96 md:w-[540px] flex flex-col">
+        <!-- Mobile: Show "Enter Birth Data" button instead of controls -->
+        {#if isMobile}
+          <Button 
+            variant="outline" 
+            size="sm" 
+            class="h-10"
+            onclick={() => sidebarOpen = true}
+          >
+            Enter Birth Data
+          </Button>
+        {:else}
+          <!-- Controls & Legend -->
+          <Sheet.Root bind:open={sheetOpen}>
+            <Sheet.Trigger>
+              <Button variant="outline" size="sm" class="h-10">
+                <Settings class="h-4 w-4 mr-2" />
+                <span class="hidden sm:inline">Controls & Legend</span>
+                <span class="sm:hidden">Controls</span>
+              </Button>
+            </Sheet.Trigger>
+            <Sheet.Content side="right" class="w-full sm:w-96 md:w-[540px] flex flex-col">
                         <div class="sticky top-0 bg-white border-b z-10 flex-shrink-0">
               <div class="flex items-start justify-between p-6">
                 <Sheet.Header class="p-0 flex-1">
@@ -411,10 +432,6 @@ MC,Leo,10°14'`;
                       <Button size="sm" variant="outline" class="h-12" onclick={handleZoomReset}>
                         Reset
                       </Button>
-                    </div>
-                    <div class="text-center py-2 bg-gray-50 rounded-md">
-                      <span class="text-sm text-gray-600">Zoom: </span>
-                      <span class="text-sm font-semibold text-gray-900">{Math.round(zoomLevel * 100)}%</span>
                     </div>
                   </div>
                 </div>
@@ -676,20 +693,85 @@ MC,Leo,10°14'`;
             </div>
           </Sheet.Content>
         </Sheet.Root>
+      {/if}
       </div>
 
       <!-- Chart Content -->
-      <div class="flex-1 p-2 sm:p-4 min-h-0">
+      <div class="flex-1 p-2 sm:p-4 min-h-0 relative">
         {#if showChart}
-          <div class="bg-white rounded-lg shadow-md p-2 sm:p-4 h-full">
+          <div class="bg-white rounded-lg shadow-md p-2 sm:p-4 h-full relative">
             <D3Chart 
               bind:this={chartComponent}
               {showDegreeMarkers}
               {showExtendedPlanets}
               {showAspectLines}
               {showPlanetLabels}
-              bind:zoomLevel={zoomLevel}
             />
+            
+            <!-- Mobile Zoom Controls - Floating buttons -->
+            {#if isMobile}
+              <div class="absolute bottom-4 right-4 flex flex-col gap-2 z-10">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  class="h-10 w-10 rounded-full shadow-lg bg-white/90 backdrop-blur-sm"
+                  onclick={handleZoomIn}
+                >
+                  <span class="text-lg font-bold">+</span>
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  class="h-10 w-10 rounded-full shadow-lg bg-white/90 backdrop-blur-sm"
+                  onclick={handleZoomOut}
+                >
+                  <span class="text-lg font-bold">−</span>
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  class="h-10 w-10 rounded-full shadow-lg bg-white/90 backdrop-blur-sm"
+                  onclick={handleZoomReset}
+                >
+                  <span class="text-xs font-medium">Reset</span>
+                </Button>
+              </div>
+            {/if}
+            
+            <!-- Mobile Instructions Overlay -->
+            {#if showMobileInstructions && isMobile}
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-20 p-4">
+                <div class="bg-white rounded-lg p-6 max-w-sm mx-auto text-center">
+                  <h3 class="text-lg font-semibold mb-4">How to Use the Chart</h3>
+                  <div class="space-y-3 text-sm text-gray-600 mb-6">
+                    <div class="flex items-start space-x-2">
+                      <span class="text-blue-500 mt-0.5">•</span>
+                      <span>Tap on planets, signs, or aspect lines to view details</span>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                      <span class="text-blue-500 mt-0.5">•</span>
+                      <span>Pinch to zoom in and out</span>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                      <span class="text-blue-500 mt-0.5">•</span>
+                      <span>Use the floating zoom buttons for precise control</span>
+                    </div>
+                    <div class="flex items-start space-x-2">
+                      <span class="text-blue-500 mt-0.5">•</span>
+                      <span>Tap "Enter Birth Data" to modify chart settings</span>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="default" 
+                    size="sm" 
+                    class="w-full"
+                    onclick={dismissMobileInstructions}
+                  >
+                    Got it!
+                  </Button>
+                </div>
+              </div>
+            {/if}
           </div>
         {:else}
           <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">

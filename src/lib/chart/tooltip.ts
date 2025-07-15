@@ -53,6 +53,8 @@ export function handleMouseOut() {
 
 export function handleClick(event: MouseEvent, d: any) {
   event.stopPropagation();
+  const isMobile = window.innerWidth < 768;
+  
   if (tooltipPinned && pinnedData === d) {
     tooltipPinned = false;
     pinnedData = null;
@@ -60,7 +62,34 @@ export function handleClick(event: MouseEvent, d: any) {
   } else {
     tooltipPinned = true;
     pinnedData = d;
-    handleMouseOver(event, d); // Show and pin the tooltip
+    
+    let interpretationHtml, title;
+    if (d.aspect) { // It's an aspect
+      title = `Aspect: ${d.planet1} ${d.aspect} ${d.planet2}`;
+      interpretationHtml = getAspectInterpretation(d.aspect, d.planet1, d.planet2, d.orb);
+    } else if (d.planet) { // It's a planet
+      title = `Planet: ${d.planet} in ${d.sign} (House ${d.house})`;
+      interpretationHtml = getPlanetInterpretation(d);
+    } else if (d.sign && d.house !== undefined && !d.planet) { // It's a sign (no planet property)
+      title = `Sign: ${d.sign} in House ${d.house}`;
+      interpretationHtml = getSignInterpretation(d.sign, d.house);
+    } else { // Fallback
+      title = "Unknown element";
+      interpretationHtml = "No interpretation available.";
+    }
+
+    // Add close button for mobile
+    if (isMobile) {
+      interpretationHtml += `
+        <button class="tooltip-close-btn" 
+                style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.1); border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666;"
+                onclick="this.closest('.chart-tooltip').style.opacity = '0';">
+          ×
+        </button>
+      `;
+    }
+
+    showInterpretation(event, interpretationHtml, title);
   }
 }
 
@@ -137,7 +166,9 @@ function getSignInterpretation(sign: string, house: number) {
 function showInterpretation(event: MouseEvent, interpretationHtml: string, title: string) {
   if (!tooltip) createTooltip();
 
-  tooltip.html(`<div class="tooltip-header">${title}</div><div class="tooltip-body">${interpretationHtml}</div>`);
+  // Add position relative to tooltip body for mobile close button
+  const tooltipBodyStyle = 'position: relative;';
+  tooltip.html(`<div class="tooltip-header">${title}</div><div class="tooltip-body" style="${tooltipBodyStyle}">${interpretationHtml}</div>`);
 
   tooltip.transition()
     .duration(200)
@@ -159,21 +190,38 @@ function positionTooltip(event: MouseEvent) {
 
   const tooltipNode = tooltip.node() as HTMLElement;
   const { width, height } = tooltipNode.getBoundingClientRect();
+  const isMobile = window.innerWidth < 768;
 
   let left = event.pageX + 15;
   let top = event.pageY - 15;
 
-  if (left + width > window.innerWidth) {
-    left = event.pageX - width - 15;
-  }
-  if (top + height > window.innerHeight) {
-    top = event.pageY - height;
-  }
-  if (top < 0) {
-    top = 0;
-  }
-  if (left < 0) {
-    left = 0;
+  // Mobile-specific positioning
+  if (isMobile) {
+    // Center horizontally on mobile
+    left = Math.max(10, Math.min(window.innerWidth - width - 10, (window.innerWidth - width) / 2));
+    
+    // Position above or below the touch point
+    if (event.pageY > window.innerHeight / 2) {
+      // Position above if touch is in lower half
+      top = Math.max(10, event.pageY - height - 10);
+    } else {
+      // Position below if touch is in upper half
+      top = Math.min(window.innerHeight - height - 10, event.pageY + 20);
+    }
+  } else {
+    // Desktop positioning
+    if (left + width > window.innerWidth) {
+      left = event.pageX - width - 15;
+    }
+    if (top + height > window.innerHeight) {
+      top = event.pageY - height;
+    }
+    if (top < 0) {
+      top = 0;
+    }
+    if (left < 0) {
+      left = 0;
+    }
   }
 
   tooltip.style('left', left + 'px')

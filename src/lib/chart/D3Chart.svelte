@@ -17,7 +17,6 @@
   export let showExtendedPlanets: boolean = true;
   export let showAspectLines: boolean = true;
   export let showPlanetLabels: boolean = true;
-  export let zoomLevel: number = 1;
 
   // Chart container reference
   let chartContainer: HTMLDivElement;
@@ -68,8 +67,7 @@
     showDegreeMarkers,
     showExtendedPlanets,
     showAspectLines,
-    showPlanetLabels,
-    zoomLevel
+    showPlanetLabels
   });
 
   // Derived store for chart dimensions
@@ -511,16 +509,25 @@
       // Create a group for the sign and its hover area
       const signGroup = g.append('g');
       
-      // Add invisible hover area with smaller radius
-      signGroup.append('circle')
+      // Add invisible hover area with larger radius for mobile
+      const hoverRadius = isMobile ? 15 : 12;
+      const hoverCircle = signGroup.append('circle')
         .attr('cx', x)
         .attr('cy', y)
-        .attr('r', isMobile ? 8 : 12) // Smaller hover radius
+        .attr('r', hoverRadius)
         .attr('fill', 'transparent')
         .style('cursor', 'pointer')
         .on('mouseover', (event) => handleMouseOver(event, signData))
         .on('mouseout', handleMouseOut)
         .on('click', (event) => handleClick(event, signData));
+
+      // Only add touch events on mobile
+      if (isMobile) {
+        hoverCircle.on('touchstart', (event) => {
+          event.preventDefault();
+          handleClick(event, signData);
+        });
+      }
 
       // Add the sign symbol
       signGroup.append('text')
@@ -615,7 +622,7 @@
   }
 
   function drawAspects(g: d3.Selection<SVGGElement, unknown, null, undefined>, ascAngle: number) {
-    const { aspects, data } = get(chartState);
+    const { aspects, data, isMobile } = get(chartState);
     const { aspectHubRadius } = get(chartDimensions);
 
     g.append('circle')
@@ -645,7 +652,7 @@
         .style('pointer-events', 'none');
 
       // Invisible wider line for interaction
-      aspectGroup.append('line')
+      const interactionLine = aspectGroup.append('line')
         .attr('class', 'aspect-interaction-line')
         .attr('x1', Math.cos(angle1) * aspectHubRadius)
         .attr('y1', Math.sin(angle1) * aspectHubRadius)
@@ -657,6 +664,14 @@
         .on('mouseover', (event) => handleMouseOver(event, aspect))
         .on('mouseout', handleMouseOut)
         .on('click', (event) => handleClick(event, aspect));
+
+      // Only add touch events on mobile
+      if (isMobile) {
+        interactionLine.on('touchstart', (event) => {
+          event.preventDefault();
+          handleClick(event, aspect);
+        });
+      }
     });
   }
 
@@ -681,7 +696,7 @@
 
 
        // Planet glyph
-       group.append('text')
+       const planetGlyph = group.append('text')
           .attr('class', 'planet-glyph')
           .attr('x', Math.cos(angleRad) * planetRingRadius)
           .attr('y', Math.sin(angleRad) * planetRingRadius)
@@ -695,6 +710,14 @@
           .on('mouseover', (event) => handleMouseOver(event, p))
           .on('mouseout', handleMouseOut)
           .on('click', (event) => handleClick(event, p));
+
+        // Only add touch events on mobile
+        if (isMobile) {
+          planetGlyph.on('touchstart', (event) => {
+            event.preventDefault();
+            handleClick(event, p);
+          });
+        }
 
         if (showPlanetLabels) {
           const labelX = Math.cos(angleRad) * labelRadius;
@@ -807,40 +830,59 @@
     const g = svg.select('.chart-group');
     if (!g.node()) return;
     
+    const { isMobile } = get(chartState);
+    
     const zoom = d3.zoom()
-      .scaleExtent([0.5, 3]) // Set min/max zoom levels
+      .scaleExtent([0.5, isMobile ? 4 : 3]) // Allow more zoom on mobile
+      .wheelDelta((event) => {
+        // Restore normal zoom sensitivity
+        return -event.deltaY * 0.002;
+      })
       .on('zoom', (event) => {
         g.attr('transform', event.transform);
       });
 
     svg.call(zoom as any)
-      .on('click', unpinTooltip);
-  }
-
-  function updateZoom() {
-    if (svg) {
-      const zoom = d3.zoomTransform(svg.node() as Element);
-      const newTransform = d3.zoomIdentity.scale(zoomLevel);
-      svg.transition().duration(300).call(
-        d3.zoom().transform as any,
-        newTransform
-      );
-    }
+      .on('click', unpinTooltip)
+      .on('touchstart', (event) => {
+        // Only prevent zoom on touch if it's an interactive element
+        if (event.target.classList.contains('aspect-interaction-line') || 
+            event.target.classList.contains('planet-glyph') ||
+            event.target.closest('circle')) {
+          event.stopPropagation();
+        }
+      });
   }
 
   // Expose methods for external use
   export function zoomIn() {
-    const newZoom = Math.min(3, zoomLevel * 1.2);
-    zoomLevel = newZoom;
+    if (!svg) return;
+    const zoom = d3.zoomTransform(svg.node() as Element);
+    const newScale = Math.min(4, zoom.k * 1.2);
+    const newTransform = d3.zoomIdentity.scale(newScale).translate(zoom.x, zoom.y);
+    svg.transition().duration(300).call(
+      d3.zoom().transform as any,
+      newTransform
+    );
   }
 
   export function zoomOut() {
-    const newZoom = Math.max(0.5, zoomLevel / 1.2);
-    zoomLevel = newZoom;
+    if (!svg) return;
+    const zoom = d3.zoomTransform(svg.node() as Element);
+    const newScale = Math.max(0.5, zoom.k / 1.2);
+    const newTransform = d3.zoomIdentity.scale(newScale).translate(zoom.x, zoom.y);
+    svg.transition().duration(300).call(
+      d3.zoom().transform as any,
+      newTransform
+    );
   }
 
   export function zoomReset() {
-    zoomLevel = 1;
+    if (!svg) return;
+    svg.transition().duration(300).call(
+      d3.zoom().transform as any,
+      d3.zoomIdentity
+    );
   }
 
   export function updateChart(newData: string) {
@@ -858,17 +900,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 600px;
+    min-height: 400px;
+    max-height: 80vh;
     border: 1px solid #eee;
     border-radius: 5px;
     background: #fafafa;
     overflow: hidden;
     position: relative;
+    touch-action: manipulation;
+  }
+
+  @media (max-width: 768px) {
+    .chart-container {
+      min-height: 300px;
+      max-height: 70vh;
+      border-radius: 8px;
+    }
   }
 
   :global(.chart-svg) {
     max-width: 100%;
     height: auto;
+    touch-action: manipulation;
   }
 
   :global(.chart-tooltip) {
@@ -878,8 +931,8 @@
   box-shadow: 0 4px 18px rgba(0,0,0,0.10);
   color: #222;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  min-width: 320px;
-  max-width: 420px;
+  min-width: 280px;
+  max-width: 90vw;
   padding: 0;
   z-index: 1001;
   transition: opacity 0.2s ease-in-out;
@@ -889,7 +942,7 @@
   background-color: #fcf8ed;
   padding: 16px 20px 0 20px;
   font-weight: 700;
-  font-size: 22px;
+  font-size: clamp(18px, 4vw, 22px);
   color: #222;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -897,21 +950,21 @@
 }
 :global(.tooltip-body) {
   padding: 10px 20px 18px 20px;
-  font-size: 14px;
+  font-size: clamp(13px, 3.5vw, 14px);
   line-height: 1.7;
   color: #222;
 }
 
 :global(.interpretation-content h3) {
   margin: 0 0 10px;
-  font-size: 16px;
+  font-size: clamp(14px, 3.5vw, 16px);
   font-weight: 700;
   color: #222;
 }
 
 :global(.interpretation-content p) {
   margin: 0 0 10px;
-  font-size: 14px;
+  font-size: clamp(12px, 3vw, 14px);
   color: #222;
 }
 
