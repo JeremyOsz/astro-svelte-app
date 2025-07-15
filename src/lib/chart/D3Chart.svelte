@@ -674,16 +674,12 @@
 
     // Draw house numbers at the midpoint of each house
     houseCusps.forEach((cusp: HouseCusp, index: number) => {
-      const nextCusp = houseCusps[(index + 1) % 12];
-      const midpointAngle = (cusp.angle + nextCusp.angle) / 2;
+      // For Whole Sign system, each house spans exactly 30° starting from the Ascendant's sign
+      // House 1 starts at 0° of the Ascendant's sign, House 2 at 30°, etc.
+      const houseStartAngle = (index * 30) + ascSignStartAngle;
+      const houseMidpointAngle = houseStartAngle + 15; // 15° into each 30° house
       
-      // Handle wrap-around for the 12th house to 1st house transition
-      let adjustedMidpoint = midpointAngle;
-      if (nextCusp.angle < cusp.angle) {
-        adjustedMidpoint = (cusp.angle + (nextCusp.angle + 360)) / 2;
-      }
-      
-      const adjustedDisplayAngle = adjustedMidpoint - zodiacOffset;
+      const adjustedDisplayAngle = houseMidpointAngle - zodiacOffset;
       const displayAngle = (180 - adjustedDisplayAngle) * Math.PI / 180;
       const x = Math.cos(displayAngle) * houseNumRadius;
       const y = Math.sin(displayAngle) * houseNumRadius;
@@ -774,6 +770,37 @@
     const ascSignStartAngle = ascSignIndex * 30;
     const zodiacOffset = ascSignStartAngle - house1CuspAngle;
 
+    // Define a glow filter for each sign color (if not already present)
+    const defs = g.select('defs').empty() ? g.append('defs') : g.select('defs');
+    function ensureGlowFilterForSign(sign: string) {
+      const filterId = `glow-${sign}`;
+      if (defs.select(`#${filterId}`).empty()) {
+        const filter = defs.append('filter')
+          .attr('id', filterId)
+          .attr('x', '-50%')
+          .attr('y', '-50%')
+          .attr('width', '200%')
+          .attr('height', '200%');
+        filter.append('feGaussianBlur')
+          .attr('in', 'SourceGraphic')
+          .attr('stdDeviation', '3.5')
+          .attr('result', 'blur');
+        filter.append('feFlood')
+          .attr('flood-color', zodiacColors[sign])
+          .attr('flood-opacity', '1')
+          .attr('result', 'color');
+        filter.append('feComposite')
+          .attr('in', 'color')
+          .attr('in2', 'blur')
+          .attr('operator', 'in')
+          .attr('result', 'coloredBlur');
+        const feMerge = filter.append('feMerge');
+        feMerge.append('feMergeNode').attr('in', 'coloredBlur');
+        feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+      }
+      return `url(#${filterId})`;
+    }
+
     let planetsToDraw = data.filter((p: PlanetData) => planetSymbols[p.planet] && !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
     if (!showExtendedPlanets) {
       planetsToDraw = planetsToDraw.filter((p: PlanetData) => !extendedPlanetNames.includes(p.planet));
@@ -786,130 +813,148 @@
       const displayAngle = (180 - adjustedAngle);
       const angleRad = displayAngle * Math.PI / 180;
 
+      // Transparent circle for larger hover area
+      group.append('circle')
+        .attr('class', 'planet-hover-area')
+        .attr('cx', Math.cos(angleRad) * planetRingRadius)
+        .attr('cy', Math.sin(angleRad) * planetRingRadius)
+        .attr('r', isMobile ? 12 : 20)
+        .attr('fill', 'transparent')
+        .style('cursor', 'pointer')
+        .on('mouseover', function(event) {
+          const filterUrl = ensureGlowFilterForSign(p.sign);
+          d3.select(this.parentNode as any).style('filter', filterUrl);
+          handleMouseOver(event, p);
+        })
+        .on('mouseout', function(event) {
+          d3.select(this.parentNode as any).style('filter', null);
+          handleMouseOut();
+        })
+        .on('click', (event) => handleClick(event, p));
 
+      // Planet glyph
+      group.append('text')
+        .attr('class', 'planet-glyph')
+        .attr('x', Math.cos(angleRad) * planetRingRadius)
+        .attr('y', Math.sin(angleRad) * planetRingRadius)
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
+        .attr('font-size', isMobile ? 16 : 28)
+        .attr('fill', p.isRetrograde ? '#e53935' : '#333')
+        .style('pointer-events', 'none'); // Pass events to the hover area
+        
 
-       // Planet glyph
-       group.append('text')
-          .attr('class', 'planet-glyph')
-          .attr('x', Math.cos(angleRad) * planetRingRadius)
-          .attr('y', Math.sin(angleRad) * planetRingRadius)
-          .attr('text-anchor', 'middle')
-          .attr('dominant-baseline', 'middle')
-          .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
-          .attr('font-size', isMobile ? 16 : 28)
-          .attr('fill', p.isRetrograde ? '#e53935' : '#333')
-          .style('cursor', 'pointer')
-          .text(planetSymbols[p.planet])
-          .on('mouseover', (!isMobile ? ((event: any) => handleMouseOver(event, p)) : null) as any)
-          .on('mouseout', (!isMobile ? handleMouseOut : null) as any)
-          .on('click', (event) => handleClick(event, p));
+      // Add the text after the glyph so it's on top
+      group.select('.planet-glyph').text(planetSymbols[p.planet]);
 
-        if (showPlanetLabels && !isMobile) {
-          const labelX = Math.cos(angleRad) * labelRadius;
-          const labelY = Math.sin(angleRad) * labelRadius;
-          const rotation = (displayAngle > 90 && displayAngle < 270) ? displayAngle + 90 : displayAngle + 90;
+      if (showPlanetLabels && !isMobile) {
+        const labelX = Math.cos(angleRad) * labelRadius;
+        const labelY = Math.sin(angleRad) * labelRadius;
+        const rotation = (displayAngle > 90 && displayAngle < 270) ? displayAngle + 90 : displayAngle - 90;
 
-          group.append('line')
-              .attr('class', 'planet-notch')
-              .style('pointer-events', 'none')
-              .attr('x1', Math.cos(angleRad) * zodiacInnerRadius)
-              .attr('y1', Math.sin(angleRad) * zodiacInnerRadius)
-              .attr('x2', Math.cos(angleRad) * (planetRingRadius + (isMobile ? 10 : 20)))
-              .attr('y2', Math.sin(angleRad) * (planetRingRadius + (isMobile ? 10 : 20)))
-              .attr('stroke', '#000')
-              .attr('stroke-width', isMobile ? 0.8 : 1);
+        group.append('line')
+          .attr('class', 'planet-notch')
+          .style('pointer-events', 'none')
+          .attr('x1', Math.cos(angleRad) * zodiacInnerRadius)
+          .attr('y1', Math.sin(angleRad) * zodiacInnerRadius)
+          .attr('x2', Math.cos(angleRad) * (planetRingRadius + (isMobile ? 10 : 20)))
+          .attr('y2', Math.sin(angleRad) * (planetRingRadius + (isMobile ? 10 : 20)))
+          .attr('stroke', '#000')
+          .attr('stroke-width', isMobile ? 0.8 : 1);
 
-          const labelGroup = group.append('g')
-            .attr('class', 'planet-label-group')
-            .attr('transform', `translate(${labelX}, ${labelY}) rotate(${rotation})`);
+        const labelGroup = group.append('g')
+          .attr('class', 'planet-label-group')
+          .attr('transform', `translate(${labelX}, ${labelY}) rotate(${rotation})`);
+        
+        if (isMobile) {
+          const labelText = labelGroup.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', 4)
+            .attr('font-size', 9);
           
-          if (isMobile) {
-            const labelText = labelGroup.append('text')
-              .attr('text-anchor', 'middle')
-              .attr('y', 4)
-              .attr('font-size', 9);
-            
-            labelText.append('tspan').text(`${p.degree}°`);
-            labelText.append('tspan').style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif").style('fill', zodiacColors[p.sign]).text(zodiacSymbols[p.sign]);
-            if (p.isRetrograde) {
-                labelText.append('tspan').text('Rx');
-            }
-          } else {
-            labelGroup.append('text')
-              .attr('class', 'planet-label-degree')
-              .attr('text-anchor', 'middle')
-              .attr('y', -8)
-              .style('font-size', '12px')
-              .style('font-weight', 'bold')
-              .text(p.degree);
+          labelText.append('tspan').text(`${p.degree}°`);
+          labelText.append('tspan').style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif").style('fill', zodiacColors[p.sign]).text(zodiacSymbols[p.sign]);
+          if (p.isRetrograde) {
+            labelText.append('tspan').text('Rx');
+          }
+        } else {
+          labelGroup.append('text')
+            .attr('class', 'planet-label-degree')
+            .attr('text-anchor', 'middle')
+            .attr('y', -8)
+            .style('font-size', '12px')
+            .style('font-weight', 'bold')
+            .text(p.degree);
 
+          labelGroup.append('text')
+            .attr('class', 'planet-label-sign')
+            .attr('text-anchor', 'middle')
+            .attr('y', 5)
+            .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
+            .style('font-size', '10px')
+            .style('fill', zodiacColors[p.sign])
+            .text(zodiacSymbols[p.sign]);
+
+          labelGroup.append('text')
+            .attr('class', 'planet-label-minute')
+            .attr('text-anchor', 'middle')
+            .attr('y', 20)
+            .style('font-size', '11px')
+            .text(p.minute.toString().padStart(2, '0'));
+          
+          if (p.isRetrograde) {
             labelGroup.append('text')
-              .attr('class', 'planet-label-sign')
-              .attr('text-anchor', 'middle')
-              .attr('y', 5)
-              .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
+              .attr('class', 'retrograde-label')
+              .attr('x', 0)
+              .attr('y', 34)
               .style('font-size', '10px')
-              .style('fill', zodiacColors[p.sign])
-              .text(zodiacSymbols[p.sign]);
-
-            labelGroup.append('text')
-              .attr('class', 'planet-label-minute')
-              .attr('text-anchor', 'middle')
-              .attr('y', 20)
-              .style('font-size', '11px')
-              .text(p.minute.toString().padStart(2, '0'));
-            
-            if (p.isRetrograde) {
-              labelGroup.append('text')
-                .attr('class', 'retrograde-label')
-                .attr('x', 0)
-                .attr('y', 34)
-                .style('font-size', '10px')
-                .style('fill', '#e53935')
-                .text('Rx');
-            }
+              .style('fill', '#e53935')
+              .text('Rx');
           }
         }
-      });
+      }
+    });
   }
 
   // Clustering functions
-  function findClusters(planets: PlanetData[]) {
+  function findClusters(planets: PlanetData[], clusterThreshold = 4) {
     if (planets.length === 0) return [];
     let sorted = [...planets].sort((a, b) => a.angle - b.angle);
-    let clusters: PlanetData[][] = [[sorted[0]]];
-    for (let i = 1; i < sorted.length; i++) {
-      if (Math.abs(sorted[i].angle - sorted[i - 1].angle) < 12) {
-        clusters[clusters.length - 1].push(sorted[i]);
-      } else {
-        clusters.push([sorted[i]]);
+    let clusters: PlanetData[][] = [];
+    if (sorted.length > 0) {
+      clusters.push([sorted[0]]);
+      for (let i = 1; i < sorted.length; i++) {
+        if (Math.abs(sorted[i].angle - sorted[i - 1].angle) < clusterThreshold) {
+          clusters[clusters.length - 1].push(sorted[i]);
+        } else {
+          clusters.push([sorted[i]]);
+        }
       }
     }
     return clusters;
   }
 
   function calculateVisualDegrees(planetsToDraw: PlanetData[], allPlanets: PlanetData[]) {
+    // Reset all visual degrees to their actual angle first
+    allPlanets.forEach(p => {
+      p.visualDegree = p.angle;
+    });
+
+    const clusterSpread = 4; // Degrees to spread planets in a cluster
     let clusters = findClusters(planetsToDraw);
+
     clusters.forEach(cluster => {
       const clusterSize = cluster.length;
       if (clusterSize > 1) {
-        const totalArc = (clusterSize - 1) * 9;
-        // Clamp the cluster arc to the sign boundaries
-        const signIndex = zodiacSigns.indexOf(cluster[0].sign);
-        const signStart = signIndex * 30;
-        const signEnd = signStart + 30;
         const avgAngle = cluster.reduce((sum, p) => sum + p.angle, 0) / clusterSize;
+        const totalArc = (clusterSize - 1) * clusterSpread;
         let startAngle = avgAngle - totalArc / 2;
-        // Clamp startAngle and each planet's visualDegree to [signStart, signEnd)
-        if (startAngle < signStart) startAngle = signStart;
-        if (startAngle + totalArc > signEnd) startAngle = signEnd - totalArc;
+
         cluster.forEach((p: PlanetData, i: number) => {
           const originalPlanet = allPlanets.find(cp => cp.planet === p.planet);
           if (originalPlanet) {
-            let vdeg = startAngle + i * (totalArc / (clusterSize - 1));
-            if (vdeg < signStart) vdeg = signStart;
-            if (vdeg >= signEnd) vdeg = signEnd - 0.01;
-            originalPlanet.visualDegree = vdeg;
+            originalPlanet.visualDegree = startAngle + i * clusterSpread;
           }
         });
       }
