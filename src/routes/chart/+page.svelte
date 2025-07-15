@@ -11,6 +11,7 @@
   import type { PageData } from './$types';
   import { chartStore } from '$lib/stores/chart-store';
   import * as Accordion from "$lib/components/ui/accordion";
+  import { Input } from '$lib/components/ui/input';
 
   export let data: PageData;
 
@@ -24,6 +25,9 @@
   let showAspectLines = true;
   let showPlanetLabels = true;
   let zoomLevel = 1;
+
+  // Interpretation search filter
+  let interpretationFilter = '';
 
   // Sidebar and sheet state
   let sidebarOpen = true;
@@ -705,7 +709,16 @@ MC,Leo,10°14'`;
               bind:zoomLevel={zoomLevel}
             />
           </div>
-          <InterpretationList />
+          <!-- Search bar for interpretations -->
+          <div class="mt-4">
+            <Input
+              placeholder="Search interpretations..."
+              bind:value={interpretationFilter}
+              class="w-full"
+            />
+          </div>
+          <!-- Interpretations list -->
+          <InterpretationList filter={interpretationFilter} />
         {:else}
           <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
             <div class="text-center p-4">

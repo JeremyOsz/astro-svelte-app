@@ -39,6 +39,24 @@
     "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", "ASC"
   ];
 
+  // Search filter passed from parent
+  export let filter: string = "";
+
+  $: normalizedFilter = filter.toLowerCase();
+
+  // Filtered arrays based on search term
+  $: filteredPlanetInterpretations = normalizedFilter
+    ? planetInterpretations.filter((html) => html.toLowerCase().includes(normalizedFilter))
+    : planetInterpretations;
+
+  $: filteredAspectInterpretations = normalizedFilter
+    ? aspectInterpretations.filter((html) => html.toLowerCase().includes(normalizedFilter))
+    : aspectInterpretations;
+
+  $: filteredSignInterpretations = normalizedFilter
+    ? signInterpretations.filter((html) => html.toLowerCase().includes(normalizedFilter))
+    : signInterpretations;
+
   let planetInterpretations: string[] = [];
   let aspectInterpretations: string[] = [];
   let signInterpretations: string[] = [];
@@ -146,14 +164,14 @@
   }
 </script>
 
-{#if planetInterpretations.length || aspectInterpretations.length || signInterpretations.length}
+{#if filteredPlanetInterpretations.length || filteredAspectInterpretations.length || filteredSignInterpretations.length}
   <section class="mt-8 space-y-6">
     <h2 class="text-2xl font-bold text-gray-800">Interpretations</h2>
 
-    {#if planetInterpretations.length}
+    {#if filteredPlanetInterpretations.length}
       <div class="space-y-4">
         <h3 class="text-xl font-semibold text-gray-700">Planets in Signs & Houses</h3>
-        {#each planetInterpretations as html, i}
+        {#each filteredPlanetInterpretations as html, i}
           <div class="border rounded-md p-4 bg-white shadow-sm" class:mt-2={i !== 0}>
             {@html html}
           </div>
@@ -161,10 +179,10 @@
       </div>
     {/if}
 
-    {#if aspectInterpretations.length}
+    {#if filteredAspectInterpretations.length}
       <div class="space-y-4">
         <h3 class="text-xl font-semibold text-gray-700">Aspects</h3>
-        {#each aspectInterpretations as html, i}
+        {#each filteredAspectInterpretations as html, i}
           <div class="border rounded-md p-4 bg-white shadow-sm" class:mt-2={i !== 0}>
             {@html html}
           </div>
@@ -172,10 +190,10 @@
       </div>
     {/if}
 
-    {#if signInterpretations.length}
+    {#if filteredSignInterpretations.length}
       <div class="space-y-4">
         <h3 class="text-xl font-semibold text-gray-700">Signs in Houses</h3>
-        {#each signInterpretations as html, i}
+        {#each filteredSignInterpretations as html, i}
           <div class="border rounded-md p-4 bg-white shadow-sm" class:mt-2={i !== 0}>
             {@html html}
           </div>
