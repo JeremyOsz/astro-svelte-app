@@ -11,20 +11,9 @@ This directory contains comprehensive tests for the astrology application's API 
 
 ## API Endpoints Tested
 
-### `/api/chart`
-- **Method**: POST
-- **Purpose**: Calculate birth chart with full birth data
-- **Tests**:
-  - Valid request handling
-  - Missing required fields validation
-  - Null/undefined field validation
-  - Error handling for calculation failures
-  - Invalid JSON handling
-  - Empty request body handling
-
 ### `/api/birth-chart`
 - **Method**: POST
-- **Purpose**: Calculate birth chart with minimal data
+- **Purpose**: Calculate birth chart using Swiss Ephemeris API
 - **Tests**:
   - Valid request handling
   - Missing required fields validation
@@ -33,6 +22,7 @@ This directory contains comprehensive tests for the astrology application's API 
   - Invalid JSON handling
   - Empty request body handling
   - Invalid date format handling
+  - Swiss Ephemeris API integration
 
 ### `/api/transits`
 - **Method**: POST

@@ -1,17 +1,22 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { calculateTransits, type BirthChart } from '$lib/astrology/astronomia-service';
+import { SwissEphemerisService } from '$lib/astrology/swiss-ephemeris-service';
+import type { BirthChart } from '$lib/astrology/astronomia-service';
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
-    const { natalChart, transitDate } = await request.json();
+    const { natalChart, transitDate, house_system } = await request.json();
     
     if (!natalChart || !transitDate) {
       return json({ error: 'Missing required fields: natalChart, transitDate' }, { status: 400 });
     }
     
     const transitDateObj = new Date(transitDate);
-    const transits = calculateTransits(natalChart as BirthChart, transitDateObj);
+    const transits = await SwissEphemerisService.calculateTransits(
+      natalChart as BirthChart, 
+      transitDateObj,
+      house_system || 'whole_sign'
+    );
     
     return json(transits);
   } catch (error) {

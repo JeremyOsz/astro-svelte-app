@@ -4,6 +4,8 @@ export interface BirthData {
   latitude: number;   // Decimal degrees (positive for North)
   longitude: number;  // Decimal degrees (positive for East)
   timezone: number;   // UTC offset in hours
+  place?: string;     // Location name
+  house_system?: 'whole_sign' | 'placidus'; // House system to use
 }
 
 export interface PlanetPosition {
