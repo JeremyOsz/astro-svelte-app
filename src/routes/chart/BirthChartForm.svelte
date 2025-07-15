@@ -110,7 +110,7 @@
   }
 </script>
 
-<div class="mx-auto">
+<div class="p-4 mx-auto">
   <h2 class="text-2xl font-semibold text-gray-900 mb-6">Enter Birth Details</h2>
   
   {#if error}
