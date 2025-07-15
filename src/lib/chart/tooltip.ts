@@ -64,6 +64,8 @@ export function handleClick(event: MouseEvent, d: any) {
   }
 }
 
+export { getPlanetInterpretation, getAspectInterpretation, getSignInterpretation };
+
 function getPlanetInterpretation(planetData: any) {
   const { planet, sign, house, degree, minute, isRetrograde } = planetData;
   const planetInSign = (PLANET_IN_SIGN_INTERPRETATIONS as any)[planet]?.[sign] || "No interpretation available.";

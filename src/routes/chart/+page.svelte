@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
   import D3Chart from '../../lib/chart/D3Chart.svelte';
+  import InterpretationList from '../../lib/chart/InterpretationList.svelte';
   import BirthChartForm from './BirthChartForm.svelte';
   import * as Sidebar from "$lib/components/ui/sidebar";
   import * as Sheet from "$lib/components/ui/sheet";
@@ -694,7 +695,7 @@ MC,Leo,10°14'`;
       <!-- Chart Content -->
       <div class="flex-1 p-2 sm:p-4 min-h-0">
         {#if showChart}
-          <div class="bg-white rounded-lg shadow-md p-2 sm:p-4 h-full">
+          <div class="bg-white rounded-lg shadow-md p-2 sm:p-4">
             <D3Chart 
               bind:this={chartComponent}
               {showDegreeMarkers}
@@ -704,6 +705,7 @@ MC,Leo,10°14'`;
               bind:zoomLevel={zoomLevel}
             />
           </div>
+          <InterpretationList />
         {:else}
           <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
             <div class="text-center p-4">
