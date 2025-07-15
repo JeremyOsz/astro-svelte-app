@@ -566,8 +566,15 @@
         .attr('r', isMobile ? 8 : 12) // Smaller hover radius
         .attr('fill', 'transparent')
         .style('cursor', 'pointer')
-        .on('mouseover', (!isMobile ? ((event: any) => handleMouseOver(event, signData)) : null) as any)
-        .on('mouseout', (!isMobile ? handleMouseOut : null) as any)
+        .on('mouseover', (!isMobile ? function(this: SVGCircleElement, event: MouseEvent) {
+          const filterUrl = ensureGlowFilterForSign(g, sign);
+          d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
+          handleMouseOver(event, signData);
+        } : null) as any)
+        .on('mouseout', (!isMobile ? function(this: SVGCircleElement, event: MouseEvent) {
+          d3.select(this.parentNode as SVGGElement).style('filter', null);
+          handleMouseOut();
+        } : null) as any)
         .on('click', (event) => handleClick(event, signData));
 
       // Add the sign symbol
@@ -748,8 +755,15 @@
         .attr('stroke', 'transparent')
         .attr('stroke-width', 15) // Wider for easier hovering
         .style('cursor', 'pointer')
-        .on('mouseover', (!isMobile ? ((event: any) => handleMouseOver(event, aspect)) : null) as any)
-        .on('mouseout', (!isMobile ? handleMouseOut : null) as any)
+        .on('mouseover', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
+          const filterUrl = ensureGlowFilterForAspect(g, aspect.color);
+          d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
+          handleMouseOver(event, aspect);
+        } : null) as any)
+        .on('mouseout', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
+          d3.select(this.parentNode as SVGGElement).style('filter', null);
+          handleMouseOut();
+        } : null) as any)
         .on('click', (event) => handleClick(event, aspect));
     });
   }
@@ -771,35 +785,7 @@
     const zodiacOffset = ascSignStartAngle - house1CuspAngle;
 
     // Define a glow filter for each sign color (if not already present)
-    const defs = g.select('defs').empty() ? g.append('defs') : g.select('defs');
-    function ensureGlowFilterForSign(sign: string) {
-      const filterId = `glow-${sign}`;
-      if (defs.select(`#${filterId}`).empty()) {
-        const filter = defs.append('filter')
-          .attr('id', filterId)
-          .attr('x', '-50%')
-          .attr('y', '-50%')
-          .attr('width', '200%')
-          .attr('height', '200%');
-        filter.append('feGaussianBlur')
-          .attr('in', 'SourceGraphic')
-          .attr('stdDeviation', '3.5')
-          .attr('result', 'blur');
-        filter.append('feFlood')
-          .attr('flood-color', zodiacColors[sign])
-          .attr('flood-opacity', '1')
-          .attr('result', 'color');
-        filter.append('feComposite')
-          .attr('in', 'color')
-          .attr('in2', 'blur')
-          .attr('operator', 'in')
-          .attr('result', 'coloredBlur');
-        const feMerge = filter.append('feMerge');
-        feMerge.append('feMergeNode').attr('in', 'coloredBlur');
-        feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
-      }
-      return `url(#${filterId})`;
-    }
+    const defs = getDefs(g);
 
     let planetsToDraw = data.filter((p: PlanetData) => planetSymbols[p.planet] && !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
     if (!showExtendedPlanets) {
@@ -821,13 +807,13 @@
         .attr('r', isMobile ? 12 : 20)
         .attr('fill', 'transparent')
         .style('cursor', 'pointer')
-        .on('mouseover', function(event) {
-          const filterUrl = ensureGlowFilterForSign(p.sign);
-          d3.select(this.parentNode as any).style('filter', filterUrl);
+        .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
+          const filterUrl = ensureGlowFilterForSign(g, p.sign);
+          d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
           handleMouseOver(event, p);
         })
-        .on('mouseout', function(event) {
-          d3.select(this.parentNode as any).style('filter', null);
+        .on('mouseout', function(this: SVGCircleElement, event: MouseEvent) {
+          d3.select(this.parentNode as SVGGElement).style('filter', null);
           handleMouseOut();
         })
         .on('click', (event) => handleClick(event, p));
@@ -1009,6 +995,76 @@
   export function updateChart(newData: string) {
     // This function is no longer needed as chartData is managed by the store
     // chartData = newData; 
+  }
+
+  // --- Glow filter utilities ---
+  let globalDefs: d3.Selection<SVGDefsElement, unknown, null, undefined> | null = null;
+
+  function getDefs(g: d3.Selection<any, unknown, null, undefined>) {
+    if (!globalDefs) {
+      globalDefs = g.select('defs').empty() ? g.append('defs') : g.select('defs');
+    }
+    return globalDefs;
+  }
+
+  function ensureGlowFilterForSign(g: d3.Selection<any, unknown, null, undefined>, sign: string) {
+    const defs = getDefs(g);
+    const filterId = `glow-${sign}`;
+    if (defs.select(`#${filterId}`).empty()) {
+      const filter = defs.append('filter')
+        .attr('id', filterId)
+        .attr('x', '-50%')
+        .attr('y', '-50%')
+        .attr('width', '200%')
+        .attr('height', '200%');
+      filter.append('feGaussianBlur')
+        .attr('in', 'SourceGraphic')
+        .attr('stdDeviation', '3.5')
+        .attr('result', 'blur');
+      filter.append('feFlood')
+        .attr('flood-color', zodiacColors[sign])
+        .attr('flood-opacity', '1')
+        .attr('result', 'color');
+      filter.append('feComposite')
+        .attr('in', 'color')
+        .attr('in2', 'blur')
+        .attr('operator', 'in')
+        .attr('result', 'coloredBlur');
+      const feMerge = filter.append('feMerge');
+      feMerge.append('feMergeNode').attr('in', 'coloredBlur');
+      feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+    }
+    return `url(#${filterId})`;
+  }
+
+  function ensureGlowFilterForAspect(g: d3.Selection<any, unknown, null, undefined>, color: string) {
+    const defs = getDefs(g);
+    const filterId = `glow-aspect-${color.replace('#', '')}`;
+    if (defs.select(`#${filterId}`).empty()) {
+      const filter = defs.append('filter')
+        .attr('id', filterId)
+        .attr('x', '-50%')
+        .attr('y', '-50%')
+        .attr('width', '200%')
+        .attr('height', '200%');
+      filter.append('feGaussianBlur')
+        .attr('in', 'SourceGraphic')
+        .attr('stdDeviation', '3.5')
+        .attr('result', 'blur');
+      filter.append('feFlood')
+        .attr('flood-color', color)
+        .attr('flood-opacity', '1')
+        .attr('result', 'color');
+      filter.append('feComposite')
+        .attr('in', 'color')
+        .attr('in2', 'blur')
+        .attr('operator', 'in')
+        .attr('result', 'coloredBlur');
+      const feMerge = filter.append('feMerge');
+      feMerge.append('feMergeNode').attr('in', 'coloredBlur');
+      feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+    }
+    return `url(#${filterId})`;
   }
 </script>
 
