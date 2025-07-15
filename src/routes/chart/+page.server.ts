@@ -40,7 +40,8 @@ export const actions: Actions = {
       console.log('Sending API request with data:', JSON.stringify(apiData, null, 2));
       
       // Call the external API
-      const response = await fetch('http://127.0.0.1:8001/birth-chart', {
+      const API_BASE_URL = env.EPHEMERIS_API_URL || 'http://127.0.0.1:8001';
+      const response = await fetch(`${API_BASE_URL}/birth-chart`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
