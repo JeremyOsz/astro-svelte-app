@@ -9,6 +9,7 @@
   import { PanelLeft, Settings, X } from 'lucide-svelte';
   import type { PageData } from './$types';
   import { chartStore } from '$lib/stores/chart-store';
+  import * as Accordion from "$lib/components/ui/accordion";
 
   export let data: PageData;
 
@@ -66,6 +67,10 @@ MC,Leo,10°14'`;
   // Check if device is mobile
   $: if (typeof window !== 'undefined') {
     isMobile = window.innerWidth < 768;
+    // On mobile, if chart is empty, close sidebar by default
+    if (isMobile && !showChart && sidebarOpen) {
+      sidebarOpen = false;
+    }
   }
 
   // Subscribe to the chart store
@@ -80,6 +85,10 @@ MC,Leo,10°14'`;
     showChart = false;
     console.log('No chart data, hiding chart');
   }
+
+  // Accordion open state for mobile
+  let mobileAccordionValue = '';
+  $: mobileAccordionValue = isMobile ? (!showChart ? 'birth-form' : '') : '';
 
   onMount(() => {
     // Don't auto-load test data - let user submit form instead
@@ -192,124 +201,128 @@ MC,Leo,10°14'`;
 </svelte:head>
 
 <Sidebar.Provider bind:open={sidebarOpen}>
-  <div class="flex min-h-screen w-full relative">
-    <!-- Mobile backdrop -->
-    {#if sidebarOpen}
-      <div 
-        class="fixed inset-0 bg-black/50 z-40 md:hidden"
-        on:click={() => sidebarOpen = false}
-        on:keydown={(e) => e.key === 'Escape' && (sidebarOpen = false)}
-        role="button"
-        tabindex="0"
-        aria-label="Close sidebar"
-      ></div>
+  <div class="flex flex-col md:flex-row min-h-screen w-full relative">
+    <!-- Mobile: Accordion for Birth Data -->
+    {#if isMobile}
+      <div class="w-full max-w-xl mx-auto mt-2 px-2">
+        <Accordion.Accordion type="single" bind:value={mobileAccordionValue}>
+          <Accordion.AccordionItem value="birth-form">
+            <Accordion.AccordionTrigger class="text-lg font-semibold">
+              Enter Birth Data
+            </Accordion.AccordionTrigger>
+            <Accordion.AccordionContent>
+              <BirthChartForm />
+            </Accordion.AccordionContent>
+          </Accordion.AccordionItem>
+        </Accordion.Accordion>
+      </div>
     {/if}
-
-    <!-- Collapsible and Resizable Sidebar -->
-    <aside 
-      class="relative border-r overflow-hidden z-50
-             md:relative md:z-auto md:bg-muted/40
-             fixed inset-y-0 left-0 bg-white
-             md:border-r border-r-0 md:border-r" 
-      class:transition-all={!isResizing}
-      class:duration-300={!isResizing}
-      class:ease-in-out={!isResizing}
-      style="width: {sidebarOpen ? (isMobile ? '100vw' : `${sidebarWidth}px`) : '0px'}"
-    >
-      <div class="h-full flex flex-col p-4 space-y-6" class:hidden={!sidebarOpen}>
-        <!-- Mobile header with close button -->
-        <div class="flex items-center justify-between md:hidden">
-          <h1 class="text-xl font-bold text-gray-800">Birth Chart</h1>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onclick={() => sidebarOpen = false}
-            class="h-8 w-8"
-          >
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </Button>
-        </div>
-
-        <!-- Desktop header -->
-        <div class="text-center hidden md:block">
-          <h1 class="text-2xl font-bold text-gray-800">Birth Chart Calculator</h1>
-          <p class="text-sm text-gray-600">Generate your personalized astrological birth chart</p>
-        </div>
-        
-        <div class="space-y-4 flex-1 overflow-y-auto">
-          <!-- Birth Chart Form -->
-          <div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Birth Details</h3>
-            <BirthChartForm />
+    <!-- Desktop: Sidebar -->
+    {#if !isMobile}
+      <!-- Collapsible and Resizable Sidebar -->
+      <aside 
+        class="relative border-r overflow-hidden z-50
+               md:relative md:z-auto md:bg-muted/40
+               fixed inset-y-0 left-0 bg-white
+               md:border-r border-r-0 md:border-r" 
+        class:transition-all={!isResizing}
+        class:duration-300={!isResizing}
+        class:ease-in-out={!isResizing}
+        style="width: {sidebarOpen ? (isMobile ? '100vw' : `${sidebarWidth}px`) : '0px'}"
+      >
+        <div class="h-full flex flex-col p-4 space-y-6" class:hidden={!sidebarOpen}>
+          <!-- Mobile header with close button -->
+          <div class="flex items-center justify-between md:hidden">
+            <h1 class="text-xl font-bold text-gray-800">Birth Chart</h1>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onclick={() => sidebarOpen = false}
+              class="h-8 w-8"
+            >
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </Button>
           </div>
 
-          <!-- Test Data Section -->
-          <div class="border-t pt-4">
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Test Data</h3>
-            <div class="space-y-3">
-              <div class="flex gap-2">
-                <Button variant="outline" size="sm" class="flex-1 h-10" onclick={loadTestData}>
-                  Load Test Data
-                </Button>
-                <Button variant="outline" size="sm" class="flex-1 h-10" onclick={clearChart}>
-                  Clear Chart
-                </Button>
-              </div>
-              
-              <div>
-                <label class="text-sm font-medium text-gray-700 mb-2 block">Chart Data</label>
-                <p class="text-sm text-gray-600 mb-2">For testing - Copy and paste your chart data from astro-seek - on your chart page click 'copy positions' and paste here</p>
-                <p class="text-sm text-gray-600 mb-2">Changing the string will change the chart</p>
-                <div class="flex gap-2 mb-2">
-                  <Button variant="outline" size="sm" onclick={() => textareaStore = mockChartData}>
+          <!-- Desktop header -->
+          <div class="text-center hidden md:block">
+            <h1 class="text-2xl font-bold text-gray-800">Birth Chart Calculator</h1>
+            <p class="text-sm text-gray-600">Generate your personalized astrological birth chart</p>
+          </div>
+          
+          <div class="space-y-4 flex-1 overflow-y-auto">
+            <!-- Birth Chart Form -->
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-3">Birth Details</h3>
+              <BirthChartForm />
+            </div>
+
+            <!-- Test Data Section -->
+            <div class="border-t pt-4">
+              <h3 class="text-lg font-semibold text-gray-800 mb-3">Test Data</h3>
+              <div class="space-y-3">
+                <div class="flex gap-2">
+                  <Button variant="outline" size="sm" class="flex-1 h-10" onclick={loadTestData}>
                     Load Test Data
                   </Button>
-                  <Button variant="outline" size="sm" onclick={() => textareaStore = ''}>
-                    Clear
+                  <Button variant="outline" size="sm" class="flex-1 h-10" onclick={clearChart}>
+                    Clear Chart
                   </Button>
                 </div>
-                <textarea 
-                  class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
-                  bind:value={textareaStore}
-                  on:input={() => {
-                    console.log('Textarea input:', textareaStore);
-                    // Only update store if the data is actually different to avoid loops
-                    if (textareaStore.trim() && textareaStore !== $chartStore.chartData) {
-                      chartStore.setChartData(textareaStore);
-                    } else if (!textareaStore.trim() && $chartStore.chartData) {
-                      chartStore.clear();
-                    }
-                  }}
-                  placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
-                  rows="8"
-                ></textarea>
-                <div class="text-xs text-gray-500 mt-1">
-                  Current value: {textareaStore ? textareaStore.substring(0, 50) + '...' : 'empty'}
+                
+                <div>
+                  <label class="text-sm font-medium text-gray-700 mb-2 block">Chart Data</label>
+                  <p class="text-sm text-gray-600 mb-2">For testing - Copy and paste your chart data from astro-seek - on your chart page click 'copy positions' and paste here</p>
+                  <p class="text-sm text-gray-600 mb-2">Changing the string will change the chart</p>
+                  <div class="flex gap-2 mb-2">
+                    <Button variant="outline" size="sm" onclick={() => textareaStore = mockChartData}>
+                      Load Test Data
+                    </Button>
+                    <Button variant="outline" size="sm" onclick={() => textareaStore = ''}>
+                      Clear
+                    </Button>
+                  </div>
+                  <textarea 
+                    class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
+                    bind:value={textareaStore}
+                    on:input={() => {
+                      console.log('Textarea input:', textareaStore);
+                      // Only update store if the data is actually different to avoid loops
+                      if (textareaStore.trim() && textareaStore !== $chartStore.chartData) {
+                        chartStore.setChartData(textareaStore);
+                      } else if (!textareaStore.trim() && $chartStore.chartData) {
+                        chartStore.clear();
+                      }
+                    }}
+                    placeholder="Enter chart data in format: Planet,Sign,Degree&#10;Example: Sun,Aries,15°30'"
+                    rows="8"
+                  ></textarea>
+                  <div class="text-xs text-gray-500 mt-1">
+                    Current value: {textareaStore ? textareaStore.substring(0, 50) + '...' : 'empty'}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      
-      <!-- Resize Handle (Desktop only) -->
-      {#if sidebarOpen && !isMobile}
-        <div 
-          class="absolute top-0 right-0 w-3 h-full hover:bg-gray-300 cursor-col-resize transition-colors duration-150 z-10 group"
-          class:bg-gray-500={isResizing}
-          on:mousedown={handleResizeStart}
-          role="button"
-          tabindex="0"
-          aria-label="Resize sidebar"
-        >
-          <!-- Visual indicator -->
-          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-0.5 h-8 bg-gray-600 rounded-full group-hover:bg-gray-800"></div>
-        </div>
-      {/if}
-    </aside>
-
+        
+        <!-- Resize Handle (Desktop only) -->
+        {#if sidebarOpen && !isMobile}
+          <div 
+            class="absolute top-0 right-0 w-3 h-full hover:bg-gray-300 cursor-col-resize transition-colors duration-150 z-10 group"
+            class:bg-gray-500={isResizing}
+            on:mousedown={handleResizeStart}
+            role="button"
+            tabindex="0"
+            aria-label="Resize sidebar"
+          >
+            <!-- Visual indicator -->
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-0.5 h-8 bg-gray-600 rounded-full group-hover:bg-gray-800"></div>
+          </div>
+        {/if}
+      </aside>
+    {/if}
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col min-w-0 w-full md:w-auto">
       <!-- Header with controls -->
