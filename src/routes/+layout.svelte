@@ -20,9 +20,9 @@
               <NavigationMenu.Item>
                 <NavigationMenu.Link href="/chart">Birth Chart</NavigationMenu.Link>
               </NavigationMenu.Item>
-              <!-- <NavigationMenu.Item>
+              <NavigationMenu.Item>
                 <NavigationMenu.Link href="/transits">Transits</NavigationMenu.Link>
-              </NavigationMenu.Item> -->
+              </NavigationMenu.Item>
               <NavigationMenu.Item>
                 <NavigationMenu.Link href="/interpretations">Interpretations</NavigationMenu.Link>
               </NavigationMenu.Item>
@@ -43,7 +43,7 @@
               <nav class="flex flex-col gap-2 p-4 text-gray-900">
                 <a href="/" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Home</a>
                 <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Birth Chart</a>
-                <!-- <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Transits</a> -->
+                <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Transits</a>
                 <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Interpretations</a>
               </nav>
             </Sheet.Content>

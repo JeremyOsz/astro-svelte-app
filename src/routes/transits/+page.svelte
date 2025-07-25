@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { writable } from 'svelte/store';
   import type { BirthData } from '$lib/types/types';
   import TransitDisplay from './TransitDisplay.svelte';
@@ -11,7 +11,8 @@
   import { Calendar, MapPin, Clock, User, CalendarDays, BookOpen } from 'lucide-svelte';
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import { ZODIAC_DETAILED } from '$lib/data/astrological-data';
-  import D3TransitChart from '$lib/chart/D3TransitChart.svelte';
+  import D3BiWheelChart from '$lib/chart/D3BiWheelChart.svelte';
+  import type { Planet } from '$lib/types/types';
 
   // Transit-specific data
   let transitDate = new Date().toISOString().split('T')[0]; // Today's date
@@ -184,6 +185,15 @@
       return;
     }
 
+    // Create cache key
+    const cacheKey = `${transitDate}-${selectedTransitCityData.lat}-${selectedTransitCityData.lng}` as string;
+
+    // Check cache first
+    if (transitCache.has(cacheKey)) {
+      currentTransits = transitCache.get(cacheKey);
+      return;
+    }
+
     loading = true;
     error = null;
     
@@ -236,6 +246,20 @@
             }
           }
         });
+
+        // Calculate ascendant and default houses using Whole Sign if missing
+        const asc = natalChart.planets.find((p: Planet) => p.name === 'ASC' || p.name === 'Asc');
+        if (asc) {
+          natalChart.ascendant = asc.longitude;
+        }
+
+        if (!natalChart.houses || natalChart.houses.length === 0) {
+          const ascSignIndex = Math.floor((natalChart.ascendant || 0) / 30);
+          natalChart.houses = Array.from({ length: 12 }, (_, i) => ({
+            house: i + 1,
+            longitude: ((ascSignIndex + i) % 12) * 30,
+          }));
+        }
       } else {
         throw new Error('Failed to load birth chart data');
       }
@@ -267,6 +291,15 @@
 
       currentTransits = await response.json();
       
+      // Cache the result
+      transitCache.set(cacheKey, currentTransits);
+      
+      // Limit cache size to prevent memory issues
+      if (transitCache.size > 100) {
+        const firstKey = transitCache.keys().next().value;
+        transitCache.delete(firstKey);
+      }
+      
     } catch (err) {
       error = err instanceof Error ? err.message : 'An error occurred while calculating transits';
     } finally {
@@ -288,6 +321,139 @@
       minute: '2-digit' 
     });
     getCurrentLocation();
+  }
+
+  // Chart visualization settings
+  let showAspectLines = true;
+  let showExtendedObjects = false;
+  let houseSystem = 'whole'; // 'whole' or 'placidus'
+  let showLegend = false;
+  let isAnimating = false;
+  let selectedInterpretation: any = null;
+  let showInterpretationPanel = false;
+  let animationSpeed = 1000; // ms between frames
+  let animationInterval: ReturnType<typeof setInterval> | null = null;
+  let dateRange = 30; // days to animate
+  let currentAnimationDate = new Date();
+  let transitCache = new Map<string, any>();
+  let sliderTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  function startAnimation() {
+    if (isAnimating) return;
+    
+    isAnimating = true;
+    currentAnimationDate = new Date();
+    
+    animationInterval = setInterval(() => {
+      currentAnimationDate.setDate(currentAnimationDate.getDate() + 1);
+      transitDate = currentAnimationDate.toISOString().split('T')[0];
+      
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + dateRange);
+      
+      if (currentAnimationDate.getTime() > endDate.getTime()) {
+        stopAnimation();
+        return;
+      }
+      
+      // Use cached data if available, otherwise calculate
+      const cacheKey = selectedTransitCityData 
+        ? `${transitDate}-${selectedTransitCityData.lat}-${selectedTransitCityData.lng}`
+        : null;
+      if (cacheKey && transitCache.has(cacheKey)) {
+        currentTransits = transitCache.get(cacheKey);
+      } else {
+        calculateTransits();
+      }
+    }, animationSpeed);
+  }
+
+  function stopAnimation() {
+    isAnimating = false;
+    if (animationInterval) {
+      clearInterval(animationInterval);
+      animationInterval = null;
+    }
+  }
+
+  function onDateSliderChange(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const daysOffset = parseInt(target.value);
+    const newDate = new Date();
+    newDate.setDate(newDate.getDate() + daysOffset);
+    transitDate = newDate.toISOString().split('T')[0];
+    
+    // Debounce the API call
+    if (sliderTimeout) {
+      clearTimeout(sliderTimeout);
+    }
+    
+    sliderTimeout = setTimeout(() => {
+      if (selectedBirthChart && selectedTransitCityData) {
+        calculateTransits();
+      }
+    }, 300);
+  }
+
+  function showInterpretation(item: any, type: 'planet' | 'aspect') {
+    selectedInterpretation = { item, type };
+    showInterpretationPanel = true;
+  }
+
+  function closeInterpretationPanel() {
+    showInterpretationPanel = false;
+    selectedInterpretation = null;
+  }
+
+  onDestroy(() => {
+    stopAnimation();
+    if (sliderTimeout) {
+      clearTimeout(sliderTimeout);
+    }
+  });
+
+  function getPlanetMeaning(planetName: string): string {
+    const meanings: Record<string, string> = {
+      'Sun': 'ego, identity, and life purpose',
+      'Moon': 'emotions, intuition, and subconscious',
+      'Mercury': 'communication, thinking, and learning',
+      'Venus': 'love, beauty, and values',
+      'Mars': 'action, energy, and desire',
+      'Jupiter': 'expansion, wisdom, and opportunity',
+      'Saturn': 'structure, responsibility, and lessons',
+      'Uranus': 'innovation, rebellion, and sudden change',
+      'Neptune': 'spirituality, dreams, and illusion',
+      'Pluto': 'transformation, power, and deep change'
+    };
+    return meanings[planetName] || 'various life areas';
+  }
+
+  function getTransitInfluence(planetName: string): string {
+    const influences: Record<string, string> = {
+      'Sun': 'personal growth and self-expression',
+      'Moon': 'emotional patterns and inner world',
+      'Mercury': 'communication and mental processes',
+      'Venus': 'relationships and creative expression',
+      'Mars': 'energy levels and assertiveness',
+      'Jupiter': 'opportunities and personal growth',
+      'Saturn': 'challenges and life lessons',
+      'Uranus': 'sudden insights and breakthroughs',
+      'Neptune': 'spiritual awakening and creativity',
+      'Pluto': 'profound transformation and healing'
+    };
+    return influences[planetName] || 'various life areas';
+  }
+
+  function getAspectMeaning(aspectType: string): string {
+    const meanings: Record<string, string> = {
+      'Conjunction': 'New beginnings, activation of natal potential. This aspect brings intense focus and energy to the areas ruled by the planets involved.',
+      'Opposition': 'Awareness, relationships, external challenges. This aspect creates tension that can lead to growth through conflict resolution.',
+      'Square': 'Tension, conflict, growth through challenge. This aspect forces action and change through difficult circumstances.',
+      'Trine': 'Harmony, ease, natural flow. This aspect brings opportunities and positive energy with minimal effort.',
+      'Sextile': 'Opportunity, cooperation, gentle growth. This aspect offers chances for development through cooperation.',
+      'Quincunx': 'Adjustment, adaptation, integration. This aspect requires finding balance between seemingly incompatible energies.'
+    };
+    return meanings[aspectType] || 'This aspect influences various life areas through its unique energy.';
   }
 </script>
 
@@ -433,6 +599,57 @@
         </div>
 
         <div class="action-buttons">
+          <div class="flex flex-wrap items-center gap-4">
+            <div class="flex items-center gap-4">
+              <label class="flex items-center gap-2 text-sm text-gray-600">
+                <input type="checkbox" bind:checked={showAspectLines} />
+                Show Aspect Lines
+              </label>
+              
+              <label class="flex items-center gap-2 text-sm text-gray-600">
+                <input type="checkbox" bind:checked={showExtendedObjects} />
+                Extended Objects
+              </label>
+              
+              <label class="flex items-center gap-2 text-sm text-gray-600">
+                <input type="checkbox" bind:checked={showLegend} />
+                Show Legend
+              </label>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-gray-600">House System:</span>
+              <select 
+                bind:value={houseSystem} 
+                class="px-2 py-1 text-sm border rounded"
+                disabled={isAnimating}
+              >
+                <option value="whole">Whole Sign</option>
+                <option value="placidus">Placidus</option>
+              </select>
+            </div>
+            <div class="flex items-center gap-2">
+              <button 
+                type="button"
+                class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                disabled={!selectedBirthChart || !selectedTransitCityData}
+                on:click={isAnimating ? stopAnimation : startAnimation}
+              >
+                {isAnimating ? 'Stop' : 'Animate'}
+              </button>
+              
+              <select 
+                bind:value={dateRange} 
+                class="px-2 py-1 text-sm border rounded"
+                disabled={isAnimating}
+              >
+                <option value={7}>7 days</option>
+                <option value={14}>14 days</option>
+                <option value={30}>30 days</option>
+                <option value={60}>60 days</option>
+              </select>
+            </div>
+          </div>
           <Button 
             onclick={calculateTransits}
             disabled={loading || !selectedBirthChart || !transitDate || !selectedTransitCityData}
@@ -446,6 +663,30 @@
               Clear Results
             </Button>
           {/if}
+        </div>
+
+        <!-- Time Slider -->
+        <div class="time-slider-section">
+          <label class="setting-label">
+            <Clock class="h-4 w-4" />
+            Time Range: {dateRange} days
+          </label>
+          <div class="slider-container">
+            <input
+              type="range"
+              min="-{dateRange}"
+              max="{dateRange}"
+              value="0"
+              class="w-full"
+              on:input={onDateSliderChange}
+              disabled={isAnimating}
+            />
+            <div class="slider-labels">
+              <span>-{dateRange} days</span>
+              <span>Today</span>
+              <span>+{dateRange} days</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -473,7 +714,89 @@
       <div class="section-header">
         <h2>Transit Chart Visualization</h2>
       </div>
-      <D3TransitChart {natalChart} transitChart={currentTransits} />
+      <D3BiWheelChart 
+        {natalChart} 
+        transitChart={currentTransits} 
+        {showAspectLines}
+        {showExtendedObjects}
+        {houseSystem}
+      />
+      
+      {#if showLegend}
+        <div class="legend-panel">
+          <h4>Chart Legend</h4>
+          <div class="legend-content">
+            <div class="legend-section">
+              <h5>Planets</h5>
+              <div class="legend-items">
+                <span on:click={() => showInterpretation({ name: 'Sun', symbol: '☉' }, 'planet')}>☉ Sun</span>
+                <span on:click={() => showInterpretation({ name: 'Moon', symbol: '☽' }, 'planet')}>☽ Moon</span>
+                <span on:click={() => showInterpretation({ name: 'Mercury', symbol: '☿' }, 'planet')}>☿ Mercury</span>
+                <span on:click={() => showInterpretation({ name: 'Venus', symbol: '♀' }, 'planet')}>♀ Venus</span>
+                <span on:click={() => showInterpretation({ name: 'Mars', symbol: '♂' }, 'planet')}>♂ Mars</span>
+                <span on:click={() => showInterpretation({ name: 'Jupiter', symbol: '♃' }, 'planet')}>♃ Jupiter</span>
+                <span on:click={() => showInterpretation({ name: 'Saturn', symbol: '♄' }, 'planet')}>♄ Saturn</span>
+                <span on:click={() => showInterpretation({ name: 'Uranus', symbol: '♅' }, 'planet')}>♅ Uranus</span>
+                <span on:click={() => showInterpretation({ name: 'Neptune', symbol: '♆' }, 'planet')}>♆ Neptune</span>
+                <span on:click={() => showInterpretation({ name: 'Pluto', symbol: '♇' }, 'planet')}>♇ Pluto</span>
+              </div>
+            </div>
+            
+            <div class="legend-section">
+              <h5>Aspects</h5>
+              <div class="legend-items">
+                <span style="color: #228B22;" on:click={() => showInterpretation({ type: 'Conjunction', symbol: '☌' }, 'aspect')}>☌ Conjunction</span>
+                <span style="color: #FF0000;" on:click={() => showInterpretation({ type: 'Opposition', symbol: '☍' }, 'aspect')}>☍ Opposition</span>
+                <span style="color: #FF0000;" on:click={() => showInterpretation({ type: 'Square', symbol: '□' }, 'aspect')}>□ Square</span>
+                <span style="color: #0000FF;" on:click={() => showInterpretation({ type: 'Trine', symbol: '△' }, 'aspect')}>△ Trine</span>
+                <span style="color: #0000FF;" on:click={() => showInterpretation({ type: 'Sextile', symbol: '⚹' }, 'aspect')}>⚹ Sextile</span>
+              </div>
+            </div>
+            
+            <div class="legend-section">
+              <h5>Rings</h5>
+              <div class="legend-items">
+                <span>Inner: Natal Planets</span>
+                <span>Outer: Transit Planets</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      {/if}
+      
+      <!-- Interpretation Panel -->
+      {#if showInterpretationPanel && selectedInterpretation}
+        <div class="interpretation-overlay" on:click={closeInterpretationPanel}>
+          <div class="interpretation-panel" on:click|stopPropagation>
+            <div class="panel-header">
+              <h3>
+                {selectedInterpretation.type === 'planet' 
+                  ? `${selectedInterpretation.item.symbol} ${selectedInterpretation.item.name}`
+                  : `${selectedInterpretation.item.symbol} ${selectedInterpretation.item.type}`
+                }
+              </h3>
+              <button class="close-btn" on:click={closeInterpretationPanel}>×</button>
+            </div>
+            
+            <div class="panel-content">
+              {#if selectedInterpretation.type === 'planet'}
+                <div class="planet-interpretation">
+                  <h4>Planetary Meaning</h4>
+                  <p>
+                    {selectedInterpretation.item.name} represents {getPlanetMeaning(selectedInterpretation.item.name)}.
+                    In transit, it influences {getTransitInfluence(selectedInterpretation.item.name)}.
+                  </p>
+                </div>
+              {:else}
+                <div class="aspect-interpretation">
+                  <h4>Aspect Meaning</h4>
+                  <p>{getAspectMeaning(selectedInterpretation.item.type)}</p>
+                </div>
+              {/if}
+            </div>
+          </div>
+        </div>
+      {/if}
     </div>
   {/if}
 
@@ -762,6 +1085,162 @@
   .transit-types li:last-child,
   .usage-tips li:last-child {
     border-bottom: none;
+  }
+
+  .time-slider-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .slider-container {
+    position: relative;
+    margin-top: 0.5rem;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+  }
+
+  .slider-labels span {
+    flex: 1;
+    text-align: center;
+  }
+
+  .slider-labels span:first-child {
+    text-align: left;
+  }
+
+  .slider-labels span:last-child {
+    text-align: right;
+  }
+
+  .legend-panel {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .legend-panel h4 {
+    color: #111827;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .legend-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-around;
+  }
+
+  .legend-section {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .legend-section h5 {
+    color: #374151;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .legend-items span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .interpretation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .interpretation-panel {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .panel-header h3 {
+    color: #111827;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .close-btn:hover {
+    background-color: #f3f4f6;
+  }
+
+  .panel-content {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  .planet-interpretation h4,
+  .aspect-interpretation h4 {
+    color: #111827;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .planet-interpretation p,
+  .aspect-interpretation p {
+    color: #374151;
+    line-height: 1.6;
   }
 
   @media (min-width: 1024px) {

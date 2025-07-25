@@ -937,4 +937,24 @@ export function getDetailedAspectInterpretation(aspect: string, planet1: string,
     }
 
     return aspectData.general;
+}
+
+// Function to get transit interpretation
+export function getTransitInterpretation(aspect: string, transitPlanet: string, natalPlanet: string): string {
+    // Get detailed interpretation for specific planet combination
+    const aspectData = ASPECT_INTERPRETATIONS[aspect];
+    if (!aspectData) return '';
+
+    // Try both possible planet key combinations
+    const planetKey1 = `${transitPlanet}_${natalPlanet}`;
+    const planetKey2 = `${natalPlanet}_${transitPlanet}`;
+    
+    const interpretation = aspectData.planets[planetKey1] || aspectData.planets[planetKey2];
+
+    if (interpretation) {
+        return interpretation;
+    }
+
+    // If no specific interpretation, return empty string
+    return '';
 } 

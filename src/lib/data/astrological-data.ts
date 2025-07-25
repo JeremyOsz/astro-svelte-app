@@ -48,8 +48,8 @@ export const ZODIAC_DETAILED = [
 export const PLANET_SYMBOLS: Record<string, string> = {
   'Sun': '☉', 'Moon': '☽', 'Mercury': '☿', 'Venus': '♀', 'Mars': '♂', 
   'Jupiter': '♃', 'Saturn': '♄', 'Uranus': '♅', 'Neptune': '♆', 'Pluto': '♇', 
-  'Node': '☊', 'Lilith': '⚸', 'Chiron': '⚷', 'Fortune': '⊗', 'Vertex': 'Vx', 
-  'ASC': 'Asc', 'MC': 'MC', 'DSC': 'Dsc', 'IC': 'IC'
+  'Node': '☊', 'S.Node': '☋', 'Lilith': '⚸', 'Chiron': '⚷', 'Fortune': '⨁', 'Vertex': 'Vx', 
+  'ASC': 'ⒶⓈⒸ', 'MC': 'ⓂⒸ', 'DSC': 'Dsc', 'IC': 'IC'
 };
 
 export const EXTENDED_PLANET_NAMES = ['Chiron', 'Lilith', 'Node', 'Fortune', 'Vertex'];
