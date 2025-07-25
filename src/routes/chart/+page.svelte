@@ -396,8 +396,18 @@ MC,Leo,10°14'`;
           <h2 class="text-lg font-semibold text-gray-800 sm:hidden">Chart</h2>
         </div>
         
-        <!-- Controls & Legend -->
-        <Sheet.Root bind:open={sheetOpen}>
+       
+
+        <!-- Save and Share Buttons -->
+        {#if showChart}
+          <div class="flex items-center gap-2">
+            <SaveChartButton />
+            <ShareChartButton />
+          </div>
+        {/if}
+
+         <!-- Controls & Legend -->
+         <Sheet.Root bind:open={sheetOpen}>
           <Sheet.Trigger>
             <Button variant="outline" size="sm" class="h-10">
               <Settings class="h-4 w-4 mr-2" />
@@ -725,14 +735,6 @@ MC,Leo,10°14'`;
             </div>
           </Sheet.Content>
         </Sheet.Root>
-
-        <!-- Save and Share Buttons -->
-        {#if showChart}
-          <div class="flex items-center gap-2">
-            <SaveChartButton />
-            <ShareChartButton />
-          </div>
-        {/if}
       </div>
 
       <!-- Chart Content -->
