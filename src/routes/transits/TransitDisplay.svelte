@@ -1,53 +1,39 @@
 <script lang="ts">
   import { formatDegrees } from '$lib/chart/browser-chart';
   import { getSignByDegree } from '$lib/astrology/astrology';
+  import type { NatalChart, TransitChart, TransitAspect } from '$lib/types/types';
 
-  export let natalChart: any;
-  export let currentTransits: any;
+  export let natalChart: NatalChart;
+  export let currentTransits: TransitChart;
 
   $: transitAspects = calculateTransitAspects();
 
-  function calculateTransitAspects() {
+  function calculateTransitAspects(): TransitAspect[] {
     if (!natalChart || !currentTransits) return [];
 
-    const aspects: any[] = [];
+    const aspects: TransitAspect[] = [];
     const orb = 8; // Orb for aspect detection
 
-    currentTransits.planets.forEach((transitPlanet: any) => {
-      natalChart.planets.forEach((natalPlanet: any) => {
-        const aspect = calculateAspect(transitPlanet.longitude, natalPlanet.longitude, orb);
-        if (aspect) {
-          aspects.push({
-            transitPlanet: transitPlanet.name,
-            natalPlanet: natalPlanet.name,
-            aspect: aspect.type,
-            orb: aspect.orb,
-            transitLongitude: transitPlanet.longitude,
-            natalLongitude: natalPlanet.longitude
-          });
+    currentTransits.planets.forEach((transitPlanet) => {
+      natalChart.planets.forEach((natalPlanet) => {
+        const angleDiff = Math.abs(transitPlanet.longitude - natalPlanet.longitude);
+        const diff = Math.min(angleDiff, 360 - angleDiff);
+
+        if (diff <= orb) {
+            aspects.push({ transitPlanet, natalPlanet, type: 'Conjunction', orb: diff, color: '#228B22', style: 'solid' });
+        } else if (Math.abs(diff - 60) <= orb) {
+            aspects.push({ transitPlanet, natalPlanet, type: 'Sextile', orb: Math.abs(diff - 60), color: '#0000FF', style: 'dotted' });
+        } else if (Math.abs(diff - 90) <= orb) {
+            aspects.push({ transitPlanet, natalPlanet, type: 'Square', orb: Math.abs(diff - 90), color: '#FF0000', style: 'solid' });
+        } else if (Math.abs(diff - 120) <= orb) {
+            aspects.push({ transitPlanet, natalPlanet, type: 'Trine', orb: Math.abs(diff - 120), color: '#0000FF', style: 'solid' });
+        } else if (Math.abs(diff - 180) <= orb) {
+            aspects.push({ transitPlanet, natalPlanet, type: 'Opposition', orb: Math.abs(diff - 180), color: '#FF0000', style: 'solid' });
         }
       });
     });
 
-    return aspects.sort((a, b) => Math.abs(a.orb) - Math.abs(b.orb));
-  }
-
-  function calculateAspect(long1: number, long2: number, orb: number) {
-    const diff = Math.abs(long1 - long2);
-    const diff360 = Math.abs(diff - 360);
-
-    const actualDiff = Math.min(diff, diff360);
-    
-    // Major aspects
-    if (actualDiff <= orb) {
-      if (actualDiff <= 1) return { type: 'Conjunction', orb: actualDiff };
-    }
-    if (Math.abs(actualDiff - 60) <= orb) return { type: 'Sextile', orb: Math.abs(actualDiff - 60) };
-    if (Math.abs(actualDiff - 90) <= orb) return { type: 'Square', orb: Math.abs(actualDiff - 90) };
-    if (Math.abs(actualDiff - 120) <= orb) return { type: 'Trine', orb: Math.abs(actualDiff - 120) };
-    if (Math.abs(actualDiff - 180) <= orb) return { type: 'Opposition', orb: Math.abs(actualDiff - 180) };
-
-    return null;
+    return aspects.sort((a, b) => a.orb - b.orb);
   }
 
   function getAspectColor(aspectType: string) {
@@ -74,35 +60,71 @@
 </script>
 
 <div class="transit-display">
-  <div class="transit-header">
-    <h2>Transit Analysis</h2>
-    <p>Showing transits for {new Date().toLocaleDateString()}</p>
+  <div class="transit-comparison">
+    <h3 class="text-xl font-semibold mb-4">Current vs. Natal Positions</h3>
+    <div class="comparison-table">
+      <div class="table-header">
+        <span>Planet</span>
+        <span>Current Position</span>
+        <span>Natal Position</span>
+        <span>Movement</span>
+      </div>
+      {#if currentTransits}
+        {#each currentTransits.planets as transitPlanet}
+          {@const natalPlanet = natalChart.planets.find(p => p.name === transitPlanet.name)}
+          {#if natalPlanet}
+            <div class="table-row">
+              <span class="planet-name">{transitPlanet.name}</span>
+              <span class="current-pos">
+                {formatDegrees(transitPlanet.longitude % 30)} {getSignByDegree(transitPlanet.longitude)}
+                {#if transitPlanet.retrograde}<span class="retrograde">R</span>{/if}
+              </span>
+              <span class="natal-pos">
+                {formatDegrees(natalPlanet.longitude % 30)} {getSignByDegree(natalPlanet.longitude)}
+                {#if natalPlanet.retrograde}<span class="retrograde">R</span>{/if}
+              </span>
+              <span class="movement">
+                {#if transitPlanet.retrograde !== natalPlanet.retrograde}
+                  <span class="direction-change">
+                    {transitPlanet.retrograde ? 'Now Retrograde' : 'Now Direct'}
+                  </span>
+                {:else}
+                  <span class="degree-diff">
+                    {Math.abs(transitPlanet.longitude - natalPlanet.longitude).toFixed(1)}°
+                  </span>
+                {/if}
+              </span>
+            </div>
+          {/if}
+        {/each}
+      {/if}
+    </div>
   </div>
 
   {#if transitAspects.length > 0}
     <div class="transit-aspects">
-      <h3>Active Aspects</h3>
+      <h3 class="text-xl font-semibold mb-4">Active Transit Aspects</h3>
       <div class="aspects-grid">
         {#each transitAspects as aspect}
-          <div class="aspect-card" style="border-left-color: {getAspectColor(aspect.aspect)}">
+          <div class="aspect-card" style="border-left-color: {getAspectColor(aspect.type)}">
             <div class="aspect-header">
-              <span class="aspect-type" style="color: {getAspectColor(aspect.aspect)}">
-                {aspect.aspect}
+              <span class="aspect-type" style="color: {getAspectColor(aspect.type)}">
+                {aspect.type}
               </span>
               <span class="aspect-orb">±{aspect.orb.toFixed(1)}°</span>
             </div>
             <div class="aspect-planets">
-              <span class="transit-planet">{aspect.transitPlanet}</span>
+              <span class="transit-planet">{aspect.transitPlanet.name}</span>
               <span class="aspect-symbol">→</span>
-              <span class="natal-planet">{aspect.natalPlanet}</span>
+              <span class="natal-planet">{aspect.natalPlanet.name}</span>
             </div>
             <div class="aspect-description">
-              {getAspectDescription(aspect.aspect)}
+              {getAspectDescription(aspect.type)}
             </div>
             <div class="aspect-positions">
               <small>
-                {aspect.transitPlanet}: {formatDegrees(aspect.transitLongitude % 30)} {getSignByDegree(aspect.transitLongitude)} | 
-                {aspect.natalPlanet}: {formatDegrees(aspect.natalLongitude % 30)} {getSignByDegree(aspect.natalLongitude)}
+                {aspect.transitPlanet.name}: {formatDegrees(aspect.transitPlanet.longitude % 30)} {getSignByDegree(aspect.transitPlanet.longitude)} | 
+                {aspect.natalPlanet.name}: {formatDegrees(aspect.natalPlanet.longitude % 30)} {getSignByDegree(aspect.natalPlanet.longitude)}
               </small>
             </div>
           </div>
@@ -114,48 +136,14 @@
       <p>No major transits are currently active.</p>
     </div>
   {/if}
-
-  <div class="transit-comparison">
-    <h3>Current vs Natal Positions</h3>
-    <div class="comparison-table">
-      <div class="table-header">
-        <span>Planet</span>
-        <span>Current Position</span>
-        <span>Natal Position</span>
-        <span>Movement</span>
-      </div>
-      {#each currentTransits.planets as transitPlanet, i}
-        {@const natalPlanet = natalChart.planets[i]}
-        <div class="table-row">
-          <span class="planet-name">{transitPlanet.name}</span>
-          <span class="current-pos">
-            {formatDegrees(transitPlanet.longitude % 30)} {transitPlanet.sign}
-            {#if transitPlanet.retrograde}<span class="retrograde">R</span>{/if}
-          </span>
-          <span class="natal-pos">
-            {formatDegrees(natalPlanet.longitude % 30)} {natalPlanet.sign}
-            {#if natalPlanet.retrograde}<span class="retrograde">R</span>{/if}
-          </span>
-          <span class="movement">
-            {#if transitPlanet.retrograde !== natalPlanet.retrograde}
-              <span class="direction-change">
-                {transitPlanet.retrograde ? 'Retrograde' : 'Direct'}
-              </span>
-            {:else}
-              <span class="degree-diff">
-                {Math.abs(transitPlanet.longitude - natalPlanet.longitude).toFixed(1)}°
-              </span>
-            {/if}
-          </span>
-        </div>
-      {/each}
-    </div>
-  </div>
 </div>
 
 <style>
   .transit-display {
     font-size: 0.9rem;
+    padding: 1rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
   }
 
   .transit-header {
@@ -177,8 +165,9 @@
   }
 
   .transit-aspects h3 {
-    margin-bottom: 1rem;
     color: #333;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.75rem;
   }
 
   .aspects-grid {
@@ -188,10 +177,11 @@
   }
 
   .aspect-card {
-    background: #f8f9fa;
+    background: #ffffff;
     border-radius: 0.5rem;
     padding: 1rem;
     border-left: 4px solid;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   }
 
   .aspect-header {
@@ -243,15 +233,18 @@
     color: #666;
     background: #f8f9fa;
     border-radius: 0.5rem;
+    border: 1px dashed #d1d5db;
   }
 
   .transit-comparison {
-    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 
   .transit-comparison h3 {
     margin-bottom: 1rem;
     color: #333;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.75rem;
   }
 
   .comparison-table {

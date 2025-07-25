@@ -44,8 +44,10 @@ async function loadAdmin1Data() {
   }
 }
 
-// Initialize admin data
-loadAdmin1Data();
+// Initialize admin data only on the client-side
+if (typeof window !== 'undefined') {
+  loadAdmin1Data();
+}
 
 function getAdminName(country: string, admin1: string): string | undefined {
   const key = `${country}.${admin1}`;

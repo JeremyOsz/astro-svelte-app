@@ -11,6 +11,7 @@
   import { Calendar, MapPin, Clock, User, CalendarDays, BookOpen } from 'lucide-svelte';
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import { ZODIAC_DETAILED } from '$lib/data/astrological-data';
+  import D3TransitChart from '$lib/chart/D3TransitChart.svelte';
 
   // Transit-specific data
   let transitDate = new Date().toISOString().split('T')[0]; // Today's date
@@ -463,6 +464,16 @@
       </div>
       
       <TransitDisplay {natalChart} {currentTransits} />
+    </div>
+  {/if}
+
+  <!-- Transit Chart Visualization -->
+  {#if natalChart && currentTransits}
+    <div class="transits-section">
+      <div class="section-header">
+        <h2>Transit Chart Visualization</h2>
+      </div>
+      <D3TransitChart {natalChart} transitChart={currentTransits} />
     </div>
   {/if}
 

@@ -43,3 +43,42 @@ export interface TransitData {
     exact: boolean;
   };
 }
+
+export interface Planet {
+    name: string;
+    longitude: number;
+    latitude: number;
+    distance: number;
+    sign: string;
+    degree: number;
+    house?: number;
+    retrograde?: boolean;
+}
+
+export interface HouseCusp {
+    house: number;
+    longitude: number;
+}
+
+export interface NatalChart {
+    planets: Planet[];
+    houses: HouseCusp[];
+    ascendant: number;
+    mc: number;
+    date: Date;
+    latitude: number;
+    longitude: number;
+}
+
+export interface TransitChart {
+    planets: Planet[];
+}
+
+export interface TransitAspect {
+    transitPlanet: Planet;
+    natalPlanet: Planet;
+    type: string;
+    orb: number;
+    color: string;
+    style: string;
+}
