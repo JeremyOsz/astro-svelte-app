@@ -5,17 +5,24 @@ import type { BirthChart } from '$lib/types/types';
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
-    const { natalChart, transitDate, house_system } = await request.json();
+    const { natalChart, transitDate, house_system, transitLocation } = await request.json();
     
     if (!natalChart || !transitDate) {
       return json({ error: 'Missing required fields: natalChart, transitDate' }, { status: 400 });
     }
     
+    // Ensure natalChart.date is a Date object
+    const processedNatalChart = {
+      ...natalChart,
+      date: new Date(natalChart.date)
+    };
+    
     const transitDateObj = new Date(transitDate);
     const transits = await SwissEphemerisService.calculateTransits(
-      natalChart as BirthChart, 
+      processedNatalChart as BirthChart, 
       transitDateObj,
-      house_system || 'whole_sign'
+      house_system || 'whole_sign',
+      transitLocation
     );
     
     return json(transits);

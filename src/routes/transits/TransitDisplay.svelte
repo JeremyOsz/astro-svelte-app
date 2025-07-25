@@ -75,7 +75,7 @@
 
 <div class="transit-display">
   <div class="transit-header">
-    <h2>Current Transits</h2>
+    <h2>Transit Analysis</h2>
     <p>Showing transits for {new Date().toLocaleDateString()}</p>
   </div>
 
@@ -101,8 +101,8 @@
             </div>
             <div class="aspect-positions">
               <small>
-                {aspect.transitPlanet}: {formatDegrees(aspect.transitLongitude % 30)} {getSignByDegree(aspect.transitLongitude).name} | 
-                {aspect.natalPlanet}: {formatDegrees(aspect.natalLongitude % 30)} {getSignByDegree(aspect.natalLongitude).name}
+                {aspect.transitPlanet}: {formatDegrees(aspect.transitLongitude % 30)} {getSignByDegree(aspect.transitLongitude)} | 
+                {aspect.natalPlanet}: {formatDegrees(aspect.natalLongitude % 30)} {getSignByDegree(aspect.natalLongitude)}
               </small>
             </div>
           </div>
