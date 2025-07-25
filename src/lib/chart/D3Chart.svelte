@@ -959,9 +959,12 @@
     const zoom = d3.zoom()
       .scaleExtent([0.5, 3]) // Set min/max zoom levels
       .on('zoom', (event) => {
-        g.attr('transform', event.transform);
+        // Apply the transform to the chart group
+        const transform = event.transform;
+        g.attr('transform', `translate(${chartSize / 2}, ${chartSize / 2}) scale(${transform.k}) translate(${transform.x / transform.k}, ${transform.y / transform.k})`);
       });
 
+    // Apply zoom behavior to the SVG
     svg.call(zoom as any)
       .on('click', unpinTooltip);
   }
@@ -1083,6 +1086,7 @@
     background: #fafafa;
     overflow: hidden;
     position: relative;
+    touch-action: pan-x pan-y pinch-zoom;
   }
 
   :global(.chart-svg) {
@@ -1145,6 +1149,8 @@
     width: 100%;
     max-width: 100%;
     padding: 8px;
+    touch-action: pan-x pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Ensure the SVG scales to container width */

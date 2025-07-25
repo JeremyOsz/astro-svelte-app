@@ -97,7 +97,7 @@ MC,Leo,10°14'`;
 
   // Accordion open state for mobile
   let mobileAccordionValue = '';
-  $: mobileAccordionValue = !showChart ? 'birth-form' : '';
+  $: mobileAccordionValue = !showChart ? 'birth-form' : 'saved-charts';
 
   onMount(() => {
     // Mark as hydrated to enable mobile detection
@@ -238,7 +238,7 @@ MC,Leo,10°14'`;
 
 <Sidebar.Provider bind:open={sidebarOpen}>
   <div class="flex flex-col md:flex-row min-h-screen w-full relative">
-    <!-- Mobile: Accordion for Birth Data -->
+    <!-- Mobile: Accordion for Birth Data and Saved Charts -->
     <div class="w-full max-w-xl mx-auto mt-2 px-2 md:hidden">
         <Accordion.Accordion type="single" bind:value={mobileAccordionValue}>
           <Accordion.AccordionItem value="birth-form">
@@ -247,6 +247,15 @@ MC,Leo,10°14'`;
             </Accordion.AccordionTrigger>
             <Accordion.AccordionContent>
               <BirthChartForm formPrefix="mobile_" />
+            </Accordion.AccordionContent>
+          </Accordion.AccordionItem>
+          <Accordion.AccordionItem value="saved-charts">
+            <Accordion.AccordionTrigger class="text-lg font-semibold">
+              <BookOpen class="h-4 w-4 inline mr-1" />
+              Saved Charts ({$chartStore.savedCharts.length})
+            </Accordion.AccordionTrigger>
+            <Accordion.AccordionContent>
+              <SavedChartsList onChartSelect={handleChartSelect} />
             </Accordion.AccordionContent>
           </Accordion.AccordionItem>
         </Accordion.Accordion>
@@ -409,7 +418,7 @@ MC,Leo,10°14'`;
             <Button variant="outline" size="sm" class="h-10">
               <Settings class="h-4 w-4 mr-2" />
               <span class="hidden sm:inline">Controls & Legend</span>
-              <span class="sm:hidden">Controls</span>
+              <span class="sm:hidden">Controls & Legend</span>
             </Button>
           </Sheet.Trigger>
           <Sheet.Content side="right" class="w-full sm:w-96 md:w-[540px] flex flex-col">
