@@ -486,20 +486,13 @@ MC,Leo,10°14'`;
                 <div class="space-y-4">
                   <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Zoom Controls</h3>
                   <div class="space-y-4">
-                    <div class="grid grid-cols-3 gap-2">
-                      <Button size="sm" variant="outline" class="h-12" onclick={handleZoomIn}>
-                        <span class="text-lg font-bold">+</span>
-                      </Button>
-                      <Button size="sm" variant="outline" class="h-12" onclick={handleZoomOut}>
-                        <span class="text-lg font-bold">−</span>
-                      </Button>
-                      <Button size="sm" variant="outline" class="h-12" onclick={handleZoomReset}>
-                        Reset
+                    <div class="flex justify-center">
+                      <Button size="sm" variant="outline" class="h-12 px-6" onclick={handleZoomReset}>
+                        Reset Zoom
                       </Button>
                     </div>
                     <div class="text-center py-2 bg-gray-50 rounded-md">
-                      <span class="text-sm text-gray-600">Zoom: </span>
-                      <span class="text-sm font-semibold text-gray-900">{Math.round(zoomLevel * 100)}%</span>
+                      <span class="text-sm text-gray-600">Use pinch gestures or mouse wheel to zoom</span>
                     </div>
                   </div>
                 </div>

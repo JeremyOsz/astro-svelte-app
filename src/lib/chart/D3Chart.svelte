@@ -22,6 +22,11 @@
   // Chart container reference
   let chartContainer: HTMLDivElement;
   let svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  
+  // Reset button state
+  let showResetButton = false;
+  let currentTransform = d3.zoomIdentity;
+  let zoomBehavior: d3.ZoomBehavior<Element, unknown> | null = null;
 
   // Subscribe to the chart store - use manual subscription for better control
   let chartStoreUnsubscribe: () => void;
@@ -956,16 +961,26 @@
     const g = svg.select('.chart-group');
     if (!g.node()) return;
     
-    const zoom = d3.zoom()
+    zoomBehavior = d3.zoom()
       .scaleExtent([0.5, 3]) // Set min/max zoom levels
       .on('zoom', (event) => {
         // Apply the transform to the chart group
         const transform = event.transform;
+        currentTransform = transform;
         g.attr('transform', `translate(${chartSize / 2}, ${chartSize / 2}) scale(${transform.k}) translate(${transform.x / transform.k}, ${transform.y / transform.k})`);
+        
+        // Show reset button if not at initial position (scale not 1 or any translation)
+        showResetButton = Math.abs(transform.k - 1) > 0.01 || Math.abs(transform.x) > 0.01 || Math.abs(transform.y) > 0.01;
+        
+        // Debug logging
+        console.log('Zoom transform:', { k: transform.k, x: transform.x, y: transform.y, showReset: showResetButton });
+        
+        // Force reactivity update
+        showResetButton = showResetButton;
       });
 
     // Apply zoom behavior to the SVG
-    svg.call(zoom as any)
+    svg.call(zoomBehavior as any)
       .on('click', unpinTooltip);
   }
 
@@ -982,17 +997,39 @@
 
   // Expose methods for external use
   export function zoomIn() {
-    const newZoom = Math.min(3, zoomLevel * 1.2);
-    zoomLevel = newZoom;
+    if (svg && zoomBehavior) {
+      const currentTransform = d3.zoomTransform(svg.node() as Element);
+      const newScale = Math.min(3, currentTransform.k * 1.2);
+      const newTransform = d3.zoomIdentity.scale(newScale).translate(currentTransform.x, currentTransform.y);
+      
+      svg.transition().duration(300).call(
+        zoomBehavior.transform as any,
+        newTransform
+      );
+    }
   }
 
   export function zoomOut() {
-    const newZoom = Math.max(0.5, zoomLevel / 1.2);
-    zoomLevel = newZoom;
+    if (svg && zoomBehavior) {
+      const currentTransform = d3.zoomTransform(svg.node() as Element);
+      const newScale = Math.max(0.5, currentTransform.k / 1.2);
+      const newTransform = d3.zoomIdentity.scale(newScale).translate(currentTransform.x, currentTransform.y);
+      
+      svg.transition().duration(300).call(
+        zoomBehavior.transform as any,
+        newTransform
+      );
+    }
   }
 
   export function zoomReset() {
-    zoomLevel = 1;
+    if (svg && zoomBehavior) {
+      svg.transition().duration(300).call(
+        zoomBehavior.transform as any,
+        d3.zoomIdentity
+      );
+      showResetButton = false;
+    }
   }
 
   export function updateChart(newData: string) {
@@ -1071,11 +1108,44 @@
   }
 </script>
 
-<div class="chart-container" bind:this={chartContainer}>
-  <!-- Chart will be rendered here by D3 -->
-</div>
+  <div class="chart-wrapper">
+    <div class="chart-container" bind:this={chartContainer}>
+      <!-- Chart will be rendered here by D3 -->
+    </div>
+    
+    <!-- Chart controls - positioned outside the chart container -->
+    <div class="chart-controls">
+      <button 
+        class="control-button zoom-out-button"
+        on:click={zoomOut}
+        title="Zoom out"
+      >
+        −
+      </button>
+      <button 
+        class="control-button zoom-in-button"
+        on:click={zoomIn}
+        title="Zoom in"
+      >
+        +
+      </button>
+      <button 
+        class="control-button reset-button"
+        on:click={zoomReset}
+        title="Reset zoom and position"
+      >
+        ↺
+      </button>
+    </div>
+  </div>
 
 <style>
+  .chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
   .chart-container {
     display: flex;
     justify-content: center;
@@ -1087,6 +1157,63 @@
     overflow: hidden;
     position: relative;
     touch-action: pan-x pan-y pinch-zoom;
+  }
+
+  .chart-controls {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 9999;
+  }
+
+  .control-button {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 16px;
+    font-weight: bold;
+    color: #666;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .control-button:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: #999;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .control-button:active {
+    transform: scale(0.95);
+  }
+
+  .zoom-in-button {
+    font-size: 18px;
+  }
+
+  .zoom-out-button {
+    font-size: 18px;
+  }
+
+  .reset-button {
+    font-size: 14px;
+  }
+
+  .reset-icon {
+    width: 20px;
+    height: 20px;
+    color: #666;
   }
 
   :global(.chart-svg) {
@@ -1151,6 +1278,35 @@
     padding: 8px;
     touch-action: pan-x pan-y pinch-zoom;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .chart-controls {
+    top: 12px;
+    right: 12px;
+    gap: 6px;
+  }
+
+  .control-button {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .zoom-in-button {
+    font-size: 16px;
+  }
+
+  .zoom-out-button {
+    font-size: 16px;
+  }
+
+  .reset-button {
+    font-size: 12px;
+  }
+
+  .reset-icon {
+    width: 18px;
+    height: 18px;
   }
 
   /* Ensure the SVG scales to container width */
