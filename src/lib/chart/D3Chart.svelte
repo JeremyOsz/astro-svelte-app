@@ -1116,18 +1116,18 @@
     <!-- Chart controls - positioned outside the chart container -->
     <div class="chart-controls">
       <button 
-        class="control-button zoom-out-button"
-        on:click={zoomOut}
-        title="Zoom out"
-      >
-        −
-      </button>
-      <button 
         class="control-button zoom-in-button"
         on:click={zoomIn}
         title="Zoom in"
       >
         +
+      </button>
+      <button 
+        class="control-button zoom-out-button"
+        on:click={zoomOut}
+        title="Zoom out"
+      >
+        −
       </button>
       <button 
         class="control-button reset-button"
@@ -1166,7 +1166,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    z-index: 9999;
+    z-index: 10;
   }
 
   .control-button {

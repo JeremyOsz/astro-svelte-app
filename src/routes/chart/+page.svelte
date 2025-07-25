@@ -207,23 +207,7 @@ MC,Leo,10°14'`;
     localStorage.setItem('sidebarWidth', sidebarWidth.toString());
   }
 
-  function handleZoomIn() {
-    if (chartComponent) {
-      chartComponent.zoomIn();
-    }
-  }
 
-  function handleZoomOut() {
-    if (chartComponent) {
-      chartComponent.zoomOut();
-    }
-  }
-
-  function handleZoomReset() {
-    if (chartComponent) {
-      chartComponent.zoomReset();
-    }
-  }
 </script>
 
 <svelte:head>
@@ -482,20 +466,7 @@ MC,Leo,10°14'`;
                   </div>
                 </div>
 
-                <!-- Zoom Controls -->
-                <div class="space-y-4">
-                  <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Zoom Controls</h3>
-                  <div class="space-y-4">
-                    <div class="flex justify-center">
-                      <Button size="sm" variant="outline" class="h-12 px-6" onclick={handleZoomReset}>
-                        Reset Zoom
-                      </Button>
-                    </div>
-                    <div class="text-center py-2 bg-gray-50 rounded-md">
-                      <span class="text-sm text-gray-600">Use pinch gestures or mouse wheel to zoom</span>
-                    </div>
-                  </div>
-                </div>
+
 
                 <!-- Zodiac Signs Legend -->
                 <div class="space-y-4">
