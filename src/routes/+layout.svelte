@@ -43,10 +43,10 @@
 <div class="min-h-screen flex flex-col">
   <header class="bg-gradient-to-tr from-indigo-500 to-purple-700 text-white shadow-md">
     <nav>
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 flex justify-between items-center py-4">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 flex justify-between items-center py-4 relative overflow-visible mr-14">
         <h1 class="text-xl font-bold">Astro Chart</h1>
         <!-- Desktop Navigation -->
-        <div class="hidden lg:block">
+        <div class="hidden lg:block relative">
           <NavigationMenu.Root>
             <NavigationMenu.List class="flex gap-8">
               <!-- Astrology Dropdown -->
@@ -55,7 +55,7 @@
                   Astrology
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
-                  <ul class="grid w-[300px] gap-2 p-2">
+                  <ul class="grid w-[300px] gap-2 p-2 max-h-[80vh] overflow-y-auto">
                     <li>
                       <NavigationMenu.Link>
                         {#snippet child({ props })}
@@ -100,7 +100,7 @@
                   Tarot
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
-                  <ul class="grid w-[300px] gap-2 p-2">
+                  <ul class="grid w-[300px] gap-2 p-2 max-h-[80vh] overflow-y-auto">
                     {#each tarotItems as item}
                       <li>
                         <NavigationMenu.Link>
@@ -172,4 +172,35 @@
   <footer class="bg-gray-100 py-4 text-center text-gray-500 border-t">
     <p>&copy; 2025 Astro Chart by Jeremy Osztreicher. Powered by Swiss Ephemeris and D3.js</p>
   </footer>
-</div> 
+</div>
+
+<style>
+  /* Ensure navigation menu dropdowns stay within viewport */
+  :global([data-radix-navigation-menu-viewport]) {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 50 !important;
+    max-height: 80vh !important;
+    overflow: hidden !important;
+  }
+  
+  /* Ensure dropdown content doesn't break out of container */
+  :global([data-radix-navigation-menu-content]) {
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+  
+  /* Responsive adjustments for medium screens */
+  @media (max-width: 1024px) {
+    :global([data-radix-navigation-menu-viewport]) {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      z-index: 100 !important;
+    }
+  }
+</style>
