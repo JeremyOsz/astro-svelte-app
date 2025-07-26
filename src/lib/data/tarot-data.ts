@@ -20,6 +20,7 @@ export interface TarotCard {
   element?: string;
   planet?: string;
   zodiac?: string;
+  historical?: string;
   symbology?: {
     symbols: string[];
     colors: string[];
@@ -52,6 +53,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Air",
     planet: "Uranus",
     zodiac: "Aquarius",
+    historical: "The Fool represents the beginning of the journey - the innocent soul ready to embark on life's adventure. In medieval times, the fool was often depicted as a court jester who spoke truth through humor and could move freely between social classes. This card embodies the spirit of new beginnings and unlimited potential.",
     symbology: {
       symbols: ["White Rose", "White Dog", "Cliff Edge", "Sun", "Mountains"],
       colors: ["White", "Yellow", "Blue", "Green"],
@@ -82,6 +84,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Air",
     planet: "Mercury",
     zodiac: "Gemini",
+    historical: "The Magician represents the power of manifestation and conscious creation. Historically, magicians were seen as intermediaries between the divine and earthly realms, using their will and skill to transform energy into matter. This card embodies the principle of 'as above, so below' from Hermetic philosophy.",
     symbology: {
       symbols: ["Infinity Symbol", "Wand", "Cup", "Sword", "Pentacle", "Red Roses", "White Lilies"],
       colors: ["Red", "White", "Yellow", "Blue"],
@@ -112,6 +115,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Water",
     planet: "Moon",
     zodiac: "Cancer",
+    historical: "The High Priestess represents intuitive wisdom and the mysteries of the subconscious. She is often associated with the ancient priestesses of various traditions who served as oracles and keepers of sacred knowledge. Her position between two pillars reflects the balance of opposites and the gateway to deeper understanding.",
     symbology: {
       symbols: ["Crescent Moon", "Crown", "Scroll", "Pomegranates", "Pillars", "Veil"],
       colors: ["Blue", "White", "Silver", "Black"],
@@ -142,6 +146,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Earth",
     planet: "Venus",
     zodiac: "Taurus",
+    historical: "The Empress embodies the archetype of the Great Mother - the nurturing, creative force of nature. Throughout history, she has been associated with fertility goddesses, abundance, and the generative power of the earth. Her imagery often draws from classical representations of Venus and other mother goddesses.",
     symbology: {
       symbols: ["Crown", "Scepter", "Shield", "Wheat", "Pomegranates", "Heart"],
       colors: ["Green", "Gold", "Red", "White"],
@@ -172,6 +177,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Fire",
     planet: "Mars",
     zodiac: "Aries",
+    historical: "The Emperor represents authority, structure, and the establishment of order. Historically, he embodies the archetype of the wise ruler who creates stability and protects his realm. His imagery often incorporates symbols of power and governance from various historical periods and cultures.",
     symbology: {
       symbols: ["Crown", "Scepter", "Shield", "Ram Heads", "Throne", "Mountain"],
       colors: ["Red", "Gold", "Orange", "Brown"],
@@ -202,6 +208,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Earth",
     planet: "Jupiter",
     zodiac: "Sagittarius",
+    historical: "The Hierophant represents spiritual authority and traditional religious structures. The term 'hierophant' comes from ancient Greek mystery religions, where it referred to the high priest who revealed sacred teachings. This card embodies the transmission of spiritual wisdom through established traditions and institutions.",
     symbology: {
       symbols: ["Triple Crown", "Staff", "Keys", "Pillars", "Disciples"],
       colors: ["Red", "White", "Gold", "Blue"],
@@ -232,6 +239,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Air",
     planet: "Venus",
     zodiac: "Libra",
+    historical: "The Lovers card represents choice, harmony, and the union of opposites. Throughout history, this card has been associated with the biblical story of Adam and Eve, as well as the alchemical marriage of sun and moon. It embodies the fundamental human experience of making choices that shape our destiny.",
     symbology: {
       symbols: ["Angel", "Tree of Knowledge", "Serpent", "Apple", "Sun", "Moon"],
       colors: ["Blue", "Red", "Green", "Gold"],
@@ -262,6 +270,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Water",
     planet: "Moon",
     zodiac: "Cancer",
+    historical: "The Chariot represents triumph, willpower, and the mastery of opposing forces. Historically, chariots were symbols of military victory and royal power. This card embodies the archetype of the hero who overcomes obstacles through determination and skill, often drawing from classical mythology and military symbolism.",
     symbology: {
       symbols: ["Chariot", "Horses", "Crown", "Scepter", "Stars", "Moon"],
       colors: ["Blue", "Silver", "White", "Gold"],
@@ -292,6 +301,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Fire",
     planet: "Sun",
     zodiac: "Leo",
+    historical: "Strength represents inner fortitude, courage, and the power of gentle persuasion. Traditionally, this card shows a figure taming a lion, symbolizing the triumph of spiritual strength over brute force. This imagery has roots in various cultural traditions that celebrate the power of patience and inner resolve.",
     symbology: {
       symbols: ["Lion", "Infinity Symbol", "Flowers", "Mountains", "Sun"],
       colors: ["Yellow", "Orange", "White", "Blue"],
@@ -322,6 +332,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Earth",
     planet: "Mercury",
     zodiac: "Virgo",
+    historical: "The Hermit represents solitude, introspection, and the search for inner wisdom. Throughout history, hermits and solitary seekers have been revered in many spiritual traditions for their ability to find truth through contemplation. This card embodies the archetype of the wise elder who guides others through his lantern of wisdom.",
     symbology: {
       symbols: ["Lantern", "Staff", "Mountain", "Star", "Grey Robe"],
       colors: ["Grey", "Blue", "White", "Yellow"],
@@ -352,6 +363,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Fire",
     planet: "Jupiter",
     zodiac: "Sagittarius",
+    historical: "The Wheel of Fortune represents cycles, change, and the turning of fate. This card has roots in medieval philosophy and the concept of 'Fortuna,' the goddess of fortune who spins the wheel of destiny. The imagery often incorporates elements from various cultural traditions that recognize the cyclical nature of life.",
     symbology: {
       symbols: ["Wheel", "Sphinx", "Anubis", "Hermanubis", "Four Evangelists", "Hebrew Letters"],
       colors: ["Blue", "Red", "Gold", "White"],
@@ -382,6 +394,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Air",
     planet: "Venus",
     zodiac: "Libra",
+    historical: "Justice represents balance, fairness, and the consequences of our actions. This card embodies the universal principle of cosmic justice and karma. The imagery of the scales and sword has roots in ancient Egyptian mythology and classical representations of justice, symbolizing the weighing of truth and the power of righteous judgment.",
     symbology: {
       symbols: ["Scales", "Sword", "Crown", "Pillars", "Purple Curtain"],
       colors: ["Purple", "Red", "Gold", "White"],
@@ -412,6 +425,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Water",
     planet: "Neptune",
     zodiac: "Pisces",
+    historical: "The Hanged Man represents sacrifice, surrender, and seeing things from a new perspective. This card has been associated with various mythological figures who underwent symbolic death and rebirth, including Odin hanging from Yggdrasil and the crucifixion imagery in Christian tradition.",
     symbology: {
       symbols: ["Hanged Man", "Tree", "Rope", "Halo", "Crossed Legs"],
       colors: ["Blue", "Yellow", "Red", "Green"],
@@ -442,6 +456,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Water",
     planet: "Pluto",
     zodiac: "Scorpio",
+    historical: "Death represents transformation, endings, and the inevitability of change. Throughout history, this card has been associated with the Grim Reaper and various death deities from different cultures. It embodies the universal truth that all things must end to make way for new beginnings.",
     symbology: {
       symbols: ["Skeleton", "Black Flag", "White Rose", "Horse", "Bishop"],
       colors: ["Black", "White", "Red", "Grey"],
@@ -472,6 +487,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Fire",
     planet: "Jupiter",
     zodiac: "Sagittarius",
+    historical: "Temperance represents balance, moderation, and the blending of opposites. This card embodies the virtue of temperance from classical philosophy and medieval Christian teachings. The imagery of mixing liquids symbolizes the alchemical process of creating harmony from different elements.",
     symbology: {
       symbols: ["Angel", "Cups", "Path", "Sun", "Mountain", "Crown"],
       colors: ["Blue", "Orange", "Yellow", "White"],
@@ -502,6 +518,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
     element: "Earth",
     planet: "Saturn",
     zodiac: "Capricorn",
+    historical: "The Devil represents temptation, materialism, and the shadow aspects of human nature. This card has roots in medieval Christian iconography and various cultural representations of evil and temptation. It embodies the archetype of the trickster and the challenges of overcoming our baser instincts.",
     symbology: {
       symbols: ["Devil", "Chains", "Pentagram", "Torch", "Naked Figures"],
       colors: ["Black", "Red", "Grey", "Orange"],
@@ -531,7 +548,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Fire",
     planet: "Mars",
-    zodiac: "Aries"
+    zodiac: "Aries",
+    historical: "The Tower represents sudden change, revelation, and the destruction of false structures. This card has been associated with the biblical Tower of Babel and various mythological stories about the fall of pride and the shattering of illusions. It embodies the archetype of divine intervention and necessary destruction."
   },
   {
     id: "17-the-star",
@@ -553,7 +571,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Air",
     planet: "Uranus",
-    zodiac: "Aquarius"
+    zodiac: "Aquarius",
+    historical: "The Star represents hope, inspiration, and spiritual guidance. This card has been associated with various star deities and the concept of divine guidance throughout history. The imagery often draws from classical mythology and the universal human experience of looking to the stars for direction and meaning."
   },
   {
     id: "18-the-moon",
@@ -575,7 +594,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Water",
     planet: "Neptune",
-    zodiac: "Pisces"
+    zodiac: "Pisces",
+    historical: "The Moon represents intuition, illusion, and the subconscious mind. Throughout history, the moon has been associated with feminine energy, mystery, and the realm of dreams. This card embodies the archetype of the lunar goddess and the power of intuitive knowing that operates beyond rational thought."
   },
   {
     id: "19-the-sun",
@@ -597,7 +617,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Fire",
     planet: "Sun",
-    zodiac: "Leo"
+    zodiac: "Leo",
+    historical: "The Sun represents joy, vitality, and the conscious mind. This card has been associated with solar deities and the life-giving power of the sun throughout various cultures. It embodies the archetype of the solar hero and the triumph of light over darkness, representing clarity, success, and positive energy."
   },
   {
     id: "20-judgement",
@@ -619,7 +640,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Fire",
     planet: "Pluto",
-    zodiac: "Scorpio"
+    zodiac: "Scorpio",
+    historical: "Judgement represents rebirth, awakening, and the call to higher purpose. This card has roots in Christian eschatology and various cultural traditions that speak of a final judgment or spiritual awakening. It embodies the archetype of the divine call and the transformation that comes from answering it."
   },
   {
     id: "21-the-world",
@@ -641,7 +663,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Earth",
     planet: "Saturn",
-    zodiac: "Capricorn"
+    zodiac: "Capricorn",
+    historical: "The World represents completion, wholeness, and the integration of all experiences. This card embodies the archetype of the cosmic dancer and the completion of the Fool's Journey. The imagery often incorporates elements from various cultural traditions that represent the unity of all things and the achievement of spiritual mastery."
   }
 ];
 
@@ -1563,7 +1586,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Missed opportunity at work, lack of planning in career",
       health: "Missed opportunity in health, lack of planning in wellness"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Capricorn",
+    symbology: {
+      symbols: ["Pentacle", "Hand", "Garden", "Path", "Mountain"],
+      colors: ["Green", "Gold", "Brown", "White"],
+      numbers: ["1", "Capricorn Symbol"],
+      animals: [],
+      objects: ["Pentacle", "Hand", "Garden", "Path", "Mountain"],
+      elements: ["Earth", "Capricorn"]
+    }
   },
   {
     id: "pentacles-02",
@@ -1584,7 +1616,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Imbalance at work, over-commitment in career",
       health: "Imbalance in health, over-commitment in wellness"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Capricorn",
+    symbology: {
+      symbols: ["Two Pentacles", "Infinity Symbol", "Ocean", "Ships", "Moon"],
+      colors: ["Blue", "Green", "Gold", "White"],
+      numbers: ["2", "∞"],
+      animals: [],
+      objects: ["Two Pentacles", "Infinity Symbol", "Ocean", "Ships", "Moon"],
+      elements: ["Earth", "Water"]
+    }
   },
   {
     id: "pentacles-03",
@@ -1605,7 +1646,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Disharmony at work, lack of teamwork in career, disorganized",
       health: "Disharmony in health, lack of teamwork in wellness, disorganized"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Capricorn",
+    symbology: {
+      symbols: ["Three Pentacles", "Cathedral", "Architect", "Workers", "Stained Glass"],
+      colors: ["Brown", "Gold", "Blue", "White"],
+      numbers: ["3"],
+      animals: [],
+      objects: ["Three Pentacles", "Cathedral", "Architect", "Workers", "Stained Glass"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-04",
@@ -1626,7 +1676,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Greed at work, self-protection in career, isolation",
       health: "Greed in health, self-protection in wellness, isolation"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Capricorn",
+    symbology: {
+      symbols: ["Four Pentacles", "Crown", "City", "Cloak", "Grasping Hands"],
+      colors: ["Red", "Gold", "Brown", "Green"],
+      numbers: ["4"],
+      animals: [],
+      objects: ["Four Pentacles", "Crown", "City", "Cloak", "Grasping Hands"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-05",
@@ -1647,7 +1706,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Recovery at work, charity in career, improvement",
       health: "Recovery in health, charity in wellness, improvement"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Taurus",
+    symbology: {
+      symbols: ["Five Pentacles", "Church Window", "Snow", "Beggars", "Winter"],
+      colors: ["White", "Blue", "Grey", "Black"],
+      numbers: ["5"],
+      animals: [],
+      objects: ["Five Pentacles", "Church Window", "Snow", "Beggars", "Winter"],
+      elements: ["Earth", "Water"]
+    }
   },
   {
     id: "pentacles-06",
@@ -1668,7 +1736,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Strings attached at work, stinginess in career, power and domination",
       health: "Strings attached in health, stinginess in wellness, power and domination"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Taurus",
+    symbology: {
+      symbols: ["Six Pentacles", "Merchant", "Beggars", "Scales", "City"],
+      colors: ["Red", "Gold", "Green", "Blue"],
+      numbers: ["6"],
+      animals: [],
+      objects: ["Six Pentacles", "Merchant", "Beggars", "Scales", "City"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-07",
@@ -1689,7 +1766,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Lack of long-term vision at work, impatience in career",
       health: "Lack of long-term vision in health, impatience in wellness"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Taurus",
+    symbology: {
+      symbols: ["Seven Pentacles", "Farmer", "Staff", "Bush", "Harvest"],
+      colors: ["Green", "Brown", "Gold", "Blue"],
+      numbers: ["7"],
+      animals: [],
+      objects: ["Seven Pentacles", "Farmer", "Staff", "Bush", "Harvest"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-08",
@@ -1710,7 +1796,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Self-development at work, perfectionism in career, ambition",
       health: "Self-development in health, perfectionism in wellness, ambition"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Virgo",
+    symbology: {
+      symbols: ["Eight Pentacles", "Craftsman", "Workbench", "Hammer", "City"],
+      colors: ["Brown", "Gold", "Blue", "Green"],
+      numbers: ["8"],
+      animals: [],
+      objects: ["Eight Pentacles", "Craftsman", "Workbench", "Hammer", "City"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-09",
@@ -1731,7 +1826,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Self-worth at work, over-investment in career, hustling",
       health: "Self-worth in health, over-investment in wellness, hustling"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Virgo",
+    symbology: {
+      symbols: ["Nine Pentacles", "Lady", "Falcon", "Garden", "Castle"],
+      colors: ["Green", "Gold", "Blue", "Purple"],
+      numbers: ["9"],
+      animals: ["Falcon"],
+      objects: ["Nine Pentacles", "Lady", "Garden", "Castle"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-10",
@@ -1752,7 +1856,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "The dark side of wealth at work, financial failure in career",
       health: "The dark side of wealth in health, financial failure in wellness"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Capricorn",
+    symbology: {
+      symbols: ["Ten Pentacles", "Family", "Dog", "Archway", "City"],
+      colors: ["Green", "Gold", "Blue", "Red"],
+      numbers: ["10"],
+      animals: ["Dog"],
+      objects: ["Ten Pentacles", "Family", "Archway", "City"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-11",
@@ -1772,7 +1885,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Self-development at work, perfectionism in career, re-evaluation",
       health: "Self-development in health, perfectionism in wellness, re-evaluation"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Capricorn",
+    symbology: {
+      symbols: ["Pentacle", "Page", "Field", "Mountain", "Sky"],
+      colors: ["Green", "Gold", "Blue", "Brown"],
+      numbers: ["Page"],
+      animals: [],
+      objects: ["Pentacle", "Page", "Field", "Mountain", "Sky"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-12",
@@ -1792,7 +1914,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Self-discipline at work, boredom in career, feeling 'stuck'",
       health: "Self-discipline in health, boredom in wellness, feeling 'stuck'"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Taurus",
+    symbology: {
+      symbols: ["Pentacle", "Knight", "Horse", "Field", "Plow"],
+      colors: ["Green", "Gold", "Brown", "Blue"],
+      numbers: ["Knight"],
+      animals: ["Horse"],
+      objects: ["Pentacle", "Knight", "Field", "Plow"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-13",
@@ -1812,7 +1943,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Self-care at work, self-compassion in career, work-home conflict",
       health: "Self-care in health, self-compassion in wellness, work-home conflict"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Virgo",
+    symbology: {
+      symbols: ["Pentacle", "Queen", "Throne", "Garden", "Rabbit"],
+      colors: ["Green", "Gold", "Blue", "Red"],
+      numbers: ["Queen"],
+      animals: ["Rabbit"],
+      objects: ["Pentacle", "Queen", "Throne", "Garden"],
+      elements: ["Earth"]
+    }
   },
   {
     id: "pentacles-14",
@@ -1832,7 +1972,16 @@ export const PENTACLES_SUIT: TarotCard[] = [
       career: "Self-protection at work, self-discipline in career, hoarding",
       health: "Self-protection in health, self-discipline in wellness, hoarding"
     },
-    element: "Earth"
+    element: "Earth",
+    zodiac: "Capricorn",
+    symbology: {
+      symbols: ["Pentacle", "King", "Throne", "Castle", "Bull"],
+      colors: ["Green", "Gold", "Blue", "Red"],
+      numbers: ["King"],
+      animals: ["Bull"],
+      objects: ["Pentacle", "King", "Throne", "Castle"],
+      elements: ["Earth"]
+    }
   }
 ];
 
