@@ -8,7 +8,12 @@
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import * as Accordion from '$lib/components/ui/accordion';
-  import { Calendar, MapPin, Clock, User, CalendarDays, BookOpen } from 'lucide-svelte';
+  import * as Card from '$lib/components/ui/card';
+  import * as Label from '$lib/components/ui/label';
+  import * as Separator from '$lib/components/ui/separator';
+  import * as Alert from '$lib/components/ui/alert';
+  import { Badge } from '$lib/components/ui/badge';
+  import { Calendar, MapPin, Clock, User, CalendarDays, BookOpen, AlertCircle, Info } from 'lucide-svelte';
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import { ZODIAC_DETAILED } from '$lib/data/astrological-data';
 
@@ -464,135 +469,148 @@
   <meta name="description" content="View planetary transits and their effects on your natal chart for any date and location" />
 </svelte:head>
 
-<div class="transits-page">
-  <div class="page-header">
-    <h1>Planetary Transits</h1>
-    <p>Compare your saved birth charts with planetary positions for any date and location to see how transits affect you.</p>
+<div class="container mx-auto px-4 py-8 max-w-7xl">
+  <!-- Page Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold text-gray-900 mb-4">Planetary Transits</h1>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+      Compare your saved birth charts with planetary positions for any date and location to see how transits affect you.
+    </p>
   </div>
 
+  <!-- Error Messages -->
   {#if error}
-    <div class="error-message">
-      <strong>Error:</strong> {error}
-    </div>
+    <Alert.Root class="mb-6">
+      <AlertCircle class="h-4 w-4" />
+      <Alert.Title>Error</Alert.Title>
+      <Alert.Description>{error}</Alert.Description>
+    </Alert.Root>
   {/if}
 
   {#if formError}
-    <div class="error-message">
-      <strong>Please fix the following:</strong> {formError}
-    </div>
+    <Alert.Root class="mb-6">
+      <AlertCircle class="h-4 w-4" />
+      <Alert.Title>Please fix the following:</Alert.Title>
+      <Alert.Description>{formError}</Alert.Description>
+    </Alert.Root>
   {/if}
 
-  <div class="transits-container">
+  <div class="grid gap-6 lg:grid-cols-2">
     <!-- Birth Chart Selection Section -->
-    <div class="form-section">
-      <div class="section-header">
-        <User class="h-5 w-5" />
-        <h2>Select Birth Chart</h2>
-      </div>
-      
-      {#if selectedBirthChart}
-        <div class="selected-chart-summary">
-          <div class="chart-info">
-            <h3>{selectedBirthChart.name}</h3>
-            <div class="chart-details">
-              <span>Date: {selectedBirthChart.birthData.date}</span>
-              <span>Time: {selectedBirthChart.birthData.time}</span>
-              <span>Location: {selectedBirthChart.birthData.place}</span>
+    <Card.Root>
+      <Card.Header>
+        <Card.Title class="flex items-center gap-2">
+          <User class="h-5 w-5" />
+          Select Birth Chart
+        </Card.Title>
+      </Card.Header>
+      <Card.Content>
+        {#if selectedBirthChart}
+          <div class="space-y-4">
+            <div class="p-4 bg-gray-50 rounded-lg border">
+              <div class="space-y-2">
+                <h3 class="font-semibold text-lg">{selectedBirthChart.name}</h3>
+                <div class="grid grid-cols-1 gap-1 text-sm text-gray-600">
+                  <span>Date: {selectedBirthChart.birthData.date}</span>
+                  <span>Time: {selectedBirthChart.birthData.time}</span>
+                  <span>Location: {selectedBirthChart.birthData.place}</span>
+                </div>
+              </div>
             </div>
+            <Button variant="outline" size="sm" onclick={() => selectedBirthChart = null}>
+              Change Chart
+            </Button>
           </div>
-          <Button variant="outline" size="sm" onclick={() => selectedBirthChart = null}>
-            Change Chart
-          </Button>
-        </div>
-      {:else}
-        <div class="chart-selection">
-          {#if $chartStore.savedCharts.length > 0}
-            <p class="selection-instruction">Choose a saved birth chart to analyze:</p>
-            <SavedChartsList onChartSelect={handleChartSelect} />
-          {:else}
-            <div class="no-charts-message">
-              <BookOpen class="h-12 w-12 text-gray-400 mb-4" />
-              <h3>No Saved Charts</h3>
-              <p>You need to create and save a birth chart first.</p>
-              <Button onclick={() => window.location.href = '/chart'}>
-                Create Birth Chart
-              </Button>
-            </div>
-          {/if}
-        </div>
-      {/if}
-    </div>
+        {:else}
+          <div class="space-y-4">
+            {#if $chartStore.savedCharts.length > 0}
+              <p class="text-sm text-gray-600">Choose a saved birth chart to analyze:</p>
+              <SavedChartsList onChartSelect={handleChartSelect} />
+            {:else}
+              <div class="text-center py-8">
+                <BookOpen class="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">No Saved Charts</h3>
+                <p class="text-gray-600 mb-4">You need to create and save a birth chart first.</p>
+                <Button onclick={() => window.location.href = '/chart'}>
+                  Create Birth Chart
+                </Button>
+              </div>
+            {/if}
+          </div>
+        {/if}
+      </Card.Content>
+    </Card.Root>
 
     <!-- Transit Settings Section -->
-    <div class="form-section">
-      <div class="section-header">
-        <CalendarDays class="h-5 w-5" />
-        <h2>Transit Settings</h2>
-      </div>
-      
-      <div class="transit-settings">
-        <div class="quick-actions">
+    <Card.Root>
+      <Card.Header>
+        <Card.Title class="flex items-center gap-2">
+          <CalendarDays class="h-5 w-5" />
+          Transit Settings
+        </Card.Title>
+      </Card.Header>
+      <Card.Content class="space-y-6">
+        <!-- Quick Actions -->
+        <div>
           <Button variant="outline" size="sm" onclick={useCurrentTimeAndLocation}>
             Use Current Time & Location
           </Button>
         </div>
 
-        <div class="setting-group">
-          <label class="setting-label">
-            <Calendar class="h-4 w-4" />
-            Transit Date
-          </label>
-          <Input 
-            type="date" 
-            bind:value={transitDate}
-            class="w-full"
-          />
+        <!-- Date and Time Settings -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <Label.Root for="transit-date" class="flex items-center gap-2">
+              <Calendar class="h-4 w-4" />
+              Transit Date
+            </Label.Root>
+            <Input 
+              id="transit-date"
+              type="date" 
+              bind:value={transitDate}
+            />
+          </div>
+
+          <div class="space-y-2">
+            <Label.Root for="transit-time" class="flex items-center gap-2">
+              <Clock class="h-4 w-4" />
+              Transit Time
+            </Label.Root>
+            <Input 
+              id="transit-time"
+              type="time" 
+              bind:value={transitTime}
+            />
+          </div>
         </div>
 
-        <div class="setting-group">
-          <label class="setting-label">
-            <Clock class="h-4 w-4" />
-            Transit Time
-          </label>
-          <Input 
-            type="time" 
-            bind:value={transitTime}
-            class="w-full"
-          />
-        </div>
-
-        <div class="setting-group">
-          <label class="setting-label">
+        <!-- Location Settings -->
+        <div class="space-y-2">
+          <Label.Root for="transit-location" class="flex items-center gap-2">
             <MapPin class="h-4 w-4" />
             Transit Location
-          </label>
+          </Label.Root>
           <div class="relative">
             <Input 
+              id="transit-location"
               type="text"
               bind:value={transitCitySearch}
               placeholder="Search for a city..."
-              class="w-full"
-            />
-            <input
-              type="text"
-              bind:value={transitCitySearch}
-              on:input={onTransitCityInput}
-              on:keydown={onTransitCityKeydown}
-              on:blur={() => setTimeout(() => showTransitCityDropdown = false, 200)}
-              placeholder="Search for a city..."
-              class="w-full absolute inset-0 opacity-0 pointer-events-none"
+              oninput={onTransitCityInput}
+              onkeydown={onTransitCityKeydown}
+              onblur={() => setTimeout(() => showTransitCityDropdown = false, 200)}
             />
             
             {#if showTransitCityDropdown}
-              <div class="city-dropdown">
+              <div class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-48 overflow-y-auto">
                 {#each transitCityResults as city, i}
                   <div 
-                    class="city-option"
-                    class:selected={i === selectedTransitCityIndex}
+                    class="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                    class:bg-gray-100={i === selectedTransitCityIndex}
                     on:click={() => selectTransitCity(city)}
                   >
-                    <div class="city-name">{city.name}</div>
-                    <div class="city-location">{city.fullLocation}</div>
+                    <div class="font-medium">{city.name}</div>
+                    <div class="text-sm text-gray-600">{city.fullLocation}</div>
                   </div>
                 {/each}
               </div>
@@ -600,80 +618,96 @@
           </div>
         </div>
 
-        <div class="action-buttons">
-          <div class="flex flex-wrap items-center gap-4">
-            <div class="flex items-center gap-4">
-              <label class="flex items-center gap-2 text-sm text-gray-600">
-                <input type="checkbox" bind:checked={showAspectLines} />
+        <!-- Chart Options -->
+        <div class="space-y-4">
+          <h4 class="font-medium text-sm text-gray-700">Chart Options</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <label class="flex items-center gap-2 text-sm">
+                <input type="checkbox" bind:checked={showAspectLines} class="rounded" />
                 Show Aspect Lines
               </label>
               
-              <label class="flex items-center gap-2 text-sm text-gray-600">
-                <input type="checkbox" bind:checked={showExtendedObjects} />
+              <label class="flex items-center gap-2 text-sm">
+                <input type="checkbox" bind:checked={showExtendedObjects} class="rounded" />
                 Extended Objects
               </label>
               
-              <label class="flex items-center gap-2 text-sm text-gray-600">
-                <input type="checkbox" bind:checked={showLegend} />
+              <label class="flex items-center gap-2 text-sm">
+                <input type="checkbox" bind:checked={showLegend} class="rounded" />
                 Show Legend
               </label>
             </div>
             
-            <div class="flex items-center gap-2">
-              <span class="text-sm text-gray-600">House System:</span>
-              <select 
-                bind:value={houseSystem} 
-                class="px-2 py-1 text-sm border rounded"
-                disabled={isAnimating}
-              >
-                <option value="whole">Whole Sign</option>
-                <option value="placidus">Placidus</option>
-              </select>
-            </div>
-            <div class="flex items-center gap-2">
-              <button 
-                type="button"
-                class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-                disabled={!selectedBirthChart || !selectedTransitCityData}
-                on:click={isAnimating ? stopAnimation : startAnimation}
-              >
-                {isAnimating ? 'Stop' : 'Animate'}
-              </button>
+            <div class="space-y-3">
+              <div class="space-y-2">
+                <Label.Root for="house-system" class="text-sm">House System</Label.Root>
+                <select 
+                  id="house-system"
+                  bind:value={houseSystem} 
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  disabled={isAnimating}
+                >
+                  <option value="whole">Whole Sign</option>
+                  <option value="placidus">Placidus</option>
+                </select>
+              </div>
               
-              <select 
-                bind:value={dateRange} 
-                class="px-2 py-1 text-sm border rounded"
-                disabled={isAnimating}
-              >
-                <option value={7}>7 days</option>
-                <option value={14}>14 days</option>
-                <option value={30}>30 days</option>
-                <option value={60}>60 days</option>
-              </select>
+              <div class="space-y-2">
+                <Label.Root for="date-range" class="text-sm">Animation Range</Label.Root>
+                <select 
+                  id="date-range"
+                  bind:value={dateRange} 
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  disabled={isAnimating}
+                >
+                  <option value={7}>7 days</option>
+                  <option value={14}>14 days</option>
+                  <option value={30}>30 days</option>
+                  <option value={60}>60 days</option>
+                </select>
+              </div>
             </div>
           </div>
-          <Button 
-            onclick={calculateTransits}
-            disabled={loading || !selectedBirthChart || !transitDate || !selectedTransitCityData}
-            class="flex-1"
-          >
-            {loading ? 'Calculating...' : 'Calculate Transits'}
-          </Button>
-          
-          {#if currentTransits}
-            <Button variant="outline" onclick={clearTransits} class="flex-1">
-              Clear Results
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-3">
+          <div class="flex gap-2">
+            <Button 
+              variant="outline"
+              size="sm"
+              disabled={!selectedBirthChart || !selectedTransitCityData}
+              onclick={isAnimating ? stopAnimation : startAnimation}
+            >
+              {isAnimating ? 'Stop Animation' : 'Start Animation'}
             </Button>
-          {/if}
+          </div>
+          
+          <div class="flex gap-2">
+            <Button 
+              onclick={calculateTransits}
+              disabled={loading || !selectedBirthChart || !transitDate || !selectedTransitCityData}
+              class="flex-1"
+            >
+              {loading ? 'Calculating...' : 'Calculate Transits'}
+            </Button>
+            
+            {#if currentTransits}
+              <Button variant="outline" onclick={clearTransits} class="flex-1">
+                Clear Results
+              </Button>
+            {/if}
+          </div>
         </div>
 
         <!-- Time Slider -->
-        <div class="time-slider-section">
-          <label class="setting-label">
+        <div class="space-y-3">
+          <Label.Root class="flex items-center gap-2 text-sm">
             <Clock class="h-4 w-4" />
             Time Range: {dateRange} days
-          </label>
-          <div class="slider-container">
+          </Label.Root>
+          <div class="space-y-2">
             <input
               type="range"
               min="-{dateRange}"
@@ -683,519 +717,118 @@
               on:input={onDateSliderChange}
               disabled={isAnimating}
             />
-            <div class="slider-labels">
+            <div class="flex justify-between text-xs text-gray-500">
               <span>-{dateRange} days</span>
               <span>Today</span>
               <span>+{dateRange} days</span>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </Card.Content>
+    </Card.Root>
   </div>
 
   <!-- Transit Results -->
   {#if currentTransits}
-    <div class="transits-section">
-      <div class="section-header">
-        <h2>Transit Results</h2>
-        <div class="transit-info">
-          <span>Date: {new Date(transitDate).toLocaleDateString()}</span>
-          <span>Time: {transitTime}</span>
-          <span>Location: {selectedTransitCityData?.fullLocation}</span>
-        </div>
-      </div>
-      
-      <TransitDisplay {natalChart} {currentTransits} />
-    </div>
+    <Card.Root class="mt-6">
+      <Card.Header>
+        <Card.Title>Transit Results</Card.Title>
+        <Card.Description>
+          <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+            <span>Date: {new Date(transitDate).toLocaleDateString()}</span>
+            <span>Time: {transitTime}</span>
+            <span>Location: {selectedTransitCityData?.fullLocation}</span>
+          </div>
+        </Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <TransitDisplay {natalChart} {currentTransits} />
+      </Card.Content>
+    </Card.Root>
   {/if}
 
-  <!-- Transit functionality removed -->
-  <div class="transits-section">
-    <div class="section-header">
-      <h2>Transit Functionality</h2>
-    </div>
-    <div class="chart-placeholder">
-      <p>Transit visualization and biwheel chart functionality has been removed from this application.</p>
-      <p>You can still view your birth chart and get interpretations, but transit calculations are no longer available.</p>
-    </div>
-  </div>
-
   <!-- Information Section -->
-  <div class="info-section">
-    <Accordion.Accordion type="single">
-      <Accordion.AccordionItem value="about-transits">
-        <Accordion.AccordionTrigger>
-          <h3>About Planetary Transits</h3>
-        </Accordion.AccordionTrigger>
-        <Accordion.AccordionContent>
-          <div class="info-content">
-            <p>
-              Planetary transits show how current planetary positions interact with your natal chart. 
-              These transits can indicate periods of growth, challenge, or change in different areas of your life.
-            </p>
-            
-            <div class="transit-types">
-              <h4>Types of Transits</h4>
-              <ul>
-                <li><strong>Conjunction (0°):</strong> New beginnings, activation of natal potential</li>
-                <li><strong>Opposition (180°):</strong> Awareness, relationships, external challenges</li>
-                <li><strong>Square (90°):</strong> Tension, conflict, growth through challenge</li>
-                <li><strong>Trine (120°):</strong> Harmony, ease, natural flow</li>
-                <li><strong>Sextile (60°):</strong> Opportunity, cooperation, gentle growth</li>
-              </ul>
-            </div>
+  <Card.Root class="mt-6">
+    <Card.Header>
+      <Card.Title class="flex items-center gap-2">
+        <Info class="h-5 w-5" />
+        About Planetary Transits
+      </Card.Title>
+    </Card.Header>
+    <Card.Content>
+      <Accordion.Root type="single">
+        <Accordion.Item value="about-transits">
+          <Accordion.Trigger>
+            <span class="text-left">Learn more about transits and how to use this tool</span>
+          </Accordion.Trigger>
+          <Accordion.Content>
+            <div class="space-y-6 text-sm text-gray-700">
+              <p>
+                Planetary transits show how current planetary positions interact with your natal chart. 
+                These transits can indicate periods of growth, challenge, or change in different areas of your life.
+              </p>
+              
+              <div class="space-y-4">
+                <div>
+                  <h4 class="font-semibold text-gray-900 mb-2">Types of Transits</h4>
+                                     <div class="grid gap-2">
+                     <div class="flex items-center gap-2">
+                       <Badge variant="outline" class="text-xs">☌</Badge>
+                       <span><strong>Conjunction (0°):</strong> New beginnings, activation of natal potential</span>
+                     </div>
+                     <div class="flex items-center gap-2">
+                       <Badge variant="outline" class="text-xs">☍</Badge>
+                       <span><strong>Opposition (180°):</strong> Awareness, relationships, external challenges</span>
+                     </div>
+                     <div class="flex items-center gap-2">
+                       <Badge variant="outline" class="text-xs">□</Badge>
+                       <span><strong>Square (90°):</strong> Tension, conflict, growth through challenge</span>
+                     </div>
+                     <div class="flex items-center gap-2">
+                       <Badge variant="outline" class="text-xs">△</Badge>
+                       <span><strong>Trine (120°):</strong> Harmony, ease, natural flow</span>
+                     </div>
+                     <div class="flex items-center gap-2">
+                       <Badge variant="outline" class="text-xs">✳</Badge>
+                       <span><strong>Sextile (60°):</strong> Opportunity, cooperation, gentle growth</span>
+                     </div>
+                   </div>
+                </div>
 
-            <div class="usage-tips">
-              <h4>How to Use This Tool</h4>
-              <ul>
-                <li>Select a saved birth chart from your collection</li>
-                <li>Choose a date and location for the transit calculation</li>
-                <li>Use "Current Time & Location" for immediate analysis</li>
-                <li>View how current planetary positions aspect your natal planets</li>
-              </ul>
+                <div>
+                  <h4 class="font-semibold text-gray-900 mb-2">How to Use This Tool</h4>
+                  <ul class="space-y-1 list-disc list-inside">
+                    <li>Select a saved birth chart from your collection</li>
+                    <li>Choose a date and location for the transit calculation</li>
+                    <li>Use "Current Time & Location" for immediate analysis</li>
+                    <li>View how current planetary positions aspect your natal planets</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-        </Accordion.AccordionContent>
-      </Accordion.AccordionItem>
-    </Accordion.Accordion>
-  </div>
+          </Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
+    </Card.Content>
+  </Card.Root>
 </div>
 
 <style>
-  .transits-page {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-
-  .page-header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .page-header h1 {
-    color: #333;
-    margin-bottom: 0.5rem;
-    font-size: 2.5rem;
-    font-weight: 700;
-  }
-
-  .page-header p {
-    color: #666;
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .error-message {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #dc2626;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .transits-container {
-    display: grid;
-    gap: 2rem;
-    margin-bottom: 3rem;
-  }
-
-  .form-section {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border: 1px solid #e5e7eb;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .section-header h2 {
-    color: #333;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .selected-chart-summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem;
-    background: #f8fafc;
-    border-radius: 0.5rem;
-    border: 1px solid #e2e8f0;
-  }
-
-  .chart-info h3 {
-    color: #1e293b;
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
-  }
-
-  .chart-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    font-size: 0.875rem;
-    color: #64748b;
-  }
-
-  .chart-selection {
-    min-height: 200px;
-  }
-
-  .selection-instruction {
-    color: #64748b;
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-  }
-
-  .no-charts-message {
-    text-align: center;
-    padding: 3rem 1rem;
-    color: #64748b;
-  }
-
-  .no-charts-message h3 {
-    color: #374151;
-    margin: 1rem 0 0.5rem 0;
-    font-size: 1.25rem;
-  }
-
-  .no-charts-message p {
-    margin-bottom: 1.5rem;
-  }
-
-  .quick-actions {
-    margin-bottom: 1rem;
-  }
-
-  .transit-settings {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .setting-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .setting-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    color: #374151;
-    font-size: 0.875rem;
-  }
-
-  .relative {
-    position: relative;
-  }
-
-  .city-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    z-index: 50;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-
-  .city-option {
-    padding: 0.75rem 1rem;
+  /* Custom styles for better hover effects */
+  button {
     cursor: pointer;
-    border-bottom: 1px solid #f3f4f6;
   }
-
-  .city-option:hover,
-  .city-option.selected {
-    background: #f9fafb;
+  
+  /* Ensure proper spacing for the grid layout */
+  .container {
+    min-height: calc(100vh - 200px);
   }
-
-  .city-option:last-child {
-    border-bottom: none;
-  }
-
-  .city-name {
-    font-weight: 500;
-    color: #111827;
-  }
-
-  .city-location {
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin-top: 0.25rem;
-  }
-
-  .action-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .transits-section {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border: 1px solid #e5e7eb;
-    margin-bottom: 2rem;
-  }
-
-  .transit-info {
-    display: flex;
-    gap: 2rem;
-    font-size: 0.875rem;
-    color: #666;
-  }
-
-  .info-section {
-    margin-top: 3rem;
-  }
-
-  .info-content {
-    color: #374151;
-    line-height: 1.6;
-  }
-
-  .transit-types,
-  .usage-tips {
-    margin-top: 1.5rem;
-  }
-
-  .transit-types h4,
-  .usage-tips h4 {
-    color: #111827;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-  }
-
-  .transit-types ul,
-  .usage-tips ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .transit-types li,
-  .usage-tips li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #f3f4f6;
-  }
-
-  .transit-types li:last-child,
-  .usage-tips li:last-child {
-    border-bottom: none;
-  }
-
-  .time-slider-section {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e5e7eb;
-  }
-
-  .slider-container {
-    position: relative;
-    margin-top: 0.5rem;
-  }
-
-  .slider-labels {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    font-size: 0.75rem;
-    color: #6b7280;
-    margin-top: 0.5rem;
-  }
-
-  .slider-labels span {
-    flex: 1;
-    text-align: center;
-  }
-
-  .slider-labels span:first-child {
-    text-align: left;
-  }
-
-  .slider-labels span:last-child {
-    text-align: right;
-  }
-
-  .legend-panel {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e5e7eb;
-  }
-
-  .legend-panel h4 {
-    color: #111827;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-  }
-
-  .legend-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: space-around;
-  }
-
-  .legend-section {
-    flex: 1;
-    min-width: 200px;
-  }
-
-  .legend-section h5 {
-    color: #374151;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-  }
-
-  .legend-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    color: #6b7280;
-  }
-
-  .legend-items span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .interpretation-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-  }
-
-  .interpretation-panel {
-    background: white;
-    border-radius: 0.75rem;
-    padding: 2rem;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .panel-header h3 {
-    color: #111827;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .close-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #6b7280;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s ease;
-  }
-
-  .close-btn:hover {
-    background-color: #f3f4f6;
-  }
-
-  .panel-content {
-    flex-grow: 1;
-    overflow-y: auto;
-  }
-
-  .planet-interpretation h4,
-  .aspect-interpretation h4 {
-    color: #111827;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-  }
-
-  .planet-interpretation p,
-  .aspect-interpretation p {
-    color: #374151;
-    line-height: 1.6;
-  }
-
-  @media (min-width: 1024px) {
-    .transits-container {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
+  
+  /* Responsive adjustments */
   @media (max-width: 768px) {
-    .transits-page {
-      padding: 0.5rem;
-    }
-    
-    .page-header h1 {
-      font-size: 2rem;
-    }
-    
-    .form-section,
-    .transits-section {
-      padding: 1.5rem;
-    }
-
-    .selected-chart-summary {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .action-buttons {
-      flex-direction: column;
-    }
-
-    .transit-info {
-      flex-direction: column;
-      gap: 0.5rem;
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
   }
 </style> 

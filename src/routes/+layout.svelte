@@ -43,10 +43,10 @@
 <div class="min-h-screen flex flex-col">
   <header class="bg-gradient-to-tr from-indigo-500 to-purple-700 text-white shadow-md">
     <nav>
-      <div class="max-w-6xl mx-auto px-4 flex justify-between items-center py-4">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 flex justify-between items-center py-4">
         <h1 class="text-xl font-bold">Astro Chart</h1>
         <!-- Desktop Navigation -->
-        <div class="hidden md:block">
+        <div class="hidden lg:block">
           <NavigationMenu.Root>
             <NavigationMenu.List class="flex gap-8">
               <!-- Astrology Dropdown -->
@@ -127,34 +127,34 @@
           </NavigationMenu.Root>
         </div>
         <!-- Mobile Hamburger -->
-        <div class="md:hidden">
+        <div class="lg:hidden">
           <button class="p-2 ml-2 text-white" aria-label="Open menu" on:click={() => mobileMenuOpen = true}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
           </button>
           <Sheet.Root bind:open={mobileMenuOpen}>
-            <Sheet.Content side="left" class="p-0 w-64 bg-white text-gray-900">
+            <Sheet.Content side="left" class="p-0 w-80 max-w-[90vw] bg-white text-gray-900">
               <Sheet.Header class="p-4 border-b">
                 <Sheet.Title>Menu</Sheet.Title>
                 <Sheet.Close class="absolute top-4 right-4" />
               </Sheet.Header>
               <nav class="flex flex-col gap-2 p-4 text-gray-900">
                 <!-- Astrology Section -->
-                <div class="mb-4">
-                  <h3 class="font-semibold text-purple-600 mb-2 text-sm uppercase tracking-wide">Astrology</h3>
-                  <div class="space-y-1 ml-2">
-                    <a href="/" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Home</a>
-                    <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Birth Chart</a>
-                    <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Transits</a>
-                    <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Interpretations</a>
-                    <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Daily Horoscope</a>
+                <div class="mb-6">
+                  <h3 class="font-semibold text-purple-600 mb-3 text-sm uppercase tracking-wide border-b border-gray-200 pb-2">Astrology</h3>
+                  <div class="space-y-2">
+                    <a href="/" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Home</a>
+                    <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Birth Chart</a>
+                    <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Transits</a>
+                    <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Interpretations</a>
+                    <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Daily Horoscope</a>
                   </div>
                 </div>
                 
                 <!-- Tarot Section -->
-                <div class="mb-4">
-                  <h3 class="font-semibold text-purple-600 mb-2 text-sm uppercase tracking-wide">Tarot</h3>
-                  <div class="space-y-1 ml-2">
-                    <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Tarot Cards</a>
+                <div class="mb-6">
+                  <h3 class="font-semibold text-purple-600 mb-3 text-sm uppercase tracking-wide border-b border-gray-200 pb-2">Tarot</h3>
+                  <div class="space-y-2">
+                    <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Tarot Cards</a>
                   </div>
                 </div>
               </nav>
