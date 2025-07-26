@@ -2,12 +2,14 @@
   import { onMount } from 'svelte';
 
   import * as Input from '$lib/components/ui/input';
+  import * as Dialog from '$lib/components/ui/dialog';
   import { ALL_TAROT_CARDS, type TarotCard } from '$lib/data/tarot-data';
 
   let searchTerm = '';
   let selectedSuit = 'all';
   let selectedCard: TarotCard | null = null;
   let showReversed = false;
+  let modalOpen = false;
 
   const suits = [
     { value: 'all', label: 'All Cards' },
@@ -35,6 +37,7 @@
   function selectCard(card: TarotCard) {
     selectedCard = card;
     showReversed = false;
+    modalOpen = true;
   }
 
   function toggleReversed() {
@@ -43,6 +46,7 @@
 
   function closeCardDetail() {
     selectedCard = null;
+    modalOpen = false;
   }
 
 
@@ -140,113 +144,180 @@
     </div>
   </div>
 
-  <!-- Card Detail Modal -->
-  {#if selectedCard}
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div class="p-6">
-          <!-- Header -->
-          <div class="flex justify-between items-start mb-6">
-            <div>
-              <h2 class="text-2xl font-bold text-gray-900 mb-2">{selectedCard.name}</h2>
-              {#if selectedCard.suit}
-                <p class="text-lg text-gray-600">{selectedCard.suit}</p>
-              {/if}
-              {#if selectedCard.element}
-                <p class="text-sm text-gray-500">Element: {selectedCard.element}</p>
-              {/if}
-              {#if selectedCard.planet}
-                <p class="text-sm text-gray-500">Planet: {selectedCard.planet}</p>
-              {/if}
-              {#if selectedCard.zodiac}
-                <p class="text-sm text-gray-500">Zodiac: {selectedCard.zodiac}</p>
+  <!-- Card Detail Modal (Dialog) -->
+  <Dialog.Root bind:open={modalOpen}>
+    <Dialog.Content class="!max-w-none !w-[95vw] md:!w-[80vw] lg:!w-[75vw] !max-h-[95vh] overflow-y-auto sm:!max-w-none">
+      {#if selectedCard}
+        <Dialog.Header>
+          <Dialog.Title>{selectedCard.name}</Dialog.Title>
+          <Dialog.Description>
+            {#if selectedCard.suit}
+              <span class="text-lg text-gray-600">{selectedCard.suit}</span>
+            {/if}
+            <div class="mt-3 space-y-1">
+              {#if selectedCard.element || selectedCard.planet || selectedCard.zodiac}
+                <div class="flex flex-wrap gap-3">
+                  {#if selectedCard.element}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {selectedCard.element}
+                    </span>
+                  {/if}
+                  {#if selectedCard.planet}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                      {selectedCard.planet}
+                    </span>
+                  {/if}
+                  {#if selectedCard.zodiac}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      {selectedCard.zodiac}
+                    </span>
+                  {/if}
+                </div>
               {/if}
             </div>
-            <button
-              on:click={closeCardDetail}
-              class="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Card Image and Keywords -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <div class="flex justify-center">
-              <div class="relative">
-                <img
-                  src={selectedCard.image}
-                  alt={selectedCard.name}
-                  class="max-w-full h-auto rounded-lg shadow-lg transition-transform duration-300"
-                  style="max-height: 400px; {showReversed ? 'transform: rotate(180deg);' : ''}"
-                />
-                
-              </div>
-            </div>
-            
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-3">Keywords</h3>
-              <div class="flex flex-wrap gap-2 mb-6">
-                {#each selectedCard.keywords as keyword}
-                  <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
-                    {keyword}
-                  </span>
-                {/each}
-              </div>
-              
-              <div class="flex gap-2 mb-4">
-                <button
-                  class="px-4 py-2 text-sm font-medium rounded-md transition-colors {!showReversed ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
-                  on:click={() => showReversed = false}
-                >
-                  Upright
-                </button>
-                <button
-                  class="px-4 py-2 text-sm font-medium rounded-md transition-colors {showReversed ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
-                  on:click={() => showReversed = true}
-                >
-                  Reversed
-                </button>
-              </div>
+          </Dialog.Description>
+        </Dialog.Header>
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 my-6">
+          <div class="flex justify-center">
+            <div class="relative">
+              <img
+                src={selectedCard.image}
+                alt={selectedCard.name}
+                class="max-w-full h-auto rounded-lg shadow-lg transition-transform duration-300"
+                style="max-height: 400px; {showReversed ? 'transform: rotate(180deg);' : ''}"
+              />
             </div>
           </div>
-
-          <!-- Interpretations -->
-          <div class="space-y-4">
-            <div class="border rounded-lg p-4">
-              <h4 class="font-semibold text-gray-900 mb-2">General Meaning</h4>
-              <p class="text-gray-700 leading-relaxed">
-                {showReversed ? selectedCard.reversed.general : selectedCard.upright.general}
-              </p>
+          <div class="col-span-1 flex flex-col justify-center lg:mr-12">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Keywords</h3>
+            <div class="flex flex-wrap gap-2 mb-6">
+              {#each selectedCard.keywords as keyword}
+                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+                  {keyword}
+                </span>
+              {/each}
             </div>
-
-            <div class="border rounded-lg p-4">
-              <h4 class="font-semibold text-gray-900 mb-2">Love & Relationships</h4>
-              <p class="text-gray-700 leading-relaxed">
-                {showReversed ? selectedCard.reversed.love : selectedCard.upright.love}
-              </p>
+            <div class="flex gap-2 mb-4">
+              <button
+                class="px-4 py-2 text-sm font-medium rounded-md transition-colors {!showReversed ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+                on:click={() => showReversed = false}
+              >
+                Upright
+              </button>
+              <button
+                class="px-4 py-2 text-sm font-medium rounded-md transition-colors {showReversed ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+                on:click={() => showReversed = true}
+              >
+                Reversed
+              </button>
             </div>
-
-            <div class="border rounded-lg p-4">
-              <h4 class="font-semibold text-gray-900 mb-2">Career & Work</h4>
-              <p class="text-gray-700 leading-relaxed">
-                {showReversed ? selectedCard.reversed.career : selectedCard.upright.career}
-              </p>
-            </div>
-
-            <div class="border rounded-lg p-4">
-              <h4 class="font-semibold text-gray-900 mb-2">Health & Wellness</h4>
-              <p class="text-gray-700 leading-relaxed">
-                {showReversed ? selectedCard.reversed.health : selectedCard.upright.health}
-              </p>
-            </div>
+            <!-- Astrological Significance (as previously fixed) -->
+            {#if selectedCard.element || selectedCard.planet || selectedCard.zodiac}
+              <div class="border-t pt-4">
+                <h4 class="text-sm font-semibold text-gray-900 mb-2">Astrological Significance</h4>
+                <div class="text-sm text-gray-600 space-y-1">
+                  {#if selectedCard.element}
+                    <p><span class="font-medium">Element {selectedCard.element}:</span> 
+                      {#if selectedCard.element === 'Fire'}
+                        Dynamic energy, passion, and transformation
+                      {:else if selectedCard.element === 'Earth'}
+                        Stability, practicality, and material concerns
+                      {:else if selectedCard.element === 'Air'}
+                        Intellectual energy, communication, and ideas
+                      {:else if selectedCard.element === 'Water'}
+                        Emotional energy, intuition, and spiritual depth
+                      {/if}
+                    </p>
+                  {/if}
+                  {#if selectedCard.planet}
+                    <p><span class="font-medium">Ruled by {selectedCard.planet}:</span> 
+                      {#if selectedCard.planet === 'Sun'}
+                        Vitality, ego, and conscious self-expression
+                      {:else if selectedCard.planet === 'Moon'}
+                        Emotions, intuition, and subconscious patterns
+                      {:else if selectedCard.planet === 'Mercury'}
+                        Communication, intellect, and adaptability
+                      {:else if selectedCard.planet === 'Venus'}
+                        Love, beauty, and harmonious relationships
+                      {:else if selectedCard.planet === 'Mars'}
+                        Action, courage, and assertive energy
+                      {:else if selectedCard.planet === 'Jupiter'}
+                        Expansion, wisdom, and spiritual growth
+                      {:else if selectedCard.planet === 'Saturn'}
+                        Structure, discipline, and life lessons
+                      {:else if selectedCard.planet === 'Uranus'}
+                        Innovation, rebellion, and sudden change
+                      {:else if selectedCard.planet === 'Neptune'}
+                        Dreams, spirituality, and transcendence
+                      {:else if selectedCard.planet === 'Pluto'}
+                        Transformation, power, and deep change
+                      {/if}
+                    </p>
+                  {/if}
+                  {#if selectedCard.zodiac}
+                    <p><span class="font-medium">Associated with {selectedCard.zodiac}:</span> 
+                      {#if selectedCard.zodiac === 'Aries'}
+                        Pioneering spirit, courage, and new beginnings
+                      {:else if selectedCard.zodiac === 'Taurus'}
+                        Stability, sensuality, and material security
+                      {:else if selectedCard.zodiac === 'Gemini'}
+                        Communication, curiosity, and adaptability
+                      {:else if selectedCard.zodiac === 'Cancer'}
+                        Emotional depth, nurturing, and intuition
+                      {:else if selectedCard.zodiac === 'Leo'}
+                        Creative expression, leadership, and confidence
+                      {:else if selectedCard.zodiac === 'Virgo'}
+                        Practicality, service, and attention to detail
+                      {:else if selectedCard.zodiac === 'Libra'}
+                        Balance, harmony, and relationship focus
+                      {:else if selectedCard.zodiac === 'Scorpio'}
+                        Transformation, intensity, and deep insight
+                      {:else if selectedCard.zodiac === 'Sagittarius'}
+                        Adventure, wisdom, and spiritual quest
+                      {:else if selectedCard.zodiac === 'Capricorn'}
+                        Ambition, structure, and long-term goals
+                      {:else if selectedCard.zodiac === 'Aquarius'}
+                        Innovation, humanitarianism, and individuality
+                      {:else if selectedCard.zodiac === 'Pisces'}
+                        Compassion, spirituality, and artistic sensitivity
+                      {/if}
+                    </p>
+                  {/if}
+                </div>
+              </div>
+            {/if}
           </div>
         </div>
-      </div>
-    </div>
-  {/if}
+        <!-- Interpretations -->
+        <div class="space-y-4">
+          <div class="border rounded-lg p-4">
+            <h4 class="font-semibold text-gray-900 mb-2">General Meaning</h4>
+            <p class="text-gray-700 leading-relaxed">
+              {showReversed ? selectedCard.reversed.general : selectedCard.upright.general}
+            </p>
+          </div>
+          <div class="border rounded-lg p-4">
+            <h4 class="font-semibold text-gray-900 mb-2">Love & Relationships</h4>
+            <p class="text-gray-700 leading-relaxed">
+              {showReversed ? selectedCard.reversed.love : selectedCard.upright.love}
+            </p>
+          </div>
+          <div class="border rounded-lg p-4">
+            <h4 class="font-semibold text-gray-900 mb-2">Career & Work</h4>
+            <p class="text-gray-700 leading-relaxed">
+              {showReversed ? selectedCard.reversed.career : selectedCard.upright.career}
+            </p>
+          </div>
+          <div class="border rounded-lg p-4">
+            <h4 class="font-semibold text-gray-900 mb-2">Health & Wellness</h4>
+            <p class="text-gray-700 leading-relaxed">
+              {showReversed ? selectedCard.reversed.health : selectedCard.upright.health}
+            </p>
+          </div>
+        </div>
+      {/if}
+    </Dialog.Content>
+  </Dialog.Root>
 </div>
 
 <style>

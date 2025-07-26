@@ -42,7 +42,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Ignoring health warnings, being careless with wellness"
     },
     element: "Air",
-    planet: "Uranus"
+    planet: "Uranus",
+    zodiac: "Aquarius"
   },
   {
     id: "01-the-magician",
@@ -63,7 +64,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Lack of willpower, not following through on health plans"
     },
     element: "Air",
-    planet: "Mercury"
+    planet: "Mercury",
+    zodiac: "Gemini"
   },
   {
     id: "02-the-high-priestess",
@@ -84,7 +86,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Ignoring body signals, not listening to inner guidance"
     },
     element: "Water",
-    planet: "Moon"
+    planet: "Moon",
+    zodiac: "Cancer"
   },
   {
     id: "03-the-empress",
@@ -105,7 +108,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Over-indulgence, fertility issues, lack of self-care"
     },
     element: "Earth",
-    planet: "Venus"
+    planet: "Venus",
+    zodiac: "Taurus"
   },
   {
     id: "04-the-emperor",
@@ -126,7 +130,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Rigid health routines, control issues with body"
     },
     element: "Fire",
-    planet: "Mars"
+    planet: "Mars",
+    zodiac: "Aries"
   },
   {
     id: "05-the-hierophant",
@@ -147,7 +152,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Alternative healing methods, breaking from conventional wisdom"
     },
     element: "Earth",
-    planet: "Jupiter"
+    planet: "Jupiter",
+    zodiac: "Sagittarius"
   },
   {
     id: "06-the-lovers",
@@ -168,7 +174,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Mind-body disconnect, poor health choices"
     },
     element: "Air",
-    planet: "Venus"
+    planet: "Venus",
+    zodiac: "Libra"
   },
   {
     id: "07-the-chariot",
@@ -189,7 +196,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Lack of direction in health, giving up on wellness"
     },
     element: "Water",
-    planet: "Moon"
+    planet: "Moon",
+    zodiac: "Cancer"
   },
   {
     id: "08-strength",
@@ -210,7 +218,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Self-doubt about health, lack of confidence in healing"
     },
     element: "Fire",
-    planet: "Sun"
+    planet: "Sun",
+    zodiac: "Leo"
   },
   {
     id: "09-the-hermit",
@@ -231,7 +240,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Isolation in health journey, withdrawal from wellness"
     },
     element: "Earth",
-    planet: "Mercury"
+    planet: "Mercury",
+    zodiac: "Virgo"
   },
   {
     id: "10-wheel-of-fortune",
@@ -252,7 +262,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Bad luck with health, resistance to health changes"
     },
     element: "Fire",
-    planet: "Jupiter"
+    planet: "Jupiter",
+    zodiac: "Sagittarius"
   },
   {
     id: "11-justice",
@@ -273,7 +284,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Unfair approach to health, dishonesty about wellness"
     },
     element: "Air",
-    planet: "Venus"
+    planet: "Venus",
+    zodiac: "Libra"
   },
   {
     id: "12-the-hanged-man",
@@ -294,7 +306,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Resistance to health changes, stalling in healing"
     },
     element: "Water",
-    planet: "Neptune"
+    planet: "Neptune",
+    zodiac: "Pisces"
   },
   {
     id: "13-death",
@@ -315,7 +328,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Resistance to health changes, inability to let go"
     },
     element: "Water",
-    planet: "Pluto"
+    planet: "Pluto",
+    zodiac: "Scorpio"
   },
   {
     id: "14-temperance",
@@ -336,7 +350,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Imbalance in health, excess in wellness, disharmony"
     },
     element: "Fire",
-    planet: "Jupiter"
+    planet: "Jupiter",
+    zodiac: "Sagittarius"
   },
   {
     id: "15-the-devil",
@@ -357,7 +372,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Breaking free from toxic habits, release from unhealthy patterns"
     },
     element: "Earth",
-    planet: "Saturn"
+    planet: "Saturn",
+    zodiac: "Capricorn"
   },
   {
     id: "16-the-tower",
@@ -378,7 +394,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Avoiding health disaster, gradual changes in wellness"
     },
     element: "Fire",
-    planet: "Mars"
+    planet: "Mars",
+    zodiac: "Aries"
   },
   {
     id: "17-the-star",
@@ -399,7 +416,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Lack of hope in healing, pessimism about health"
     },
     element: "Air",
-    planet: "Uranus"
+    planet: "Uranus",
+    zodiac: "Aquarius"
   },
   {
     id: "18-the-moon",
@@ -420,7 +438,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Releasing health illusions, clarity about wellness, overcoming fears"
     },
     element: "Water",
-    planet: "Neptune"
+    planet: "Neptune",
+    zodiac: "Pisces"
   },
   {
     id: "19-the-sun",
@@ -441,7 +460,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Temporary health issues, lack of vitality, inner child healing"
     },
     element: "Fire",
-    planet: "Sun"
+    planet: "Sun",
+    zodiac: "Leo"
   },
   {
     id: "20-judgement",
@@ -462,7 +482,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Self-doubt about health, fear of judgement about wellness"
     },
     element: "Fire",
-    planet: "Pluto"
+    planet: "Pluto",
+    zodiac: "Scorpio"
   },
   {
     id: "21-the-world",
@@ -483,7 +504,8 @@ export const MAJOR_ARCANA: TarotCard[] = [
       health: "Lack of completion in health, feeling incomplete in wellness"
     },
     element: "Earth",
-    planet: "Saturn"
+    planet: "Saturn",
+    zodiac: "Capricorn"
   }
 ];
 
@@ -508,7 +530,8 @@ export const MINOR_ARCANA: TarotCard[] = [
       career: "Missed career opportunities, lack of inspiration at work",
       health: "Missed health opportunities, lack of inspiration for wellness"
     },
-    element: "Fire"
+    element: "Fire",
+    zodiac: "Aries"
   },
   {
     id: "wands-02",
