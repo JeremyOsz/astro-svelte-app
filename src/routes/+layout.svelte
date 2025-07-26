@@ -1,8 +1,43 @@
 <script>
   import "../app.css";
   import * as NavigationMenu from "$lib/components/ui/navigation-menu";
+  import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
+  import { cn } from "$lib/utils";
   let mobileMenuOpen = false;
+
+  // Astrology navigation items
+  const astrologyItems = [
+    {
+      title: "Birth Chart",
+      href: "/chart",
+      description: "Calculate your natal chart with precise planetary positions"
+    },
+    {
+      title: "Transits",
+      href: "/transits", 
+      description: "View current planetary transits and their effects"
+    },
+    {
+      title: "Interpretations",
+      href: "/interpretations",
+      description: "Meanings of planets, signs, houses, and aspects"
+    },
+    {
+      title: "Daily Horoscope",
+      href: "/daily-horoscope",
+      description: "Daily astrological guidance and insights"
+    }
+  ];
+
+  // Tarot navigation items
+  const tarotItems = [
+    {
+      title: "Tarot Cards",
+      href: "/tarot",
+      description: "Explore all 78 tarot cards and their meanings"
+    }
+  ];
 </script>
 
 <div class="min-h-screen flex flex-col">
@@ -14,25 +49,81 @@
         <div class="hidden md:block">
           <NavigationMenu.Root>
             <NavigationMenu.List class="flex gap-8">
+              <!-- Astrology Dropdown -->
               <NavigationMenu.Item>
-                <NavigationMenu.Link href="/">Home</NavigationMenu.Link>
+                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle())}>
+                  Astrology
+                </NavigationMenu.Trigger>
+                <NavigationMenu.Content>
+                  <ul class="grid w-[300px] gap-2 p-2">
+                    <li>
+                      <NavigationMenu.Link>
+                        {#snippet child({ props })}
+                          <a
+                            {...props}
+                            href="/"
+                            class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div class="text-sm font-medium leading-none">Home</div>
+                            <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              Main landing page
+                            </p>
+                          </a>
+                        {/snippet}
+                      </NavigationMenu.Link>
+                    </li>
+                    {#each astrologyItems as item}
+                      <li>
+                        <NavigationMenu.Link>
+                          {#snippet child({ props })}
+                            <a
+                              {...props}
+                              href={item.href}
+                              class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            >
+                              <div class="text-sm font-medium leading-none">{item.title}</div>
+                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                {item.description}
+                              </p>
+                            </a>
+                          {/snippet}
+                        </NavigationMenu.Link>
+                      </li>
+                    {/each}
+                  </ul>
+                </NavigationMenu.Content>
               </NavigationMenu.Item>
+              
+              <!-- Tarot Dropdown -->
               <NavigationMenu.Item>
-                <NavigationMenu.Link href="/chart">Birth Chart</NavigationMenu.Link>
-              </NavigationMenu.Item>
-              <NavigationMenu.Item>
-                <NavigationMenu.Link href="/transits">Transits</NavigationMenu.Link>
-              </NavigationMenu.Item>
-              <NavigationMenu.Item>
-                <NavigationMenu.Link href="/interpretations">Interpretations</NavigationMenu.Link>
-              </NavigationMenu.Item>
-              <NavigationMenu.Item>
-                <NavigationMenu.Link href="/daily-horoscope">Daily Horoscope</NavigationMenu.Link>
-              </NavigationMenu.Item>
-              <NavigationMenu.Item>
-                <NavigationMenu.Link href="/tarot">Tarot</NavigationMenu.Link>
+                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle())}>
+                  Tarot
+                </NavigationMenu.Trigger>
+                <NavigationMenu.Content>
+                  <ul class="grid w-[300px] gap-2 p-2">
+                    {#each tarotItems as item}
+                      <li>
+                        <NavigationMenu.Link>
+                          {#snippet child({ props })}
+                            <a
+                              {...props}
+                              href={item.href}
+                              class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            >
+                              <div class="text-sm font-medium leading-none">{item.title}</div>
+                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                {item.description}
+                              </p>
+                            </a>
+                          {/snippet}
+                        </NavigationMenu.Link>
+                      </li>
+                    {/each}
+                  </ul>
+                </NavigationMenu.Content>
               </NavigationMenu.Item>
             </NavigationMenu.List>
+            <NavigationMenu.Viewport />
           </NavigationMenu.Root>
         </div>
         <!-- Mobile Hamburger -->
@@ -47,12 +138,25 @@
                 <Sheet.Close class="absolute top-4 right-4" />
               </Sheet.Header>
               <nav class="flex flex-col gap-2 p-4 text-gray-900">
-                <a href="/" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Home</a>
-                <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Birth Chart</a>
-                <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Transits</a>
-                <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Interpretations</a>
-                <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Daily Horoscope</a>
-                <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Tarot</a>
+                <!-- Astrology Section -->
+                <div class="mb-4">
+                  <h3 class="font-semibold text-purple-600 mb-2 text-sm uppercase tracking-wide">Astrology</h3>
+                  <div class="space-y-1 ml-2">
+                    <a href="/" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Home</a>
+                    <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Birth Chart</a>
+                    <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Transits</a>
+                    <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Interpretations</a>
+                    <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Daily Horoscope</a>
+                  </div>
+                </div>
+                
+                <!-- Tarot Section -->
+                <div class="mb-4">
+                  <h3 class="font-semibold text-purple-600 mb-2 text-sm uppercase tracking-wide">Tarot</h3>
+                  <div class="space-y-1 ml-2">
+                    <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900 block">Tarot Cards</a>
+                  </div>
+                </div>
               </nav>
             </Sheet.Content>
           </Sheet.Root>
