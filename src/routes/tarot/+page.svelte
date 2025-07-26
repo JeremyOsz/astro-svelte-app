@@ -178,7 +178,7 @@
           </Dialog.Description>
         </Dialog.Header>
         <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 my-6">
-          <div class="flex justify-center">
+          <div class="flex items-center justify-center">
             <div class="relative">
               <img
                 src={selectedCard.image}
@@ -188,7 +188,7 @@
               />
             </div>
           </div>
-          <div class="col-span-1 flex flex-col justify-center lg:mr-12">
+          <div class="col-span-1 lg:mr-12">
             <h3 class="text-lg font-semibold text-gray-900 mb-3">Keywords</h3>
             <div class="flex flex-wrap gap-2 mb-6">
               {#each selectedCard.keywords as keyword}
@@ -211,7 +211,7 @@
                 Reversed
               </button>
             </div>
-            <!-- Astrological Significance (as previously fixed) -->
+            <!-- Astrological Significance -->
             {#if selectedCard.element || selectedCard.planet || selectedCard.zodiac}
               <div class="border-t pt-4">
                 <h4 class="text-sm font-semibold text-gray-900 mb-2">Astrological Significance</h4>
@@ -282,6 +282,92 @@
                         Compassion, spirituality, and artistic sensitivity
                       {/if}
                     </p>
+                  {/if}
+                </div>
+              </div>
+            {/if}
+
+            <!-- Symbology -->
+            {#if selectedCard.symbology}
+              <div class="border-t pt-4">
+                <h4 class="text-sm font-semibold text-gray-900 mb-2">Symbolism & Meaning</h4>
+                <div class="space-y-3">
+                  {#if selectedCard.symbology.symbols && selectedCard.symbology.symbols.length > 0}
+                    <div>
+                      <h5 class="text-xs font-medium text-gray-700 mb-1">Key Symbols</h5>
+                      <div class="flex flex-wrap gap-1">
+                        {#each selectedCard.symbology.symbols as symbol}
+                          <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs">
+                            {symbol}
+                          </span>
+                        {/each}
+                      </div>
+                    </div>
+                  {/if}
+                  
+                  {#if selectedCard.symbology.colors && selectedCard.symbology.colors.length > 0}
+                    <div>
+                      <h5 class="text-xs font-medium text-gray-700 mb-1">Colors</h5>
+                      <div class="flex flex-wrap gap-1">
+                        {#each selectedCard.symbology.colors as color}
+                          <span class="bg-pink-100 text-pink-800 px-2 py-1 rounded text-xs">
+                            {color}
+                          </span>
+                        {/each}
+                      </div>
+                    </div>
+                  {/if}
+                  
+                  {#if selectedCard.symbology.numbers && selectedCard.symbology.numbers.length > 0}
+                    <div>
+                      <h5 class="text-xs font-medium text-gray-700 mb-1">Numbers</h5>
+                      <div class="flex flex-wrap gap-1">
+                        {#each selectedCard.symbology.numbers as number}
+                          <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
+                            {number}
+                          </span>
+                        {/each}
+                      </div>
+                    </div>
+                  {/if}
+                  
+                  {#if selectedCard.symbology.animals && selectedCard.symbology.animals.length > 0}
+                    <div>
+                      <h5 class="text-xs font-medium text-gray-700 mb-1">Animals</h5>
+                      <div class="flex flex-wrap gap-1">
+                        {#each selectedCard.symbology.animals as animal}
+                          <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs">
+                            {animal}
+                          </span>
+                        {/each}
+                      </div>
+                    </div>
+                  {/if}
+                  
+                  {#if selectedCard.symbology.objects && selectedCard.symbology.objects.length > 0}
+                    <div>
+                      <h5 class="text-xs font-medium text-gray-700 mb-1">Objects</h5>
+                      <div class="flex flex-wrap gap-1">
+                        {#each selectedCard.symbology.objects as object}
+                          <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">
+                            {object}
+                          </span>
+                        {/each}
+                      </div>
+                    </div>
+                  {/if}
+                  
+                  {#if selectedCard.symbology.elements && selectedCard.symbology.elements.length > 0}
+                    <div>
+                      <h5 class="text-xs font-medium text-gray-700 mb-1">Elements</h5>
+                      <div class="flex flex-wrap gap-1">
+                        {#each selectedCard.symbology.elements as element}
+                          <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                            {element}
+                          </span>
+                        {/each}
+                      </div>
+                    </div>
                   {/if}
                 </div>
               </div>

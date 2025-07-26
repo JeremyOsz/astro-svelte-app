@@ -20,6 +20,14 @@ export interface TarotCard {
   element?: string;
   planet?: string;
   zodiac?: string;
+  symbology?: {
+    symbols: string[];
+    colors: string[];
+    numbers: string[];
+    animals?: string[];
+    objects?: string[];
+    elements?: string[];
+  };
 }
 
 export const MAJOR_ARCANA: TarotCard[] = [
@@ -43,7 +51,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Air",
     planet: "Uranus",
-    zodiac: "Aquarius"
+    zodiac: "Aquarius",
+    symbology: {
+      symbols: ["White Rose", "White Dog", "Cliff Edge", "Sun", "Mountains"],
+      colors: ["White", "Yellow", "Blue", "Green"],
+      numbers: ["0", "∞"],
+      animals: ["White Dog"],
+      objects: ["Bundle", "Staff", "White Rose"],
+      elements: ["Air", "Light"]
+    }
   },
   {
     id: "01-the-magician",
@@ -65,7 +81,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Air",
     planet: "Mercury",
-    zodiac: "Gemini"
+    zodiac: "Gemini",
+    symbology: {
+      symbols: ["Infinity Symbol", "Wand", "Cup", "Sword", "Pentacle", "Red Roses", "White Lilies"],
+      colors: ["Red", "White", "Yellow", "Blue"],
+      numbers: ["1", "∞"],
+      animals: [],
+      objects: ["Wand", "Cup", "Sword", "Pentacle", "Table", "Red Roses", "White Lilies"],
+      elements: ["Fire", "Water", "Air", "Earth"]
+    }
   },
   {
     id: "02-the-high-priestess",
@@ -87,7 +111,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Water",
     planet: "Moon",
-    zodiac: "Cancer"
+    zodiac: "Cancer",
+    symbology: {
+      symbols: ["Crescent Moon", "Crown", "Scroll", "Pomegranates", "Pillars", "Veil"],
+      colors: ["Blue", "White", "Silver", "Black"],
+      numbers: ["2", "B", "J"],
+      animals: [],
+      objects: ["Crown", "Scroll", "Pomegranates", "Pillars", "Veil", "Crescent Moon"],
+      elements: ["Water", "Moon"]
+    }
   },
   {
     id: "03-the-empress",
@@ -109,7 +141,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Earth",
     planet: "Venus",
-    zodiac: "Taurus"
+    zodiac: "Taurus",
+    symbology: {
+      symbols: ["Crown", "Scepter", "Shield", "Wheat", "Pomegranates", "Heart"],
+      colors: ["Green", "Gold", "Red", "White"],
+      numbers: ["3", "Venus Symbol"],
+      animals: [],
+      objects: ["Crown", "Scepter", "Shield", "Wheat", "Pomegranates", "Heart"],
+      elements: ["Earth", "Venus"]
+    }
   },
   {
     id: "04-the-emperor",
@@ -131,7 +171,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Fire",
     planet: "Mars",
-    zodiac: "Aries"
+    zodiac: "Aries",
+    symbology: {
+      symbols: ["Crown", "Scepter", "Shield", "Ram Heads", "Throne", "Mountain"],
+      colors: ["Red", "Gold", "Orange", "Brown"],
+      numbers: ["4", "Mars Symbol"],
+      animals: ["Rams"],
+      objects: ["Crown", "Scepter", "Shield", "Throne", "Mountain"],
+      elements: ["Fire", "Mars"]
+    }
   },
   {
     id: "05-the-hierophant",
@@ -153,7 +201,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Earth",
     planet: "Jupiter",
-    zodiac: "Sagittarius"
+    zodiac: "Sagittarius",
+    symbology: {
+      symbols: ["Triple Crown", "Staff", "Keys", "Pillars", "Disciples"],
+      colors: ["Red", "White", "Gold", "Blue"],
+      numbers: ["5", "Jupiter Symbol"],
+      animals: [],
+      objects: ["Triple Crown", "Staff", "Keys", "Pillars", "Disciples"],
+      elements: ["Earth", "Jupiter"]
+    }
   },
   {
     id: "06-the-lovers",
@@ -175,7 +231,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Air",
     planet: "Venus",
-    zodiac: "Libra"
+    zodiac: "Libra",
+    symbology: {
+      symbols: ["Angel", "Tree of Knowledge", "Serpent", "Apple", "Sun", "Moon"],
+      colors: ["Blue", "Red", "Green", "Gold"],
+      numbers: ["6", "Venus Symbol"],
+      animals: ["Serpent"],
+      objects: ["Angel", "Tree", "Apple", "Sun", "Moon"],
+      elements: ["Air", "Venus"]
+    }
   },
   {
     id: "07-the-chariot",
@@ -197,7 +261,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Water",
     planet: "Moon",
-    zodiac: "Cancer"
+    zodiac: "Cancer",
+    symbology: {
+      symbols: ["Chariot", "Horses", "Crown", "Scepter", "Stars", "Moon"],
+      colors: ["Blue", "Silver", "White", "Gold"],
+      numbers: ["7", "Moon Symbol"],
+      animals: ["Horses"],
+      objects: ["Chariot", "Crown", "Scepter", "Stars", "Moon"],
+      elements: ["Water", "Moon"]
+    }
   },
   {
     id: "08-strength",
@@ -219,7 +291,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Fire",
     planet: "Sun",
-    zodiac: "Leo"
+    zodiac: "Leo",
+    symbology: {
+      symbols: ["Lion", "Infinity Symbol", "Flowers", "Mountains", "Sun"],
+      colors: ["Yellow", "Orange", "White", "Blue"],
+      numbers: ["8", "∞"],
+      animals: ["Lion"],
+      objects: ["Infinity Symbol", "Flowers", "Mountains", "Sun"],
+      elements: ["Fire", "Sun"]
+    }
   },
   {
     id: "09-the-hermit",
@@ -241,7 +321,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Earth",
     planet: "Mercury",
-    zodiac: "Virgo"
+    zodiac: "Virgo",
+    symbology: {
+      symbols: ["Lantern", "Staff", "Mountain", "Star", "Grey Robe"],
+      colors: ["Grey", "Blue", "White", "Yellow"],
+      numbers: ["9", "Mercury Symbol"],
+      animals: [],
+      objects: ["Lantern", "Staff", "Mountain", "Star", "Grey Robe"],
+      elements: ["Earth", "Mercury"]
+    }
   },
   {
     id: "10-wheel-of-fortune",
@@ -263,7 +351,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Fire",
     planet: "Jupiter",
-    zodiac: "Sagittarius"
+    zodiac: "Sagittarius",
+    symbology: {
+      symbols: ["Wheel", "Sphinx", "Anubis", "Hermanubis", "Four Evangelists", "Hebrew Letters"],
+      colors: ["Blue", "Red", "Gold", "White"],
+      numbers: ["10", "Jupiter Symbol"],
+      animals: ["Sphinx", "Anubis", "Hermanubis"],
+      objects: ["Wheel", "Four Evangelists", "Hebrew Letters"],
+      elements: ["Fire", "Jupiter"]
+    }
   },
   {
     id: "11-justice",
@@ -285,7 +381,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Air",
     planet: "Venus",
-    zodiac: "Libra"
+    zodiac: "Libra",
+    symbology: {
+      symbols: ["Scales", "Sword", "Crown", "Pillars", "Purple Curtain"],
+      colors: ["Purple", "Red", "Gold", "White"],
+      numbers: ["11", "Venus Symbol"],
+      animals: [],
+      objects: ["Scales", "Sword", "Crown", "Pillars", "Purple Curtain"],
+      elements: ["Air", "Venus"]
+    }
   },
   {
     id: "12-the-hanged-man",
@@ -307,7 +411,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Water",
     planet: "Neptune",
-    zodiac: "Pisces"
+    zodiac: "Pisces",
+    symbology: {
+      symbols: ["Hanged Man", "Tree", "Rope", "Halo", "Crossed Legs"],
+      colors: ["Blue", "Yellow", "Red", "Green"],
+      numbers: ["12", "Neptune Symbol"],
+      animals: [],
+      objects: ["Tree", "Rope", "Halo"],
+      elements: ["Water", "Neptune"]
+    }
   },
   {
     id: "13-death",
@@ -329,7 +441,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Water",
     planet: "Pluto",
-    zodiac: "Scorpio"
+    zodiac: "Scorpio",
+    symbology: {
+      symbols: ["Skeleton", "Black Flag", "White Rose", "Horse", "Bishop"],
+      colors: ["Black", "White", "Red", "Grey"],
+      numbers: ["13", "Pluto Symbol"],
+      animals: ["Skeleton Horse"],
+      objects: ["Black Flag", "White Rose", "Bishop"],
+      elements: ["Water", "Pluto"]
+    }
   },
   {
     id: "14-temperance",
@@ -351,7 +471,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Fire",
     planet: "Jupiter",
-    zodiac: "Sagittarius"
+    zodiac: "Sagittarius",
+    symbology: {
+      symbols: ["Angel", "Cups", "Path", "Sun", "Mountain", "Crown"],
+      colors: ["Blue", "Orange", "Yellow", "White"],
+      numbers: ["14", "Jupiter Symbol"],
+      animals: ["Angel"],
+      objects: ["Cups", "Path", "Sun", "Mountain", "Crown"],
+      elements: ["Fire", "Jupiter"]
+    }
   },
   {
     id: "15-the-devil",
@@ -373,7 +501,15 @@ export const MAJOR_ARCANA: TarotCard[] = [
     },
     element: "Earth",
     planet: "Saturn",
-    zodiac: "Capricorn"
+    zodiac: "Capricorn",
+    symbology: {
+      symbols: ["Devil", "Chains", "Pentagram", "Torch", "Naked Figures"],
+      colors: ["Black", "Red", "Grey", "Orange"],
+      numbers: ["15", "Saturn Symbol"],
+      animals: ["Devil"],
+      objects: ["Chains", "Pentagram", "Torch"],
+      elements: ["Earth", "Saturn"]
+    }
   },
   {
     id: "16-the-tower",
@@ -531,7 +667,15 @@ export const MINOR_ARCANA: TarotCard[] = [
       health: "Missed health opportunities, lack of inspiration for wellness"
     },
     element: "Fire",
-    zodiac: "Aries"
+    zodiac: "Aries",
+    symbology: {
+      symbols: ["Wand", "Leaves", "Castle", "Hand", "Sun"],
+      colors: ["Yellow", "Green", "Blue", "White"],
+      numbers: ["1", "Aries Symbol"],
+      animals: [],
+      objects: ["Wand", "Leaves", "Castle", "Hand", "Sun"],
+      elements: ["Fire", "Aries"]
+    }
   },
   {
     id: "wands-02",
@@ -552,7 +696,15 @@ export const MINOR_ARCANA: TarotCard[] = [
       career: "Lack of career planning, fear of future at work",
       health: "Lack of health planning, fear of future wellness"
     },
-    element: "Fire"
+    element: "Fire",
+    symbology: {
+      symbols: ["Two Wands", "Globe", "Compass", "Castle", "Ocean"],
+      colors: ["Red", "Blue", "Yellow", "White"],
+      numbers: ["2"],
+      animals: [],
+      objects: ["Two Wands", "Globe", "Compass", "Castle", "Ocean"],
+      elements: ["Fire"]
+    }
   },
   {
     id: "wands-03",
