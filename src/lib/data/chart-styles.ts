@@ -12,7 +12,15 @@ export const CHART_LAYOUT = {
       labelRadius: 230,
       houseLineInnerRadius: 170,
       houseNumRadius: 180,
-      aspectHubRadius: 170
+      aspectHubRadius: 170,
+      // --- Transit (outer wheel) radii ---
+      transitZodiacOuterRadius: 360,
+      transitZodiacInnerRadius: 430,
+      transitPlanetRingRadius: 400,
+      transitLabelRadius: 390,
+      transitHouseLineInnerRadius: 320,
+      transitHouseNumRadius: 330,
+      transitAspectHubRadius: 130
     },
     TABLET: {
       chartSize: 600,
@@ -22,7 +30,15 @@ export const CHART_LAYOUT = {
       labelRadius: 170,
       houseLineInnerRadius: 120,
       houseNumRadius: 130,
-      aspectHubRadius: 120
+      aspectHubRadius: 120,
+      // --- Transit (outer wheel) radii ---
+      transitZodiacOuterRadius: 340,
+      transitZodiacInnerRadius: 300,
+      transitPlanetRingRadius: 270,
+      transitLabelRadius: 240,
+      transitHouseLineInnerRadius: 200,
+      transitHouseNumRadius: 210,
+      transitAspectHubRadius: 200
     },
     MOBILE: {
       chartSize: 350,
@@ -32,7 +48,15 @@ export const CHART_LAYOUT = {
       labelRadius: 100,
       houseLineInnerRadius: 100,
       houseNumRadius: 110,
-      aspectHubRadius: 100
+      aspectHubRadius: 100,
+      // --- Transit (outer wheel) radii ---
+      transitZodiacOuterRadius: 230,
+      transitZodiacInnerRadius: 200,
+      transitPlanetRingRadius: 180,
+      transitLabelRadius: 150,
+      transitHouseLineInnerRadius: 135,
+      transitHouseNumRadius: 145,
+      transitAspectHubRadius: 135
     }
   } as const;
   
