@@ -297,7 +297,9 @@
       // Limit cache size to prevent memory issues
       if (transitCache.size > 100) {
         const firstKey = transitCache.keys().next().value;
-        transitCache.delete(firstKey);
+        if (firstKey) {
+          transitCache.delete(firstKey);
+        }
       }
       
     } catch (err) {

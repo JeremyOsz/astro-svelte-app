@@ -98,7 +98,7 @@
 </svelte:head>
 
 <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-  <div class="container mx-auto px-4 py-8">
+  <div class="max-w-6xl mx-auto px-4 py-8">
     <!-- Header -->
     <div class="text-center mb-8">
       <h1 class="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-3">
@@ -119,12 +119,12 @@
       {#if $chartStore.savedCharts.length === 0}
         <div class="text-center py-8">
           <p class="text-slate-300 mb-4">No saved birth charts found</p>
-          <Button href="/chart" class="bg-purple-600 hover:bg-purple-700">
+          <Button href="/chart" class="bg-purple-600 hover:bg-purple-700 text-white font-medium">
             Create Birth Chart
           </Button>
         </div>
       {:else}
-        <SavedChartsList on:chartSelect={(e) => handleChartSelect(e.detail)} />
+        <SavedChartsList theme="dark" on:chartSelect={(e) => handleChartSelect(e.detail)} />
       {/if}
     </div>
 
@@ -141,7 +141,7 @@
             variant="outline" 
             size="sm"
             onclick={() => navigateDate('prev')}
-            class="text-white border-white/20 hover:bg-white/10"
+            class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
           >
             <ArrowLeft class="w-4 h-4" />
           </Button>
@@ -156,7 +156,7 @@
               variant="outline" 
               size="sm"
               onclick={goToToday}
-              class="text-white border-white/20 hover:bg-white/10"
+              class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
             >
               Today
             </Button>
@@ -166,7 +166,7 @@
             variant="outline" 
             size="sm"
             onclick={() => navigateDate('next')}
-            class="text-white border-white/20 hover:bg-white/10"
+            class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
           >
             <ArrowRight class="w-4 h-4" />
           </Button>
@@ -183,7 +183,7 @@
     {:else if error}
       <div class="bg-red-500/20 backdrop-blur-sm rounded-lg p-6 text-center">
         <p class="text-red-300 text-lg mb-4">{error}</p>
-        <Button onclick={generateHoroscope} class="bg-red-600 hover:bg-red-700">
+        <Button onclick={generateHoroscope} class="bg-red-600 hover:bg-red-700 text-white font-medium">
           <RefreshCw class="w-4 h-4 mr-2" />
           Try Again
         </Button>

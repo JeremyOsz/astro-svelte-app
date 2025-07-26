@@ -57,11 +57,11 @@
     </nav>
   </header>
 
-  <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
+  <main class="flex-1 w-full">
     <slot />
   </main>
 
   <footer class="bg-gray-100 py-4 text-center text-gray-500 border-t">
-    <p>&copy; 2025 Astro Chart by Jeremy Osztreich. Powered by Swiss Ephemeris and D3.js</p>
+    <p>&copy; 2025 Astro Chart by Jeremy Osztreicher. Powered by Swiss Ephemeris and D3.js</p>
   </footer>
 </div> 
