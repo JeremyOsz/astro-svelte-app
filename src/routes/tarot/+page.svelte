@@ -97,7 +97,7 @@
     </div>
 
     <!-- Cards Grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
       {#each filteredCards as card}
         <button
           on:click={() => selectCard(card)}
@@ -107,7 +107,7 @@
             <img
               src={card.image}
               alt={card.name}
-              class="w-full h-full object-cover"
+              class="w-full h-full"
             />
             {#if card.number !== undefined}
               <div class="absolute top-2 left-2 bg-white bg-opacity-90 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold text-gray-800">
@@ -179,16 +179,10 @@
                 <img
                   src={selectedCard.image}
                   alt={selectedCard.name}
-                  class="max-w-full h-auto rounded-lg shadow-lg"
-                  style="max-height: 400px;"
+                  class="max-w-full h-auto rounded-lg shadow-lg transition-transform duration-300"
+                  style="max-height: 400px; {showReversed ? 'transform: rotate(180deg);' : ''}"
                 />
-                {#if showReversed}
-                  <div class="absolute inset-0 bg-black bg-opacity-20 rounded-lg flex items-center justify-center">
-                    <span class="bg-white px-3 py-1 rounded-full text-sm font-semibold text-gray-800">
-                      REVERSED
-                    </span>
-                  </div>
-                {/if}
+                
               </div>
             </div>
             
