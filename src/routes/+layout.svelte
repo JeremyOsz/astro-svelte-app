@@ -43,8 +43,8 @@
 <div class="min-h-screen flex flex-col">
   <header class="bg-gradient-to-tr from-indigo-500 to-purple-700 text-white shadow-md">
     <nav>
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 flex justify-between items-center py-4 relative overflow-visible mr-14">
-        <h1 class="text-xl font-bold">Astro Chart</h1>
+              <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:pr-20 flex justify-between items-center py-4 relative overflow-visible">
+        <a href="/" class="text-xl font-bold hover:text-white/80 transition-colors cursor-pointer">Astro Chart</a>
         <!-- Desktop Navigation -->
         <div class="hidden lg:block relative">
           <NavigationMenu.Root>
@@ -166,7 +166,9 @@
   </header>
 
   <main class="flex-1 w-full">
-    <slot />
+    <div class="container mx-auto px-4 sm:px-6 max-w-none lg:px-0">
+      <slot />
+    </div>
   </main>
 
   <footer class="bg-gray-100 py-4 text-center text-gray-500 border-t">

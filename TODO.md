@@ -4,12 +4,34 @@
 - ~Make Mobile styles work~
 - ~Convert Styles to tailwind/shadcn~
 - ~Fix footer data~
-- Flesh out Interpretations browser
+- ~Flesh out Interpretations browser~
 - Make transits chart
 - fix house alignment
 - Fix fonts on safari
 - ~Store Birth Data~
 - ~Loading state for chart~
+- make scroll not impact with the chart
+
+# Layout & UI Improvements
+- ~Add proper container padding to pages after layout changes~
+- Fix navigation menu dropdown positioning on mobile (currently breaks viewport)
+- Improve mobile navigation menu styling and spacing
+- Add proper focus states and keyboard navigation
+- Fix chart container responsiveness on very small screens
+- Add loading skeletons for better perceived performance
+- Improve button hover states and transitions
+- Add proper error boundaries for failed chart renders
+- Fix chart zoom/pan on touch devices
+- Improve accessibility with proper ARIA labels
+- Add dark mode support
+- Fix chart legend positioning on mobile
+- Improve form validation styling and feedback
+
+# Major features
+- Biwheel chart
+- Synastry
+- Kabbalah
+- Rituals and meditations
 
 
 # Optimisations

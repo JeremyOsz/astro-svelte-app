@@ -58,7 +58,7 @@
 </svelte:head>
 
 <div class="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
-  <div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
     <!-- Header -->
     <div class="text-center mb-8">
       <h1 class="text-4xl font-bold text-gray-900 mb-4">Tarot Card Meanings</h1>

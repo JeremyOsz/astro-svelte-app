@@ -1,420 +1,326 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
+  import { Badge } from '$lib/components/ui/badge';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Tooltip, TooltipContent, TooltipTrigger } from '$lib/components/ui/tooltip';
+  import { Search, Info } from 'lucide-svelte';
+  import { cn } from '$lib/utils';
+  import { 
+    PLANETS_DATA, 
+    SIGNS_DATA, 
+    HOUSES_DATA, 
+    ASPECTS_DATA,
+    type PlanetData,
+    type SignData,
+    type HouseData,
+    type AspectData
+  } from '$lib/data/interpretations-page-data';
 
-  let activeTab = 'planets';
   let searchTerm = '';
+  let activeTab = 'planets';
 
-  const planets = [
-    { name: 'Sun', symbol: '☉', element: 'Fire', description: 'Core identity, ego, father, leadership' },
-    { name: 'Moon', symbol: '☽', element: 'Water', description: 'Emotions, mother, intuition, subconscious' },
-    { name: 'Mercury', symbol: '☿', element: 'Air', description: 'Communication, thinking, learning, siblings' },
-    { name: 'Venus', symbol: '♀', element: 'Earth', description: 'Love, beauty, values, relationships' },
-    { name: 'Mars', symbol: '♂', element: 'Fire', description: 'Action, energy, aggression, sexuality' },
-    { name: 'Jupiter', symbol: '♃', element: 'Fire', description: 'Expansion, wisdom, philosophy, luck' },
-    { name: 'Saturn', symbol: '♄', element: 'Earth', description: 'Structure, discipline, limitations, karma' },
-    { name: 'Uranus', symbol: '♅', element: 'Air', description: 'Innovation, rebellion, sudden change' },
-    { name: 'Neptune', symbol: '♆', element: 'Water', description: 'Spirituality, dreams, illusion, compassion' },
-    { name: 'Pluto', symbol: '♇', element: 'Water', description: 'Transformation, power, death, rebirth' }
-  ];
-
-  const signs = [
-    { name: 'Aries', symbol: '♈', element: 'Fire', quality: 'Cardinal', ruler: 'Mars', description: 'Pioneering, energetic, impulsive, courageous' },
-    { name: 'Taurus', symbol: '♉', element: 'Earth', quality: 'Fixed', ruler: 'Venus', description: 'Stable, practical, sensual, determined' },
-    { name: 'Gemini', symbol: '♊', element: 'Air', quality: 'Mutable', ruler: 'Mercury', description: 'Versatile, curious, communicative, adaptable' },
-    { name: 'Cancer', symbol: '♋', element: 'Water', quality: 'Cardinal', ruler: 'Moon', description: 'Nurturing, emotional, protective, intuitive' },
-    { name: 'Leo', symbol: '♌', element: 'Fire', quality: 'Fixed', ruler: 'Sun', description: 'Creative, dramatic, generous, proud' },
-    { name: 'Virgo', symbol: '♍', element: 'Earth', quality: 'Mutable', ruler: 'Mercury', description: 'Analytical, practical, perfectionist, helpful' },
-    { name: 'Libra', symbol: '♎', element: 'Air', quality: 'Cardinal', ruler: 'Venus', description: 'Diplomatic, fair, social, indecisive' },
-    { name: 'Scorpio', symbol: '♏', element: 'Water', quality: 'Fixed', ruler: 'Pluto', description: 'Intense, mysterious, passionate, secretive' },
-    { name: 'Sagittarius', symbol: '♐', element: 'Fire', quality: 'Mutable', ruler: 'Jupiter', description: 'Optimistic, adventurous, philosophical, blunt' },
-    { name: 'Capricorn', symbol: '♑', element: 'Earth', quality: 'Cardinal', ruler: 'Saturn', description: 'Ambitious, disciplined, responsible, cautious' },
-    { name: 'Aquarius', symbol: '♒', element: 'Air', quality: 'Fixed', ruler: 'Uranus', description: 'Innovative, humanitarian, independent, eccentric' },
-    { name: 'Pisces', symbol: '♓', element: 'Water', quality: 'Mutable', ruler: 'Neptune', description: 'Compassionate, artistic, spiritual, escapist' }
-  ];
-
-  const houses = [
-    { number: 1, name: 'First House', keyword: 'Identity', description: 'Self, appearance, first impressions, physical body' },
-    { number: 2, name: 'Second House', keyword: 'Values', description: 'Money, possessions, self-worth, material security' },
-    { number: 3, name: 'Third House', keyword: 'Communication', description: 'Siblings, short trips, learning, local environment' },
-    { number: 4, name: 'Fourth House', keyword: 'Home', description: 'Family, home, roots, emotional foundation' },
-    { number: 5, name: 'Fifth House', keyword: 'Creativity', description: 'Children, romance, creativity, self-expression' },
-    { number: 6, name: 'Sixth House', keyword: 'Service', description: 'Work, health, daily routines, service to others' },
-    { number: 7, name: 'Seventh House', keyword: 'Partnerships', description: 'Marriage, partnerships, open enemies, contracts' },
-    { number: 8, name: 'Eighth House', keyword: 'Transformation', description: 'Shared resources, death, rebirth, sexuality' },
-    { number: 9, name: 'Ninth House', keyword: 'Philosophy', description: 'Higher education, travel, philosophy, spirituality' },
-    { number: 10, name: 'Tenth House', keyword: 'Career', description: 'Career, reputation, public image, authority' },
-    { number: 11, name: 'Eleventh House', keyword: 'Community', description: 'Friends, groups, hopes, dreams, social causes' },
-    { number: 12, name: 'Twelfth House', keyword: 'Spirituality', description: 'Subconscious, spirituality, hidden enemies, karma' }
-  ];
-
-  const aspects = [
-    { name: 'Conjunction', degrees: '0°', orb: '±8°', nature: 'Harmonious', description: 'Planets work together, intensifying their combined energy' },
-    { name: 'Sextile', degrees: '60°', orb: '±4°', nature: 'Harmonious', description: 'Easy flow of energy, opportunities for growth and cooperation' },
-    { name: 'Square', degrees: '90°', orb: '±8°', nature: 'Challenging', description: 'Tension and conflict, but also motivation for growth and change' },
-    { name: 'Trine', degrees: '120°', orb: '±8°', nature: 'Harmonious', description: 'Natural harmony and ease, talents and abilities flow easily' },
-    { name: 'Opposition', degrees: '180°', orb: '±8°', nature: 'Challenging', description: 'Polarity and awareness, relationships and external challenges' }
-  ];
-
-  $: filteredPlanets = planets.filter(planet => 
+  // Filter functions
+  $: filteredPlanets = PLANETS_DATA.filter(planet => 
     planet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    planet.description.toLowerCase().includes(searchTerm.toLowerCase())
+    planet.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    planet.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  $: filteredSigns = signs.filter(sign => 
+  $: filteredSigns = SIGNS_DATA.filter(sign => 
     sign.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    sign.description.toLowerCase().includes(searchTerm.toLowerCase())
+    sign.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    sign.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  $: filteredHouses = houses.filter(house => 
+  $: filteredHouses = HOUSES_DATA.filter(house => 
     house.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    house.description.toLowerCase().includes(searchTerm.toLowerCase())
+    house.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    house.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  $: filteredAspects = aspects.filter(aspect => 
+  $: filteredAspects = ASPECTS_DATA.filter(aspect => 
     aspect.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    aspect.description.toLowerCase().includes(searchTerm.toLowerCase())
+    aspect.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    aspect.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  // Check if any results exist
+  $: hasResults = filteredPlanets.length > 0 || filteredSigns.length > 0 || 
+                  filteredHouses.length > 0 || filteredAspects.length > 0;
+
+  // Get element color
+  function getElementColor(element: string): string {
+    const colors = {
+      'Fire': 'bg-red-100 text-red-800 border-red-200',
+      'Earth': 'bg-green-100 text-green-800 border-green-200',
+      'Air': 'bg-blue-100 text-blue-800 border-blue-200',
+      'Water': 'bg-cyan-100 text-cyan-800 border-cyan-200'
+    };
+    return colors[element as keyof typeof colors] || 'bg-gray-100 text-gray-800 border-gray-200';
+  }
+
+  // Get quality color
+  function getQualityColor(quality: string): string {
+    const colors = {
+      'Cardinal': 'bg-purple-100 text-purple-800 border-purple-200',
+      'Fixed': 'bg-orange-100 text-orange-800 border-orange-200',
+      'Mutable': 'bg-teal-100 text-teal-800 border-teal-200'
+    };
+    return colors[quality as keyof typeof colors] || 'bg-gray-100 text-gray-800 border-gray-200';
+  }
+
+  // Get nature color
+  function getNatureColor(nature: string): string {
+    return nature === 'Harmonious' 
+      ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+      : 'bg-rose-100 text-rose-800 border-rose-200';
+  }
 </script>
 
 <svelte:head>
   <title>Astrological Interpretations - Astro Chart</title>
   <meta name="description" content="Comprehensive astrological interpretations for planets, signs, houses, and aspects" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols:wght@400;500;600&display=swap" rel="stylesheet">
 </svelte:head>
 
-<div class="interpretations-page">
-  <div class="page-header">
-    <h1>Astrological Interpretations</h1>
-    <p>Explore the meanings and interpretations of planets, signs, houses, and aspects.</p>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
+  <!-- Page Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold text-gray-900 mb-4">Astrological Interpretations</h1>
+    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      Explore the meanings and interpretations of planets, signs, houses, and aspects in astrology.
+      Discover how these cosmic elements influence personality, relationships, and life experiences.
+    </p>
   </div>
 
-  <div class="search-section">
-    <input
-      type="text"
-      placeholder="Search interpretations..."
-      bind:value={searchTerm}
-      class="search-input"
-    />
+  <!-- Search Section -->
+  <div class="mb-8">
+    <div class="relative max-w-md mx-auto">
+      <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+      <Input placeholder="Search interpretations..." bind:value={searchTerm} class="pl-10" />
+    </div>
   </div>
 
-  <div class="tabs">
-    <button 
-      class="tab-btn {activeTab === 'planets' ? 'active' : ''}"
-      on:click={() => activeTab = 'planets'}
-    >
-      Planets
-    </button>
-    <button 
-      class="tab-btn {activeTab === 'signs' ? 'active' : ''}"
-      on:click={() => activeTab = 'signs'}
-    >
-      Signs
-    </button>
-    <button 
-      class="tab-btn {activeTab === 'houses' ? 'active' : ''}"
-      on:click={() => activeTab = 'houses'}
-    >
-      Houses
-    </button>
-    <button 
-      class="tab-btn {activeTab === 'aspects' ? 'active' : ''}"
-      on:click={() => activeTab = 'aspects'}
-    >
-      Aspects
-    </button>
-  </div>
-
-  <div class="content-section">
-    {#if activeTab === 'planets'}
-      <div class="planets-grid">
-        {#each filteredPlanets as planet}
-          <div class="interpretation-card">
-            <div class="card-header">
-              <span class="symbol">{planet.symbol}</span>
-              <h3>{planet.name}</h3>
-              <span class="element">{planet.element}</span>
-            </div>
-            <p class="description">{planet.description}</p>
-          </div>
-        {/each}
+  <!-- Tabs -->
+  <div class="mb-8">
+    <div class="flex justify-center">
+      <div class="inline-flex rounded-lg bg-gray-100 p-1">
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'planets' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          on:click={() => activeTab = 'planets'}
+        >
+          <span class="text-lg astrological-symbol">☉</span>
+          Planets
+        </button>
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'signs' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          on:click={() => activeTab = 'signs'}
+        >
+          <span class="text-lg astrological-symbol">♈</span>
+          Signs
+        </button>
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'houses' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          on:click={() => activeTab = 'houses'}
+        >
+          <span class="text-lg">🏠</span>
+          Houses
+        </button>
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'aspects' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          on:click={() => activeTab = 'aspects'}
+        >
+          <span class="text-lg astrological-symbol">⚡</span>
+          Aspects
+        </button>
       </div>
-    {:else if activeTab === 'signs'}
-      <div class="signs-grid">
-        {#each filteredSigns as sign}
-          <div class="interpretation-card">
-            <div class="card-header">
-              <span class="symbol">{sign.symbol}</span>
-              <h3>{sign.name}</h3>
-              <div class="sign-details">
-                <span class="element">{sign.element}</span>
-                <span class="quality">{sign.quality}</span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  {#if activeTab === 'planets'}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {#each filteredPlanets as planet}
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+          <CardHeader class="pb-3">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-3xl astrological-symbol">{planet.symbol}</span>
+              <div>
+                <CardTitle class="text-xl">{planet.name}</CardTitle>
+                <Badge variant="outline" class={cn("mt-1", getElementColor(planet.element))}>
+                  {planet.element}
+                </Badge>
               </div>
             </div>
-            <p class="ruler">Ruler: {sign.ruler}</p>
-            <p class="description">{sign.description}</p>
-          </div>
-        {/each}
-      </div>
-    {:else if activeTab === 'houses'}
-      <div class="houses-grid">
-        {#each filteredHouses as house}
-          <div class="interpretation-card">
-            <div class="card-header">
-              <span class="house-number">{house.number}</span>
-              <h3>{house.name}</h3>
-              <span class="keyword">{house.keyword}</span>
+          </CardHeader>
+          <CardContent class="space-y-4">
+            <p class="text-gray-600 leading-relaxed">{planet.description}</p>
+            <div class="flex flex-wrap gap-1">
+              {#each planet.keywords as keyword}
+                <Badge variant="secondary" class="text-xs">
+                  {keyword}
+                </Badge>
+              {/each}
             </div>
-            <p class="description">{house.description}</p>
-          </div>
-        {/each}
-      </div>
-    {:else if activeTab === 'aspects'}
-      <div class="aspects-grid">
-        {#each filteredAspects as aspect}
-          <div class="interpretation-card">
-            <div class="card-header">
-              <h3>{aspect.name}</h3>
-              <div class="aspect-details">
-                <span class="degrees">{aspect.degrees}</span>
-                <span class="orb">Orb: {aspect.orb}</span>
+          </CardContent>
+        </Card>
+      {/each}
+    </div>
+  {:else if activeTab === 'signs'}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {#each filteredSigns as sign}
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+          <CardHeader class="pb-3">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-3xl astrological-symbol">{sign.symbol}</span>
+              <div>
+                <CardTitle class="text-xl">{sign.name}</CardTitle>
+                <div class="flex gap-2 mt-1">
+                  <Badge variant="outline" class={cn("text-xs", getElementColor(sign.element))}>
+                    {sign.element}
+                  </Badge>
+                  <Badge variant="outline" class={cn("text-xs", getQualityColor(sign.quality))}>
+                    {sign.quality}
+                  </Badge>
+                </div>
               </div>
             </div>
-            <span class="nature {aspect.nature.toLowerCase()}">{aspect.nature}</span>
-            <p class="description">{aspect.description}</p>
-          </div>
-        {/each}
-      </div>
-    {/if}
-  </div>
-
-  {#if searchTerm && filteredPlanets.length === 0 && filteredSigns.length === 0 && filteredHouses.length === 0 && filteredAspects.length === 0}
-    <div class="no-results">
-      <p>No interpretations found for "{searchTerm}"</p>
+          </CardHeader>
+          <CardContent class="space-y-4">
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+              <span>Ruled by:</span>
+              <Badge variant="secondary" class="text-xs">
+                {sign.ruler}
+              </Badge>
+            </div>
+            <p class="text-gray-600 leading-relaxed">{sign.description}</p>
+            <div class="flex flex-wrap gap-1">
+              {#each sign.keywords as keyword}
+                <Badge variant="secondary" class="text-xs">
+                  {keyword}
+                </Badge>
+              {/each}
+            </div>
+          </CardContent>
+        </Card>
+      {/each}
+    </div>
+  {:else if activeTab === 'houses'}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {#each filteredHouses as house}
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+          <CardHeader class="pb-3">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+                {house.number}
+              </div>
+              <div>
+                <CardTitle class="text-xl">{house.name}</CardTitle>
+                <Badge variant="outline" class="mt-1 bg-purple-100 text-purple-800 border-purple-200">
+                  {house.keyword}
+                </Badge>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent class="space-y-4">
+            <p class="text-gray-600 leading-relaxed">{house.description}</p>
+            <div class="flex flex-wrap gap-1">
+              {#each house.keywords as keyword}
+                <Badge variant="secondary" class="text-xs">
+                  {keyword}
+                </Badge>
+              {/each}
+            </div>
+          </CardContent>
+        </Card>
+      {/each}
+    </div>
+  {:else if activeTab === 'aspects'}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {#each filteredAspects as aspect}
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+          <CardHeader class="pb-3">
+            <div class="flex items-center justify-between mb-3">
+              <CardTitle class="text-xl">{aspect.name}</CardTitle>
+              <Badge variant="outline" class={cn("text-xs", getNatureColor(aspect.nature))}>
+                {aspect.nature}
+              </Badge>
+            </div>
+            <div class="flex gap-2">
+              <Badge variant="secondary" class="text-xs">
+                {aspect.degrees}
+              </Badge>
+              <Badge variant="secondary" class="text-xs">
+                Orb: {aspect.orb}
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent class="space-y-4">
+            <p class="text-gray-600 leading-relaxed">{aspect.description}</p>
+            <div class="flex flex-wrap gap-1">
+              {#each aspect.keywords as keyword}
+                <Badge variant="secondary" class="text-xs">
+                  {keyword}
+                </Badge>
+              {/each}
+            </div>
+          </CardContent>
+        </Card>
+      {/each}
     </div>
   {/if}
+
+  <!-- No Results -->
+  {#if searchTerm && !hasResults}
+    <div class="text-center py-12">
+      <div class="max-w-md mx-auto">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+          <Search class="h-8 w-8 text-gray-400" />
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">No interpretations found</h3>
+        <p class="text-gray-600">
+          No results found for "{searchTerm}". Try searching with different keywords or browse the tabs above.
+        </p>
+      </div>
+    </div>
+  {/if}
+
+  <!-- Info Section -->
+  <div class="mt-12 p-6 bg-blue-50 rounded-lg border border-blue-200">
+    <div class="flex items-start gap-3">
+      <Info class="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+      <div>
+        <h3 class="font-semibold text-blue-900 mb-2">Understanding Astrological Elements</h3>
+        <p class="text-blue-800 text-sm leading-relaxed">
+          These interpretations provide foundational meanings in astrology. Remember that the full interpretation 
+          of any chart depends on the unique combination of planets, signs, houses, and aspects in your specific 
+          birth chart. Each element interacts with others to create your unique astrological profile.
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
-  .interpretations-page {
-    max-width: 1200px;
-    margin: 0 auto;
+  /* Astrological symbol font */
+  .astrological-symbol {
+    font-family: 'Noto Sans Symbols', 'Segoe UI Symbol', 'Arial Unicode MS', sans-serif;
+    font-weight: 500;
+    line-height: 1;
   }
-
-  .page-header {
-    text-align: center;
-    margin-bottom: 2rem;
+  
+  /* Custom styles for better hover effects */
+  :global(.group:hover .text-3xl) {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
   }
-
-  .page-header h1 {
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-
-  .page-header p {
-    color: #666;
-    font-size: 1.1rem;
-  }
-
-  .search-section {
-    margin-bottom: 2rem;
-  }
-
-  .search-input {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    display: block;
-  }
-
-  .tabs {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .tab-btn {
-    padding: 0.75rem 1.5rem;
-    border: 2px solid #667eea;
-    background: transparent;
-    color: #667eea;
-    border-radius: 0.5rem;
+  
+  /* Ensure proper cursor on interactive elements */
+  button {
     cursor: pointer;
-    transition: all 0.2s;
-    font-weight: 500;
-  }
-
-  .tab-btn:hover {
-    background: #667eea;
-    color: white;
-  }
-
-  .tab-btn.active {
-    background: #667eea;
-    color: white;
-  }
-
-  .content-section {
-    margin-bottom: 2rem;
-  }
-
-  .planets-grid,
-  .signs-grid,
-  .houses-grid,
-  .aspects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .interpretation-card {
-    background: white;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border-left: 4px solid #667eea;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .symbol {
-    font-size: 2rem;
-    color: #667eea;
-  }
-
-  .house-number {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #667eea;
-    background: #f8f9fa;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-  }
-
-  .card-header h3 {
-    margin: 0;
-    flex: 1;
-    color: #333;
-  }
-
-  .element,
-  .keyword {
-    background: #667eea;
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-  }
-
-  .sign-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .quality {
-    background: #28a745;
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-  }
-
-  .ruler {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .aspect-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .degrees {
-    background: #ffc107;
-    color: #333;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-  }
-
-  .orb {
-    background: #6c757d;
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-  }
-
-  .nature {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-
-  .nature.harmonious {
-    background: #28a745;
-    color: white;
-  }
-
-  .nature.challenging {
-    background: #dc3545;
-    color: white;
-  }
-
-  .description {
-    color: #666;
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  .no-results {
-    text-align: center;
-    padding: 3rem;
-    color: #666;
-    background: #f8f9fa;
-    border-radius: 1rem;
-  }
-
-  @media (max-width: 768px) {
-    .tabs {
-      gap: 0.25rem;
-    }
-    
-    .tab-btn {
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
-    }
-    
-    .planets-grid,
-    .signs-grid,
-    .houses-grid,
-    .aspects-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .card-header {
-      flex-direction: column;
-      text-align: center;
-      gap: 0.5rem;
-    }
   }
 </style> 

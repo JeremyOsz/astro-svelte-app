@@ -3,4 +3,5 @@
 
 export * from './astrological-data';
 export * from './interpretations';
-export * from './chart-styles'; 
+export * from './chart-styles';
+export * from './interpretations-page-data'; 
