@@ -173,7 +173,10 @@
       {#each features as feature}
         <div 
           class="cursor-pointer"
+          role="button"
+          tabindex="0"
           on:click={() => window.location.href = feature.href}
+          on:keydown={(e) => e.key === 'Enter' && (window.location.href = feature.href)}
         >
           <Card class="group hover:shadow-lg transition-all duration-300 border-0 shadow-md">
             <CardHeader class="pb-4">

@@ -607,7 +607,10 @@
                   <div 
                     class="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
                     class:bg-gray-100={i === selectedTransitCityIndex}
+                    role="button"
+                    tabindex="0"
                     on:click={() => selectTransitCity(city)}
+                    on:keydown={(e) => e.key === 'Enter' && selectTransitCity(city)}
                   >
                     <div class="font-medium">{city.name}</div>
                     <div class="text-sm text-gray-600">{city.fullLocation}</div>

@@ -86,7 +86,6 @@
                 class="w-full px-2 py-1 border rounded text-sm"
                 on:keydown={(e) => e.key === 'Enter' && handleSaveEdit()}
                 on:blur={handleSaveEdit}
-                autofocus
               />
             {:else}
               <div class="font-medium truncate {theme === 'dark' ? 'text-white' : 'text-gray-900'}">{chart.name}</div>

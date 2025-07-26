@@ -418,9 +418,14 @@
           <div class="table-row">
             <span 
               class="planet-name"
+              role="button"
+              tabindex="0"
               on:mouseover={(e) => handleMouseOver(e, getPlanetTooltipData(planet.planet, planet.transitSign, planet.transitHouse))}
+              on:focus={(e) => handleMouseOver(e as any, getPlanetTooltipData(planet.planet, planet.transitSign, planet.transitHouse))}
               on:mouseout={handleMouseOut}
+              on:blur={handleMouseOut}
               on:click={(e) => handleClick(e, getPlanetTooltipData(planet.planet, planet.transitSign, planet.transitHouse))}
+              on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, getPlanetTooltipData(planet.planet, planet.transitSign, planet.transitHouse))}
             >
               <span class="planet-symbol">{planet.planetSymbol}</span>
               {planet.planet}
@@ -431,9 +436,14 @@
             </span>
             <span 
               class="current-house"
+              role="button"
+              tabindex="0"
               on:mouseover={(e) => handleMouseOver(e, { sign: planet.transitSign, house: planet.transitHouse })}
+              on:focus={(e) => handleMouseOver(e as any, { sign: planet.transitSign, house: planet.transitHouse })}
               on:mouseout={handleMouseOut}
+              on:blur={handleMouseOut}
               on:click={(e) => handleClick(e, { sign: planet.transitSign, house: planet.transitHouse })}
+              on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, { sign: planet.transitSign, house: planet.transitHouse })}
             >
               H{planet.transitHouse}
             </span>
@@ -445,9 +455,14 @@
             </span>
             <span 
               class="natal-house"
+              role="button"
+              tabindex="0"
               on:mouseover={(e) => handleMouseOver(e, { sign: planet.natalSign, house: planet.natalHouse })}
+              on:focus={(e) => handleMouseOver(e as any, { sign: planet.natalSign, house: planet.natalHouse })}
               on:mouseout={handleMouseOut}
+              on:blur={handleMouseOut}
               on:click={(e) => handleClick(e, { sign: planet.natalSign, house: planet.natalHouse })}
+              on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, { sign: planet.natalSign, house: planet.natalHouse })}
             >
               H{planet.natalHouse || 'N/A'}
             </span>
@@ -483,9 +498,14 @@
               </span>
               <span 
                 class="aspect" 
+                role="button"
+                tabindex="0"
                 on:mouseover={(e) => handleMouseOver(e, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthPlanet))}
+                on:focus={(e) => handleMouseOver(e as any, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthPlanet))}
                 on:mouseout={handleMouseOut}
+                on:blur={handleMouseOut}
                 on:click={(e) => handleClick(e, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthPlanet))}
+                on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthPlanet))}
               >
                 {aspect.aspectSymbol} {aspect.aspect}
               </span>
@@ -523,9 +543,14 @@
               </span>
               <span 
                 class="aspect" 
+                role="button"
+                tabindex="0"
                 on:mouseover={(e) => handleMouseOver(e, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthObject))}
+                on:focus={(e) => handleMouseOver(e as any, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthObject))}
                 on:mouseout={handleMouseOut}
+                on:blur={handleMouseOut}
                 on:click={(e) => handleClick(e, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthObject))}
+                on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthObject))}
               >
                 {aspect.aspectSymbol} {aspect.aspect}
               </span>
@@ -563,9 +588,14 @@
               </span>
               <span 
                 class="aspect" 
+                role="button"
+                tabindex="0"
                 on:mouseover={(e) => handleMouseOver(e, getAspectTooltipData(aspect.aspect, aspect.transitObject, aspect.birthPlanet))}
+                on:focus={(e) => handleMouseOver(e as any, getAspectTooltipData(aspect.aspect, aspect.transitObject, aspect.birthPlanet))}
                 on:mouseout={handleMouseOut}
+                on:blur={handleMouseOut}
                 on:click={(e) => handleClick(e, getAspectTooltipData(aspect.aspect, aspect.transitObject, aspect.birthPlanet))}
+                on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, getAspectTooltipData(aspect.aspect, aspect.transitObject, aspect.birthPlanet))}
               >
                 {aspect.aspectSymbol} {aspect.aspect}
               </span>

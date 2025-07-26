@@ -17,7 +17,7 @@
   import * as Accordion from "$lib/components/ui/accordion";
   import { Input } from '$lib/components/ui/input';
 
-  export let data: PageData;
+  // export let data: PageData;
 
   let chartComponent: D3Chart;
   let showChart = false;
@@ -326,7 +326,7 @@ MC,Leo,10°14'`;
                 </div>
                 
                 <div>
-                  <label class="text-sm font-medium text-gray-700 mb-2 block">Chart Data</label>
+                  <label for="chart-data-textarea" class="text-sm font-medium text-gray-700 mb-2 block">Chart Data</label>
                   <p class="text-sm text-gray-600 mb-2">For testing - Copy and paste your chart data from astro-seek - on your chart page click 'copy positions' and paste here</p>
                   <p class="text-sm text-gray-600 mb-2">Changing the string will change the chart</p>
                   <div class="flex gap-2 mb-2">
@@ -338,6 +338,7 @@ MC,Leo,10°14'`;
                     </Button>
                   </div>
                   <textarea 
+                    id="chart-data-textarea"
                     class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
                     bind:value={textareaStore}
                     on:input={() => {

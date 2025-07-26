@@ -60,7 +60,6 @@
           placeholder="Enter chart name"
           class="w-full px-3 py-2 border rounded mb-3"
           on:keydown={(e) => e.key === 'Enter' && handleSave()}
-          autofocus
         />
         {#if saveError}
           <p class="text-red-500 text-sm mb-3">{saveError}</p>
