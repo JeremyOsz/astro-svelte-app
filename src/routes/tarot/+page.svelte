@@ -72,6 +72,50 @@
       </div>
     </div>
 
+    <!-- Historical Background -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">The History of Tarot</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-gray-700">
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-semibold text-gray-800 mb-2">Origins</h3>
+            <p class="text-sm leading-relaxed">
+              The tarot's origins trace back to 15th century Italy, where the first known decks were created as playing cards. 
+              The Major Arcana evolved from medieval allegorical imagery and Renaissance symbolism, incorporating elements from 
+              Christian mysticism, classical mythology, and esoteric traditions.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-gray-800 mb-2">The Fool's Journey</h3>
+            <p class="text-sm leading-relaxed">
+              The Major Arcana tells the story of "The Fool's Journey" - a metaphorical path of spiritual development. 
+              Beginning with The Fool (0) representing innocence and new beginnings, the journey progresses through 
+              various life experiences, challenges, and spiritual revelations, culminating in The World (21) representing 
+              completion and wholeness.
+            </p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-semibold text-gray-800 mb-2">Historical Development</h3>
+            <p class="text-sm leading-relaxed">
+              Throughout history, the Major Arcana has been associated with various mystical and philosophical traditions. 
+              In the 18th and 19th centuries, occultists like Antoine Court de Gébelin and Éliphas Lévi connected the tarot 
+              to ancient Egyptian wisdom and Kabbalistic teachings.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-gray-800 mb-2">Modern Tarot</h3>
+            <p class="text-sm leading-relaxed">
+              The Rider-Waite-Smith deck, published in 1909, revolutionized tarot interpretation by adding detailed symbolic 
+              imagery to all 78 cards. Today, tarot serves as a powerful tool for self-reflection, spiritual guidance, and 
+              psychological insight.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Search and Filters -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -213,7 +257,7 @@
             </div>
             <!-- Astrological Significance -->
             {#if selectedCard.element || selectedCard.planet || selectedCard.zodiac}
-              <div class="border-t pt-4">
+              <div class="border-t py-4">
                 <h4 class="text-sm font-semibold text-gray-900 mb-2">Astrological Significance</h4>
                 <div class="text-sm text-gray-600 space-y-1">
                   {#if selectedCard.element}
@@ -374,6 +418,153 @@
             {/if}
           </div>
         </div>
+        <!-- Card-Specific Historical Information -->
+        {#if !selectedCard.suit}
+          <div class="border rounded-lg p-6 bg-gray-50">
+            <h4 class="font-semibold text-gray-900 mb-4 text-lg">Card Background</h4>
+            <div class="text-gray-700 space-y-4">
+              {#if selectedCard.name === 'The Fool'}
+                <p class="text-sm leading-relaxed">
+                  The Fool represents the beginning of the journey - the innocent soul ready to embark on life's adventure. 
+                  In medieval times, the fool was often depicted as a court jester who spoke truth through humor and could 
+                  move freely between social classes. This card embodies the spirit of new beginnings and unlimited potential.
+                </p>
+              {:else if selectedCard.name === 'The Magician'}
+                <p class="text-sm leading-relaxed">
+                  The Magician represents the power of manifestation and conscious creation. Historically, magicians were 
+                  seen as intermediaries between the divine and earthly realms, using their will and skill to transform 
+                  energy into matter. This card embodies the principle of "as above, so below" from Hermetic philosophy.
+                </p>
+              {:else if selectedCard.name === 'The High Priestess'}
+                <p class="text-sm leading-relaxed">
+                  The High Priestess represents intuitive wisdom and the mysteries of the subconscious. She is often associated 
+                  with the ancient priestesses of various traditions who served as oracles and keepers of sacred knowledge. 
+                  Her position between two pillars reflects the balance of opposites and the gateway to deeper understanding.
+                </p>
+              {:else if selectedCard.name === 'The Empress'}
+                <p class="text-sm leading-relaxed">
+                  The Empress embodies the archetype of the Great Mother - the nurturing, creative force of nature. Throughout 
+                  history, she has been associated with fertility goddesses, abundance, and the generative power of the earth. 
+                  Her imagery often draws from classical representations of Venus and other mother goddesses.
+                </p>
+              {:else if selectedCard.name === 'The Emperor'}
+                <p class="text-sm leading-relaxed">
+                  The Emperor represents authority, structure, and the establishment of order. Historically, he embodies the 
+                  archetype of the wise ruler who creates stability and protects his realm. His imagery often incorporates 
+                  symbols of power and governance from various historical periods and cultures.
+                </p>
+              {:else if selectedCard.name === 'The Hierophant'}
+                <p class="text-sm leading-relaxed">
+                  The Hierophant represents spiritual authority and traditional religious structures. The term "hierophant" 
+                  comes from ancient Greek mystery religions, where it referred to the high priest who revealed sacred teachings. 
+                  This card embodies the transmission of spiritual wisdom through established traditions and institutions.
+                </p>
+              {:else if selectedCard.name === 'The Lovers'}
+                <p class="text-sm leading-relaxed">
+                  The Lovers card represents choice, harmony, and the union of opposites. Throughout history, this card has 
+                  been associated with the biblical story of Adam and Eve, as well as the alchemical marriage of sun and moon. 
+                  It embodies the fundamental human experience of making choices that shape our destiny.
+                </p>
+              {:else if selectedCard.name === 'The Chariot'}
+                <p class="text-sm leading-relaxed">
+                  The Chariot represents triumph, willpower, and the mastery of opposing forces. Historically, chariots were 
+                  symbols of military victory and royal power. This card embodies the archetype of the hero who overcomes 
+                  obstacles through determination and skill, often drawing from classical mythology and military symbolism.
+                </p>
+              {:else if selectedCard.name === 'Strength'}
+                <p class="text-sm leading-relaxed">
+                  Strength represents inner fortitude, courage, and the power of gentle persuasion. Traditionally, this card 
+                  shows a figure taming a lion, symbolizing the triumph of spiritual strength over brute force. This imagery 
+                  has roots in various cultural traditions that celebrate the power of patience and inner resolve.
+                </p>
+              {:else if selectedCard.name === 'The Hermit'}
+                <p class="text-sm leading-relaxed">
+                  The Hermit represents solitude, introspection, and the search for inner wisdom. Throughout history, hermits 
+                  and solitary seekers have been revered in many spiritual traditions for their ability to find truth through 
+                  contemplation. This card embodies the archetype of the wise elder who guides others through his lantern of wisdom.
+                </p>
+              {:else if selectedCard.name === 'Wheel of Fortune'}
+                <p class="text-sm leading-relaxed">
+                  The Wheel of Fortune represents cycles, change, and the turning of fate. This card has roots in medieval 
+                  philosophy and the concept of "Fortuna," the goddess of fortune who spins the wheel of destiny. The imagery 
+                  often incorporates elements from various cultural traditions that recognize the cyclical nature of life.
+                </p>
+              {:else if selectedCard.name === 'Justice'}
+                <p class="text-sm leading-relaxed">
+                  Justice represents balance, fairness, and the consequences of our actions. This card embodies the universal 
+                  principle of cosmic justice and karma. The imagery of the scales and sword has roots in ancient Egyptian 
+                  mythology and classical representations of justice, symbolizing the weighing of truth and the power of righteous judgment.
+                </p>
+              {:else if selectedCard.name === 'The Hanged Man'}
+                <p class="text-sm leading-relaxed">
+                  The Hanged Man represents sacrifice, surrender, and seeing things from a new perspective. This card has 
+                  been associated with various mythological figures who underwent symbolic death and rebirth, including 
+                  Odin hanging from Yggdrasil and the crucifixion imagery in Christian tradition.
+                </p>
+              {:else if selectedCard.name === 'Death'}
+                <p class="text-sm leading-relaxed">
+                  Death represents transformation, endings, and the inevitability of change. Throughout history, this card 
+                  has been associated with the Grim Reaper and various death deities from different cultures. It embodies 
+                  the universal truth that all things must end to make way for new beginnings.
+                </p>
+              {:else if selectedCard.name === 'Temperance'}
+                <p class="text-sm leading-relaxed">
+                  Temperance represents balance, moderation, and the blending of opposites. This card embodies the virtue 
+                  of temperance from classical philosophy and medieval Christian teachings. The imagery of mixing liquids 
+                  symbolizes the alchemical process of creating harmony from different elements.
+                </p>
+              {:else if selectedCard.name === 'The Devil'}
+                <p class="text-sm leading-relaxed">
+                  The Devil represents temptation, materialism, and the shadow aspects of human nature. This card has roots 
+                  in medieval Christian iconography and various cultural representations of evil and temptation. It embodies 
+                  the archetype of the trickster and the challenges of overcoming our baser instincts.
+                </p>
+              {:else if selectedCard.name === 'The Tower'}
+                <p class="text-sm leading-relaxed">
+                  The Tower represents sudden change, revelation, and the destruction of false structures. This card has 
+                  been associated with the biblical Tower of Babel and various mythological stories about the fall of 
+                  pride and the shattering of illusions. It embodies the archetype of divine intervention and necessary destruction.
+                </p>
+              {:else if selectedCard.name === 'The Star'}
+                <p class="text-sm leading-relaxed">
+                  The Star represents hope, inspiration, and spiritual guidance. This card has been associated with various 
+                  star deities and the concept of divine guidance throughout history. The imagery often draws from classical 
+                  mythology and the universal human experience of looking to the stars for direction and meaning.
+                </p>
+              {:else if selectedCard.name === 'The Moon'}
+                <p class="text-sm leading-relaxed">
+                  The Moon represents intuition, illusion, and the subconscious mind. Throughout history, the moon has been 
+                  associated with feminine energy, mystery, and the realm of dreams. This card embodies the archetype of 
+                  the lunar goddess and the power of intuitive knowing that operates beyond rational thought.
+                </p>
+              {:else if selectedCard.name === 'The Sun'}
+                <p class="text-sm leading-relaxed">
+                  The Sun represents joy, vitality, and the conscious mind. This card has been associated with solar deities 
+                  and the life-giving power of the sun throughout various cultures. It embodies the archetype of the solar 
+                  hero and the triumph of light over darkness, representing clarity, success, and positive energy.
+                </p>
+              {:else if selectedCard.name === 'Judgement'}
+                <p class="text-sm leading-relaxed">
+                  Judgement represents rebirth, awakening, and the call to higher purpose. This card has roots in Christian 
+                  eschatology and various cultural traditions that speak of a final judgment or spiritual awakening. It 
+                  embodies the archetype of the divine call and the transformation that comes from answering it.
+                </p>
+              {:else if selectedCard.name === 'The World'}
+                <p class="text-sm leading-relaxed">
+                  The World represents completion, wholeness, and the integration of all experiences. This card embodies 
+                  the archetype of the cosmic dancer and the completion of the Fool's Journey. The imagery often incorporates 
+                  elements from various cultural traditions that represent the unity of all things and the achievement of spiritual mastery.
+                </p>
+              {:else}
+                <p class="text-sm leading-relaxed">
+                  This Major Arcana card represents a significant archetype in the human journey. Each Major Arcana card 
+                  embodies universal experiences and spiritual lessons that have been recognized across cultures and time periods, 
+                  making them powerful tools for self-reflection and personal growth.
+                </p>
+              {/if}
+            </div>
+          </div>
+        {/if}
         <!-- Interpretations -->
         <div class="space-y-4">
           <div class="border rounded-lg p-4">
@@ -401,6 +592,8 @@
             </p>
           </div>
         </div>
+
+        
       {/if}
     </Dialog.Content>
   </Dialog.Root>
