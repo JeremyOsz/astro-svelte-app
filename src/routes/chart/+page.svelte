@@ -364,6 +364,7 @@ MC,Leo,10°14'`;
             <SavedChartsList onChartSelect={handleChartSelect} />
           {/if}
             </div>
+          </div>
         
         <!-- Resize Handle (Desktop only) -->
         {#if sidebarOpen && !isMobile}
