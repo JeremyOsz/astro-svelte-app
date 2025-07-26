@@ -1210,11 +1210,6 @@
     font-size: 14px;
   }
 
-  .reset-icon {
-    width: 20px;
-    height: 20px;
-    color: #666;
-  }
 
   :global(.chart-svg) {
     max-width: 100%;
@@ -1302,17 +1297,6 @@
 
   .reset-button {
     font-size: 12px;
-  }
-
-  .reset-icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* Ensure the SVG scales to container width */
-  .chart-container svg {
-    width: 100% !important;
-    height: auto !important;
   }
 
   /* Smaller tooltip on mobile */

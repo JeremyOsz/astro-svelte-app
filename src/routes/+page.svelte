@@ -320,15 +320,6 @@
 </div>
 
 <style>
-  /* Custom styles for better visual effects */
-  .group:hover .group-hover\:translate-x-1 {
-    transform: translateX(0.25rem);
-  }
-  
-  /* Ensure proper cursor on interactive elements */
-  button {
-    cursor: pointer;
-  }
   
   /* Smooth transitions */
   * {

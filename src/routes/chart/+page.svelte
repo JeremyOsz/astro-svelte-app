@@ -8,8 +8,8 @@
   import SaveChartButton from '$lib/components/SaveChartButton.svelte';
   import ShareChartButton from '$lib/components/ShareChartButton.svelte';
   import ChartLoadingState from '$lib/components/ChartLoadingState.svelte';
-  import * as Sidebar from "$lib/components/ui/sidebar";
-  import * as Sheet from "$lib/components/ui/sheet";
+  import * as Sidebar from "$lib/components/ui/sidebar"; 
+   import * as Sheet from "$lib/components/ui/sheet";
   import { Button } from "$lib/components/ui/button";
   import { PanelLeft, Settings, X, BookOpen } from 'lucide-svelte';
   import type { PageData } from './$types';
@@ -782,16 +782,6 @@ MC,Leo,10°14'`;
 </Sidebar.Provider> 
 
 <style>
-  /* Custom styles for better UX */
-  .chart-container {
-    min-height: 600px;
-  }
-  
-  @media (max-width: 768px) {
-    .chart-container {
-      min-height: 400px;
-    }
-  }
 
   /* Ensure all buttons and interactive elements have pointer cursor */
   button, 

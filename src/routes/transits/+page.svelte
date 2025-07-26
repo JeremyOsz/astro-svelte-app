@@ -814,10 +814,6 @@
 </div>
 
 <style>
-  /* Custom styles for better hover effects */
-  button {
-    cursor: pointer;
-  }
   
   /* Ensure proper spacing for the grid layout */
   .container {
