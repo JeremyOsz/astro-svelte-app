@@ -11,7 +11,7 @@
   import { Calendar, MapPin, Clock, User, CalendarDays, BookOpen } from 'lucide-svelte';
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import { ZODIAC_DETAILED } from '$lib/data/astrological-data';
-  import D3BiWheelChart from '$lib/chart/D3BiWheelChart.svelte';
+
   import type { Planet } from '$lib/types/types';
 
   // Transit-specific data
@@ -708,97 +708,16 @@
     </div>
   {/if}
 
-  <!-- Transit Chart Visualization -->
-  {#if natalChart && currentTransits}
-    <div class="transits-section">
-      <div class="section-header">
-        <h2>Transit Chart Visualization</h2>
-      </div>
-      <D3BiWheelChart 
-        {natalChart} 
-        transitChart={currentTransits} 
-        {showAspectLines}
-        {showExtendedObjects}
-        {houseSystem}
-      />
-      
-      {#if showLegend}
-        <div class="legend-panel">
-          <h4>Chart Legend</h4>
-          <div class="legend-content">
-            <div class="legend-section">
-              <h5>Planets</h5>
-              <div class="legend-items">
-                <span on:click={() => showInterpretation({ name: 'Sun', symbol: '☉' }, 'planet')}>☉ Sun</span>
-                <span on:click={() => showInterpretation({ name: 'Moon', symbol: '☽' }, 'planet')}>☽ Moon</span>
-                <span on:click={() => showInterpretation({ name: 'Mercury', symbol: '☿' }, 'planet')}>☿ Mercury</span>
-                <span on:click={() => showInterpretation({ name: 'Venus', symbol: '♀' }, 'planet')}>♀ Venus</span>
-                <span on:click={() => showInterpretation({ name: 'Mars', symbol: '♂' }, 'planet')}>♂ Mars</span>
-                <span on:click={() => showInterpretation({ name: 'Jupiter', symbol: '♃' }, 'planet')}>♃ Jupiter</span>
-                <span on:click={() => showInterpretation({ name: 'Saturn', symbol: '♄' }, 'planet')}>♄ Saturn</span>
-                <span on:click={() => showInterpretation({ name: 'Uranus', symbol: '♅' }, 'planet')}>♅ Uranus</span>
-                <span on:click={() => showInterpretation({ name: 'Neptune', symbol: '♆' }, 'planet')}>♆ Neptune</span>
-                <span on:click={() => showInterpretation({ name: 'Pluto', symbol: '♇' }, 'planet')}>♇ Pluto</span>
-              </div>
-            </div>
-            
-            <div class="legend-section">
-              <h5>Aspects</h5>
-              <div class="legend-items">
-                <span style="color: #228B22;" on:click={() => showInterpretation({ type: 'Conjunction', symbol: '☌' }, 'aspect')}>☌ Conjunction</span>
-                <span style="color: #FF0000;" on:click={() => showInterpretation({ type: 'Opposition', symbol: '☍' }, 'aspect')}>☍ Opposition</span>
-                <span style="color: #FF0000;" on:click={() => showInterpretation({ type: 'Square', symbol: '□' }, 'aspect')}>□ Square</span>
-                <span style="color: #0000FF;" on:click={() => showInterpretation({ type: 'Trine', symbol: '△' }, 'aspect')}>△ Trine</span>
-                <span style="color: #0000FF;" on:click={() => showInterpretation({ type: 'Sextile', symbol: '⚹' }, 'aspect')}>⚹ Sextile</span>
-              </div>
-            </div>
-            
-            <div class="legend-section">
-              <h5>Rings</h5>
-              <div class="legend-items">
-                <span>Inner: Natal Planets</span>
-                <span>Outer: Transit Planets</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      {/if}
-      
-      <!-- Interpretation Panel -->
-      {#if showInterpretationPanel && selectedInterpretation}
-        <div class="interpretation-overlay" on:click={closeInterpretationPanel}>
-          <div class="interpretation-panel" on:click|stopPropagation>
-            <div class="panel-header">
-              <h3>
-                {selectedInterpretation.type === 'planet' 
-                  ? `${selectedInterpretation.item.symbol} ${selectedInterpretation.item.name}`
-                  : `${selectedInterpretation.item.symbol} ${selectedInterpretation.item.type}`
-                }
-              </h3>
-              <button class="close-btn" on:click={closeInterpretationPanel}>×</button>
-            </div>
-            
-            <div class="panel-content">
-              {#if selectedInterpretation.type === 'planet'}
-                <div class="planet-interpretation">
-                  <h4>Planetary Meaning</h4>
-                  <p>
-                    {selectedInterpretation.item.name} represents {getPlanetMeaning(selectedInterpretation.item.name)}.
-                    In transit, it influences {getTransitInfluence(selectedInterpretation.item.name)}.
-                  </p>
-                </div>
-              {:else}
-                <div class="aspect-interpretation">
-                  <h4>Aspect Meaning</h4>
-                  <p>{getAspectMeaning(selectedInterpretation.item.type)}</p>
-                </div>
-              {/if}
-            </div>
-          </div>
-        </div>
-      {/if}
+  <!-- Transit functionality removed -->
+  <div class="transits-section">
+    <div class="section-header">
+      <h2>Transit Functionality</h2>
     </div>
-  {/if}
+    <div class="chart-placeholder">
+      <p>Transit visualization and biwheel chart functionality has been removed from this application.</p>
+      <p>You can still view your birth chart and get interpretations, but transit calculations are no longer available.</p>
+    </div>
+  </div>
 
   <!-- Information Section -->
   <div class="info-section">

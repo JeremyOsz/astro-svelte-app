@@ -57,6 +57,7 @@
 		"@tailwindcss/vite": "^4.1.11",
 		"cities.json": "^1.1.50",
 		"d3": "^7.9.0",
+		"date-fns": "^4.1.0",
 		"lucide-svelte": "^0.525.0",
 		"luxon": "^3.7.1"
 	}

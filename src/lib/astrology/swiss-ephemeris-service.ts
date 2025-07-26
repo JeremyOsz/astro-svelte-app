@@ -180,6 +180,14 @@ export class SwissEphemerisService {
     transitLocation?: { latitude: number; longitude: number; name: string }
   ): Promise<any> {
     try {
+      // Validate dates
+      if (!natalChart.date || isNaN(natalChart.date.getTime())) {
+        throw new Error('Invalid natal chart date');
+      }
+      if (!transitDate || isNaN(transitDate.getTime())) {
+        throw new Error('Invalid transit date');
+      }
+
       // If external API is available, use it
       if (API_KEY) {
         const requestData = {
@@ -210,6 +218,12 @@ export class SwissEphemerisService {
   }
 
   private static generateMockTransits(natalChart: BirthChart, transitDate: Date): any {
+    // Ensure natalChart.planets exists
+    if (!natalChart.planets || !Array.isArray(natalChart.planets)) {
+      console.warn('Natal chart planets not found, using default positions');
+      natalChart.planets = [];
+    }
+
     // Generate realistic transit data based on the natal chart
     const transitPlanets = [
       { name: 'Sun', baseSpeed: 0.985556 }, // ~1 degree per day

@@ -955,6 +955,31 @@ export function getTransitInterpretation(aspect: string, transitPlanet: string, 
         return interpretation;
     }
 
-    // If no specific interpretation, return empty string
-    return '';
+    // If no specific interpretation, provide a general one based on aspect and planets
+    const planetMeanings = {
+        'Sun': 'identity and life purpose',
+        'Moon': 'emotions and intuition',
+        'Mercury': 'communication and thinking',
+        'Venus': 'love and values',
+        'Mars': 'action and courage',
+        'Jupiter': 'expansion and wisdom',
+        'Saturn': 'structure and responsibility',
+        'Uranus': 'innovation and freedom',
+        'Neptune': 'inspiration and spirituality',
+        'Pluto': 'transformation and power'
+    };
+
+    const aspectMeanings = {
+        'Conjunction': 'integration and new beginnings',
+        'Opposition': 'balance and awareness',
+        'Square': 'challenge and growth',
+        'Trine': 'harmony and ease',
+        'Sextile': 'opportunity and cooperation'
+    };
+
+    const transitPlanetMeaning = planetMeanings[transitPlanet as keyof typeof planetMeanings] || 'personal growth';
+    const natalPlanetMeaning = planetMeanings[natalPlanet as keyof typeof planetMeanings] || 'personal development';
+    const aspectMeaning = aspectMeanings[aspect as keyof typeof aspectMeanings] || 'transformation';
+
+    return `${aspectMeaning} between ${transitPlanetMeaning} and ${natalPlanetMeaning}. This transit brings opportunities for growth and development.`;
 } 

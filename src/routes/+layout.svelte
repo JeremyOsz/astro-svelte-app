@@ -26,6 +26,9 @@
               <NavigationMenu.Item>
                 <NavigationMenu.Link href="/interpretations">Interpretations</NavigationMenu.Link>
               </NavigationMenu.Item>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link href="/daily-horoscope">Daily Horoscope</NavigationMenu.Link>
+              </NavigationMenu.Item>
             </NavigationMenu.List>
           </NavigationMenu.Root>
         </div>
@@ -45,6 +48,7 @@
                 <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Birth Chart</a>
                 <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Transits</a>
                 <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Interpretations</a>
+                <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-2 px-3 rounded hover:bg-gray-100 text-gray-900">Daily Horoscope</a>
               </nav>
             </Sheet.Content>
           </Sheet.Root>
