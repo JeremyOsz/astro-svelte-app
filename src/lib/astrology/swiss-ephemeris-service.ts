@@ -30,21 +30,26 @@ export class SwissEphemerisService {
       throw new Error('EPHEMERIS_API_KEY environment variable is not set');
     }
 
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': API_KEY,
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': API_KEY,
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorData.detail || 'Unknown error'}`);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorData.detail || 'Unknown error'}`);
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('Failed to connect to ephemeris service:', error);
+      throw error;
     }
-
-    return response.json();
   }
 
   static async calculateBirthChart(
@@ -205,9 +210,15 @@ export class SwissEphemerisService {
           })
         };
 
-        return await this.makeRequest('/transits', requestData);
+        try {
+          return await this.makeRequest('/transits', requestData);
+        } catch (apiError) {
+          console.warn('External ephemeris API failed, falling back to mock data:', apiError);
+          return this.generateMockTransits(natalChart, transitDate);
+        }
       } else {
         // Mock implementation for development/testing
+        console.log('No API key provided, using mock transit data');
         return this.generateMockTransits(natalChart, transitDate);
       }
     } catch (error) {
@@ -275,6 +286,9 @@ export class SwissEphemerisService {
       };
     });
 
+    // Generate ASC for transit chart (using a simple calculation based on transit time)
+    const transitAscendant = (natalChart.ascendant + (daysDiff * 15)) % 360; // Approximate ASC progression
+    
     // Generate aspects between transit and natal planets
     const aspects: Array<{
       transitPlanet: string;
@@ -315,6 +329,7 @@ export class SwissEphemerisService {
 
     return {
       planets,
+      ascendant: transitAscendant,
       aspects: aspects.sort((a, b) => a.orb - b.orb), // Sort by orb (closest first)
       transitDate: transitDate.toISOString(),
       natalDate: natalChart.date.toISOString()

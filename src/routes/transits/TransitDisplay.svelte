@@ -5,18 +5,17 @@
   import type { NatalChart, TransitChart, TransitAspect, Planet } from '$lib/types/types';
   import { ASPECT_DEFINITIONS, ZODIAC_SYMBOLS, PLANET_SYMBOLS } from '$lib/data/astrological-data';
   import { getTransitInterpretation, MAJOR_ASPECTS } from '$lib/transit-interpretations';
-  import { createTooltip, handleMouseOver, handleMouseOut, handleClick, unpinTooltip } from '$lib/chart/tooltip';
 
   export let natalChart: NatalChart;
   export let currentTransits: TransitChart;
 
   // Lifecycle
   onMount(() => {
-    createTooltip();
+    // Component mounted
   });
 
   onDestroy(() => {
-    unpinTooltip();
+    // Component destroyed
   });
 
   $: transitAspects = calculateTransitAspects();
@@ -63,16 +62,6 @@
     return aspects.sort((a, b) => a.orb - b.orb);
   }
 
-  function isPlanet(name: string): boolean {
-    const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
-    return planets.includes(name);
-  }
-
-  function isObject(name: string): boolean {
-    const objects = ['ASC', 'MC', 'DSC', 'IC', 'Node', 'S.Node', 'Lilith', 'Chiron', 'Fortune', 'Vertex'];
-    return objects.includes(name);
-  }
-
   function getPlanetSymbol(planetName: string): string {
     return PLANET_SYMBOLS[planetName] || planetName;
   }
@@ -93,21 +82,16 @@
     return aspectSymbols[aspectType] || aspectType;
   }
 
-
-
   function formatOrb(orb: number, transitLongitude: number, natalLongitude: number): string {
     const degrees = Math.floor(orb);
     const minutes = Math.floor((orb - degrees) * 60);
     
-    // Determine if aspect is applying or separating
     const angleDiff = Math.abs(transitLongitude - natalLongitude);
     const diff = Math.min(angleDiff, 360 - angleDiff);
     
-    // For applying aspects, the transit planet is moving toward the exact aspect
-    // For separating aspects, the transit planet has passed the exact aspect
-    const isApplying = diff < orb; // If the actual difference is less than orb, it's applying
+    const isApplying = diff < orb;
     const direction = isApplying ? '+' : '-';
-    const status = isApplying ? 'A' : 's'; // A for applying, s for separating
+    const status = isApplying ? 'A' : 's';
     
     return `${direction}${degrees}°${minutes}'${status}`;
   }
@@ -151,13 +135,12 @@
               transitLongitude: transitPlanet.longitude,
               natalLongitude: natalPlanet.longitude
             });
-            break; // Only count the closest aspect
+            break;
           }
         }
       });
     });
     
-    // Sort by transit planet order (Sun to Pluto) then by orb
     const planetOrder = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
     return aspects.sort((a, b) => {
       const aIndex = planetOrder.indexOf(a.transitPlanet);
@@ -215,7 +198,6 @@
       });
     });
     
-    // Sort by transit planet order (Sun to Pluto) then by orb
     const planetOrder = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
     return aspects.sort((a, b) => {
       const aIndex = planetOrder.indexOf(a.transitPlanet);
@@ -227,119 +209,26 @@
     });
   }
 
-  function getOtherAspects() {
-    if (!natalChart || !currentTransits) return [];
-    
-    const aspects: Array<{
-      transitObject: string;
-      aspect: string;
-      birthPlanet: string;
-      orb: number;
-      transitSymbol: string;
-      birthSymbol: string;
-      aspectSymbol: string;
-      transitLongitude: number;
-      natalLongitude: number;
-    }> = [];
-    const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
-    const objects = ['ASC', 'MC', 'DSC', 'IC', 'Node', 'S.Node', 'Lilith', 'Chiron', 'Fortune', 'Vertex'];
-    
-    currentTransits.planets.forEach((transitPlanet) => {
-      if (!objects.includes(transitPlanet.name)) return;
-      
-      natalChart.planets.forEach((natalPlanet) => {
-        if (!mainPlanets.includes(natalPlanet.name)) return;
-        
-        const angleDiff = Math.abs(transitPlanet.longitude - natalPlanet.longitude);
-        const diff = Math.min(angleDiff, 360 - angleDiff);
-
-        for (const [aspectName, aspectDef] of Object.entries(ASPECT_DEFINITIONS)) {
-          const orb = Math.abs(diff - aspectDef.angle);
-          if (orb <= aspectDef.orb && orb < 3) {
-            aspects.push({
-              transitObject: transitPlanet.name,
-              aspect: aspectName,
-              birthPlanet: natalPlanet.name,
-              orb: orb,
-              transitSymbol: getPlanetSymbol(transitPlanet.name),
-              birthSymbol: getPlanetSymbol(natalPlanet.name),
-              aspectSymbol: getAspectSymbol(aspectName),
-              transitLongitude: transitPlanet.longitude,
-              natalLongitude: natalPlanet.longitude
-            });
-            break;
-          }
-        }
-      });
-    });
-    
-    // Sort by transit object order (Sun to Pluto, then other objects) then by orb
-    const planetOrder = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
-    const objectOrder = ['Node', 'S.Node', 'Lilith', 'Chiron', 'Fortune', 'Vertex', 'ASC', 'MC', 'DSC', 'IC'];
-    return aspects.sort((a, b) => {
-      const aPlanetIndex = planetOrder.indexOf(a.transitObject);
-      const bPlanetIndex = planetOrder.indexOf(b.transitObject);
-      const aObjectIndex = objectOrder.indexOf(a.transitObject);
-      const bObjectIndex = objectOrder.indexOf(b.transitObject);
-      
-      // If both are planets, sort by planet order
-      if (aPlanetIndex !== -1 && bPlanetIndex !== -1) {
-        if (aPlanetIndex !== bPlanetIndex) {
-          return aPlanetIndex - bPlanetIndex;
-        }
-      }
-      // If both are objects, sort by object order
-      else if (aObjectIndex !== -1 && bObjectIndex !== -1) {
-        if (aObjectIndex !== bObjectIndex) {
-          return aObjectIndex - bObjectIndex;
-        }
-      }
-      // Planets come before objects
-      else if (aPlanetIndex !== -1 && bObjectIndex !== -1) {
-        return -1;
-      }
-      else if (aObjectIndex !== -1 && bPlanetIndex !== -1) {
-        return 1;
-      }
-      
-      return a.orb - b.orb;
-    });
-  }
-
-  function getAspectTooltipData(aspect: string, transitPlanet: string, natalPlanet: string) {
-    return {
-      aspect: aspect,
-      planet1: transitPlanet,
-      planet2: natalPlanet,
-      orb: 0 // We'll get the actual orb from the aspect data
-    };
-  }
-
   function getHouseForPlanet(planet: Planet, houses: any[]): number {
     if (!houses || houses.length === 0) return 1;
     
     const planetLongitude = planet.longitude;
     
-    // Find which house the planet falls into based on house cusps
     for (let i = 0; i < houses.length; i++) {
       const currentCusp = houses[i].longitude;
       const nextCusp = houses[(i + 1) % houses.length].longitude;
       
-      // Handle the case where we cross 0 degrees
       if (nextCusp > currentCusp) {
-        // Normal case: next cusp is greater than current
         if (planetLongitude >= currentCusp && planetLongitude < nextCusp) {
           return i + 1;
         }
       } else {
-        // We've crossed 0 degrees (next cusp is less than current)
         if (planetLongitude >= currentCusp || planetLongitude < nextCusp) {
           return i + 1;
         }
       }
     }
     
-    // Fallback: if we can't determine, return house 1
     return 1;
   }
 
@@ -381,23 +270,13 @@
       }
     });
     
-    // Sort by planet order (Sun to Pluto)
     const planetOrder = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
     return houseData.sort((a, b) => planetOrder.indexOf(a.planet) - planetOrder.indexOf(b.planet));
-  }
-
-  function getPlanetTooltipData(planet: string, sign: string, house: number) {
-    return {
-      planet: planet,
-      sign: sign,
-      house: house
-    };
   }
 
   $: mainPlanetAspects = getMainPlanetAspects();
   $: planetHouseData = getPlanetHouseData();
   $: aspectsToObjects = getAspectsToObjects();
-  $: otherAspects = getOtherAspects();
 </script>
 
 <div class="transit-display">
@@ -416,17 +295,7 @@
         </div>
         {#each planetHouseData as planet}
           <div class="table-row">
-            <span 
-              class="planet-name"
-              role="button"
-              tabindex="0"
-              on:mouseover={(e) => handleMouseOver(e, getPlanetTooltipData(planet.planet, planet.transitSign, planet.transitHouse))}
-              on:focus={(e) => handleMouseOver(e as any, getPlanetTooltipData(planet.planet, planet.transitSign, planet.transitHouse))}
-              on:mouseout={handleMouseOut}
-              on:blur={handleMouseOut}
-              on:click={(e) => handleClick(e, getPlanetTooltipData(planet.planet, planet.transitSign, planet.transitHouse))}
-              on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, getPlanetTooltipData(planet.planet, planet.transitSign, planet.transitHouse))}
-            >
+            <span class="planet-name">
               <span class="planet-symbol">{planet.planetSymbol}</span>
               {planet.planet}
             </span>
@@ -434,17 +303,7 @@
               {planet.transitPosition.split(' ')[0]} 
               <span class="sign-symbol">{planet.transitPosition.split(' ')[1]}</span>
             </span>
-            <span 
-              class="current-house"
-              role="button"
-              tabindex="0"
-              on:mouseover={(e) => handleMouseOver(e, { sign: planet.transitSign, house: planet.transitHouse })}
-              on:focus={(e) => handleMouseOver(e as any, { sign: planet.transitSign, house: planet.transitHouse })}
-              on:mouseout={handleMouseOut}
-              on:blur={handleMouseOut}
-              on:click={(e) => handleClick(e, { sign: planet.transitSign, house: planet.transitHouse })}
-              on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, { sign: planet.transitSign, house: planet.transitHouse })}
-            >
+            <span class="current-house">
               H{planet.transitHouse}
             </span>
             <span class="natal-position">
@@ -453,17 +312,7 @@
                 <span class="sign-symbol">{planet.natalPosition.split(' ')[1]}</span>
               {/if}
             </span>
-            <span 
-              class="natal-house"
-              role="button"
-              tabindex="0"
-              on:mouseover={(e) => handleMouseOver(e, { sign: planet.natalSign, house: planet.natalHouse })}
-              on:focus={(e) => handleMouseOver(e as any, { sign: planet.natalSign, house: planet.natalHouse })}
-              on:mouseout={handleMouseOut}
-              on:blur={handleMouseOut}
-              on:click={(e) => handleClick(e, { sign: planet.natalSign, house: planet.natalHouse })}
-              on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, { sign: planet.natalSign, house: planet.natalHouse })}
-            >
+            <span class="natal-house">
               H{planet.natalHouse || 'N/A'}
             </span>
             <span class="movement">
@@ -476,17 +325,17 @@
   {/if}
 
   <div class="transit-aspects">
-    <h3 class="text-xl font-semibold mb-4">Transit aspects interpretations »</h3>
+    <h3 class="text-xl font-semibold mb-4">Transit Aspects</h3>
     
     <!-- Main planet aspects -->
     {#if mainPlanetAspects.length > 0}
       <div class="aspects-section">
-        <h4 class="section-title">Main planet aspects:</h4>
+        <h4 class="section-title">Main Planet Aspects:</h4>
         <div class="aspects-table">
           <div class="table-header">
-            <span>Transit planet</span>
+            <span>Transit Planet</span>
             <span>Aspect</span>
-            <span>Birth planet</span>
+            <span>Birth Planet</span>
             <span>Orb*</span>
             <span>Interpretation</span>
           </div>
@@ -496,17 +345,7 @@
               <span class="transit-planet">
                 {aspect.transitSymbol} {aspect.transitPlanet}
               </span>
-              <span 
-                class="aspect" 
-                role="button"
-                tabindex="0"
-                on:mouseover={(e) => handleMouseOver(e, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthPlanet))}
-                on:focus={(e) => handleMouseOver(e as any, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthPlanet))}
-                on:mouseout={handleMouseOut}
-                on:blur={handleMouseOut}
-                on:click={(e) => handleClick(e, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthPlanet))}
-                on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthPlanet))}
-              >
+              <span class="aspect">
                 {aspect.aspectSymbol} {aspect.aspect}
               </span>
               <span class="birth-planet">
@@ -527,12 +366,12 @@
     <!-- Aspects to objects -->
     {#if aspectsToObjects.length > 0}
       <div class="aspects-section">
-        <h4 class="section-title">Aspects to objects:</h4>
+        <h4 class="section-title">Aspects to Objects:</h4>
         <div class="aspects-table">
           <div class="table-header">
-            <span>Transit planet</span>
+            <span>Transit Planet</span>
             <span>Aspect</span>
-            <span>Birth object</span>
+            <span>Birth Object</span>
             <span>Orb</span>
             <span>Interpretation</span>
           </div>
@@ -541,17 +380,7 @@
               <span class="transit-planet">
                 {aspect.transitSymbol} {aspect.transitPlanet}
               </span>
-              <span 
-                class="aspect" 
-                role="button"
-                tabindex="0"
-                on:mouseover={(e) => handleMouseOver(e, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthObject))}
-                on:focus={(e) => handleMouseOver(e as any, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthObject))}
-                on:mouseout={handleMouseOut}
-                on:blur={handleMouseOut}
-                on:click={(e) => handleClick(e, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthObject))}
-                on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, getAspectTooltipData(aspect.aspect, aspect.transitPlanet, aspect.birthObject))}
-              >
+              <span class="aspect">
                 {aspect.aspectSymbol} {aspect.aspect}
               </span>
               <span class="birth-object">
@@ -569,52 +398,7 @@
       </div>
     {/if}
 
-    <!-- Other aspects -->
-    {#if otherAspects.length > 0}
-      <div class="aspects-section">
-        <h4 class="section-title">Other aspects:</h4>
-        <div class="aspects-table">
-          <div class="table-header">
-            <span>Transit object</span>
-            <span>Aspect</span>
-            <span>Birth planet</span>
-            <span>Orb</span>
-            <span>Interpretation</span>
-          </div>
-          {#each otherAspects as aspect}
-            <div class="table-row">
-              <span class="transit-object">
-                {aspect.transitSymbol} {aspect.transitObject}
-              </span>
-              <span 
-                class="aspect" 
-                role="button"
-                tabindex="0"
-                on:mouseover={(e) => handleMouseOver(e, getAspectTooltipData(aspect.aspect, aspect.transitObject, aspect.birthPlanet))}
-                on:focus={(e) => handleMouseOver(e as any, getAspectTooltipData(aspect.aspect, aspect.transitObject, aspect.birthPlanet))}
-                on:mouseout={handleMouseOut}
-                on:blur={handleMouseOut}
-                on:click={(e) => handleClick(e, getAspectTooltipData(aspect.aspect, aspect.transitObject, aspect.birthPlanet))}
-                on:keydown={(e) => e.key === 'Enter' && handleClick(e as any, getAspectTooltipData(aspect.aspect, aspect.transitObject, aspect.birthPlanet))}
-              >
-                {aspect.aspectSymbol} {aspect.aspect}
-              </span>
-              <span class="birth-planet">
-                {aspect.birthSymbol} {aspect.birthPlanet}
-              </span>
-              <span class="orb">
-                {formatOrb(aspect.orb, aspect.transitLongitude, aspect.natalLongitude)}
-              </span>
-              <span class="interpretation">
-                {getTransitInterpretation(aspect.aspect, aspect.transitObject, aspect.birthPlanet)}
-              </span>
-            </div>
-          {/each}
-        </div>
-      </div>
-    {/if}
-
-    {#if mainPlanetAspects.length === 0 && aspectsToObjects.length === 0 && otherAspects.length === 0}
+    {#if mainPlanetAspects.length === 0 && aspectsToObjects.length === 0}
       <div class="no-aspects">
         <p>No notable transits with an orb of less than 3 degrees are currently active.</p>
       </div>
@@ -675,7 +459,6 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    cursor: pointer;
   }
 
   .planet-symbol {
@@ -699,7 +482,6 @@
   .natal-house {
     font-weight: 500;
     color: #059669;
-    cursor: pointer;
   }
 
   .movement {
@@ -786,7 +568,6 @@
   .aspect {
     color: #059669;
     font-weight: 500;
-    cursor: pointer;
   }
 
   .orb {
@@ -800,56 +581,6 @@
     color: #374151;
     line-height: 1.4;
     max-width: 200px;
-  }
-
-  /* Tooltip styles - matching D3Chart */
-  :global(.chart-tooltip) {
-    background: #fcf8ed;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.10);
-    color: #222;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    min-width: 320px;
-    max-width: 420px;
-    padding: 0;
-    z-index: 1001;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  :global(.tooltip-header) {
-    background-color: #fcf8ed;
-    padding: 16px 20px 0 20px;
-    font-weight: 700;
-    font-size: 22px;
-    color: #222;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom: none;
-  }
-
-  :global(.tooltip-body) {
-    padding: 10px 20px 18px 20px;
-    font-size: 14px;
-    line-height: 1.7;
-    color: #222;
-  }
-
-  :global(.interpretation-content h3) {
-    margin: 0 0 10px;
-    font-size: 16px;
-    font-weight: 700;
-    color: #222;
-  }
-
-  :global(.interpretation-content p) {
-    margin: 0 0 10px;
-    font-size: 14px;
-    color: #222;
-  }
-
-  :global(.interpretation-content p:last-child) {
-    margin-bottom: 0;
   }
 
   /* Mobile responsiveness */
@@ -875,33 +606,6 @@
     .orb-note {
       padding: 0.4rem 0.75rem;
       font-size: 0.75rem;
-    }
-
-    /* Smaller tooltip on mobile */
-    :global(.chart-tooltip) {
-      min-width: 260px;
-      max-width: 320px;
-    }
-
-    :global(.tooltip-header) {
-      padding: 12px 16px 0 16px;
-      font-size: 18px;
-    }
-
-    :global(.tooltip-body) {
-      padding: 8px 16px 14px 16px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    :global(.interpretation-content h3) {
-      font-size: 14px;
-      margin: 0 0 8px;
-    }
-
-    :global(.interpretation-content p) {
-      font-size: 13px;
-      margin: 0 0 8px;
     }
   }
 </style> 

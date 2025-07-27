@@ -191,6 +191,21 @@
     }
   }
 
+  // When container is bound, ensure natal data parsed if we previously skipped due to timing
+  $: if (chartContainer && !chartStateDataInitialized()) {
+    const storeData = get(chartStore).chartData;
+    if (storeData) {
+      console.log('D3Chart: Container now ready, parsing stored natal chart data');
+      currentChartData = storeData;
+      parseChartData(storeData, 'chart');
+    }
+  }
+
+  function chartStateDataInitialized() {
+    const data = get(chartState).data;
+    return Array.isArray(data) && data.length > 0;
+  }
+
   // Reactive statement to trigger chart redraw when either state changes
   $: if (get(chartState).data.length > 0 || get(transitState).data.length > 0) {
     if (chartContainer) {
@@ -909,13 +924,18 @@
         .on('mouseover', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForAspect(g, aspect.color);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          handleMouseOver(event, aspect);
+          // Add transit/natal information to the aspect data
+          const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
+          handleMouseOver(event, aspectDataWithType);
         } : null) as any)
         .on('mouseout', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
           handleMouseOut();
         } : null) as any)
-        .on('click', (event) => handleClick(event, aspect));
+        .on('click', (event) => {
+          const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
+          handleClick(event, aspectDataWithType);
+        });
     });
   }
 
@@ -927,17 +947,20 @@
     const zodiacInnerRadius = getRadius('zodiacInnerRadius', isInner);
     const labelRadius = getRadius('labelRadius', isInner);
 
-    // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
-    const asc = data.find((p: PlanetData) => p.planet === 'ASC');
-    if (!asc) {
-      console.log('D3Chart: No ASC found for planet positioning');
+    // For natal planets, use the natal chart's Ascendant for positioning
+    // For transit planets, use the natal chart's Ascendant but position planets at their absolute zodiac positions
+    const natalData = get(chartState).data;
+    const natalAsc = natalData.find((p: PlanetData) => p.planet === 'ASC');
+    if (!natalAsc) {
+      console.log('D3Chart: No natal ASC found for planet positioning');
       return;
     }
     
-    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
-    const ascSignStartAngle = ascSignIndex * 30;
-    // Use same rotation offset as zodiac wheel
-    const zodiacOffset = ascSignStartAngle - 360; // 270° puts House 1 on the left
+    const natalAscSignIndex = zodiacSigns.indexOf(natalAsc.sign);
+    const natalAscSignStartAngle = natalAscSignIndex * 30;
+    
+    let zodiacOffset: number;
+    zodiacOffset = natalAscSignStartAngle;
 
     // Define a glow filter for each sign color (if not already present)
     const defs = getDefs(g);
@@ -980,13 +1003,18 @@
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, p.sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          handleMouseOver(event, p);
+          // Add transit/natal information to the planet data
+          const planetDataWithType = { ...p, isTransit: !isInner };
+          handleMouseOver(event, planetDataWithType);
         })
         .on('mouseout', function(this: SVGCircleElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
           handleMouseOut();
         })
-        .on('click', (event) => handleClick(event, p));
+        .on('click', (event) => {
+          const planetDataWithType = { ...p, isTransit: !isInner };
+          handleClick(event, planetDataWithType);
+        });
 
       // Planet glyph
       group.append('text')
@@ -1324,7 +1352,7 @@
   .chart-wrapper {
     position: relative;
     width: 100%;
-    height: 100%;
+    /* Remove height constraint to allow wrapper to grow with chart */
   }
 
   .chart-container {
@@ -1335,7 +1363,6 @@
     border: 1px solid #eee;
     border-radius: 5px;
     background: #fafafa;
-    overflow: hidden;
     position: relative;
     touch-action: pan-x pan-y pinch-zoom;
   }
