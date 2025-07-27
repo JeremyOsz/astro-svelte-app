@@ -1,10 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
   import { Input } from '$lib/components/ui/input';
-  import { Label } from '$lib/components/ui/label';
-  import { Tooltip, TooltipContent, TooltipTrigger } from '$lib/components/ui/tooltip';
   import { Search, Info } from 'lucide-svelte';
   import { cn } from '$lib/utils';
   import { 
@@ -12,10 +9,7 @@
     SIGNS_DATA, 
     HOUSES_DATA, 
     ASPECTS_DATA,
-    type PlanetData,
-    type SignData,
-    type HouseData,
-    type AspectData
+    OTHER_OBJECTS_DATA,
   } from '$lib/data/interpretations-page-data';
 
   let searchTerm = '';
@@ -52,9 +46,17 @@
     aspect.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  $: filteredOtherObjects = OTHER_OBJECTS_DATA.filter(obj => 
+    obj.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    obj.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    obj.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    obj.themes.some(theme => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    obj.significance.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   // Check if any results exist
   $: hasResults = filteredPlanets.length > 0 || filteredSigns.length > 0 || 
-                  filteredHouses.length > 0 || filteredAspects.length > 0;
+                  filteredHouses.length > 0 || filteredAspects.length > 0 || filteredOtherObjects.length > 0;
 
   // Get element color
   function getElementColor(element: string): string {
@@ -82,6 +84,17 @@
     return nature === 'Harmonious' 
       ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
       : 'bg-rose-100 text-rose-800 border-rose-200';
+  }
+
+  // Get category color
+  function getCategoryColor(category: string): string {
+    const colors = {
+      'Extended Planet': 'bg-indigo-100 text-indigo-800 border-indigo-200',
+      'Angle': 'bg-violet-100 text-violet-800 border-violet-200',
+      'Asteroid': 'bg-pink-100 text-pink-800 border-pink-200',
+      'Point': 'bg-amber-100 text-amber-800 border-amber-200'
+    };
+    return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800 border-gray-200';
   }
 </script>
 
@@ -142,6 +155,13 @@
         >
           <span class="text-lg astrological-symbol">⚡</span>
           Aspects
+        </button>
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'other-objects' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          on:click={() => activeTab = 'other-objects'}
+        >
+          <span class="text-lg astrological-symbol">⚷</span>
+          Other Objects
         </button>
       </div>
     </div>
@@ -373,6 +393,59 @@
                   {keyword}
                 </Badge>
               {/each}
+            </div>
+          </CardContent>
+        </Card>
+      {/each}
+    </div>
+  {:else if activeTab === 'other-objects'}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {#each filteredOtherObjects as obj}
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+          <CardHeader class="pb-3">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-3xl astrological-symbol">{obj.symbol}</span>
+              <div>
+                <CardTitle class="text-xl">{obj.name}</CardTitle>
+                <Badge variant="outline" class={cn("mt-1", getCategoryColor(obj.category))}>
+                  {obj.category}
+                </Badge>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent class="space-y-4">
+            <p class="text-gray-600 leading-relaxed">{obj.description}</p>
+            
+            <!-- Significance -->
+            <div class="bg-blue-50 rounded-lg p-3">
+              <h4 class="font-semibold text-blue-800 mb-2 text-sm">Significance</h4>
+              <p class="text-sm text-blue-700">{obj.significance}</p>
+            </div>
+
+            <!-- Themes -->
+            {#if obj.themes && obj.themes.length > 0}
+              <div>
+                <h4 class="font-medium text-gray-900 mb-2">Themes</h4>
+                <div class="flex flex-wrap gap-1">
+                  {#each obj.themes as theme}
+                    <Badge variant="secondary" class="text-xs bg-indigo-100 text-indigo-800">
+                      {theme}
+                    </Badge>
+                  {/each}
+                </div>
+              </div>
+            {/if}
+
+            <!-- Keywords -->
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">Keywords</h4>
+              <div class="flex flex-wrap gap-1">
+                {#each obj.keywords as keyword}
+                  <Badge variant="secondary" class="text-xs">
+                    {keyword}
+                  </Badge>
+                {/each}
+              </div>
             </div>
           </CardContent>
         </Card>

@@ -42,6 +42,16 @@ export interface AspectData {
   keywords: string[];
 }
 
+export interface OtherObjectData {
+  name: string;
+  symbol: string;
+  category: 'Extended Planet' | 'Angle' | 'Asteroid' | 'Point';
+  description: string;
+  keywords: string[];
+  themes: string[];
+  significance: string;
+}
+
 export const PLANETS_DATA: PlanetData[] = [
   {
     name: 'Sun',
@@ -420,4 +430,227 @@ export const ASPECTS_DATA: AspectData[] = [
     description: 'Polarity and awareness, relationships and external challenges. Creates balance through tension.',
     keywords: ['Polarity', 'Awareness', 'Relationships', 'Challenges', 'Balance', 'Tension']
   }
+];
+
+export const OTHER_OBJECTS_DATA: OtherObjectData[] = [
+  // Angles
+  {
+    name: 'Ascendant (ASC)',
+    symbol: 'ASC',
+    category: 'Angle',
+    description: 'The rising sign, representing how you present yourself to the world and your first impressions. The Ascendant shows your outer personality and approach to life.',
+    keywords: ['First Impressions', 'Outer Personality', 'Appearance', 'Approach', 'Identity', 'Self-Presentation'],
+    themes: ['First impressions', 'Outer personality', 'Appearance', 'Approach to life', 'Identity', 'Self-presentation'],
+    significance: 'Shows how you present yourself to the world and your approach to life'
+  },
+  {
+    name: 'Descendant (DSC)',
+    symbol: 'DSC',
+    category: 'Angle',
+    description: 'The setting sign, representing partnerships, relationships, and what you seek in others. The Descendant shows your relationship needs and the qualities you attract.',
+    keywords: ['Partnerships', 'Relationships', 'Others', 'Balance', 'Attraction', 'Complement'],
+    themes: ['Partnerships', 'Relationships', 'Others', 'Balance', 'Attraction', 'Complement'],
+    significance: 'Shows relationship needs and the qualities you attract in others'
+  },
+  {
+    name: 'Midheaven (MC)',
+    symbol: 'MC',
+    category: 'Angle',
+    description: 'The highest point, representing career, public image, and life goals. The Midheaven shows your public persona and career direction.',
+    keywords: ['Career', 'Public Image', 'Life Goals', 'Achievement', 'Reputation', 'Authority'],
+    themes: ['Career', 'Public image', 'Life goals', 'Achievement', 'Reputation', 'Authority'],
+    significance: 'Shows career direction and public persona'
+  },
+  {
+    name: 'Imum Coeli (IC)',
+    symbol: 'IC',
+    category: 'Angle',
+    description: 'The lowest point, representing home, family, and private life. The Imum Coeli shows your private self and emotional foundation.',
+    keywords: ['Home', 'Family', 'Private Life', 'Foundation', 'Roots', 'Emotional Base'],
+    themes: ['Home', 'Family', 'Private life', 'Foundation', 'Roots', 'Emotional base'],
+    significance: 'Shows your private self and emotional foundation'
+  },
+  // Asteroids
+  {
+    name: 'Lilith (Black Moon)',
+    symbol: '⚸',
+    category: 'Asteroid',
+    description: 'The dark feminine, representing repressed desires, wild nature, and the shadow self. Lilith shows areas where we suppress our true nature.',
+    keywords: ['Dark Feminine', 'Repressed Desires', 'Wild Nature', 'Shadow Self', 'Rebellion', 'Freedom'],
+    themes: ['Dark feminine', 'Repressed desires', 'Wild nature', 'Shadow self', 'Rebellion', 'Freedom'],
+    significance: 'Shows repressed desires and the shadow aspects of personality'
+  },
+  {
+    name: 'Lunar Nodes',
+    symbol: '☊☋',
+    category: 'Point',
+    description: 'The North and South Nodes represent your soul\'s journey and karmic lessons. The North Node shows your destiny, while the South Node shows past life patterns.',
+    keywords: ['Destiny', 'Karma', 'Soul Journey', 'Past Life', 'Future Path', 'Lessons'],
+    themes: ['Destiny', 'Karma', 'Soul journey', 'Past life patterns', 'Future path', 'Life lessons'],
+    significance: 'Shows your soul\'s journey and karmic lessons'
+  },
+  {
+    name: 'Part of Fortune',
+    symbol: '☊',
+    category: 'Point',
+    description: 'A calculated point representing luck, fortune, and where you find joy and success. The Part of Fortune shows areas of natural talent and good fortune.',
+    keywords: ['Luck', 'Fortune', 'Joy', 'Success', 'Natural Talent', 'Abundance'],
+    themes: ['Luck', 'Fortune', 'Joy', 'Success', 'Natural talent', 'Abundance'],
+    significance: 'Shows areas of natural talent and good fortune'
+  },
+  {
+    name: 'Vertex',
+    symbol: '⚸',
+    category: 'Point',
+    description: 'A sensitive point representing fated encounters and significant relationships. The Vertex shows areas of destiny and important meetings.',
+    keywords: ['Fated Encounters', 'Destiny', 'Relationships', 'Significant Meetings', 'Karma', 'Fate'],
+    themes: ['Fated encounters', 'Destiny', 'Relationships', 'Significant meetings', 'Karma', 'Fate'],
+    significance: 'Shows fated encounters and significant relationships'
+  },
+  // Extended Planets
+  {
+    name: 'Chiron',
+    symbol: '⚷',
+    category: 'Extended Planet',
+    description: 'The wounded healer, representing deep wounds, healing, and wisdom gained through pain. Chiron shows where we have experienced deep wounds and how we can transform them into healing wisdom.',
+    keywords: ['Wounds', 'Healing', 'Wisdom', 'Pain', 'Transformation', 'Mentorship'],
+    themes: ['Healing', 'Wounds', 'Wisdom through pain', 'Mentorship', 'Vulnerability', 'Transformation'],
+    significance: 'Shows areas of deep wounding and the path to healing and wisdom'
+  },
+  {
+    name: 'Ceres',
+    symbol: '⚳',
+    category: 'Extended Planet',
+    description: 'The nurturing mother, representing care, nourishment, and the cycles of growth and harvest. Ceres governs how we nurture others and ourselves.',
+    keywords: ['Nurturing', 'Care', 'Nourishment', 'Growth', 'Harvest', 'Motherhood'],
+    themes: ['Nurturing', 'Care', 'Growth cycles', 'Nourishment', 'Motherhood', 'Abundance'],
+    significance: 'Represents nurturing abilities and how we care for ourselves and others'
+  },
+  {
+    name: 'Pallas',
+    symbol: '⚴',
+    category: 'Extended Planet',
+    description: 'The warrior goddess of wisdom, representing strategy, creative intelligence, and pattern recognition. Pallas shows how we approach problems and create solutions.',
+    keywords: ['Strategy', 'Wisdom', 'Creative Intelligence', 'Patterns', 'Problem-solving', 'Craftsmanship'],
+    themes: ['Strategic thinking', 'Creative intelligence', 'Pattern recognition', 'Problem-solving', 'Craftsmanship', 'Wisdom'],
+    significance: 'Shows strategic thinking and creative problem-solving abilities'
+  },
+  {
+    name: 'Juno',
+    symbol: '⚵',
+    category: 'Extended Planet',
+    description: 'The goddess of marriage and commitment, representing partnership, loyalty, and relationship dynamics. Juno shows our approach to committed relationships.',
+    keywords: ['Partnership', 'Commitment', 'Loyalty', 'Marriage', 'Relationships', 'Equality'],
+    themes: ['Partnership', 'Commitment', 'Loyalty', 'Relationship dynamics', 'Equality', 'Marriage'],
+    significance: 'Represents committed partnerships and relationship dynamics'
+  },
+  {
+    name: 'Vesta',
+    symbol: '⚶',
+    category: 'Extended Planet',
+    description: 'The goddess of the hearth, representing devotion, service, and spiritual focus. Vesta shows where we find our spiritual center and what we devote ourselves to.',
+    keywords: ['Devotion', 'Service', 'Spiritual Focus', 'Sacred Fire', 'Dedication', 'Purity'],
+    themes: ['Devotion', 'Service', 'Spiritual focus', 'Sacred work', 'Dedication', 'Inner fire'],
+    significance: 'Shows areas of devotion and spiritual focus'
+  },
+  {
+    name: 'Eris',
+    symbol: '⚸',
+    category: 'Extended Planet',
+    description: 'The goddess of discord, representing chaos, disruption, and the catalyst for change. Eris shows where we create or encounter necessary chaos for growth.',
+    keywords: ['Chaos', 'Disruption', 'Discord', 'Change', 'Catalyst', 'Awakening'],
+    themes: ['Chaos', 'Disruption', 'Catalytic change', 'Awakening', 'Discord', 'Transformation'],
+    significance: 'Represents necessary chaos and disruption that leads to growth'
+  },
+  {
+    name: 'Haumea',
+    symbol: '⚹',
+    category: 'Extended Planet',
+    description: 'The goddess of fertility and creation, representing abundance, creativity, and the power of manifestation. Haumea shows our creative and manifesting abilities.',
+    keywords: ['Fertility', 'Creation', 'Abundance', 'Manifestation', 'Birth', 'Growth'],
+    themes: ['Fertility', 'Creation', 'Abundance', 'Manifestation', 'Birth', 'Growth'],
+    significance: 'Shows creative and manifesting abilities'
+  },
+  {
+    name: 'Makemake',
+    symbol: '⚺',
+    category: 'Extended Planet',
+    description: 'The creator god, representing self-sufficiency, independence, and the power of individual creation. Makemake shows our ability to create independently.',
+    keywords: ['Self-sufficiency', 'Independence', 'Creation', 'Individuality', 'Power', 'Autonomy'],
+    themes: ['Self-sufficiency', 'Independence', 'Individual creation', 'Power', 'Autonomy', 'Self-reliance'],
+    significance: 'Represents independent creation and self-sufficiency'
+  },
+  {
+    name: 'Gonggong',
+    symbol: '⚻',
+    category: 'Extended Planet',
+    description: 'The water god, representing chaos, destruction, and the power of natural forces. Gonggong shows areas where we encounter powerful, uncontrollable forces.',
+    keywords: ['Chaos', 'Destruction', 'Natural Forces', 'Power', 'Uncontrollable', 'Transformation'],
+    themes: ['Chaos', 'Destruction', 'Natural forces', 'Power', 'Uncontrollable energy', 'Transformation'],
+    significance: 'Represents powerful, uncontrollable forces and their transformative effects'
+  },
+  {
+    name: 'Quaoar',
+    symbol: '⚼',
+    category: 'Extended Planet',
+    description: 'The creator force, representing order, structure, and the power to organize chaos. Quaoar shows our ability to create order and structure.',
+    keywords: ['Order', 'Structure', 'Creation', 'Organization', 'Power', 'Control'],
+    themes: ['Order', 'Structure', 'Creation', 'Organization', 'Power', 'Control'],
+    significance: 'Shows ability to create order and structure from chaos'
+  },
+  {
+    name: 'Orcus',
+    symbol: '⚽',
+    category: 'Extended Planet',
+    description: 'The underworld god, representing justice, karma, and the consequences of actions. Orcus shows areas where we face karmic lessons and justice.',
+    keywords: ['Justice', 'Karma', 'Consequences', 'Underworld', 'Punishment', 'Retribution'],
+    themes: ['Justice', 'Karma', 'Consequences', 'Underworld', 'Punishment', 'Retribution'],
+    significance: 'Represents karmic justice and the consequences of our actions'
+  },
+  {
+    name: 'Salacia',
+    symbol: '⚾',
+    category: 'Extended Planet',
+    description: 'The goddess of the sea, representing depth, intuition, and the unconscious mind. Salacia shows our connection to the deep unconscious and intuition.',
+    keywords: ['Depth', 'Intuition', 'Unconscious', 'Sea', 'Mystery', 'Emotions'],
+    themes: ['Depth', 'Intuition', 'Unconscious mind', 'Sea', 'Mystery', 'Emotions'],
+    significance: 'Shows connection to the deep unconscious and intuitive abilities'
+  },
+  {
+    name: 'Varuna',
+    symbol: '⚿',
+    category: 'Extended Planet',
+    description: 'The cosmic lawgiver, representing cosmic order, truth, and the universal laws. Varuna shows our relationship with cosmic truth and universal laws.',
+    keywords: ['Cosmic Order', 'Truth', 'Universal Laws', 'Justice', 'Cosmos', 'Law'],
+    themes: ['Cosmic order', 'Truth', 'Universal laws', 'Justice', 'Cosmos', 'Law'],
+    significance: 'Represents cosmic truth and universal laws'
+  },
+  {
+    name: 'Ixion',
+    symbol: '⚸',
+    category: 'Extended Planet',
+    description: 'The bound one, representing betrayal, consequences, and the price of hubris. Ixion shows areas where we face the consequences of our actions.',
+    keywords: ['Betrayal', 'Consequences', 'Hubris', 'Bound', 'Punishment', 'Karma'],
+    themes: ['Betrayal', 'Consequences', 'Hubris', 'Bound', 'Punishment', 'Karma'],
+    significance: 'Shows areas of betrayal and the consequences of hubris'
+  },
+  {
+    name: 'Huya',
+    symbol: '⚹',
+    category: 'Extended Planet',
+    description: 'The rain god, representing transformation, renewal, and the power of change. Huya shows areas where we experience transformation and renewal.',
+    keywords: ['Transformation', 'Renewal', 'Change', 'Rain', 'Growth', 'Rebirth'],
+    themes: ['Transformation', 'Renewal', 'Change', 'Rain', 'Growth', 'Rebirth'],
+    significance: 'Represents transformation and renewal through change'
+  },
+  {
+    name: 'Eris',
+    symbol: '⚸',
+    category: 'Extended Planet',
+    description: 'The goddess of strife, representing conflict, competition, and the drive for excellence. Eris shows areas where we encounter conflict and competition.',
+    keywords: ['Conflict', 'Competition', 'Strife', 'Excellence', 'Drive', 'Challenge'],
+    themes: ['Conflict', 'Competition', 'Strife', 'Excellence', 'Drive', 'Challenge'],
+    significance: 'Shows areas of conflict and the drive for excellence'
+  },
+  
 ]; 
