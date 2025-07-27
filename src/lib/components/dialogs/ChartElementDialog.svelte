@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Dialog from '../../ui/dialog';
+  import * as Dialog from '$lib/components/ui/dialog';
   import {
     PLANET_IN_SIGN_INTERPRETATIONS,
     SIGN_IN_HOUSE_INTERPRETATIONS,
