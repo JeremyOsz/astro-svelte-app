@@ -924,13 +924,18 @@
         .on('mouseover', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForAspect(g, aspect.color);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          handleMouseOver(event, aspect);
+          // Add transit/natal information to the aspect data
+          const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
+          handleMouseOver(event, aspectDataWithType);
         } : null) as any)
         .on('mouseout', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
           handleMouseOut();
         } : null) as any)
-        .on('click', (event) => handleClick(event, aspect));
+        .on('click', (event) => {
+          const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
+          handleClick(event, aspectDataWithType);
+        });
     });
   }
 
@@ -998,13 +1003,18 @@
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, p.sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          handleMouseOver(event, p);
+          // Add transit/natal information to the planet data
+          const planetDataWithType = { ...p, isTransit: !isInner };
+          handleMouseOver(event, planetDataWithType);
         })
         .on('mouseout', function(this: SVGCircleElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
           handleMouseOut();
         })
-        .on('click', (event) => handleClick(event, p));
+        .on('click', (event) => {
+          const planetDataWithType = { ...p, isTransit: !isInner };
+          handleClick(event, planetDataWithType);
+        });
 
       // Planet glyph
       group.append('text')

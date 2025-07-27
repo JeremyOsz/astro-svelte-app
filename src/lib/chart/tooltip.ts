@@ -30,10 +30,17 @@ export function handleMouseOver(event: MouseEvent, d: any) {
 
   let interpretationHtml, title;
   if (d.aspect) { // It's an aspect
-    title = `Aspect: ${d.planet1} ${d.aspect} ${d.planet2}`;
-    interpretationHtml = getAspectInterpretation(d.aspect, d.planet1, d.planet2, d.orb);
+    const aspectType = d.isTransitAspect ? 'Transit' : 'Natal';
+    if (d.isTransitAspect) {
+      title = `${aspectType} Aspect: <span style="color: #ff9500;">${d.planet1}</span> ${d.aspect} <span style="color: #333;">${d.planet2}</span>`;
+    } else {
+      title = `${aspectType} Aspect: ${d.planet1} ${d.aspect} ${d.planet2}`;
+    }
+    interpretationHtml = getAspectInterpretation(d.aspect, d.planet1, d.planet2, d.orb, d.isTransitAspect);
   } else if (d.planet) { // It's a planet
-    title = `Planet: ${d.planet} in ${d.sign} (House ${d.house})`;
+    const planetType = d.isTransit ? 'Transit' : 'Natal';
+    const planetColor = d.isTransit ? '#ff9500' : '#333';
+    title = `${planetType} Planet: <span style="color: ${planetColor};">${d.planet}</span> in ${d.sign} (House ${d.house})`;
     interpretationHtml = getPlanetInterpretation(d);
   } else if (d.sign && d.house !== undefined && !d.planet) { // It's a sign (no planet property)
     title = `Sign: ${d.sign} in House ${d.house}`;
@@ -67,7 +74,7 @@ export function handleClick(event: MouseEvent, d: any) {
 export { getPlanetInterpretation, getAspectInterpretation, getSignInterpretation };
 
 function getPlanetInterpretation(planetData: any) {
-  const { planet, sign, house, degree, minute, isRetrograde } = planetData;
+  const { planet, sign, house, degree, minute, isRetrograde, isTransit } = planetData;
   const planetInSign = (PLANET_IN_SIGN_INTERPRETATIONS as any)[planet]?.[sign] || "No interpretation available.";
   const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
   const planetMeaning = (PLANET_INTERPRETATIONS as any)[planet]?.description || "";
@@ -75,10 +82,14 @@ function getPlanetInterpretation(planetData: any) {
   // Format position
   const position = `${degree}°${minute.toString().padStart(2, '0')}'`;
   const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
+  const planetTypeText = isTransit ? 
+    `<p><strong>Type:</strong> <span style="color: #ff9500; font-weight: bold;">Transit planet</span> - current position at the time of the transit chart</p>` : 
+    `<p><strong>Type:</strong> <span style="color: #333; font-weight: bold;">Natal planet</span> - position at the time of birth</p>`;
   
   return `
     <div class="interpretation-content">
       <h3>${planet} in ${sign} (House ${house})</h3>
+      ${planetTypeText}
       <p><strong>Position:</strong> ${position} ${sign}${retrogradeText}</p>
       <p><strong>${planet}:</strong> ${planetMeaning}</p>
       <p><strong>In ${sign}:</strong> ${planetInSign}</p>
@@ -87,7 +98,7 @@ function getPlanetInterpretation(planetData: any) {
   `;
 }
 
-function getAspectInterpretation(aspect: string, planet1: string, planet2: string, orbValue?: number) {
+function getAspectInterpretation(aspect: string, planet1: string, planet2: string, orbValue?: number, isTransitAspect?: boolean) {
   const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
   const aspectData = (ASPECT_INTERPRETATIONS as any)[aspect];
   
@@ -113,9 +124,15 @@ function getAspectInterpretation(aspect: string, planet1: string, planet2: strin
     interpretationHtml += `<p><strong>Specific:</strong> ${specificInterpretation}</p>`;
   }
   
+  const aspectTypeText = isTransitAspect ? 
+    `<p><strong>Type:</strong> Transit aspect</p>
+     <p><span style="color: #ff9500; font-weight: bold;">${planet1}</span> (transit) ${aspect} <span style="color: #333; font-weight: bold;">${planet2}</span> (natal)</p>` : 
+    `<p><strong>Type:</strong> Natal aspect - both planets are from the birth chart</p>`;
+    
   return `
     <div class="interpretation-content">
       <h3>${planet1} ${aspect} ${planet2}</h3>
+      ${aspectTypeText}
       ${detailedInfo}
       ${interpretationHtml}
     </div>
@@ -162,21 +179,41 @@ function positionTooltip(event: MouseEvent) {
   const tooltipNode = tooltip.node() as HTMLElement;
   const { width, height } = tooltipNode.getBoundingClientRect();
 
-  let left = event.pageX + 15;
-  let top = event.pageY - 15;
+  // Get viewport dimensions
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  
+  // Get scroll position
+  const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+  const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // Calculate initial position (more generous offset)
+  let left = event.pageX + 20;
+  let top = event.pageY - 20;
 
-  if (left + width > window.innerWidth) {
-    left = event.pageX - width - 15;
+  // Check if tooltip would go off the right edge
+  if (left + width > viewportWidth + scrollX - 20) {
+    left = event.pageX - width - 20;
   }
-  if (top + height > window.innerHeight) {
-    top = event.pageY - height;
+  
+  // Check if tooltip would go off the left edge
+  if (left < scrollX + 20) {
+    left = scrollX + 20;
   }
-  if (top < 0) {
-    top = 0;
+  
+  // Check if tooltip would go off the bottom edge
+  if (top + height > viewportHeight + scrollY - 20) {
+    top = event.pageY - height - 20;
   }
-  if (left < 0) {
-    left = 0;
+  
+  // Check if tooltip would go off the top edge
+  if (top < scrollY + 20) {
+    top = scrollY + 20;
   }
+
+  // Ensure tooltip stays within viewport bounds
+  left = Math.max(scrollX + 20, Math.min(left, viewportWidth + scrollX - width - 20));
+  top = Math.max(scrollY + 20, Math.min(top, viewportHeight + scrollY - height - 20));
 
   tooltip.style('left', left + 'px')
          .style('top', top + 'px')
