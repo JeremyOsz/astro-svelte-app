@@ -1,26 +1,13 @@
 import * as d3 from 'd3';
+import { ASPECT_SYMBOLS, ASPECT_DEFINITIONS } from '../data/symbols';
 
 let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>;
 
-// Aspect symbols for visual display
-const aspectSymbols: Record<string, string> = {
-  'Conjunction': '☌',
-  'Opposition': '☍', 
-  'Square': '□',
-  'Trine': '△',
-  'Sextile': '⚹',
-  'Quincunx': '⚻'
-};
-
-// Aspect colors matching the chart lines
-const aspectColors: Record<string, string> = {
-  'Conjunction': '#228B22', // Green
-  'Opposition': '#FF0000',  // Red
-  'Square': '#FF0000',      // Red
-  'Trine': '#0000FF',       // Blue
-  'Sextile': '#0000FF',     // Blue
-  'Quincunx': '#B8860B'     // Golden
-};
+// Use centralized aspect symbols and colors
+const aspectSymbols = ASPECT_SYMBOLS;
+const aspectColors = Object.fromEntries(
+  Object.entries(ASPECT_DEFINITIONS).map(([aspect, def]) => [aspect, (def as any).color])
+);
 
 export function createBriefTooltip() {
   if (d3.select('.brief-chart-tooltip').empty()) {

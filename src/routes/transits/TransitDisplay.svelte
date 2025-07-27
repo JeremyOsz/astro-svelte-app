@@ -70,16 +70,11 @@
     return ZODIAC_SYMBOLS[signName] || signName;
   }
 
+  // Import centralized symbols
+  import { ASPECT_SYMBOLS } from '$lib/data/symbols';
+
   function getAspectSymbol(aspectType: string): string {
-    const aspectSymbols: Record<string, string> = {
-      'Conjunction': '☌',
-      'Opposition': '☍', 
-      'Square': '□',
-      'Trine': '△',
-      'Sextile': '✳',
-      'Quincunx': '⚻'
-    };
-    return aspectSymbols[aspectType] || aspectType;
+    return ASPECT_SYMBOLS[aspectType] || aspectType;
   }
 
   function formatOrb(orb: number, transitLongitude: number, natalLongitude: number): string {

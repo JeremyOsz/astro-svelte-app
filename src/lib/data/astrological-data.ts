@@ -49,7 +49,7 @@ export const PLANET_SYMBOLS: Record<string, string> = {
   'Sun': '☉', 'Moon': '☽', 'Mercury': '☿', 'Venus': '♀', 'Mars': '♂', 
   'Jupiter': '♃', 'Saturn': '♄', 'Uranus': '♅', 'Neptune': '♆', 'Pluto': '♇', 
   'Node': '☊', 'S.Node': '☋', 'Lilith': '⚸', 'Chiron': '⚷', 'Fortune': '⨁', 'Vertex': 'Vx', 
-  'ASC': 'ⒶⓈⒸ', 'MC': 'ⓂⒸ', 'DSC': 'Dsc', 'IC': 'IC'
+  'ASC': 'Asc', 'MC': 'MC', 'DSC': 'Dsc', 'IC': 'IC'
 };
 
 export const EXTENDED_PLANET_NAMES = ['Chiron', 'Lilith', 'Node', 'Fortune', 'Vertex'];
@@ -58,6 +58,35 @@ export const CORE_ASPECT_BODIES = [
   'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 
   'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC'
 ];
+
+// Transit planet colors
+export const TRANSIT_COLORS: Record<string, string> = {
+  'Sun': '#ff6b35',
+  'Moon': '#4a90e2', 
+  'Mercury': '#8bc34a',
+  'Venus': '#ffc107',
+  'Mars': '#f44336',
+  'Jupiter': '#9c27b0',
+  'Saturn': '#607d8b',
+  'Uranus': '#00bcd4',
+  'Neptune': '#3f51b5',
+  'Pluto': '#795548',
+  'Node': '#ff9800',
+  'Chiron': '#e91e63',
+  'Lilith': '#9e9e9e',
+  'Fortune': '#4caf50',
+  'Vertex': '#673ab7'
+};
+
+// Aspect symbols
+export const ASPECT_SYMBOLS: Record<string, string> = {
+  'Conjunction': '☌',
+  'Opposition': '☍',
+  'Square': '□',
+  'Trine': '△',
+  'Sextile': '⚹',
+  'Quincunx': '⚻'
+};
 
 // Aspect definitions
 export const ASPECT_DEFINITIONS = {

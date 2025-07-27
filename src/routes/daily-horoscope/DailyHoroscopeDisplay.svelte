@@ -22,28 +22,12 @@
     high: TrendingUp
   };
 
-  // Planet symbols for display
-  const planetSymbols: Record<string, string> = {
-    'Sun': '☉',
-    'Moon': '☽',
-    'Mercury': '☿',
-    'Venus': '♀',
-    'Mars': '♂',
-    'Jupiter': '♃',
-    'Saturn': '♄',
-    'Uranus': '♅',
-    'Neptune': '♆',
-    'Pluto': '♇'
-  };
+  // Import centralized symbols
+  import { PLANET_SYMBOLS, ASPECT_SYMBOLS } from '$lib/data/symbols';
 
-  // Aspect symbols
-  const aspectSymbols: Record<string, string> = {
-    'Conjunction': '☌',
-    'Opposition': '☍',
-    'Square': '□',
-    'Trine': '△',
-    'Sextile': '⚹'
-  };
+  // Use centralized symbols
+  const planetSymbols = PLANET_SYMBOLS;
+  const aspectSymbols = ASPECT_SYMBOLS;
 
   // Daypart colors
   const daypartColors: Record<string, string> = {

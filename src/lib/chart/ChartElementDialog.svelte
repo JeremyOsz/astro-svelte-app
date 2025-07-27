@@ -8,7 +8,17 @@
     ASPECT_INTERPRETATIONS,
     HOUSES
   } from '../data/interpretations';
-  import { PLANET_CHARACTERISTICS, SIGN_CHARACTERISTICS } from '../data/astrological-data';
+  import { 
+    PLANET_CHARACTERISTICS, 
+    SIGN_CHARACTERISTICS
+  } from '../data/astrological-data';
+  import {
+    PLANET_SYMBOLS,
+    ZODIAC_SYMBOLS,
+    ASPECT_SYMBOLS,
+    ASPECT_DEFINITIONS,
+    TRANSIT_COLORS
+  } from '../data/symbols';
 
   export let open = false;
   export let elementData: any = null;
@@ -73,41 +83,10 @@
     const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
     const planetMeaning = (PLANET_INTERPRETATIONS as any)[planet]?.description || "";
 
-    // Planet symbols for display
-    const planetSymbols: Record<string, string> = {
-      "Sun": "☉", "Moon": "☽", "Mercury": "☿", "Venus": "♀", "Mars": "♂", "Jupiter": "♃",
-      "Saturn": "♄", "Uranus": "♅", "Neptune": "♆", "Pluto": "♇", "Node": "☊",
-      "Lilith": "⚸", "Chiron": "⚷", "Fortune": "⊗", "Vertex": "Vx"
-    };
-
-    // Zodiac symbols
-    const zodiacSymbols: Record<string, string> = {
-      "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
-      "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
-    };
-
-    // Transit planet colors
-    const transitColors: Record<string, string> = {
-      'Sun': '#ff6b35',
-      'Moon': '#4a90e2', 
-      'Mercury': '#8bc34a',
-      'Venus': '#ffc107',
-      'Mars': '#f44336',
-      'Jupiter': '#9c27b0',
-      'Saturn': '#607d8b',
-      'Uranus': '#00bcd4',
-      'Neptune': '#3f51b5',
-      'Pluto': '#795548',
-      'Node': '#ff9800',
-      'Chiron': '#e91e63',
-      'Lilith': '#9e9e9e',
-      'Fortune': '#4caf50',
-      'Vertex': '#673ab7'
-    };
-
-    const planetSymbol = planetSymbols[planet] || planet;
-    const zodiacSymbol = zodiacSymbols[sign] || sign;
-    const planetColor = isTransit ? (transitColors[planet] || '#ff9500') : '#333';
+    // Use centralized symbols and colors
+    const planetSymbol = PLANET_SYMBOLS[planet] || planet;
+    const zodiacSymbol = ZODIAC_SYMBOLS[sign] || sign;
+    const planetColor = isTransit ? (TRANSIT_COLORS[planet] || '#ff9500') : '#333';
     const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
 
     return {
@@ -134,56 +113,11 @@
     const generalInterpretation = interpretationParts[0] || '';
     const specificInterpretation = interpretationParts[1] || '';
 
-    // Planet symbols for display
-    const planetSymbols: Record<string, string> = {
-      "Sun": "☉", "Moon": "☽", "Mercury": "☿", "Venus": "♀", "Mars": "♂", "Jupiter": "♃",
-      "Saturn": "♄", "Uranus": "♅", "Neptune": "♆", "Pluto": "♇", "Node": "☊",
-      "Lilith": "⚸", "Chiron": "⚷", "Fortune": "⊗", "Vertex": "Vx"
-    };
-
-    // Aspect symbols
-    const aspectSymbols: Record<string, string> = {
-      'Conjunction': '☌',
-      'Opposition': '☍',
-      'Square': '□',
-      'Trine': '△',
-      'Sextile': '⚹',
-      'Quincunx': '⚻'
-    };
-
-    // Aspect colors
-    const aspectColors: Record<string, string> = {
-      'Conjunction': '#228B22',
-      'Opposition': '#FF0000',
-      'Square': '#FF0000',
-      'Trine': '#0000FF',
-      'Sextile': '#0000FF',
-      'Quincunx': '#B8860B'
-    };
-
-    // Transit planet colors
-    const transitColors: Record<string, string> = {
-      'Sun': '#ff6b35',
-      'Moon': '#4a90e2', 
-      'Mercury': '#8bc34a',
-      'Venus': '#ffc107',
-      'Mars': '#f44336',
-      'Jupiter': '#9c27b0',
-      'Saturn': '#607d8b',
-      'Uranus': '#00bcd4',
-      'Neptune': '#3f51b5',
-      'Pluto': '#795548',
-      'Node': '#ff9800',
-      'Chiron': '#e91e63',
-      'Lilith': '#9e9e9e',
-      'Fortune': '#4caf50',
-      'Vertex': '#673ab7'
-    };
-
-    const planet1Symbol = planetSymbols[planet1] || planet1;
-    const planet2Symbol = planetSymbols[planet2] || planet2;
-    const aspectSymbol = aspectSymbols[aspect] || aspect;
-    const aspectColor = aspectColors[aspect] || '#666';
+    // Use centralized symbols and colors
+    const planet1Symbol = PLANET_SYMBOLS[planet1] || planet1;
+    const planet2Symbol = PLANET_SYMBOLS[planet2] || planet2;
+    const aspectSymbol = ASPECT_SYMBOLS[aspect] || aspect;
+    const aspectColor = (ASPECT_DEFINITIONS as any)[aspect]?.color || '#666';
     // For transit aspects: planet1 is transit (orange), planet2 is natal (gray)
     const planet1Color = isTransitAspect ? '#ff9500' : '#333';
     const planet2Color = '#333'; // Natal planet is always gray
@@ -211,74 +145,15 @@
     const houseKey = `${house}${house === 1 ? 'st' : house === 2 ? 'nd' : house === 3 ? 'rd' : 'th'}`;
     const houseGeneral = HOUSES[houseKey] || "House information not available.";
     
-    // Zodiac symbols
-    const zodiacSymbols: Record<string, string> = {
-      "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
-      "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
-    };
-    
+    // Use centralized zodiac symbols
     return {
       title: `${sign} in House ${house}`,
       houseGeneral,
       signInHouse,
-      zodiacSymbol: zodiacSymbols[sign] || sign
+      zodiacSymbol: ZODIAC_SYMBOLS[sign] || sign
     };
   }
 
-  // Helper functions for sign characteristics
-  function getSignElement(sign: string): string {
-    const elements: Record<string, string> = {
-      "Aries": "Fire", "Leo": "Fire", "Sagittarius": "Fire",
-      "Taurus": "Earth", "Virgo": "Earth", "Capricorn": "Earth",
-      "Gemini": "Air", "Libra": "Air", "Aquarius": "Air",
-      "Cancer": "Water", "Scorpio": "Water", "Pisces": "Water"
-    };
-    return elements[sign] || "Unknown";
-  }
-
-  function getSignQuality(sign: string): string {
-    const qualities: Record<string, string> = {
-      "Aries": "Cardinal", "Cancer": "Cardinal", "Libra": "Cardinal", "Capricorn": "Cardinal",
-      "Taurus": "Fixed", "Leo": "Fixed", "Scorpio": "Fixed", "Aquarius": "Fixed",
-      "Gemini": "Mutable", "Virgo": "Mutable", "Sagittarius": "Mutable", "Pisces": "Mutable"
-    };
-    return qualities[sign] || "Unknown";
-  }
-
-  function getSignRuler(sign: string): string {
-    const rulers: Record<string, string> = {
-      "Aries": "Mars", "Taurus": "Venus", "Gemini": "Mercury", "Cancer": "Moon",
-      "Leo": "Sun", "Virgo": "Mercury", "Libra": "Venus", "Scorpio": "Pluto",
-      "Sagittarius": "Jupiter", "Capricorn": "Saturn", "Aquarius": "Uranus", "Pisces": "Neptune"
-    };
-    return rulers[sign] || "Unknown";
-  }
-
-  function getSignPolarity(sign: string): string {
-    const polarities: Record<string, string> = {
-      "Aries": "Positive", "Gemini": "Positive", "Leo": "Positive", "Libra": "Positive", "Sagittarius": "Positive", "Aquarius": "Positive",
-      "Taurus": "Negative", "Cancer": "Negative", "Virgo": "Negative", "Scorpio": "Negative", "Capricorn": "Negative", "Pisces": "Negative"
-    };
-    return polarities[sign] || "Unknown";
-  }
-
-  function getSignDescription(sign: string): string {
-    const descriptions: Record<string, string> = {
-      "Aries": "The first sign of the zodiac, Aries represents new beginnings, courage, and pioneering spirit. Natural leaders with boundless energy and enthusiasm.",
-      "Taurus": "The bull represents stability, determination, and sensuality. Taureans are known for their patience, loyalty, and appreciation for beauty and comfort.",
-      "Gemini": "The twins symbolize duality, communication, and adaptability. Geminis are curious, versatile, and excellent communicators with a quick wit.",
-      "Cancer": "The crab represents emotional depth, intuition, and nurturing qualities. Cancerians are deeply caring, protective, and have strong family bonds.",
-      "Leo": "The lion embodies creativity, leadership, and dramatic flair. Leos are natural performers, generous, and have a strong sense of pride and dignity.",
-      "Virgo": "The virgin represents precision, service, and analytical thinking. Virgos are detail-oriented, practical, and have a strong sense of duty.",
-      "Libra": "The scales symbolize balance, harmony, and justice. Librans are diplomatic, fair-minded, and have a natural sense of beauty and partnership.",
-      "Scorpio": "The scorpion represents intensity, transformation, and deep emotional power. Scorpios are passionate, mysterious, and have incredible insight.",
-      "Sagittarius": "The archer embodies adventure, optimism, and philosophical thinking. Sagittarians are freedom-loving, honest, and always seeking truth.",
-      "Capricorn": "The sea-goat represents ambition, discipline, and practical wisdom. Capricorns are responsible, hardworking, and have strong traditional values.",
-      "Aquarius": "The water bearer symbolizes innovation, humanitarianism, and intellectual independence. Aquarians are progressive, original thinkers with a strong sense of community.",
-      "Pisces": "The fish represents spirituality, compassion, and artistic sensitivity. Pisceans are intuitive, empathetic, and have a deep connection to the mystical."
-    };
-    return descriptions[sign] || "No description available.";
-  }
 
   function getAngularHouseInterpretation(angularHouseData: any): AngularHouseInterpretation {
     const { planet, sign, degree, minute } = angularHouseData;
@@ -288,11 +163,7 @@
       "ASC": "Asc", "MC": "MC", "DSC": "Dsc", "IC": "IC"
     };
 
-    // Zodiac symbols
-    const zodiacSymbols: Record<string, string> = {
-      "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
-      "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
-    };
+    // Use centralized zodiac symbols
 
     // Angular house meanings and descriptions
     const angularHouseInfo: Record<string, { meaning: string; description: string }> = {
@@ -316,7 +187,7 @@
 
     const houseInfo = angularHouseInfo[planet];
     const symbol = angularHouseSymbols[planet] || planet;
-    const zodiacSymbol = zodiacSymbols[sign] || sign;
+    const zodiacSymbol = ZODIAC_SYMBOLS[sign] || sign;
 
     return {
       title: `${planet} (${symbol}) in ${sign}`,

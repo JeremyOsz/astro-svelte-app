@@ -103,33 +103,25 @@
     chartContainer.style.setProperty('--chart-size', `${$chartDimensions.chartSize}px`);
   }
 
-  // Chart constants
-  const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
-  const zodiacSymbols: Record<string, string> = {
-    "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
-    "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
-  };
-  const zodiacColors: Record<string, string> = {
-    "Aries": "#e53935", "Taurus": "#43a047", "Gemini": "#fbc02d", "Cancer": "#039be5",
-    "Leo": "#e53935", "Virgo": "#43a047", "Libra": "#fbc02d", "Scorpio": "#039be5",
-    "Sagittarius": "#e53935", "Capricorn": "#43a047", "Aquarius": "#fbc02d", "Pisces": "#039be5"
-  };
-  const planetSymbols: Record<string, string> = {
-    "Sun": "☉", "Moon": "☽", "Mercury": "☿", "Venus": "♀", "Mars": "♂", "Jupiter": "♃",
-    "Saturn": "♄", "Uranus": "♅", "Neptune": "♆", "Pluto": "♇", "Node": "☊",
-    "Lilith": "⚸", "Chiron": "⚷", "Fortune": "⊗", "Vertex": "Vx", 
-    "ASC": "Asc", "MC": "MC", "DSC": "Dsc", "IC": "IC"
-  };
-  const extendedPlanetNames = ["Chiron", "Lilith", "Node", "Fortune", "Vertex"];
-  const aspectDefs = {
-    'Conjunction': { angle: 0, orb: 8, color: '#228B22', weight: 2.5, style: 'solid' },
-    'Opposition': { angle: 180, orb: 8, color: '#FF0000', weight: 2.5, style: 'solid' },
-    'Square': { angle: 90, orb: 8, color: '#FF0000', weight: 2.5, style: 'solid' },
-    'Trine': { angle: 120, orb: 8, color: '#0000FF', weight: 2, style: 'solid' },
-    'Sextile': { angle: 60, orb: 6, color: '#0000FF', weight: 2, style: 'dotted' },
-    'Quincunx': { angle: 150, orb: 3, color: '#B8860B', weight: 1.5, style: 'dashed' }
-  };
-  const coreAspectBodies = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", "ASC"];
+  // Import centralized symbols and colors
+  import { 
+    ZODIAC_SIGNS,
+    ZODIAC_SYMBOLS,
+    ZODIAC_COLORS,
+    PLANET_SYMBOLS,
+    EXTENDED_PLANET_NAMES,
+    ASPECT_DEFINITIONS,
+    CORE_ASPECT_BODIES
+  } from '../data/symbols';
+
+  // Chart constants - use centralized data
+  const zodiacSigns = ZODIAC_SIGNS;
+  const zodiacSymbols = ZODIAC_SYMBOLS;
+  const zodiacColors = ZODIAC_COLORS;
+  const planetSymbols = PLANET_SYMBOLS;
+  const extendedPlanetNames = EXTENDED_PLANET_NAMES;
+  const aspectDefs = ASPECT_DEFINITIONS;
+  const coreAspectBodies = CORE_ASPECT_BODIES;
 
   // Lifecycle
   onMount(() => {
