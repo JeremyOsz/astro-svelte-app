@@ -1352,7 +1352,7 @@
   .chart-wrapper {
     position: relative;
     width: 100%;
-    height: 100%;
+    /* Remove height constraint to allow wrapper to grow with chart */
   }
 
   .chart-container {
@@ -1363,7 +1363,6 @@
     border: 1px solid #eee;
     border-radius: 5px;
     background: #fafafa;
-    overflow: hidden;
     position: relative;
     touch-action: pan-x pan-y pinch-zoom;
   }

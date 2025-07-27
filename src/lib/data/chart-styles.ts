@@ -42,21 +42,22 @@ export const CHART_LAYOUT = {
     },
     MOBILE: {
       chartSize: 350,
-      zodiacOuterRadius: 170,
-      zodiacInnerRadius: 140,
-      planetRingRadius: 125,
-      labelRadius: 100,
-      houseLineInnerRadius: 100,
-      houseNumRadius: 110,
-      aspectHubRadius: 100,
+      // Mobile radii scaled proportionally from desktop (350/800 = 0.4375 ratio)
+      zodiacOuterRadius: 153, // 350 * 0.4375
+      zodiacInnerRadius: 131, // 300 * 0.4375
+      planetRingRadius: 118, // 270 * 0.4375
+      labelRadius: 101, // 230 * 0.4375
+      houseLineInnerRadius: 74, // 170 * 0.4375
+      houseNumRadius: 79, // 180 * 0.4375
+      aspectHubRadius: 74, // 170 * 0.4375
       // --- Transit (outer wheel) radii ---
-      transitZodiacOuterRadius: 230,
-      transitZodiacInnerRadius: 200,
-      transitPlanetRingRadius: 180,
-      transitLabelRadius: 150,
-      transitHouseLineInnerRadius: 135,
-      transitHouseNumRadius: 145,
-      transitAspectHubRadius: 135
+      transitZodiacOuterRadius: 158, // 360 * 0.4375
+      transitZodiacInnerRadius: 188, // 430 * 0.4375
+      transitPlanetRingRadius: 175, // 400 * 0.4375
+      transitLabelRadius: 171, // 390 * 0.4375
+      transitHouseLineInnerRadius: 140, // 320 * 0.4375
+      transitHouseNumRadius: 171, // 390 * 0.4375
+      transitAspectHubRadius: 74 // 170 * 0.4375
     }
   } as const;
   

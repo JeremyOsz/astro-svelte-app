@@ -55,7 +55,7 @@
 
   @media (max-width: 768px) {
     .transit-chart-container {
-      height: 400px;
+      height: 100%;
       min-height: 400px;
     }
   }
