@@ -96,6 +96,12 @@
     return { ...$chartState.layout } as const;
   });
 
+  // Update CSS custom property when chart dimensions change
+  $: if (chartContainer && $chartDimensions) {
+    console.log('D3BiWheelChart: Setting chart size CSS property:', $chartDimensions.chartSize);
+    chartContainer.style.setProperty('--chart-size', `${$chartDimensions.chartSize}px`);
+  }
+
   // Utility to pick the right radius depending on inner (natal) vs outer (transit)
   function getRadius(name: string, isInner: boolean) {
     const dims: Record<string, number> = get(chartDimensions) as any;
@@ -1342,29 +1348,33 @@
   }
 </script>
 
-  <div class="chart-wrapper">
-    <div class="chart-container" bind:this={chartContainer}>
+  <div class="relative w-full">
+    <div 
+      class="flex justify-center items-center border border-gray-200 rounded bg-gray-50 overflow-hidden relative touch-pan-x touch-pan-y w-full max-w-full"
+      style="min-height: var(--chart-size, 900px);"
+      bind:this={chartContainer}
+    >
       <!-- Chart will be rendered here by D3 -->
     </div>
     
     <!-- Chart controls - positioned outside the chart container -->
-    <div class="chart-controls">
+    <div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
       <button 
-        class="control-button zoom-in-button"
+        class="w-9 h-9 bg-white/95 border border-gray-300 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-bold text-gray-600 backdrop-blur-sm shadow-md hover:bg-white hover:border-gray-400 hover:scale-105 hover:shadow-lg active:scale-95"
         on:click={zoomIn}
         title="Zoom in"
       >
         +
       </button>
       <button 
-        class="control-button zoom-out-button"
+        class="w-9 h-9 bg-white/95 border border-gray-300 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-bold text-gray-600 backdrop-blur-sm shadow-md hover:bg-white hover:border-gray-400 hover:scale-105 hover:shadow-lg active:scale-95"
         on:click={zoomOut}
         title="Zoom out"
       >
         −
       </button>
       <button 
-        class="control-button reset-button"
+        class="w-9 h-9 bg-white/95 border border-gray-300 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-bold text-gray-600 backdrop-blur-sm shadow-md hover:bg-white hover:border-gray-400 hover:scale-105 hover:shadow-lg active:scale-95"
         on:click={zoomReset}
         title="Reset zoom and position"
       >
@@ -1380,281 +1390,113 @@
   />
 
 <style>
-  .chart-wrapper {
-    position: relative;
-    width: 100%;
-    /* Remove height constraint to allow wrapper to grow with chart */
-  }
-
-  .chart-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 600px;
-    border: 1px solid #eee;
-    border-radius: 5px;
-    background: #fafafa;
-    position: relative;
-    touch-action: pan-x pan-y pinch-zoom;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .chart-controls {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 10;
-  }
-
-  .control-button {
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 16px;
-    font-weight: bold;
-    color: #666;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .control-button:hover {
-    background: rgba(255, 255, 255, 1);
-    border-color: #999;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .control-button:active {
-    transform: scale(0.95);
-  }
-
-  .zoom-in-button {
-    font-size: 18px;
-  }
-
-  .zoom-out-button {
-    font-size: 18px;
-  }
-
-  .reset-button {
-    font-size: 14px;
-  }
-
-
   :global(.chart-svg) {
     max-width: 100%;
     height: auto;
   }
 
   :global(.chart-tooltip) {
-  background: #fcf8ed;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
-  color: #222;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  min-width: 320px;
-  max-width: 420px;
-  padding: 0;
-  z-index: 1001;
-  transition: opacity 0.2s ease-in-out;
-}
-
-:global(.tooltip-header) {
-  background-color: #fcf8ed;
-  padding: 16px 20px 0 20px;
-  font-weight: 700;
-  font-size: 22px;
-  color: #222;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom: none;
-}
-:global(.tooltip-body) {
-  padding: 10px 20px 18px 20px;
-  font-size: 14px;
-  line-height: 1.7;
-  color: #222;
-}
-
-:global(.interpretation-content h3) {
-  margin: 0 0 10px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #222;
-}
-
-:global(.interpretation-content p) {
-  margin: 0 0 10px;
-  font-size: 14px;
-  color: #222;
-}
-
-:global(.interpretation-content p:last-child) {
-  margin-bottom: 0;
-}
-
-/* Brief tooltip styles */
-:global(.brief-chart-tooltip) {
-  position: absolute;
-  background: #fff;
-  color: #000;
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  pointer-events: none;
-  z-index: 1000;
-  white-space: nowrap;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  min-width: 140px;
-}
-
-:global(.brief-tooltip-content) {
-  text-align: center;
-}
-
-:global(.brief-tooltip-main) {
-  opacity: 1;
-  font-weight: 600;
-}
-
-/* --- Tablet responsiveness tweaks --- */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .chart-container {
-    min-height: 500px;
-    width: 100%;
-    max-width: 100%;
-    padding: 12px;
-    touch-action: pan-x pan-y pinch-zoom;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .chart-controls {
-    top: 14px;
-    right: 14px;
-    gap: 7px;
-  }
-
-  .control-button {
-    width: 34px;
-    height: 34px;
-    font-size: 15px;
-  }
-
-  .zoom-in-button {
-    font-size: 17px;
-  }
-
-  .zoom-out-button {
-    font-size: 17px;
-  }
-
-  .reset-button {
-    font-size: 13px;
-  }
-
-  /* Tablet-optimized tooltip */
-  :global(.chart-tooltip) {
-    min-width: 280px;
-    max-width: 380px;
+    background: #fcf8ed;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+    color: #222;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    min-width: 320px;
+    max-width: 420px;
+    padding: 0;
+    z-index: 1001;
+    transition: opacity 0.2s ease-in-out;
   }
 
   :global(.tooltip-header) {
-    padding: 14px 18px 0 18px;
-    font-size: 20px;
+    background-color: #fcf8ed;
+    padding: 16px 20px 0 20px;
+    font-weight: 700;
+    font-size: 22px;
+    color: #222;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: none;
   }
 
   :global(.tooltip-body) {
-    padding: 9px 18px 16px 18px;
-    font-size: 13.5px;
-    line-height: 1.6;
+    padding: 10px 20px 18px 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #222;
   }
 
   :global(.interpretation-content h3) {
-    font-size: 15px;
-    margin: 0 0 9px;
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
   }
 
   :global(.interpretation-content p) {
-    font-size: 13.5px;
-    margin: 0 0 9px;
-  }
-}
-
-/* --- Mobile responsiveness tweaks --- */
-@media (max-width: 767px) {
-  .chart-container {
-    min-height: 360px;
-    width: 100%;
-    max-width: 100%;
-    padding: 8px;
-    touch-action: pan-x pan-y pinch-zoom;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .chart-controls {
-    top: 12px;
-    right: 12px;
-    gap: 6px;
-  }
-
-  .control-button {
-    width: 32px;
-    height: 32px;
+    margin: 0 0 10px;
     font-size: 14px;
+    color: #222;
   }
 
-  .zoom-in-button {
-    font-size: 16px;
+  :global(.interpretation-content p:last-child) {
+    margin-bottom: 0;
   }
 
-  .zoom-out-button {
-    font-size: 16px;
-  }
-
-  .reset-button {
-    font-size: 12px;
-  }
-
-  /* Smaller tooltip on mobile */
-  :global(.chart-tooltip) {
-    min-width: 260px;
-    max-width: 320px;
-  }
-
-  :global(.tooltip-header) {
-    padding: 12px 16px 0 16px;
-    font-size: 18px;
-  }
-
-  :global(.tooltip-body) {
-    padding: 8px 16px 14px 16px;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  :global(.interpretation-content h3) {
+  /* Brief tooltip styles */
+  :global(.brief-chart-tooltip) {
+    position: absolute;
+    background: #fff;
+    color: #000;
+    padding: 12px 16px;
+    border-radius: 12px;
     font-size: 14px;
-    margin: 0 0 8px;
+    font-weight: 500;
+    pointer-events: none;
+    z-index: 1000;
+    white-space: nowrap;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 140px;
   }
 
-  :global(.interpretation-content p) {
-    font-size: 13px;
-    margin: 0 0 8px;
+  :global(.brief-tooltip-content) {
+    text-align: center;
   }
-}
+
+  :global(.brief-tooltip-main) {
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  /* Mobile tooltip adjustments */
+  @media (max-width: 767px) {
+    :global(.chart-tooltip) {
+      min-width: 260px;
+      max-width: 320px;
+    }
+
+    :global(.tooltip-header) {
+      padding: 12px 16px 0 16px;
+      font-size: 18px;
+    }
+
+    :global(.tooltip-body) {
+      padding: 8px 16px 14px 16px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    :global(.interpretation-content h3) {
+      font-size: 14px;
+      margin: 0 0 8px;
+    }
+
+    :global(.interpretation-content p) {
+      font-size: 13px;
+      margin: 0 0 8px;
+    }
+  }
 </style> 

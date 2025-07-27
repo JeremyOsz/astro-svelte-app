@@ -31,7 +31,7 @@
     </Card.Description>
   </Card.Header>
   <Card.Content>
-    <div class="transit-chart-container">
+    <div class="w-full min-h-[400px] md:min-h-[600px] flex justify-center">
       <D3BiWheelChart 
         transitData={transitChartData}
         showDegreeMarkers={true}
@@ -43,20 +43,4 @@
   </Card.Content>
 </Card.Root>
 
-<style>
-  .transit-chart-container {
-    width: 100%;
-    height: 600px;
-    min-height: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  @media (max-width: 768px) {
-    .transit-chart-container {
-      height: 100%;
-      min-height: 400px;
-    }
-  }
-</style> 
+ 
