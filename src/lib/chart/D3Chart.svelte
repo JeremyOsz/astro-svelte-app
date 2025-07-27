@@ -686,7 +686,32 @@
       const textAnchor = Math.cos(angle) > 0.1 ? 'start' : Math.cos(angle) < -0.1 ? 'end' : 'middle';
       const xOffset = textAnchor === 'start' ? 6 : textAnchor === 'end' ? -6 : 0;
       
-      g.append('text')
+      const axisGroup = g.append('g').attr('class', 'axis-group');
+      
+      // Invisible hover area
+      axisGroup.append('circle')
+        .attr('cx', Math.cos(angle) * (zodiacInnerRadius - 10) + xOffset)
+        .attr('cy', Math.sin(angle) * (zodiacInnerRadius - 10))
+        .attr('r', isMobile ? 12 : 16)
+        .attr('fill', 'transparent')
+        .style('cursor', 'pointer')
+        .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
+          const filterUrl = ensureGlowFilterForSign(g, point.sign);
+          d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
+          showBriefTooltip(event, point);
+        })
+        .on('mouseout', function(this: SVGCircleElement) {
+          d3.select(this.parentNode as SVGGElement).style('filter', null);
+          hideBriefTooltip();
+        })
+        .on('click', () => {
+          selectedElementData = point;
+          dialogOpen = true;
+          hideBriefTooltip();
+        });
+      
+      // Axis label text
+      axisGroup.append('text')
         .attr('x', Math.cos(angle) * (zodiacInnerRadius - 10) + xOffset)
         .attr('y', Math.sin(angle) * (zodiacInnerRadius - 10))
         .attr('text-anchor', textAnchor)
@@ -694,6 +719,7 @@
         .attr('font-size', isMobile ? 10 : 14)
         .attr('font-weight', 'bold')
         .attr('fill', '#555')
+        .style('pointer-events', 'none')
         .text(planetSymbols[point.planet]);
     });
 

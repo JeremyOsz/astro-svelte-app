@@ -49,7 +49,18 @@
     zodiacSymbol: string;
   };
 
-  type Interpretation = PlanetInterpretation | AspectInterpretation | SignInterpretation;
+  type AngularHouseInterpretation = {
+    title: string;
+    meaning: string;
+    description: string;
+    symbol: string;
+    sign: string;
+    zodiacSymbol: string;
+    degree: number;
+    minute: number;
+  };
+
+  type Interpretation = PlanetInterpretation | AspectInterpretation | SignInterpretation | AngularHouseInterpretation;
 
   function closeDialog() {
     open = false;
@@ -268,6 +279,56 @@
     return descriptions[sign] || "No description available.";
   }
 
+  function getAngularHouseInterpretation(angularHouseData: any): AngularHouseInterpretation {
+    const { planet, sign, degree, minute } = angularHouseData;
+    
+    // Angular house symbols
+    const angularHouseSymbols: Record<string, string> = {
+      "ASC": "Asc", "MC": "MC", "DSC": "Dsc", "IC": "IC"
+    };
+
+    // Zodiac symbols
+    const zodiacSymbols: Record<string, string> = {
+      "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
+      "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
+    };
+
+    // Angular house meanings and descriptions
+    const angularHouseInfo: Record<string, { meaning: string; description: string }> = {
+      "ASC": {
+        meaning: "Ascendant - Your Rising Sign",
+        description: "The Ascendant represents your outer personality, how you present yourself to the world, and your physical appearance. It's the sign that was rising on the eastern horizon at the moment of your birth. This is often called your 'rising sign' and represents your first impression on others, your approach to new situations, and your immediate reactions to life."
+      },
+      "MC": {
+        meaning: "Midheaven - Your Career & Public Image",
+        description: "The Midheaven (MC) represents your career path, public reputation, and life goals. It shows your ambitions, achievements, and how you want to be seen by the world. This point indicates your professional calling, your relationship with authority figures, and your highest aspirations in life."
+      },
+      "DSC": {
+        meaning: "Descendant - Your Relationships",
+        description: "The Descendant represents your relationships, partnerships, and what you seek in others. It shows the qualities you're attracted to in partners and the type of people you form close relationships with. This point also represents your shadow side - qualities you may project onto others."
+      },
+      "IC": {
+        meaning: "Imum Coeli - Your Roots & Private Life",
+        description: "The Imum Coeli (IC) represents your home, family, roots, and private life. It shows your deepest emotional needs, your relationship with family, and your sense of security. This point indicates your foundation, your connection to your past, and what makes you feel safe and nurtured."
+      }
+    };
+
+    const houseInfo = angularHouseInfo[planet];
+    const symbol = angularHouseSymbols[planet] || planet;
+    const zodiacSymbol = zodiacSymbols[sign] || sign;
+
+    return {
+      title: `${planet} (${symbol}) in ${sign}`,
+      meaning: houseInfo.meaning,
+      description: houseInfo.description,
+      symbol,
+      sign,
+      zodiacSymbol,
+      degree,
+      minute
+    };
+  }
+
   function isPlanetInterpretation(interpretation: Interpretation): interpretation is PlanetInterpretation {
     return 'planetMeaning' in interpretation;
   }
@@ -280,9 +341,13 @@
     return 'houseGeneral' in interpretation;
   }
 
+  function isAngularHouseInterpretation(interpretation: Interpretation): interpretation is AngularHouseInterpretation {
+    return 'meaning' in interpretation && 'symbol' in interpretation;
+  }
+
   $: interpretation = elementData ? 
     (elementData.aspect ? getAspectInterpretation(elementData) :
-     elementData.planet ? getPlanetInterpretation(elementData) :
+     elementData.planet ? (['ASC', 'MC', 'DSC', 'IC'].includes(elementData.planet) ? getAngularHouseInterpretation(elementData) : getPlanetInterpretation(elementData)) :
      elementData.sign ? getSignInterpretation(elementData) : null) : null;
 </script>
 
@@ -443,6 +508,34 @@
                 <span class="ml-1 text-gray-700">{elementData.sign} - Key Characteristics</span>
               </h3>
               <p class="text-gray-700 leading-relaxed">{getSignDescription(elementData.sign)}</p>
+            </div>
+          </div>
+        {:else if elementData.planet && ['ASC', 'MC', 'DSC', 'IC'].includes(elementData.planet) && isAngularHouseInterpretation(interpretation)}
+          <!-- Angular House Details -->
+          <div class="space-y-4">
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-2xl font-symbols text-gray-600">{interpretation.symbol}</span>
+                <h3 class="font-semibold text-gray-900">{interpretation.meaning}</h3>
+              </div>
+              <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span class="font-medium text-gray-700">Position:</span>
+                  <span class="ml-2 text-gray-600">{interpretation.degree}°{interpretation.minute.toString().padStart(2, '0')}' {interpretation.sign}</span>
+                </div>
+                <div>
+                  <span class="font-medium text-gray-700">Sign:</span>
+                  <span class="ml-2 text-gray-600 font-zodiac">{interpretation.zodiacSymbol} {interpretation.sign}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="border rounded-lg p-4">
+              <h3 class="font-semibold text-gray-900 mb-3">
+                <span class="font-symbols text-gray-600">{interpretation.symbol}</span>
+                <span class="ml-1 text-gray-700">{elementData.planet} - Meaning & Significance</span>
+              </h3>
+              <p class="text-gray-700 leading-relaxed">{interpretation.description}</p>
             </div>
           </div>
         {/if}
