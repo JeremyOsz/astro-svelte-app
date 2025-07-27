@@ -3,14 +3,13 @@
   import { writable, derived, get } from 'svelte/store';
   import * as d3 from 'd3';
   import { CHART_LAYOUT } from '../data/chart-styles';
-  import { 
-    createTooltip, 
-    handleMouseOver, 
-    handleMouseOut, 
-    handleClick, 
-    unpinTooltip 
-  } from './tooltip';
+  import ChartElementDialog from './ChartElementDialog.svelte';
   import { chartStore } from '../stores/chart-store';
+  import { 
+    createBriefTooltip, 
+    showBriefTooltip, 
+    hideBriefTooltip 
+  } from './brief-tooltip';
 
   // Props (removed chartData prop since we'll use the store directly)
   export let showDegreeMarkers: boolean = true;
@@ -27,6 +26,10 @@
   let showResetButton = false;
   let currentTransform = d3.zoomIdentity;
   let zoomBehavior: d3.ZoomBehavior<Element, unknown> | null = null;
+
+  // Dialog state
+  let dialogOpen = false;
+  let selectedElementData: any = null;
 
   // Subscribe to the chart store - use manual subscription for better control
   let chartStoreUnsubscribe: () => void;
@@ -132,7 +135,7 @@
   onMount(() => {
     console.log('D3Chart: Component mounted');
     detectDeviceType();
-    createTooltip();
+    createBriefTooltip();
     
     // Manual subscription to chart store
     chartStoreUnsubscribe = chartStore.subscribe((state) => {
@@ -577,16 +580,20 @@
         .attr('r', isMobile ? 8 : 12) // Smaller hover radius
         .attr('fill', 'transparent')
         .style('cursor', 'pointer')
-        .on('mouseover', (!isMobile ? function(this: SVGCircleElement, event: MouseEvent) {
+        .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          handleMouseOver(event, signData);
-        } : null) as any)
-        .on('mouseout', (!isMobile ? function(this: SVGCircleElement, event: MouseEvent) {
+          showBriefTooltip(event, signData);
+        })
+        .on('mouseout', function(this: SVGCircleElement) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleMouseOut();
-        } : null) as any)
-        .on('click', (event) => handleClick(event, signData));
+          hideBriefTooltip();
+        })
+        .on('click', () => {
+          selectedElementData = signData;
+          dialogOpen = true;
+          hideBriefTooltip();
+        });
 
       // Add the sign symbol
       signGroup.append('text')
@@ -766,16 +773,20 @@
         .attr('stroke', 'transparent')
         .attr('stroke-width', 15) // Wider for easier hovering
         .style('cursor', 'pointer')
-        .on('mouseover', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
+        .on('mouseover', function(this: SVGLineElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForAspect(g, aspect.color);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          handleMouseOver(event, aspect);
-        } : null) as any)
-        .on('mouseout', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
+          showBriefTooltip(event, aspect);
+        })
+        .on('mouseout', function(this: SVGLineElement) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleMouseOut();
-        } : null) as any)
-        .on('click', (event) => handleClick(event, aspect));
+          hideBriefTooltip();
+        })
+        .on('click', () => {
+          selectedElementData = aspect;
+          dialogOpen = true;
+          hideBriefTooltip();
+        });
     });
   }
 
@@ -821,13 +832,17 @@
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, p.sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          handleMouseOver(event, p);
+          showBriefTooltip(event, p);
         })
-        .on('mouseout', function(this: SVGCircleElement, event: MouseEvent) {
+        .on('mouseout', function(this: SVGCircleElement) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleMouseOut();
+          hideBriefTooltip();
         })
-        .on('click', (event) => handleClick(event, p));
+        .on('click', () => {
+          selectedElementData = p;
+          dialogOpen = true;
+          hideBriefTooltip();
+        });
 
       // Planet glyph
       group.append('text')
@@ -986,8 +1001,7 @@
       });
 
     // Apply zoom behavior to the SVG
-    svg.call(zoomBehavior as any)
-      .on('click', unpinTooltip);
+    svg.call(zoomBehavior as any);
   }
 
   function updateZoom() {
@@ -1149,87 +1163,36 @@
     </div>
   </div>
 
+  <!-- Chart Element Dialog -->
+  <ChartElementDialog bind:open={dialogOpen} elementData={selectedElementData} />
+
 <style>
   :global(.chart-svg) {
     max-width: 100%;
     height: auto;
   }
 
-  :global(.chart-tooltip) {
-    background: #fcf8ed;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.10);
-    color: #222;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    min-width: 320px;
-    max-width: 420px;
-    padding: 0;
-    z-index: 1001;
-    transition: opacity 0.2s ease-in-out;
+  /* Brief tooltip styles */
+  :global(.brief-chart-tooltip) {
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    max-width: 200px;
+    white-space: nowrap;
   }
 
-  :global(.tooltip-header) {
-    background-color: #fcf8ed;
-    padding: 16px 20px 0 20px;
-    font-weight: 700;
-    font-size: 22px;
-    color: #222;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom: none;
+  :global(.brief-tooltip-content) {
+    color: black;
   }
 
-  :global(.tooltip-body) {
-    padding: 10px 20px 18px 20px;
-    font-size: 14px;
-    line-height: 1.7;
-    color: #222;
-  }
-
-  :global(.interpretation-content h3) {
-    margin: 0 0 10px;
-    font-size: 16px;
-    font-weight: 700;
-    color: #222;
-  }
-
-  :global(.interpretation-content p) {
-    margin: 0 0 10px;
-    font-size: 14px;
-    color: #222;
-  }
-
-  :global(.interpretation-content p:last-child) {
-    margin-bottom: 0;
-  }
-
-  /* Mobile tooltip adjustments */
-  @media (max-width: 767px) {
-    :global(.chart-tooltip) {
-      min-width: 260px;
-      max-width: 320px;
-    }
-
-    :global(.tooltip-header) {
-      padding: 12px 16px 0 16px;
-      font-size: 18px;
-    }
-
-    :global(.tooltip-body) {
-      padding: 8px 16px 14px 16px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    :global(.interpretation-content h3) {
-      font-size: 14px;
-      margin: 0 0 8px;
-    }
-
-    :global(.interpretation-content p) {
-      font-size: 13px;
-      margin: 0 0 8px;
-    }
+  :global(.brief-tooltip-main) {
+    color: black;
+    font-weight: 500;
   }
 </style> 

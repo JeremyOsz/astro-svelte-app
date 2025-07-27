@@ -46,6 +46,7 @@
     title: string;
     houseGeneral: string;
     signInHouse: string;
+    zodiacSymbol: string;
   };
 
   type Interpretation = PlanetInterpretation | AspectInterpretation | SignInterpretation;
@@ -198,11 +199,73 @@
     const houseKey = `${house}${house === 1 ? 'st' : house === 2 ? 'nd' : house === 3 ? 'rd' : 'th'}`;
     const houseGeneral = HOUSES[houseKey] || "House information not available.";
     
+    // Zodiac symbols
+    const zodiacSymbols: Record<string, string> = {
+      "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
+      "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
+    };
+    
     return {
       title: `${sign} in House ${house}`,
       houseGeneral,
-      signInHouse
+      signInHouse,
+      zodiacSymbol: zodiacSymbols[sign] || sign
     };
+  }
+
+  // Helper functions for sign characteristics
+  function getSignElement(sign: string): string {
+    const elements: Record<string, string> = {
+      "Aries": "Fire", "Leo": "Fire", "Sagittarius": "Fire",
+      "Taurus": "Earth", "Virgo": "Earth", "Capricorn": "Earth",
+      "Gemini": "Air", "Libra": "Air", "Aquarius": "Air",
+      "Cancer": "Water", "Scorpio": "Water", "Pisces": "Water"
+    };
+    return elements[sign] || "Unknown";
+  }
+
+  function getSignQuality(sign: string): string {
+    const qualities: Record<string, string> = {
+      "Aries": "Cardinal", "Cancer": "Cardinal", "Libra": "Cardinal", "Capricorn": "Cardinal",
+      "Taurus": "Fixed", "Leo": "Fixed", "Scorpio": "Fixed", "Aquarius": "Fixed",
+      "Gemini": "Mutable", "Virgo": "Mutable", "Sagittarius": "Mutable", "Pisces": "Mutable"
+    };
+    return qualities[sign] || "Unknown";
+  }
+
+  function getSignRuler(sign: string): string {
+    const rulers: Record<string, string> = {
+      "Aries": "Mars", "Taurus": "Venus", "Gemini": "Mercury", "Cancer": "Moon",
+      "Leo": "Sun", "Virgo": "Mercury", "Libra": "Venus", "Scorpio": "Pluto",
+      "Sagittarius": "Jupiter", "Capricorn": "Saturn", "Aquarius": "Uranus", "Pisces": "Neptune"
+    };
+    return rulers[sign] || "Unknown";
+  }
+
+  function getSignPolarity(sign: string): string {
+    const polarities: Record<string, string> = {
+      "Aries": "Positive", "Gemini": "Positive", "Leo": "Positive", "Libra": "Positive", "Sagittarius": "Positive", "Aquarius": "Positive",
+      "Taurus": "Negative", "Cancer": "Negative", "Virgo": "Negative", "Scorpio": "Negative", "Capricorn": "Negative", "Pisces": "Negative"
+    };
+    return polarities[sign] || "Unknown";
+  }
+
+  function getSignDescription(sign: string): string {
+    const descriptions: Record<string, string> = {
+      "Aries": "The first sign of the zodiac, Aries represents new beginnings, courage, and pioneering spirit. Natural leaders with boundless energy and enthusiasm.",
+      "Taurus": "The bull represents stability, determination, and sensuality. Taureans are known for their patience, loyalty, and appreciation for beauty and comfort.",
+      "Gemini": "The twins symbolize duality, communication, and adaptability. Geminis are curious, versatile, and excellent communicators with a quick wit.",
+      "Cancer": "The crab represents emotional depth, intuition, and nurturing qualities. Cancerians are deeply caring, protective, and have strong family bonds.",
+      "Leo": "The lion embodies creativity, leadership, and dramatic flair. Leos are natural performers, generous, and have a strong sense of pride and dignity.",
+      "Virgo": "The virgin represents precision, service, and analytical thinking. Virgos are detail-oriented, practical, and have a strong sense of duty.",
+      "Libra": "The scales symbolize balance, harmony, and justice. Librans are diplomatic, fair-minded, and have a natural sense of beauty and partnership.",
+      "Scorpio": "The scorpion represents intensity, transformation, and deep emotional power. Scorpios are passionate, mysterious, and have incredible insight.",
+      "Sagittarius": "The archer embodies adventure, optimism, and philosophical thinking. Sagittarians are freedom-loving, honest, and always seeking truth.",
+      "Capricorn": "The sea-goat represents ambition, discipline, and practical wisdom. Capricorns are responsible, hardworking, and have strong traditional values.",
+      "Aquarius": "The water bearer symbolizes innovation, humanitarianism, and intellectual independence. Aquarians are progressive, original thinkers with a strong sense of community.",
+      "Pisces": "The fish represents spirituality, compassion, and artistic sensitivity. Pisceans are intuitive, empathetic, and have a deep connection to the mystical."
+    };
+    return descriptions[sign] || "No description available.";
   }
 
   function isPlanetInterpretation(interpretation: Interpretation): interpretation is PlanetInterpretation {
@@ -339,6 +402,31 @@
         {:else if elementData.sign && isSignInterpretation(interpretation)}
           <!-- Sign Details -->
           <div class="space-y-4">
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-2xl font-zodiac text-gray-600">{interpretation.zodiacSymbol}</span>
+                <h3 class="font-semibold text-gray-900">{elementData.sign} - Sign Overview</h3>
+              </div>
+              <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span class="font-medium text-gray-700">Element:</span>
+                  <span class="ml-2 text-gray-600">{getSignElement(elementData.sign)}</span>
+                </div>
+                <div>
+                  <span class="font-medium text-gray-700">Quality:</span>
+                  <span class="ml-2 text-gray-600">{getSignQuality(elementData.sign)}</span>
+                </div>
+                <div>
+                  <span class="font-medium text-gray-700">Ruler:</span>
+                  <span class="ml-2 text-gray-600">{getSignRuler(elementData.sign)}</span>
+                </div>
+                <div>
+                  <span class="font-medium text-gray-700">Polarity:</span>
+                  <span class="ml-2 text-gray-600">{getSignPolarity(elementData.sign)}</span>
+                </div>
+              </div>
+            </div>
+
             <div class="border rounded-lg p-4">
               <h3 class="font-semibold text-gray-900 mb-2">House {elementData.house} represents</h3>
               <p class="text-gray-700 leading-relaxed">{interpretation.houseGeneral}</p>
@@ -347,6 +435,14 @@
             <div class="border rounded-lg p-4">
               <h3 class="font-semibold text-gray-900 mb-2">{elementData.sign} in House {elementData.house}</h3>
               <p class="text-gray-700 leading-relaxed">{interpretation.signInHouse}</p>
+            </div>
+
+            <div class="border rounded-lg p-4">
+              <h3 class="font-semibold text-gray-900 mb-3">
+                <span class="font-zodiac text-gray-600">{interpretation.zodiacSymbol}</span>
+                <span class="ml-1 text-gray-700">{elementData.sign} - Key Characteristics</span>
+              </h3>
+              <p class="text-gray-700 leading-relaxed">{getSignDescription(elementData.sign)}</p>
             </div>
           </div>
         {/if}
