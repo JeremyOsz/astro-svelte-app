@@ -942,17 +942,20 @@
     const zodiacInnerRadius = getRadius('zodiacInnerRadius', isInner);
     const labelRadius = getRadius('labelRadius', isInner);
 
-    // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
-    const asc = data.find((p: PlanetData) => p.planet === 'ASC');
-    if (!asc) {
-      console.log('D3Chart: No ASC found for planet positioning');
+    // For natal planets, use the natal chart's Ascendant for positioning
+    // For transit planets, use the natal chart's Ascendant but position planets at their absolute zodiac positions
+    const natalData = get(chartState).data;
+    const natalAsc = natalData.find((p: PlanetData) => p.planet === 'ASC');
+    if (!natalAsc) {
+      console.log('D3Chart: No natal ASC found for planet positioning');
       return;
     }
     
-    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
-    const ascSignStartAngle = ascSignIndex * 30;
-    // Use same rotation offset as zodiac wheel
-    const zodiacOffset = ascSignStartAngle - 360; // 270° puts House 1 on the left
+    const natalAscSignIndex = zodiacSigns.indexOf(natalAsc.sign);
+    const natalAscSignStartAngle = natalAscSignIndex * 30;
+    
+    let zodiacOffset: number;
+    zodiacOffset = natalAscSignStartAngle;
 
     // Define a glow filter for each sign color (if not already present)
     const defs = getDefs(g);
