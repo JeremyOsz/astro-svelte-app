@@ -4,12 +4,11 @@
   import * as d3 from 'd3';
   import { CHART_LAYOUT } from '../data/chart-styles';
   import { 
-    createTooltip, 
-    handleMouseOver, 
-    handleMouseOut, 
-    handleClick, 
-    unpinTooltip 
-  } from './tooltip';
+    createBriefTooltip, 
+    showBriefTooltip, 
+    hideBriefTooltip 
+  } from './brief-tooltip';
+  import ChartElementDialog from './ChartElementDialog.svelte';
   import { chartStore } from '../stores/chart-store';
 
   // Props (removed chartData prop since we'll use the store directly)
@@ -30,6 +29,10 @@
   let showResetButton = false;
   let currentTransform = d3.zoomIdentity;
   let zoomBehavior: d3.ZoomBehavior<Element, unknown> | null = null;
+
+  // Dialog state
+  let dialogOpen = false;
+  let selectedElementData: any = null;
 
   // Subscribe to the chart store - use manual subscription for better control
   let chartStoreUnsubscribe: () => void;
@@ -101,6 +104,28 @@
     return dims[transitKey];
   }
 
+  // New event handlers for tooltip and dialog
+  function handleElementHover(event: MouseEvent, data: any) {
+    const { isMobile } = get(chartState);
+    if (!isMobile) {
+      showBriefTooltip(event, data);
+    }
+  }
+
+  function handleElementLeave() {
+    const { isMobile } = get(chartState);
+    if (!isMobile) {
+      hideBriefTooltip();
+    }
+  }
+
+  function handleElementClick(event: MouseEvent, data: any) {
+    event.stopPropagation();
+    selectedElementData = data;
+    dialogOpen = true;
+    hideBriefTooltip();
+  }
+
   // Chart constants
   const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
   const zodiacSymbols: Record<string, string> = {
@@ -133,7 +158,7 @@
   onMount(() => {
     console.log('D3Chart: Component mounted');
     detectDeviceType();
-    createTooltip();
+    createBriefTooltip();
     
     // Manual subscription to chart store
     chartStoreUnsubscribe = chartStore.subscribe((state) => {
@@ -684,13 +709,13 @@
         .on('mouseover', (!isMobile ? function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          handleMouseOver(event, signData);
+          handleElementHover(event, signData);
         } : null) as any)
         .on('mouseout', (!isMobile ? function(this: SVGCircleElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleMouseOut();
+          handleElementLeave();
         } : null) as any)
-        .on('click', (event) => handleClick(event, signData));
+        .on('click', (event) => handleElementClick(event, signData));
 
       // Add the sign symbol
       signGroup.append('text')
@@ -926,15 +951,15 @@
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
           // Add transit/natal information to the aspect data
           const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
-          handleMouseOver(event, aspectDataWithType);
+          handleElementHover(event, aspectDataWithType);
         } : null) as any)
         .on('mouseout', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleMouseOut();
+          handleElementLeave();
         } : null) as any)
         .on('click', (event) => {
           const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
-          handleClick(event, aspectDataWithType);
+          handleElementClick(event, aspectDataWithType);
         });
     });
   }
@@ -1005,15 +1030,15 @@
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
           // Add transit/natal information to the planet data
           const planetDataWithType = { ...p, isTransit: !isInner };
-          handleMouseOver(event, planetDataWithType);
+          handleElementHover(event, planetDataWithType);
         })
         .on('mouseout', function(this: SVGCircleElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleMouseOut();
+          handleElementLeave();
         })
         .on('click', (event) => {
           const planetDataWithType = { ...p, isTransit: !isInner };
-          handleClick(event, planetDataWithType);
+          handleElementClick(event, planetDataWithType);
         });
 
       // Planet glyph
@@ -1190,7 +1215,7 @@
 
     // Apply zoom behavior to the SVG
     svg.call(zoomBehavior as any)
-      .on('click', unpinTooltip);
+      .on('click', () => hideBriefTooltip());
   }
 
   function updateZoom() {
@@ -1348,6 +1373,12 @@
     </div>
   </div>
 
+  <!-- Chart Element Details Dialog -->
+  <ChartElementDialog 
+    bind:open={dialogOpen}
+    elementData={selectedElementData}
+  />
+
 <style>
   .chart-wrapper {
     position: relative;
@@ -1470,6 +1501,33 @@
 
 :global(.interpretation-content p:last-child) {
   margin-bottom: 0;
+}
+
+/* Brief tooltip styles */
+:global(.brief-chart-tooltip) {
+  position: absolute;
+  background: #fff;
+  color: #000;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 140px;
+}
+
+:global(.brief-tooltip-content) {
+  text-align: center;
+}
+
+:global(.brief-tooltip-main) {
+  opacity: 1;
+  font-weight: 600;
 }
 
 /* --- Mobile responsiveness tweaks --- */
