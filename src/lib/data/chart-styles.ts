@@ -20,7 +20,7 @@ export const CHART_LAYOUT = {
       transitLabelRadius: 390,
       transitHouseLineInnerRadius: 320,
       transitHouseNumRadius: 330,
-      transitAspectHubRadius: 130
+      transitAspectHubRadius: 170
     },
     TABLET: {
       chartSize: 600,

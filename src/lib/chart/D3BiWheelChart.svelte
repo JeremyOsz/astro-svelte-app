@@ -589,7 +589,7 @@
       ascSign: asc.sign,
       ascSignIndex,
       ascSignStartAngle,
-      house1CuspAngle,
+      targetAngle: 360,
       zodiacOffset
     });
 
@@ -724,7 +724,8 @@
     
     const ascSignIndex = zodiacSigns.indexOf(asc.sign);
     const ascSignStartAngle = ascSignIndex * 30;
-    const zodiacOffset = ascSignStartAngle - house1CuspAngle;
+    // Use same rotation offset as zodiac wheel
+    const zodiacOffset = ascSignStartAngle - 360; // 270° puts House 1 on the left
 
     // Draw house lines at the actual cusp angles
     houseCusps.forEach((cusp: HouseCusp) => {
@@ -796,7 +797,8 @@
     
     const ascSignIndex = zodiacSigns.indexOf(asc.sign);
     const ascSignStartAngle = ascSignIndex * 30;
-    const zodiacOffset = ascSignStartAngle - house1CuspAngle;
+    // Use same rotation offset as zodiac wheel
+    const zodiacOffset = ascSignStartAngle - 360; // 270° puts House 1 on the left
 
     g.append('circle')
       .attr('r', aspectHubRadius)
@@ -866,7 +868,8 @@
     
     const ascSignIndex = zodiacSigns.indexOf(asc.sign);
     const ascSignStartAngle = ascSignIndex * 30;
-    const zodiacOffset = ascSignStartAngle - house1CuspAngle;
+    // Use same rotation offset as zodiac wheel
+    const zodiacOffset = ascSignStartAngle - 360; // 270° puts House 1 on the left
 
     // Define a glow filter for each sign color (if not already present)
     const defs = getDefs(g);
