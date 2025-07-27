@@ -191,6 +191,21 @@
     }
   }
 
+  // When container is bound, ensure natal data parsed if we previously skipped due to timing
+  $: if (chartContainer && !chartStateDataInitialized()) {
+    const storeData = get(chartStore).chartData;
+    if (storeData) {
+      console.log('D3Chart: Container now ready, parsing stored natal chart data');
+      currentChartData = storeData;
+      parseChartData(storeData, 'chart');
+    }
+  }
+
+  function chartStateDataInitialized() {
+    const data = get(chartState).data;
+    return Array.isArray(data) && data.length > 0;
+  }
+
   // Reactive statement to trigger chart redraw when either state changes
   $: if (get(chartState).data.length > 0 || get(transitState).data.length > 0) {
     if (chartContainer) {
