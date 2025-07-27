@@ -55,12 +55,7 @@ export class DailyHoroscopeService {
 
       // Ensure transitData has the expected structure
       if (!transitData || typeof transitData !== 'object') {
-        console.warn('Invalid transit data received, using fallback');
-        const fallbackTransitData = {
-          planets: [],
-          aspects: []
-        };
-        return this.generateFallbackHoroscope(natalChart, date, fallbackTransitData);
+        throw new Error('Invalid transit data received from ephemeris service');
       }
 
       // Get Moon information
@@ -96,33 +91,19 @@ export class DailyHoroscopeService {
       };
     } catch (error) {
       console.error('Error generating daily horoscope:', error);
-      // Return a fallback horoscope instead of throwing
-      return this.generateFallbackHoroscope(natalChart, date, { planets: [], aspects: [] });
+      throw error;
     }
   }
 
   private static getMoonInfo(transitData: any, natalChart: BirthChart): MoonInfo {
     // Ensure transitData.planets exists
     if (!transitData.planets || !Array.isArray(transitData.planets)) {
-      console.warn('Transit planets not found, using default Moon position');
-      return {
-        sign: 'Aries',
-        house: 1,
-        description: 'Moon position unavailable - using default position',
-        aspects: [],
-        voidOfCourse: false
-      };
+      throw new Error('Transit planets not found in ephemeris data');
     }
 
     const moon = transitData.planets.find((p: any) => p.name === 'Moon');
     if (!moon) {
-      return {
-        sign: 'Aries',
-        house: 1,
-        description: 'Moon position unavailable - using default position',
-        aspects: [],
-        voidOfCourse: false
-      };
+      throw new Error('Moon position not found in ephemeris data');
     }
 
     // Calculate Moon's house position
@@ -181,8 +162,7 @@ export class DailyHoroscopeService {
 
   private static getKeyTransits(transitData: any, natalChart: BirthChart): KeyTransit[] {
     if (!transitData.aspects || !Array.isArray(transitData.aspects)) {
-      console.warn('Transit aspects not found, returning empty array');
-      return [];
+      throw new Error('Transit aspects not found in ephemeris data');
     }
 
     // Prioritize aspects by importance
@@ -553,27 +533,5 @@ export class DailyHoroscopeService {
     return advice[transit.aspect as keyof typeof advice] || '';
   }
 
-  private static generateFallbackHoroscope(natalChart: BirthChart, date: Date, transitData: any): DailyHoroscope {
-    // Generate a basic horoscope when transit data is unavailable
-    const moonInfo: MoonInfo = {
-      sign: 'Aries',
-      house: 1,
-      description: 'Moon in Aries (1st house): Emotional energy is direct and assertive. Focus on self-expression and personal identity.',
-      aspects: [],
-      voidOfCourse: false
-    };
 
-    const lunarPhase = this.getLunarPhase(date);
-
-    return {
-      date: date.toISOString().split('T')[0],
-      theme: "A day for reflection and gentle progress.",
-      moonInfo,
-      keyTransits: [],
-      guidance: "Today offers a gentle energy for reflection and small steps forward. Trust your intuition and take time to connect with your inner wisdom.",
-      lunarPhase,
-      actionAdvice: "Focus on routine tasks and avoid new commitments. Take time to rest and reflect.",
-      intensity: 'low'
-    };
-  }
 } 

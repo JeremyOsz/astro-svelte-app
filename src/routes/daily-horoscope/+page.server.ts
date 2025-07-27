@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
+import { SwissEphemerisService } from '$lib/astrology/swiss-ephemeris-service';
 import { DailyHoroscopeService } from '$lib/services/daily-horoscope';
 import type { BirthChart } from '$lib/types/types';
 import { ZODIAC_DETAILED } from '$lib/data/astrological-data';
@@ -101,7 +102,7 @@ export const actions = {
         return fail(400, { error: 'Invalid date format' });
       }
 
-      // Generate daily horoscope using the service
+      // Generate daily horoscope using the service (which will call Swiss Ephemeris Service)
       const dailyHoroscope = await DailyHoroscopeService.generateDailyHoroscope(
         natalChart,
         horoscopeDate
