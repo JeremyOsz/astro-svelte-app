@@ -35,7 +35,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "00-the-fool",
     name: "The Fool",
-    image: "/src/lib/images/tarot/Cards-png/00-TheFool.png",
+    image: "/images/tarot/Cards-png/00-TheFool.png",
     number: 0,
     keywords: ["New beginnings", "Innocence", "Spontaneity", "Adventure", "Risk-taking"],
     upright: {
@@ -66,7 +66,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "01-the-magician",
     name: "The Magician",
-    image: "/src/lib/images/tarot/Cards-png/01-TheMagician.png",
+    image: "/images/tarot/Cards-png/01-TheMagician.png",
     number: 1,
     keywords: ["Manifestation", "Power", "Skill", "Confidence", "Willpower"],
     upright: {
@@ -97,7 +97,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "02-the-high-priestess",
     name: "The High Priestess",
-    image: "/src/lib/images/tarot/Cards-png/02-TheHighPriestess.png",
+    image: "/images/tarot/Cards-png/02-TheHighPriestess.png",
     number: 2,
     keywords: ["Intuition", "Mystery", "Inner knowledge", "Wisdom", "Secrets"],
     upright: {
@@ -128,7 +128,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "03-the-empress",
     name: "The Empress",
-    image: "/src/lib/images/tarot/Cards-png/03-TheEmpress.png",
+    image: "/images/tarot/Cards-png/03-TheEmpress.png",
     number: 3,
     keywords: ["Fertility", "Abundance", "Nurturing", "Creativity", "Motherhood"],
     upright: {
@@ -159,7 +159,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "04-the-emperor",
     name: "The Emperor",
-    image: "/src/lib/images/tarot/Cards-png/04-TheEmperor.png",
+    image: "/images/tarot/Cards-png/04-TheEmperor.png",
     number: 4,
     keywords: ["Authority", "Structure", "Leadership", "Control", "Stability"],
     upright: {
@@ -190,7 +190,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "05-the-hierophant",
     name: "The Hierophant",
-    image: "/src/lib/images/tarot/Cards-png/05-TheHierophant.png",
+    image: "/images/tarot/Cards-png/05-TheHierophant.png",
     number: 5,
     keywords: ["Tradition", "Education", "Spirituality", "Conformity", "Guidance"],
     upright: {
@@ -221,7 +221,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "06-the-lovers",
     name: "The Lovers",
-    image: "/src/lib/images/tarot/Cards-png/06-TheLovers.png",
+    image: "/images/tarot/Cards-png/06-TheLovers.png",
     number: 6,
     keywords: ["Love", "Harmony", "Relationships", "Choices", "Unity"],
     upright: {
@@ -252,7 +252,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "07-the-chariot",
     name: "The Chariot",
-    image: "/src/lib/images/tarot/Cards-png/07-TheChariot.png",
+    image: "/images/tarot/Cards-png/07-TheChariot.png",
     number: 7,
     keywords: ["Victory", "Willpower", "Determination", "Success", "Control"],
     upright: {
@@ -283,7 +283,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "08-strength",
     name: "Strength",
-    image: "/src/lib/images/tarot/Cards-png/08-Strength.png",
+    image: "/images/tarot/Cards-png/08-Strength.png",
     number: 8,
     keywords: ["Inner strength", "Courage", "Patience", "Compassion", "Control"],
     upright: {
@@ -314,7 +314,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "09-the-hermit",
     name: "The Hermit",
-    image: "/src/lib/images/tarot/Cards-png/09-TheHermit.png",
+    image: "/images/tarot/Cards-png/09-TheHermit.png",
     number: 9,
     keywords: ["Solitude", "Wisdom", "Guidance", "Introspection", "Searching"],
     upright: {
@@ -345,7 +345,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "10-wheel-of-fortune",
     name: "Wheel of Fortune",
-    image: "/src/lib/images/tarot/Cards-png/10-WheelOfFortune.png",
+    image: "/images/tarot/Cards-png/10-WheelOfFortune.png",
     number: 10,
     keywords: ["Change", "Cycles", "Fate", "Opportunity", "Destiny"],
     upright: {
@@ -376,7 +376,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "11-justice",
     name: "Justice",
-    image: "/src/lib/images/tarot/Cards-png/11-Justice.png",
+    image: "/images/tarot/Cards-png/11-Justice.png",
     number: 11,
     keywords: ["Justice", "Fairness", "Truth", "Law", "Balance"],
     upright: {
@@ -407,7 +407,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "12-the-hanged-man",
     name: "The Hanged Man",
-    image: "/src/lib/images/tarot/Cards-png/12-TheHangedMan.png",
+    image: "/images/tarot/Cards-png/12-TheHangedMan.png",
     number: 12,
     keywords: ["Sacrifice", "Surrender", "New perspective", "Suspension", "Enlightenment"],
     upright: {
@@ -438,7 +438,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "13-death",
     name: "Death",
-    image: "/src/lib/images/tarot/Cards-png/13-Death.png",
+    image: "/images/tarot/Cards-png/13-Death.png",
     number: 13,
     keywords: ["Transformation", "Endings", "Change", "Rebirth", "Transition"],
     upright: {
@@ -469,7 +469,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "14-temperance",
     name: "Temperance",
-    image: "/src/lib/images/tarot/Cards-png/14-Temperance.png",
+    image: "/images/tarot/Cards-png/14-Temperance.png",
     number: 14,
     keywords: ["Balance", "Moderation", "Patience", "Harmony", "Integration"],
     upright: {
@@ -500,7 +500,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "15-the-devil",
     name: "The Devil",
-    image: "/src/lib/images/tarot/Cards-png/15-TheDevil.png",
+    image: "/images/tarot/Cards-png/15-TheDevil.png",
     number: 15,
     keywords: ["Temptation", "Bondage", "Materialism", "Shadow self", "Addiction"],
     upright: {
@@ -531,7 +531,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "16-the-tower",
     name: "The Tower",
-    image: "/src/lib/images/tarot/Cards-png/16-TheTower.png",
+    image: "/images/tarot/Cards-png/16-TheTower.png",
     number: 16,
     keywords: ["Sudden change", "Disaster", "Revelation", "Chaos", "Awakening"],
     upright: {
@@ -554,7 +554,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "17-the-star",
     name: "The Star",
-    image: "/src/lib/images/tarot/Cards-png/17-TheStar.png",
+    image: "/images/tarot/Cards-png/17-TheStar.png",
     number: 17,
     keywords: ["Hope", "Inspiration", "Optimism", "Faith", "Healing"],
     upright: {
@@ -577,7 +577,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "18-the-moon",
     name: "The Moon",
-    image: "/src/lib/images/tarot/Cards-png/18-TheMoon.png",
+    image: "/images/tarot/Cards-png/18-TheMoon.png",
     number: 18,
     keywords: ["Illusion", "Intuition", "Fear", "Subconscious", "Mystery"],
     upright: {
@@ -600,7 +600,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "19-the-sun",
     name: "The Sun",
-    image: "/src/lib/images/tarot/Cards-png/19-TheSun.png",
+    image: "/images/tarot/Cards-png/19-TheSun.png",
     number: 19,
     keywords: ["Joy", "Success", "Vitality", "Optimism", "Happiness"],
     upright: {
@@ -623,7 +623,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "20-judgement",
     name: "Judgement",
-    image: "/src/lib/images/tarot/Cards-png/20-Judgement.png",
+    image: "/images/tarot/Cards-png/20-Judgement.png",
     number: 20,
     keywords: ["Rebirth", "Awakening", "Redemption", "Calling", "Transformation"],
     upright: {
@@ -646,7 +646,7 @@ export const MAJOR_ARCANA: TarotCard[] = [
   {
     id: "21-the-world",
     name: "The World",
-    image: "/src/lib/images/tarot/Cards-png/21-TheWorld.png",
+    image: "/images/tarot/Cards-png/21-TheWorld.png",
     number: 21,
     keywords: ["Completion", "Integration", "Wholeness", "Achievement", "Travel"],
     upright: {
@@ -673,7 +673,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-01",
     name: "Ace of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands01.png",
+    image: "/images/tarot/Cards-png/Wands01.png",
     suit: "Wands",
     number: 1,
     keywords: ["New opportunities", "Inspiration", "Creative spark", "Potential", "Growth"],
@@ -703,7 +703,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-02",
     name: "Two of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands02.png",
+    image: "/images/tarot/Cards-png/Wands02.png",
     suit: "Wands",
     number: 2,
     keywords: ["Planning", "Future vision", "Decisions", "Discovery", "Progress"],
@@ -732,7 +732,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-03",
     name: "Three of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands03.png",
+    image: "/images/tarot/Cards-png/Wands03.png",
     suit: "Wands",
     number: 3,
     keywords: ["Expansion", "Adventure", "Growth", "Opportunities", "Exploration"],
@@ -753,7 +753,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-04",
     name: "Four of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands04.png",
+    image: "/images/tarot/Cards-png/Wands04.png",
     suit: "Wands",
     number: 4,
     keywords: ["Celebration", "Harmony", "Home", "Community", "Stability"],
@@ -774,7 +774,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-05",
     name: "Five of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands05.png",
+    image: "/images/tarot/Cards-png/Wands05.png",
     suit: "Wands",
     number: 5,
     keywords: ["Conflict", "Competition", "Challenges", "Rivalry", "Struggle"],
@@ -795,7 +795,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-06",
     name: "Six of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands06.png",
+    image: "/images/tarot/Cards-png/Wands06.png",
     suit: "Wands",
     number: 6,
     keywords: ["Victory", "Success", "Recognition", "Progress", "Confidence"],
@@ -816,7 +816,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-07",
     name: "Seven of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands07.png",
+    image: "/images/tarot/Cards-png/Wands07.png",
     suit: "Wands",
     number: 7,
     keywords: ["Defense", "Protection", "Standing ground", "Challenges", "Perseverance"],
@@ -837,7 +837,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-08",
     name: "Eight of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands08.png",
+    image: "/images/tarot/Cards-png/Wands08.png",
     suit: "Wands",
     number: 8,
     keywords: ["Movement", "Action", "Progress", "Speed", "Energy"],
@@ -858,7 +858,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-09",
     name: "Nine of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands09.png",
+    image: "/images/tarot/Cards-png/Wands09.png",
     suit: "Wands",
     number: 9,
     keywords: ["Resilience", "Persistence", "Last stand", "Defense", "Courage"],
@@ -879,7 +879,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-10",
     name: "Ten of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands10.png",
+    image: "/images/tarot/Cards-png/Wands10.png",
     suit: "Wands",
     number: 10,
     keywords: ["Burden", "Responsibility", "Hard work", "Stress", "Overwhelm"],
@@ -900,7 +900,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-11",
     name: "Page of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands11.png",
+    image: "/images/tarot/Cards-png/Wands11.png",
     suit: "Wands",
     keywords: ["Exploration", "Excitement", "Freedom", "Adventure", "New ideas"],
     upright: {
@@ -920,7 +920,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-12",
     name: "Knight of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands12.png",
+    image: "/images/tarot/Cards-png/Wands12.png",
     suit: "Wands",
     keywords: ["Energy", "Passion", "Adventure", "Impulsiveness", "Enthusiasm"],
     upright: {
@@ -940,7 +940,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-13",
     name: "Queen of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands13.png",
+    image: "/images/tarot/Cards-png/Wands13.png",
     suit: "Wands",
     keywords: ["Courageous", "Determined", "Independent", "Vivacious", "Warm"],
     upright: {
@@ -960,7 +960,7 @@ export const MINOR_ARCANA: TarotCard[] = [
   {
     id: "wands-14",
     name: "King of Wands",
-    image: "/src/lib/images/tarot/Cards-png/Wands14.png",
+    image: "/images/tarot/Cards-png/Wands14.png",
     suit: "Wands",
     keywords: ["Natural leader", "Visionary", "Entrepreneur", "Honest", "Inspiring"],
     upright: {
@@ -984,7 +984,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-01",
     name: "Ace of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups01.png",
+    image: "/images/tarot/Cards-png/Cups01.png",
     suit: "Cups",
     number: 1,
     keywords: ["New love", "Emotional opportunity", "Intuition", "Creativity", "Spirituality"],
@@ -1005,7 +1005,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-02",
     name: "Two of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups02.png",
+    image: "/images/tarot/Cards-png/Cups02.png",
     suit: "Cups",
     number: 2,
     keywords: ["Partnership", "Connection", "Harmony", "Mutual attraction", "Balance"],
@@ -1026,7 +1026,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-03",
     name: "Three of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups03.png",
+    image: "/images/tarot/Cards-png/Cups03.png",
     suit: "Cups",
     number: 3,
     keywords: ["Celebration", "Friendship", "Joy", "Community", "Abundance"],
@@ -1047,7 +1047,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-04",
     name: "Four of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups04.png",
+    image: "/images/tarot/Cards-png/Cups04.png",
     suit: "Cups",
     number: 4,
     keywords: ["Apathy", "Boredom", "Discontent", "Missed opportunities", "Meditation"],
@@ -1068,7 +1068,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-05",
     name: "Five of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups05.png",
+    image: "/images/tarot/Cards-png/Cups05.png",
     suit: "Cups",
     number: 5,
     keywords: ["Loss", "Grief", "Disappointment", "Regret", "Focus on negative"],
@@ -1089,7 +1089,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-06",
     name: "Six of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups06.png",
+    image: "/images/tarot/Cards-png/Cups06.png",
     suit: "Cups",
     number: 6,
     keywords: ["Nostalgia", "Childhood memories", "Innocence", "Reunion", "Sweet memories"],
@@ -1110,7 +1110,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-07",
     name: "Seven of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups07.png",
+    image: "/images/tarot/Cards-png/Cups07.png",
     suit: "Cups",
     number: 7,
     keywords: ["Choices", "Illusion", "Fantasy", "Overwhelm", "Daydreaming"],
@@ -1131,7 +1131,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-08",
     name: "Eight of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups08.png",
+    image: "/images/tarot/Cards-png/Cups08.png",
     suit: "Cups",
     number: 8,
     keywords: ["Walking away", "Disillusionment", "Abandonment", "Search for meaning", "Spiritual journey"],
@@ -1152,7 +1152,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-09",
     name: "Nine of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups09.png",
+    image: "/images/tarot/Cards-png/Cups09.png",
     suit: "Cups",
     number: 9,
     keywords: ["Wishes fulfilled", "Contentment", "Satisfaction", "Emotional stability", "Luxury"],
@@ -1173,7 +1173,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-10",
     name: "Ten of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups10.png",
+    image: "/images/tarot/Cards-png/Cups10.png",
     suit: "Cups",
     number: 10,
     keywords: ["Divine love", "Harmony", "Family", "Joy", "Emotional fulfillment"],
@@ -1194,7 +1194,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-11",
     name: "Page of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups11.png",
+    image: "/images/tarot/Cards-png/Cups11.png",
     suit: "Cups",
     keywords: ["Creative opportunities", "Intuitive messages", "Curiosity", "Possibility", "New ideas"],
     upright: {
@@ -1214,7 +1214,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-12",
     name: "Knight of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups12.png",
+    image: "/images/tarot/Cards-png/Cups12.png",
     suit: "Cups",
     keywords: ["Creativity", "Romance", "Charm", "Imagination", "Following the heart"],
     upright: {
@@ -1234,7 +1234,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-13",
     name: "Queen of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups13.png",
+    image: "/images/tarot/Cards-png/Cups13.png",
     suit: "Cups",
     keywords: ["Compassionate", "Caring", "Emotionally stable", "Intuitive", "Nurturing"],
     upright: {
@@ -1254,7 +1254,7 @@ export const CUPS_SUIT: TarotCard[] = [
   {
     id: "cups-14",
     name: "King of Cups",
-    image: "/src/lib/images/tarot/Cards-png/Cups14.png",
+    image: "/images/tarot/Cards-png/Cups14.png",
     suit: "Cups",
     keywords: ["Emotional balance", "Generosity", "Diplomacy", "Wisdom", "Compassion"],
     upright: {
@@ -1277,7 +1277,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-01",
     name: "Ace of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords01.png",
+    image: "/images/tarot/Cards-png/Swords01.png",
     suit: "Swords",
     number: 1,
     keywords: ["Mental clarity", "Breakthrough", "New ideas", "Truth", "Justice"],
@@ -1298,7 +1298,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-02",
     name: "Two of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords02.png",
+    image: "/images/tarot/Cards-png/Swords02.png",
     suit: "Swords",
     number: 2,
     keywords: ["Difficult choices", "Indecision", "Stalemate", "Blocked emotions", "Truce"],
@@ -1319,7 +1319,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-03",
     name: "Three of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords03.png",
+    image: "/images/tarot/Cards-png/Swords03.png",
     suit: "Swords",
     number: 3,
     keywords: ["Heartbreak", "Suffering", "Grief", "Pain", "Betrayal"],
@@ -1340,7 +1340,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-04",
     name: "Four of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords04.png",
+    image: "/images/tarot/Cards-png/Swords04.png",
     suit: "Swords",
     number: 4,
     keywords: ["Rest", "Recovery", "Meditation", "Peace", "Contemplation"],
@@ -1361,7 +1361,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-05",
     name: "Five of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords05.png",
+    image: "/images/tarot/Cards-png/Swords05.png",
     suit: "Swords",
     number: 5,
     keywords: ["Conflict", "Defeat", "Loss", "Betrayal", "Hollow victory"],
@@ -1382,7 +1382,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-06",
     name: "Six of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords06.png",
+    image: "/images/tarot/Cards-png/Swords06.png",
     suit: "Swords",
     number: 6,
     keywords: ["Transition", "Change", "Moving on", "Leaving behind", "Journey"],
@@ -1403,7 +1403,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-07",
     name: "Seven of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords07.png",
+    image: "/images/tarot/Cards-png/Swords07.png",
     suit: "Swords",
     number: 7,
     keywords: ["Deception", "Trickery", "Secrets", "Escape", "Strategy"],
@@ -1424,7 +1424,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-08",
     name: "Eight of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords08.png",
+    image: "/images/tarot/Cards-png/Swords08.png",
     suit: "Swords",
     number: 8,
     keywords: ["Imprisonment", "Entrapment", "Isolation", "Fear", "Powerlessness"],
@@ -1445,7 +1445,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-09",
     name: "Nine of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords09.png",
+    image: "/images/tarot/Cards-png/Swords09.png",
     suit: "Swords",
     number: 9,
     keywords: ["Anxiety", "Worry", "Fear", "Depression", "Nightmares"],
@@ -1466,7 +1466,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-10",
     name: "Ten of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords10.png",
+    image: "/images/tarot/Cards-png/Swords10.png",
     suit: "Swords",
     number: 10,
     keywords: ["Painful endings", "Deep wounds", "Betrayal", "Loss", "Crisis"],
@@ -1487,7 +1487,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-11",
     name: "Page of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords11.png",
+    image: "/images/tarot/Cards-png/Swords11.png",
     suit: "Swords",
     keywords: ["New ideas", "Curiosity", "Thirst for knowledge", "New ways of communicating", "Observing"],
     upright: {
@@ -1507,7 +1507,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-12",
     name: "Knight of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords12.png",
+    image: "/images/tarot/Cards-png/Swords12.png",
     suit: "Swords",
     keywords: ["Ambitious", "Action-oriented", "Driven", "Impulsive", "Intellectual"],
     upright: {
@@ -1527,7 +1527,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-13",
     name: "Queen of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords13.png",
+    image: "/images/tarot/Cards-png/Swords13.png",
     suit: "Swords",
     keywords: ["Independent", "Unbiased judgment", "Clear boundaries", "Direct communication", "Experience"],
     upright: {
@@ -1547,7 +1547,7 @@ export const SWORDS_SUIT: TarotCard[] = [
   {
     id: "swords-14",
     name: "King of Swords",
-    image: "/src/lib/images/tarot/Cards-png/Swords14.png",
+    image: "/images/tarot/Cards-png/Swords14.png",
     suit: "Swords",
     keywords: ["Mental clarity", "Intellectual power", "Authority", "Truth", "Justice"],
     upright: {
@@ -1570,7 +1570,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-01",
     name: "Ace of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles01.png",
+    image: "/images/tarot/Cards-png/Pentacles01.png",
     suit: "Pentacles",
     number: 1,
     keywords: ["New financial opportunity", "Abundance", "Manifestation", "Grounding", "Material success"],
@@ -1600,7 +1600,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-02",
     name: "Two of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles02.png",
+    image: "/images/tarot/Cards-png/Pentacles02.png",
     suit: "Pentacles",
     number: 2,
     keywords: ["Balance", "Adaptability", "Time management", "Priorities", "Flexibility"],
@@ -1630,7 +1630,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-03",
     name: "Three of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles03.png",
+    image: "/images/tarot/Cards-png/Pentacles03.png",
     suit: "Pentacles",
     number: 3,
     keywords: ["Teamwork", "Collaboration", "Building", "Learning", "Apprenticeship"],
@@ -1660,7 +1660,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-04",
     name: "Four of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles04.png",
+    image: "/images/tarot/Cards-png/Pentacles04.png",
     suit: "Pentacles",
     number: 4,
     keywords: ["Conservation", "Security", "Frugality", "Protection", "Stability"],
@@ -1690,7 +1690,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-05",
     name: "Five of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles05.png",
+    image: "/images/tarot/Cards-png/Pentacles05.png",
     suit: "Pentacles",
     number: 5,
     keywords: ["Financial loss", "Poverty", "Lack", "Isolation", "Worry"],
@@ -1720,7 +1720,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-06",
     name: "Six of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles06.png",
+    image: "/images/tarot/Cards-png/Pentacles06.png",
     suit: "Pentacles",
     number: 6,
     keywords: ["Charity", "Generosity", "Sharing", "Giving", "Receiving"],
@@ -1750,7 +1750,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-07",
     name: "Seven of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles07.png",
+    image: "/images/tarot/Cards-png/Pentacles07.png",
     suit: "Pentacles",
     number: 7,
     keywords: ["Patience", "Long-term view", "Investment", "Growth", "Assessment"],
@@ -1780,7 +1780,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-08",
     name: "Eight of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles08.png",
+    image: "/images/tarot/Cards-png/Pentacles08.png",
     suit: "Pentacles",
     number: 8,
     keywords: ["Apprenticeship", "Repetitive tasks", "Skill development", "Diligence", "Hard work"],
@@ -1810,7 +1810,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-09",
     name: "Nine of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles09.png",
+    image: "/images/tarot/Cards-png/Pentacles09.png",
     suit: "Pentacles",
     number: 9,
     keywords: ["Luxury", "Self-sufficiency", "Financial independence", "Abundance", "Discipline"],
@@ -1840,7 +1840,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-10",
     name: "Ten of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles10.png",
+    image: "/images/tarot/Cards-png/Pentacles10.png",
     suit: "Pentacles",
     number: 10,
     keywords: ["Wealth", "Financial security", "Family", "Long-term success", "Legacy"],
@@ -1870,7 +1870,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-11",
     name: "Page of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles11.png",
+    image: "/images/tarot/Cards-png/Pentacles11.png",
     suit: "Pentacles",
     keywords: ["Manifestation", "Financial opportunity", "Skill development", "Adventure", "Excitement"],
     upright: {
@@ -1899,7 +1899,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-12",
     name: "Knight of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles12.png",
+    image: "/images/tarot/Cards-png/Pentacles12.png",
     suit: "Pentacles",
     keywords: ["Hard work", "Productivity", "Routine", "Conservatism", "Diligence"],
     upright: {
@@ -1928,7 +1928,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-13",
     name: "Queen of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles13.png",
+    image: "/images/tarot/Cards-png/Pentacles13.png",
     suit: "Pentacles",
     keywords: ["Nurturing", "Practical", "Providing financially", "A working parent", "Homebody"],
     upright: {
@@ -1957,7 +1957,7 @@ export const PENTACLES_SUIT: TarotCard[] = [
   {
     id: "pentacles-14",
     name: "King of Pentacles",
-    image: "/src/lib/images/tarot/Cards-png/Pentacles14.png",
+    image: "/images/tarot/Cards-png/Pentacles14.png",
     suit: "Pentacles",
     keywords: ["Abundance", "Prosperity", "Security", "Discipline", "Confidence"],
     upright: {
