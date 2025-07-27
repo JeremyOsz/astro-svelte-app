@@ -11,20 +11,28 @@ astro-svelte-app/
 │   │   ├── astrology/               # Core astrology calculations
 │   │   │   ├── astrology.ts         # Astrological constants and utilities
 │   │   │   └── swiss-ephemeris-service.ts  # Swiss Ephemeris integration
-│   │   ├── chart/                   # Chart visualization components
+│   │   ├── chart/                   # Core chart visualization components
 │   │   │   ├── D3Chart.svelte       # Main birth chart component
-│   │   │   ├── D3TransitChart.svelte # Transit chart component
-│   │   │   ├── InterpretationList.svelte # Chart interpretations
-│   │   │   ├── ChartLoadingState.svelte # Loading states
+│   │   │   ├── D3BiWheelChart.svelte # Bi-wheel chart component
+│   │   │   └── chart-styles.css     # Chart-specific styles
+│   │   ├── components/              # Reusable UI components
+│   │   │   ├── dialogs/             # Dialog components
+│   │   │   │   └── ChartElementDialog.svelte # Chart element detail dialogs
+│   │   │   ├── interpretations/     # Interpretation components
+│   │   │   │   └── InterpretationList.svelte # Chart interpretations list
+│   │   │   ├── tarot/               # Tarot components
+│   │   │   │   └── TarotLayoutDisplay.svelte # Tarot layout display
+│   │   │   ├── tooltips/            # Tooltip system
+│   │   │   │   ├── brief-tooltip.ts # Simple hover tooltips
+│   │   │   │   └── chart-tooltip.ts # Detailed chart tooltips
+│   │   │   ├── SavedChartsList.svelte # Chart management
 │   │   │   ├── SaveChartButton.svelte # Chart persistence
 │   │   │   ├── ShareChartButton.svelte # Chart sharing
-│   │   │   ├── SavedChartsList.svelte # Chart management
-│   │   │   ├── chart-styles.css     # Chart-specific styles
-│   │   │   ├── styles.css           # Additional chart styles
-│   │   │   └── tooltip.ts           # Chart tooltip utilities
-│   │   ├── components/              # Reusable UI components
+│   │   │   ├── ChartLoadingState.svelte # Loading states
 │   │   │   └── ui/                  # shadcn/ui components
 │   │   │       ├── accordion/       # Collapsible content
+│   │   ├── styles/                  # Global styles
+│   │   │   └── chart-tooltip-styles.css # Chart tooltip styles
 │   │   │       ├── alert/           # Alert messages
 │   │   │       ├── badge/           # Status indicators
 │   │   │       ├── button/          # Interactive buttons

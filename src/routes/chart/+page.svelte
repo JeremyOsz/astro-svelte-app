@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
   import D3Chart from '../../lib/chart/D3Chart.svelte';
-  import InterpretationList from '../../lib/chart/InterpretationList.svelte';
+  import InterpretationList from '../../lib/components/interpretations/InterpretationList.svelte';
   import BirthChartForm from './BirthChartForm.svelte';
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import SaveChartButton from '$lib/components/SaveChartButton.svelte';

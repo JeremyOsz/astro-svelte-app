@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Dialog from '$lib/components/ui/dialog';
+  import * as Dialog from '../../ui/dialog';
   import {
     PLANET_IN_SIGN_INTERPRETATIONS,
     SIGN_IN_HOUSE_INTERPRETATIONS,
@@ -7,18 +7,18 @@
     PLANET_INTERPRETATIONS,
     ASPECT_INTERPRETATIONS,
     HOUSES
-  } from '../data/interpretations';
+  } from '../../data/interpretations';
   import { 
     PLANET_CHARACTERISTICS, 
     SIGN_CHARACTERISTICS
-  } from '../data/astrological-data';
+  } from '../../data/astrological-data';
   import {
     PLANET_SYMBOLS,
     ZODIAC_SYMBOLS,
     ASPECT_SYMBOLS,
     ASPECT_DEFINITIONS,
     TRANSIT_COLORS
-  } from '../data/symbols';
+  } from '../../data/symbols';
 
   export let open = false;
   export let elementData: any = null;

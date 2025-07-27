@@ -1,7 +1,7 @@
 <script lang="ts">
   import { chartStore } from '$lib/stores/chart-store';
   import { get } from 'svelte/store';
-  import { getPlanetInterpretation, getAspectInterpretation, getSignInterpretation } from './tooltip';
+  import { getPlanetInterpretation, getAspectInterpretation, getSignInterpretation } from '../tooltips/chart-tooltip';
   import { onMount } from 'svelte';
   import { PLANET_CHARACTERISTICS, SIGN_CHARACTERISTICS } from '$lib/data/astrological-data';
   import { 
