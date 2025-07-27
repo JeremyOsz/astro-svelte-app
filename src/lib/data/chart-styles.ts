@@ -32,13 +32,13 @@ export const CHART_LAYOUT = {
       houseNumRadius: 130,
       aspectHubRadius: 120,
       // --- Transit (outer wheel) radii ---
-      transitZodiacOuterRadius: 340,
-      transitZodiacInnerRadius: 300,
-      transitPlanetRingRadius: 270,
-      transitLabelRadius: 240,
-      transitHouseLineInnerRadius: 200,
-      transitHouseNumRadius: 210,
-      transitAspectHubRadius: 200
+      transitZodiacOuterRadius: 280,
+      transitZodiacInnerRadius: 260,
+      transitPlanetRingRadius: 240,
+      transitLabelRadius: 210,
+      transitHouseLineInnerRadius: 180,
+      transitHouseNumRadius: 190,
+      transitAspectHubRadius: 120
     },
     MOBILE: {
       chartSize: 350,

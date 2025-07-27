@@ -1396,6 +1396,8 @@
     background: #fafafa;
     position: relative;
     touch-action: pan-x pan-y pinch-zoom;
+    width: 100%;
+    max-width: 100%;
   }
 
   .chart-controls {
@@ -1528,6 +1530,69 @@
 :global(.brief-tooltip-main) {
   opacity: 1;
   font-weight: 600;
+}
+
+/* --- Tablet responsiveness tweaks --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .chart-container {
+    min-height: 500px;
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    touch-action: pan-x pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chart-controls {
+    top: 14px;
+    right: 14px;
+    gap: 7px;
+  }
+
+  .control-button {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+  }
+
+  .zoom-in-button {
+    font-size: 17px;
+  }
+
+  .zoom-out-button {
+    font-size: 17px;
+  }
+
+  .reset-button {
+    font-size: 13px;
+  }
+
+  /* Tablet-optimized tooltip */
+  :global(.chart-tooltip) {
+    min-width: 280px;
+    max-width: 380px;
+  }
+
+  :global(.tooltip-header) {
+    padding: 14px 18px 0 18px;
+    font-size: 20px;
+  }
+
+  :global(.tooltip-body) {
+    padding: 9px 18px 16px 18px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  :global(.interpretation-content h3) {
+    font-size: 15px;
+    margin: 0 0 9px;
+  }
+
+  :global(.interpretation-content p) {
+    font-size: 13.5px;
+    margin: 0 0 9px;
+  }
 }
 
 /* --- Mobile responsiveness tweaks --- */
