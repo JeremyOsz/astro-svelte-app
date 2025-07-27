@@ -403,80 +403,80 @@ export const ASPECT_INTERPRETATIONS: Record<string, AspectInterpretation> = {
 
 export const PLANET_INTERPRETATIONS: Record<string, PlanetInterpretation> = {
     "Sun": {
-        "description": "Core identity, ego, life purpose, father, authority figures, creative expression",
-        "keywords": ["Identity", "Ego", "Purpose", "Father", "Authority", "Creativity", "Leadership", "Vitality"]
+        "description": "Core identity, ego, life purpose, father, authority figures, creative expression. The Sun represents your core identity, ego, and life purpose. It shows how you express your fundamental self and what drives you at the deepest level. The Sun is associated with the father figure and represents your conscious mind and willpower.",
+        "keywords": ["Identity", "Ego", "Purpose", "Father", "Authority", "Creativity", "Leadership", "Vitality", "Self-expression", "Life direction", "Personal power"]
     },
     "Moon": {
-        "description": "Emotions, intuition, mother, home, family, subconscious, nurturing, emotional needs",
-        "keywords": ["Emotions", "Intuition", "Mother", "Home", "Family", "Subconscious", "Nurturing", "Security"]
+        "description": "Emotions, intuition, mother, home, family, subconscious, nurturing, emotional needs. The Moon represents your emotional nature, intuition, and subconscious mind. It shows how you process feelings, your need for security, and your relationship with the mother figure. The Moon governs your inner world and emotional responses.",
+        "keywords": ["Emotions", "Intuition", "Mother", "Home", "Family", "Subconscious", "Nurturing", "Security", "Emotional security", "Maternal instincts", "Emotional patterns"]
     },
     "Mercury": {
-        "description": "Communication, thinking, learning, siblings, short trips, technology, nervous system",
-        "keywords": ["Communication", "Thinking", "Learning", "Siblings", "Travel", "Technology", "Intellect", "Curiosity"]
+        "description": "Communication, thinking, learning, siblings, short trips, technology, nervous system. Mercury represents your communication style, thinking patterns, and how you process information. It governs learning, short trips, and your relationship with siblings. Mercury shows how you express ideas and connect with others mentally.",
+        "keywords": ["Communication", "Thinking", "Learning", "Siblings", "Travel", "Technology", "Intellect", "Curiosity", "Intellectual pursuits", "Adaptability", "Mental agility"]
     },
     "Venus": {
-        "description": "Love, beauty, relationships, art, values, harmony, pleasure, social grace",
-        "keywords": ["Love", "Beauty", "Relationships", "Art", "Values", "Harmony", "Pleasure", "Grace"]
+        "description": "Love, beauty, relationships, art, values, harmony, pleasure, social grace. Venus represents your approach to love, beauty, and what you value. It governs relationships, artistic expression, and your sense of aesthetics. Venus shows how you attract and relate to others, and what brings you pleasure and satisfaction.",
+        "keywords": ["Love", "Beauty", "Relationships", "Art", "Values", "Harmony", "Pleasure", "Grace", "Romance", "Artistic expression", "Aesthetics"]
     },
     "Mars": {
-        "description": "Action, energy, aggression, courage, sexuality, competition, drive, physical energy",
-        "keywords": ["Action", "Energy", "Aggression", "Courage", "Sexuality", "Competition", "Drive", "Strength"]
+        "description": "Action, energy, aggression, courage, sexuality, competition, drive, physical energy. Mars represents your energy, drive, and how you take action. It governs your courage, sexuality, and competitive nature. Mars shows how you assert yourself, pursue goals, and handle conflict or challenges.",
+        "keywords": ["Action", "Energy", "Aggression", "Courage", "Sexuality", "Competition", "Drive", "Strength", "Physical energy", "Protection", "Leadership"]
     },
     "Jupiter": {
-        "description": "Expansion, wisdom, philosophy, religion, higher education, travel, optimism, generosity",
-        "keywords": ["Expansion", "Wisdom", "Philosophy", "Religion", "Education", "Travel", "Optimism", "Generosity"]
+        "description": "Expansion, wisdom, philosophy, religion, higher education, travel, optimism, generosity. Jupiter represents expansion, wisdom, and your quest for meaning. It governs higher learning, philosophy, travel, and your sense of optimism. Jupiter shows how you grow, learn, and find abundance in life.",
+        "keywords": ["Expansion", "Wisdom", "Philosophy", "Religion", "Education", "Travel", "Optimism", "Generosity", "Personal growth", "Abundance", "Higher learning"]
     },
     "Saturn": {
-        "description": "Discipline, responsibility, limitations, structure, authority, time, karma, lessons",
-        "keywords": ["Discipline", "Responsibility", "Limitations", "Structure", "Authority", "Time", "Karma", "Lessons"]
+        "description": "Discipline, responsibility, limitations, structure, authority, time, karma, lessons. Saturn represents structure, responsibility, and the lessons you must learn. It governs discipline, authority figures, and the areas where you face challenges. Saturn shows where you need to work hard and build lasting foundations.",
+        "keywords": ["Discipline", "Responsibility", "Limitations", "Structure", "Authority", "Time", "Karma", "Lessons", "Structure", "Authority", "Time"]
     },
     "Uranus": {
-        "description": "Innovation, rebellion, independence, sudden change, technology, originality, freedom",
-        "keywords": ["Innovation", "Rebellion", "Independence", "Change", "Technology", "Originality", "Freedom", "Revolution"]
+        "description": "Innovation, rebellion, independence, sudden change, technology, originality, freedom. Uranus represents innovation, freedom, and sudden change. It governs your unique individuality, revolutionary ideas, and connection to collective consciousness. Uranus brings unexpected breakthroughs and liberates you from limitations.",
+        "keywords": ["Innovation", "Rebellion", "Independence", "Change", "Technology", "Originality", "Freedom", "Revolution", "Individuality", "Awakening", "Visionary abilities"]
     },
     "Neptune": {
-        "description": "Spirituality, dreams, illusions, compassion, idealism, confusion, inspiration, mysticism",
-        "keywords": ["Spirituality", "Dreams", "Illusions", "Compassion", "Idealism", "Confusion", "Inspiration", "Mysticism"]
+        "description": "Spirituality, dreams, illusions, compassion, idealism, confusion, inspiration, mysticism. Neptune represents spirituality, inspiration, and the dissolution of boundaries. It governs your connection to the divine, artistic inspiration, and your capacity for compassion. Neptune can bring both transcendence and confusion.",
+        "keywords": ["Spirituality", "Dreams", "Illusions", "Compassion", "Idealism", "Confusion", "Inspiration", "Mysticism", "Artistic expression", "Healing abilities", "Intuition"]
     },
     "Pluto": {
-        "description": "Transformation, power, death, rebirth, psychology, control, intensity, regeneration",
-        "keywords": ["Transformation", "Power", "Death", "Rebirth", "Psychology", "Control", "Intensity", "Regeneration"]
+        "description": "Transformation, power, death, rebirth, psychology, control, intensity, regeneration. Pluto represents deep transformation, power dynamics, and psychological evolution. It governs death and rebirth, shared resources, and your capacity for profound change. Pluto brings intense experiences that force you to confront your deepest fears and desires.",
+        "keywords": ["Transformation", "Power", "Death", "Rebirth", "Psychology", "Control", "Intensity", "Regeneration", "Psychological insight", "Resilience", "Deep understanding"]
     },
     "Node": {
-        "description": "Karmic path, soul purpose, destiny, life lessons, spiritual growth, past and future connections",
-        "keywords": ["Karma", "Destiny", "Soul Purpose", "Life Lessons", "Spiritual Growth", "Past Life", "Future Path"]
+        "description": "Karmic path, soul purpose, destiny, life lessons, spiritual growth, past and future connections. The North Node represents your soul's evolutionary path and the qualities you're developing in this lifetime. It shows your destiny and the direction of your spiritual growth.",
+        "keywords": ["Karma", "Destiny", "Soul Purpose", "Life Lessons", "Spiritual Growth", "Past Life", "Future Path", "Evolution", "Soul development", "Life direction"]
     },
     "Lilith": {
-        "description": "Dark feminine energy, independence, rebellion, sexuality, hidden desires, primal instincts",
-        "keywords": ["Dark Feminine", "Independence", "Rebellion", "Sexuality", "Hidden Desires", "Primal Energy", "Taboo"]
+        "description": "Dark feminine energy, independence, rebellion, sexuality, hidden desires, primal instincts. Lilith represents your dark feminine energy, primal instincts, and the parts of yourself that society may have suppressed. It shows your authentic power and what you refuse to compromise.",
+        "keywords": ["Dark Feminine", "Independence", "Rebellion", "Sexuality", "Hidden Desires", "Primal Energy", "Taboo", "Authentic power", "Uncompromising", "Primal instincts"]
     },
     "Chiron": {
-        "description": "Wounded healer, deep wounds, healing abilities, mentorship, wisdom through pain, spiritual teaching",
-        "keywords": ["Wounded Healer", "Deep Wounds", "Healing", "Mentorship", "Wisdom", "Pain", "Teaching"]
+        "description": "Wounded healer, deep wounds, healing abilities, mentorship, wisdom through pain, spiritual teaching. Chiron represents your deepest wound and your greatest gift. It shows where you've experienced pain and how you can help others heal through your own healing journey.",
+        "keywords": ["Wounded Healer", "Deep Wounds", "Healing", "Mentorship", "Wisdom", "Pain", "Teaching", "Healing abilities", "Compassion", "Spiritual teaching"]
     },
     "Fortune": {
-        "description": "Luck, prosperity, abundance, life purpose, material success, fortunate circumstances",
-        "keywords": ["Luck", "Prosperity", "Abundance", "Life Purpose", "Material Success", "Fortunate", "Opportunity"]
+        "description": "Luck, prosperity, abundance, life purpose, material success, fortunate circumstances. The Part of Fortune represents where you find luck, abundance, and fulfillment in life. It shows the areas where you naturally thrive and find success.",
+        "keywords": ["Luck", "Prosperity", "Abundance", "Life Purpose", "Material Success", "Fortunate", "Opportunity", "Fulfillment", "Natural talents", "Success areas"]
     },
     "Vertex": {
-        "description": "Fated encounters, destiny points, significant relationships, karmic connections, life-changing meetings",
-        "keywords": ["Fated Encounters", "Destiny Points", "Relationships", "Karmic Connections", "Life Changes", "Significant Others"]
+        "description": "Fated encounters, destiny points, significant relationships, karmic connections, life-changing meetings. The Vertex represents fated encounters and significant relationships that are destined to occur. It shows karmic connections and life-changing meetings.",
+        "keywords": ["Fated Encounters", "Destiny Points", "Relationships", "Karmic Connections", "Life Changes", "Significant Others", "Fate", "Destined meetings", "Karmic relationships"]
     },
     "ASC": {
-        "description": "Ascendant, rising sign, first impressions, physical appearance, approach to life, outer personality",
-        "keywords": ["Ascendant", "Rising Sign", "First Impressions", "Appearance", "Approach", "Outer Self"]
+        "description": "Ascendant, rising sign, first impressions, physical appearance, approach to life, outer personality. The Ascendant represents your outer personality, how you present yourself to the world, and your physical appearance. It's often called your 'rising sign' and represents your first impression on others.",
+        "keywords": ["Ascendant", "Rising Sign", "First Impressions", "Appearance", "Approach", "Outer Self", "Physical presentation", "Personality mask", "Life approach"]
     },
     "MC": {
-        "description": "Midheaven, career, public image, life goals, reputation, authority, highest aspirations",
-        "keywords": ["Midheaven", "Career", "Public Image", "Life Goals", "Reputation", "Authority", "Aspirations"]
+        "description": "Midheaven, career, public image, life goals, reputation, authority, highest aspirations. The Midheaven represents your career path, public reputation, and life goals. It shows your ambitions, achievements, and how you want to be seen by the world.",
+        "keywords": ["Midheaven", "Career", "Public Image", "Life Goals", "Reputation", "Authority", "Aspirations", "Professional calling", "Public achievement", "Life direction"]
     },
     "DSC": {
-        "description": "Descendant, partnerships, relationships, open enemies, what we seek in others, balance",
-        "keywords": ["Descendant", "Partnerships", "Relationships", "Enemies", "Balance", "Others", "Complement"]
+        "description": "Descendant, partnerships, relationships, open enemies, what we seek in others, balance. The Descendant represents your relationships, partnerships, and what you seek in others. It shows the qualities you're attracted to in partners and the type of people you form close relationships with.",
+        "keywords": ["Descendant", "Partnerships", "Relationships", "Enemies", "Balance", "Others", "Complement", "Relationship needs", "Partner qualities", "Relationship dynamics"]
     },
     "IC": {
-        "description": "Imum Coeli, home, family, roots, private life, emotional foundation, innermost self",
-        "keywords": ["Imum Coeli", "Home", "Family", "Roots", "Private Life", "Foundation", "Innermost Self"]
+        "description": "Imum Coeli, home, family, roots, private life, emotional foundation, innermost self. The Imum Coeli represents your home, family, roots, and private life. It shows your deepest emotional needs, your relationship with family, and your sense of security.",
+        "keywords": ["Imum Coeli", "Home", "Family", "Roots", "Private Life", "Foundation", "Innermost Self", "Emotional foundation", "Family connections", "Private world"]
     }
 }
 

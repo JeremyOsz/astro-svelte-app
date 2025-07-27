@@ -25,13 +25,19 @@
   $: filteredPlanets = PLANETS_DATA.filter(planet => 
     planet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     planet.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    planet.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
+    planet.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    planet.themes.some(theme => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    planet.challenges.some(challenge => challenge.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    planet.strengths.some(strength => strength.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   $: filteredSigns = SIGNS_DATA.filter(sign => 
     sign.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     sign.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    sign.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
+    sign.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    sign.themes.some(theme => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    sign.challenges.some(challenge => challenge.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    sign.strengths.some(strength => strength.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   $: filteredHouses = HOUSES_DATA.filter(house => 
@@ -159,12 +165,62 @@
           </CardHeader>
           <CardContent class="space-y-4">
             <p class="text-gray-600 leading-relaxed">{planet.description}</p>
-            <div class="flex flex-wrap gap-1">
-              {#each planet.keywords as keyword}
-                <Badge variant="secondary" class="text-xs">
-                  {keyword}
-                </Badge>
-              {/each}
+            
+            <!-- Themes -->
+            {#if planet.themes && planet.themes.length > 0}
+              <div>
+                <h4 class="font-medium text-gray-900 mb-2">Themes</h4>
+                <div class="flex flex-wrap gap-1">
+                  {#each planet.themes as theme}
+                    <Badge variant="secondary" class="text-xs bg-blue-100 text-blue-800">
+                      {theme}
+                    </Badge>
+                  {/each}
+                </div>
+              </div>
+            {/if}
+
+            <!-- Keywords -->
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">Keywords</h4>
+              <div class="flex flex-wrap gap-1">
+                {#each planet.keywords as keyword}
+                  <Badge variant="secondary" class="text-xs">
+                    {keyword}
+                  </Badge>
+                {/each}
+              </div>
+            </div>
+
+            <!-- Strengths and Challenges -->
+            <div class="grid grid-cols-1 gap-3">
+              {#if planet.strengths && planet.strengths.length > 0}
+                <div class="bg-green-50 rounded-lg p-3">
+                  <h4 class="font-semibold text-green-800 mb-2 text-sm">Strengths</h4>
+                  <ul class="text-sm text-green-700 space-y-1">
+                    {#each planet.strengths as strength}
+                      <li class="flex items-start gap-2">
+                        <span class="text-green-600 mt-1">•</span>
+                        <span>{strength}</span>
+                      </li>
+                    {/each}
+                  </ul>
+                </div>
+              {/if}
+
+              {#if planet.challenges && planet.challenges.length > 0}
+                <div class="bg-orange-50 rounded-lg p-3">
+                  <h4 class="font-semibold text-orange-800 mb-2 text-sm">Challenges</h4>
+                  <ul class="text-sm text-orange-700 space-y-1">
+                    {#each planet.challenges as challenge}
+                      <li class="flex items-start gap-2">
+                        <span class="text-orange-600 mt-1">•</span>
+                        <span>{challenge}</span>
+                      </li>
+                    {/each}
+                  </ul>
+                </div>
+              {/if}
             </div>
           </CardContent>
         </Card>
@@ -198,12 +254,62 @@
               </Badge>
             </div>
             <p class="text-gray-600 leading-relaxed">{sign.description}</p>
-            <div class="flex flex-wrap gap-1">
-              {#each sign.keywords as keyword}
-                <Badge variant="secondary" class="text-xs">
-                  {keyword}
-                </Badge>
-              {/each}
+            
+            <!-- Themes -->
+            {#if sign.themes && sign.themes.length > 0}
+              <div>
+                <h4 class="font-medium text-gray-900 mb-2">Themes</h4>
+                <div class="flex flex-wrap gap-1">
+                  {#each sign.themes as theme}
+                    <Badge variant="secondary" class="text-xs bg-purple-100 text-purple-800">
+                      {theme}
+                    </Badge>
+                  {/each}
+                </div>
+              </div>
+            {/if}
+
+            <!-- Keywords -->
+            <div>
+              <h4 class="font-medium text-gray-900 mb-2">Keywords</h4>
+              <div class="flex flex-wrap gap-1">
+                {#each sign.keywords as keyword}
+                  <Badge variant="secondary" class="text-xs">
+                    {keyword}
+                  </Badge>
+                {/each}
+              </div>
+            </div>
+
+            <!-- Strengths and Challenges -->
+            <div class="grid grid-cols-1 gap-3">
+              {#if sign.strengths && sign.strengths.length > 0}
+                <div class="bg-green-50 rounded-lg p-3">
+                  <h4 class="font-semibold text-green-800 mb-2 text-sm">Strengths</h4>
+                  <ul class="text-sm text-green-700 space-y-1">
+                    {#each sign.strengths as strength}
+                      <li class="flex items-start gap-2">
+                        <span class="text-green-600 mt-1">•</span>
+                        <span>{strength}</span>
+                      </li>
+                    {/each}
+                  </ul>
+                </div>
+              {/if}
+
+              {#if sign.challenges && sign.challenges.length > 0}
+                <div class="bg-orange-50 rounded-lg p-3">
+                  <h4 class="font-semibold text-orange-800 mb-2 text-sm">Challenges</h4>
+                  <ul class="text-sm text-orange-700 space-y-1">
+                    {#each sign.challenges as challenge}
+                      <li class="flex items-start gap-2">
+                        <span class="text-orange-600 mt-1">•</span>
+                        <span>{challenge}</span>
+                      </li>
+                    {/each}
+                  </ul>
+                </div>
+              {/if}
             </div>
           </CardContent>
         </Card>
