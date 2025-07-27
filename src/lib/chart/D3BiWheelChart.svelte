@@ -437,13 +437,23 @@
     // Assign houses to planets if not already assigned by API
     parsedData.forEach((planet: PlanetData) => {
       if ((planet as any).house === undefined) {
+        // For transit data, use natal house cusps for house calculations
+        let houseCuspsToUse = houseCusps;
+        if (target === 'transit') {
+          const natalState = get(chartState);
+          if (natalState.houseCusps && natalState.houseCusps.length > 0) {
+            houseCuspsToUse = natalState.houseCusps;
+            console.log(`D3Chart: Using natal house cusps for transit planet ${planet.planet}`);
+          }
+        }
+        
         // Calculate house based on house cusps
         const planetAngle = planet.angle;
         let houseNumber = 1;
         
-        for (let i = 0; i < houseCusps.length; i++) {
-          const cusp1 = houseCusps[i];
-          const cusp2 = houseCusps[(i + 1) % 12];
+        for (let i = 0; i < houseCuspsToUse.length; i++) {
+          const cusp1 = houseCuspsToUse[i];
+          const cusp2 = houseCuspsToUse[(i + 1) % 12];
           const angle1 = cusp1.angle;
           let angle2 = cusp2.angle;
 
@@ -464,7 +474,7 @@
         }
         
         (planet as any).house = houseNumber;
-        console.log(`D3Chart: Calculated house for ${planet.planet}: ${houseNumber}`);
+        console.log(`D3Chart: Calculated house for ${planet.planet}: ${houseNumber} (using ${target === 'transit' ? 'natal' : 'own'} house cusps)`);
       }
     });
 

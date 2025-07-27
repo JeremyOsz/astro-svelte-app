@@ -60,7 +60,7 @@ export const actions = {
         }
       );
 
-      const transitChartData = convertTransitDataToCSV(currentTransits);
+      const transitChartData = convertTransitDataToCSV(currentTransits, natalChart);
       
       return {
         success: true,

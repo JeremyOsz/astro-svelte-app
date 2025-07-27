@@ -25,22 +25,64 @@ export interface NatalChart {
   longitude: number;
 }
 
+// Calculate house for a planet based on house cusps
+function calculateHouseForPlanet(planetLongitude: number, houseCusps: number[]): number {
+  if (!houseCusps || houseCusps.length === 0) return 1;
+  
+  // Normalize longitude to 0-360
+  const normalizedLongitude = ((planetLongitude % 360) + 360) % 360;
+  
+  for (let i = 0; i < houseCusps.length; i++) {
+    const currentCusp = ((houseCusps[i] % 360) + 360) % 360;
+    const nextCusp = ((houseCusps[(i + 1) % houseCusps.length] % 360) + 360) % 360;
+    
+    let cuspStart = currentCusp;
+    let cuspEnd = nextCusp;
+    
+    // Handle wrap-around for the 12th house to 1st house transition
+    if (cuspEnd <= cuspStart) {
+      cuspEnd += 360;
+    }
+    
+    let testLongitude = normalizedLongitude;
+    if (testLongitude < cuspStart) {
+      testLongitude += 360;
+    }
+    
+    if (testLongitude >= cuspStart && testLongitude < cuspEnd) {
+      return i + 1;
+    }
+  }
+  
+  return 1; // Default to house 1 if no match found
+}
+
 // Convert transit data to CSV format for BiWheelChart
-export function convertTransitDataToCSV(transitData: any): string {
+export function convertTransitDataToCSV(transitData: any, natalChart?: any): string {
   if (!transitData || !transitData.planets) {
     console.log('No transit data or planets to convert');
     return '';
   }
   
   console.log('Converting transit data to CSV:', transitData);
+  console.log('Natal chart for house calculations:', natalChart);
   
   const lines: string[] = [];
   
-  // Add house cusps if available
-  if (transitData.houses && transitData.houses.length > 0) {
-    const houseCusps = transitData.houses.map((house: any) => house.longitude).join(',');
-    lines.push(`#HOUSES:${houseCusps}`);
-    console.log('Added house cusps:', houseCusps);
+  // Add house cusps if available (use natal chart house cusps for transit calculations)
+  let houseCusps: number[] = [];
+  if (natalChart && natalChart.houses && natalChart.houses.length > 0) {
+    // Use natal chart house cusps for transit house calculations
+    houseCusps = natalChart.houses.map((house: any) => house.longitude);
+    const houseCuspsStr = houseCusps.join(',');
+    lines.push(`#HOUSES:${houseCuspsStr}`);
+    console.log('Added natal house cusps for transit calculations:', houseCuspsStr);
+  } else if (transitData.houses && transitData.houses.length > 0) {
+    // Fallback to transit chart house cusps if natal not available
+    houseCusps = transitData.houses.map((house: any) => house.longitude);
+    const houseCuspsStr = houseCusps.join(',');
+    lines.push(`#HOUSES:${houseCuspsStr}`);
+    console.log('Added transit house cusps:', houseCuspsStr);
   }
   
   // Add ASC if available
@@ -71,8 +113,19 @@ export function convertTransitDataToCSV(transitData: any): string {
       minute = 0;
     }
     
+    // Calculate house for transit planet using natal chart house cusps
+    let houseNumber = 1;
+    if (planet.longitude !== undefined && houseCusps.length > 0) {
+      houseNumber = calculateHouseForPlanet(planet.longitude, houseCusps);
+      console.log(`Calculated house for ${planet.name} at ${planet.longitude}°: House ${houseNumber}`);
+    } else if (planet.house) {
+      // Use existing house data if available
+      houseNumber = planet.house;
+      console.log(`Using existing house data for ${planet.name}: House ${houseNumber}`);
+    }
+    
     const retrograde = planet.retrograde ? ',R' : '';
-    const house = planet.house ? `,${planet.house}` : '';
+    const house = `,${houseNumber}`;
     
     let planetName = planet.name;
     if (planetName === 'Asc') planetName = 'ASC';
