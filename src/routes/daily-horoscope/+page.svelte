@@ -8,6 +8,7 @@
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import DailyHoroscopeDisplay from './DailyHoroscopeDisplay.svelte';
   import type { BirthChart } from '$lib/types/types';
+  import { enhance } from '$app/forms';
 
   // Chart selection
   let selectedBirthChart: BirthChart | null = null;
@@ -18,6 +19,7 @@
   // Date navigation
   let selectedDate = new Date().toISOString().split('T')[0];
   let currentHoroscope: any = null;
+  let formError: string = '';
 
   // Subscribe to chart store for saved charts
   $: ({ savedCharts } = $chartStore);
@@ -29,47 +31,22 @@
     }
   });
 
+  // Form handling will be done with enhance function
+
   async function handleChartSelect(chart: any) {
-    selectedBirthChart = chart;
-    natalChart = chart;
-    await generateHoroscope();
-  }
-
-  async function generateHoroscope() {
-    if (!natalChart) {
-      error = 'Please select a birth chart first';
-      return;
-    }
-
-    loading = true;
-    error = null;
-
-    try {
-      const response = await fetch('/api/daily-horoscope', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          natalChart,
-          date: selectedDate
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to generate horoscope');
-      }
-
-      currentHoroscope = data.dailyHoroscope;
-    } catch (err) {
-      error = err instanceof Error ? err.message : 'Failed to generate horoscope';
-      console.error('Error generating horoscope:', err);
-    } finally {
-      loading = false;
+    // Only update if the chart is different (compare by date and location)
+    const isSameChart = selectedBirthChart && 
+      selectedBirthChart.date?.toISOString() === chart?.date?.toISOString() &&
+      selectedBirthChart.latitude === chart?.latitude &&
+      selectedBirthChart.longitude === chart?.longitude;
+    
+    if (!isSameChart) {
+      selectedBirthChart = chart;
+      natalChart = chart;
     }
   }
+
+  // Form handling will be done with enhance function
 
   function navigateDate(direction: 'prev' | 'next') {
     const date = new Date(selectedDate);
@@ -79,17 +56,14 @@
       date.setDate(date.getDate() + 1);
     }
     selectedDate = date.toISOString().split('T')[0];
-    generateHoroscope();
   }
 
   function goToToday() {
     selectedDate = new Date().toISOString().split('T')[0];
-    generateHoroscope();
   }
 
-  $: if (natalChart && selectedDate) {
-    generateHoroscope();
-  }
+  // Remove the reactive statement that causes infinite loops
+  // Instead, we'll call generateHoroscope() explicitly when needed
 </script>
 
 <svelte:head>
@@ -128,49 +102,106 @@
       {/if}
     </div>
 
-    <!-- Date Navigation -->
+    <!-- Date Navigation and Form -->
     {#if natalChart}
-      <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-          <Calendar class="w-5 h-5" />
-          Date Selection
-        </h2>
-        
-        <div class="flex items-center justify-center gap-4">
-          <Button 
-            variant="outline" 
-            size="sm"
-            onclick={() => navigateDate('prev')}
-            class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
-          >
-            <ArrowLeft class="w-4 h-4" />
-          </Button>
+      <form 
+        method="POST" 
+        action="?/generateHoroscope"
+        use:enhance={({ cancel }) => {
+          // Client-side validation
+          if (!natalChart) {
+            formError = 'Please select a birth chart first';
+            cancel();
+            return;
+          }
           
-          <div class="flex items-center gap-2">
-            <Input
-              type="date"
-              bind:value={selectedDate}
-              class="w-auto text-center bg-white/10 border-white/20 text-white"
-            />
+          if (!selectedDate) {
+            formError = 'Please select a date';
+            cancel();
+            return;
+          }
+          
+          formError = '';
+          loading = true;
+          error = null;
+          
+          return async ({ result }) => {
+            console.log('Enhance result:', result);
+            loading = false;
+            
+            if (result.type === 'failure') {
+              error = (result.data?.error as string) || 'An error occurred';
+            } else if (result.type === 'success' && result.data) {
+              console.log('Success result data:', result.data);
+              currentHoroscope = result.data.dailyHoroscope;
+            }
+          };
+        }}
+      >
+        <input type="hidden" name="natalChart" value={JSON.stringify(natalChart)} />
+        <input type="hidden" name="date" value={selectedDate} />
+        
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-8">
+          <h2 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <Calendar class="w-5 h-5" />
+            Date Selection
+          </h2>
+          
+          <div class="flex items-center justify-center gap-4">
             <Button 
+              type="button"
               variant="outline" 
               size="sm"
-              onclick={goToToday}
+              onclick={() => navigateDate('prev')}
               class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
             >
-              Today
+              <ArrowLeft class="w-4 h-4" />
+            </Button>
+            
+            <div class="flex items-center gap-2">
+              <Input
+                type="date"
+                value={selectedDate}
+                onchange={(e) => {
+                  selectedDate = (e.target as HTMLInputElement).value;
+                }}
+                class="w-auto text-center bg-white/10 border-white/20 text-white"
+              />
+              <Button 
+                type="button"
+                variant="outline" 
+                size="sm"
+                onclick={goToToday}
+                class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
+              >
+                Today
+              </Button>
+            </div>
+            
+            <Button 
+              type="button"
+              variant="outline" 
+              size="sm"
+              onclick={() => navigateDate('next')}
+              class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
+            >
+              <ArrowRight class="w-4 h-4" />
             </Button>
           </div>
           
-          <Button 
-            variant="outline" 
-            size="sm"
-            onclick={() => navigateDate('next')}
-            class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
-          >
-            <ArrowRight class="w-4 h-4" />
-          </Button>
+          <div class="text-center mt-4">
+            <Button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-medium">
+              Generate Horoscope
+            </Button>
+          </div>
         </div>
+      </form>
+    {/if}
+
+    <!-- Error Messages -->
+    {#if formError}
+      <div class="bg-red-500/20 backdrop-blur-sm rounded-lg p-6 mb-8 text-center">
+        <p class="text-red-300 text-lg">{formError}</p>
       </div>
     {/if}
 
@@ -183,10 +214,14 @@
     {:else if error}
       <div class="bg-red-500/20 backdrop-blur-sm rounded-lg p-6 text-center">
         <p class="text-red-300 text-lg mb-4">{error}</p>
-        <Button onclick={generateHoroscope} class="bg-red-600 hover:bg-red-700 text-white font-medium">
-          <RefreshCw class="w-4 h-4 mr-2" />
-          Try Again
-        </Button>
+        <form method="POST" action="?/generateHoroscope" use:enhance>
+          <input type="hidden" name="natalChart" value={JSON.stringify(natalChart)} />
+          <input type="hidden" name="date" value={selectedDate} />
+          <Button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium">
+            <RefreshCw class="w-4 h-4 mr-2" />
+            Try Again
+          </Button>
+        </form>
       </div>
     {:else if currentHoroscope}
       <!-- Daily Horoscope Display -->
