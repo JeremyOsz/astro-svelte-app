@@ -929,7 +929,7 @@
         .attr('dominant-baseline', 'middle')
         .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
         .attr('font-size', isMobile ? 16 : 28)
-        .attr('fill', isInner ? (p.isRetrograde ? '#e53935' : '#333') : (p.isRetrograde ? '#e57373' : '#555'))
+        .attr('fill', isInner ? (p.isRetrograde ? '#e53935' : '#333') : (p.isRetrograde ? '#ff8c42' : '#ff9500'))
         .style('pointer-events', 'none'); // Pass events to the hover area
         
 
@@ -975,18 +975,19 @@
             .attr('y', 4)
             .attr('font-size', 9);
           
-          labelText.append('tspan').text(`${p.degree}°`);
+                      labelText.append('tspan').style('fill', '#888').text(`${p.degree}°`);
           labelText.append('tspan').style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif").style('fill', zodiacColors[p.sign]).text(zodiacSymbols[p.sign]);
           if (p.isRetrograde) {
-            labelText.append('tspan').text('Rx');
+            labelText.append('tspan').style('fill', isInner ? '#e53935' : '#ff8c42').text('Rx');
           }
         } else {
           labelGroup.append('text')
             .attr('class', 'planet-label-degree')
             .attr('text-anchor', 'middle')
             .attr('y', -8)
-            .style('font-size', '12px')
-            .style('font-weight', 'bold')
+            .style('font-size', '10px')
+            .style('font-weight', 'normal')
+            .style('fill', '#888')
             .text(p.degree);
 
           labelGroup.append('text')
@@ -994,7 +995,7 @@
             .attr('text-anchor', 'middle')
             .attr('y', 5)
             .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
-            .style('font-size', '10px')
+            .style('font-size', '9px')
             .style('fill', zodiacColors[p.sign])
             .text(zodiacSymbols[p.sign]);
 
@@ -1002,7 +1003,8 @@
             .attr('class', 'planet-label-minute')
             .attr('text-anchor', 'middle')
             .attr('y', 20)
-            .style('font-size', '11px')
+            .style('font-size', '9px')
+            .style('fill', '#aaa')
             .text(p.minute.toString().padStart(2, '0'));
           
           if (p.isRetrograde) {
@@ -1011,7 +1013,7 @@
               .attr('x', 0)
               .attr('y', 34)
               .style('font-size', '10px')
-              .style('fill', '#e53935')
+              .style('fill', isInner ? '#e53935' : '#ff8c42')
               .text('Rx');
           }
         }
