@@ -34,7 +34,7 @@
 - Synastry
 - Kabbalah
 - Rituals and meditations
-- tarot layouts
+- ~tarot layouts~
 
 # Optimisations
 

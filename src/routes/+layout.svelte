@@ -36,6 +36,11 @@
       title: "Tarot Cards",
       href: "/tarot",
       description: "Explore all 78 tarot cards and their meanings"
+    },
+    {
+      title: "Tarot Layouts",
+      href: "/tarot-layouts",
+      description: "Discover tarot spreads and reading layouts"
     }
   ];
 </script>
@@ -155,6 +160,7 @@
                   <h3 class="font-semibold text-purple-600 mb-3 text-sm uppercase tracking-wide border-b border-gray-200 pb-2">Tarot</h3>
                   <div class="space-y-2">
                     <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Tarot Cards</a>
+                    <a href="/tarot-layouts" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Tarot Layouts</a>
                   </div>
                 </div>
               </nav>
