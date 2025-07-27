@@ -138,7 +138,12 @@
 
   // Convert transit data to CSV format for BiWheelChart
   function convertTransitDataToCSV(transitData: any): string {
-    if (!transitData || !transitData.planets) return '';
+    if (!transitData || !transitData.planets) {
+      console.log('No transit data or planets to convert');
+      return '';
+    }
+    
+    console.log('Converting transit data to CSV:', transitData);
     
     const lines: string[] = [];
     
@@ -146,10 +151,13 @@
     if (transitData.houses && transitData.houses.length > 0) {
       const houseCusps = transitData.houses.map((house: any) => house.longitude).join(',');
       lines.push(`#HOUSES:${houseCusps}`);
+      console.log('Added house cusps:', houseCusps);
     }
     
     // Add planets
     transitData.planets.forEach((planet: any) => {
+      console.log('Processing planet:', planet);
+      
       let degree: number, minute: number;
       
       if (typeof planet.degree === 'number') {
@@ -173,10 +181,14 @@
       if (planetName === 'Dsc') planetName = 'DSC';
       if (planetName === 'Ic') planetName = 'IC';
       
-      lines.push(`${planetName},${planet.sign},${degree}°${minute.toString().padStart(2, '0')}'${house}${retrograde}`);
+      const line = `${planetName},${planet.sign},${degree}°${minute.toString().padStart(2, '0')}'${house}${retrograde}`;
+      lines.push(line);
+      console.log('Added planet line:', line);
     });
     
-    return lines.join('\n');
+    const result = lines.join('\n');
+    console.log('Final CSV result:', result);
+    return result;
   }
 
   async function calculateTransits() {
@@ -208,6 +220,8 @@
       await new Promise(resolve => setTimeout(resolve, 100));
       
       if ($chartStore.chartData) {
+        console.log('Chart data from store:', $chartStore.chartData);
+        
         natalChart = {
           planets: [],
           houses: [],
@@ -220,6 +234,8 @@
         
         // Parse the chart data string to extract planet positions
         const lines = $chartStore.chartData.split('\n');
+        console.log('Parsing chart lines:', lines);
+        
         lines.forEach(line => {
           const [name, sign, degree] = line.split(',');
           if (name && sign && degree) {
@@ -244,6 +260,8 @@
             }
           }
         });
+        
+        console.log('Parsed natal chart planets:', natalChart.planets);
 
         // Calculate ascendant and default houses using Whole Sign
         const asc = natalChart.planets.find((p: any) => p.name === 'ASC' || p.name === 'Asc');
@@ -288,7 +306,9 @@
       }
 
       currentTransits = await response.json();
+      console.log('Transit data received:', currentTransits);
       transitChartData = convertTransitDataToCSV(currentTransits);
+      console.log('Converted CSV data:', transitChartData);
       
       // Small delay to ensure DOM is ready
       setTimeout(() => {
