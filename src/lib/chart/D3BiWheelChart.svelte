@@ -427,7 +427,7 @@
     if (!get(chartSettings).showExtendedPlanets) {
       planetsToDraw = planetsToDraw.filter(p => !extendedPlanetNames.includes(p.planet));
     }
-    calculateVisualDegrees(planetsToDraw, parsedData, true); // true for natal data
+    calculateVisualDegrees(planetsToDraw, parsedData, target === 'transit'); // false for natal, true for transit
 
     // Calculate aspects
     const aspects = calculateAspects(parsedData);
@@ -457,12 +457,45 @@
         const minAngle = Math.min(angleDiff, angleDiff2);
         
         for (const [aspectName, aspectDef] of Object.entries(aspectDefs)) {
-          if (Math.abs(minAngle - aspectDef.angle) <= aspectDef.orb) {
+          const orb = Math.abs(minAngle - aspectDef.angle);
+          if (orb <= aspectDef.orb && orb < 3) {
             aspects.push({
               planet1: planet1.planet,
               planet2: planet2.planet,
               aspect: aspectName,
-              orb: Math.abs(minAngle - aspectDef.angle),
+              orb: orb,
+              color: aspectDef.color,
+              weight: aspectDef.weight,
+              style: aspectDef.style
+            });
+          }
+        }
+      }
+    }
+    
+    return aspects;
+  }
+
+  function calculateTransitToNatalAspects(natalPlanets: PlanetData[], transitPlanets: PlanetData[]) {
+    const aspects = [];
+    const natalCorePlanets = natalPlanets.filter(p => coreAspectBodies.includes(p.planet));
+    const transitCorePlanets = transitPlanets.filter(p => coreAspectBodies.includes(p.planet));
+    
+    // Calculate aspects from transit planets TO natal planets
+    for (const transitPlanet of transitCorePlanets) {
+      for (const natalPlanet of natalCorePlanets) {
+        const angleDiff = Math.abs(transitPlanet.angle - natalPlanet.angle);
+        const angleDiff2 = Math.abs(360 - angleDiff);
+        const minAngle = Math.min(angleDiff, angleDiff2);
+        
+        for (const [aspectName, aspectDef] of Object.entries(aspectDefs)) {
+          const orb = Math.abs(minAngle - aspectDef.angle);
+          if (orb <= aspectDef.orb && orb < 3) {
+            aspects.push({
+              planet1: transitPlanet.planet, // Transit planet (FROM)
+              planet2: natalPlanet.planet,   // Natal planet (TO)
+              aspect: aspectName,
+              orb: orb,
               color: aspectDef.color,
               weight: aspectDef.weight,
               style: aspectDef.style
@@ -522,9 +555,6 @@
     // ---- INNER (NATAL) WHEEL ----
     drawZodiacWheel(g, house1CuspAngle, true);
     drawHouseLinesAndNumbers(g, house1CuspAngle, true);
-    if (showAspectLines) {
-      drawAspects(g, house1CuspAngle, true);
-    }
     drawPlanets(g, house1CuspAngle, true);
 
     // ---- OUTER (TRANSIT) WHEEL (draw only if data present) ----
@@ -536,12 +566,16 @@
     if (trans.data.length) {
       console.log('D3BiWheel: Drawing outer transit wheel');
       drawZodiacWheel(g, house1CuspAngle, false);
+      drawPlanets(g, house1CuspAngle, false);
+      
+      // Draw transit-to-natal aspects (only when we have transit data)
       if (showAspectLines) {
+        console.log('D3BiWheel: Drawing transit-to-natal aspects');
         drawAspects(g, house1CuspAngle, false);
       }
-      drawPlanets(g, house1CuspAngle, false);
     } else {
       console.log('D3BiWheel: No transit data to draw');
+      // No aspects to draw when there's no transit data
     }
     
     setupZoom(); // Re-setup zoom for the new SVG
@@ -785,7 +819,18 @@
 
   function drawAspects(g: d3.Selection<SVGGElement, unknown, null, undefined>, house1CuspAngle: number, isInner: boolean) {
     const { data, isMobile } = get(chartState);
-    const aspects = isInner ? get(chartState).aspects : get(transitState).aspects;
+    const transitData = get(transitState).data;
+    
+    // For natal aspects, use the regular aspects within natal data
+    // For transit aspects, we need to calculate transit-to-natal aspects
+    let aspects: Aspect[];
+    if (isInner) {
+      aspects = get(chartState).aspects;
+    } else {
+      // Calculate transit-to-natal aspects
+      aspects = calculateTransitToNatalAspects(data, transitData);
+    }
+    
     const aspectHubRadius = getRadius('aspectHubRadius', isInner);
 
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
@@ -806,8 +851,18 @@
       .attr('stroke', '#eee');
 
     aspects.forEach((aspect: Aspect) => {
-      const planet1 = data.find((p: PlanetData) => p.planet === aspect.planet1);
-      const planet2 = data.find((p: PlanetData) => p.planet === aspect.planet2);
+      let planet1, planet2;
+      
+      if (isInner) {
+        // Natal aspects: both planets are in natal data
+        planet1 = data.find((p: PlanetData) => p.planet === aspect.planet1);
+        planet2 = data.find((p: PlanetData) => p.planet === aspect.planet2);
+      } else {
+        // Transit-to-natal aspects: planet1 is transit, planet2 is natal
+        planet1 = transitData.find((p: PlanetData) => p.planet === aspect.planet1);
+        planet2 = data.find((p: PlanetData) => p.planet === aspect.planet2);
+      }
+      
       if (!planet1 || !planet2) return;
 
       const adjustedAngle1 = planet1.visualDegree - zodiacOffset;
@@ -815,26 +870,38 @@
       const angle1 = (180 - adjustedAngle1) * Math.PI / 180;
       const angle2 = (180 - adjustedAngle2) * Math.PI / 180;
       
+      // For transit aspects, we draw within the transit aspect hub radius
+      // but the line represents the connection between transit and natal planets
+      let radius1, radius2;
+      if (isInner) {
+        // Natal aspects: both planets use natal radius
+        radius1 = radius2 = aspectHubRadius;
+      } else {
+        // Transit aspects: both points within transit aspect hub radius
+        // but planet1 is transit, planet2 is natal (logically)
+        radius1 = radius2 = aspectHubRadius;
+      }
+      
       const aspectGroup = g.append('g').attr('class', 'aspect-group');
 
       // Visible line for display
       aspectGroup.append('line')
-        .attr('x1', Math.cos(angle1) * aspectHubRadius)
-        .attr('y1', Math.sin(angle1) * aspectHubRadius)
-        .attr('x2', Math.cos(angle2) * aspectHubRadius)
-        .attr('y2', Math.sin(angle2) * aspectHubRadius)
+        .attr('x1', Math.cos(angle1) * radius1)
+        .attr('y1', Math.sin(angle1) * radius1)
+        .attr('x2', Math.cos(angle2) * radius2)
+        .attr('y2', Math.sin(angle2) * radius2)
         .attr('stroke', aspect.color)
         .attr('stroke-width', isMobile ? aspect.weight * 0.6 : aspect.weight)
-        .attr('stroke-dasharray', isInner ? (aspect.style === 'dotted' ? '1,3' : aspect.style === 'dashed' ? '4,4' : 'none') : '2,4')
+        .attr('stroke-dasharray', aspect.style === 'dotted' ? '1,3' : aspect.style === 'dashed' ? '4,4' : 'none')
         .style('pointer-events', 'none');
 
       // Invisible wider line for interaction
       aspectGroup.append('line')
         .attr('class', 'aspect-interaction-line')
-        .attr('x1', Math.cos(angle1) * aspectHubRadius)
-        .attr('y1', Math.sin(angle1) * aspectHubRadius)
-        .attr('x2', Math.cos(angle2) * aspectHubRadius)
-        .attr('y2', Math.sin(angle2) * aspectHubRadius)
+        .attr('x1', Math.cos(angle1) * radius1)
+        .attr('y1', Math.sin(angle1) * radius1)
+        .attr('x2', Math.cos(angle2) * radius2)
+        .attr('y2', Math.sin(angle2) * radius2)
         .attr('stroke', 'transparent')
         .attr('stroke-width', 15) // Wider for easier hovering
         .style('cursor', 'pointer')
@@ -881,7 +948,7 @@
     }
 
     // Calculate visual degrees for clustering (prevent overlap)
-    calculateVisualDegrees(planetsToDraw, data, isInner);
+    calculateVisualDegrees(planetsToDraw, data, !isInner); // true for transit, false for natal
 
     // Create planet groups with clustered positions
     planetsToDraw.forEach((p: PlanetData) => {
@@ -1039,13 +1106,13 @@
     return clusters;
   }
 
-  function calculateVisualDegrees(planetsToDraw: PlanetData[], allPlanets: PlanetData[], isInner: boolean) {
+  function calculateVisualDegrees(planetsToDraw: PlanetData[], allPlanets: PlanetData[], isTransit: boolean) {
     // Reset all visual degrees to their actual angle first
     allPlanets.forEach(p => {
       p.visualDegree = p.angle;
     });
 
-    const clusterSpread = isInner ? 4 : 8; // Wider spread for transit to prevent label overlap
+    const clusterSpread = isTransit ? 8 : 4; // Wider spread for transit to prevent label overlap
     let clusters = findClusters(planetsToDraw);
 
     clusters.forEach(cluster => {
