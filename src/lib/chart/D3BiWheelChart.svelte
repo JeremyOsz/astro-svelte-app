@@ -531,6 +531,7 @@
     const container = d3.select(chartContainer);
     console.log('D3Chart: Container selected:', container.node());
     container.html(''); // Clear previous chart
+    globalDefs = null; // Reset globalDefs when clearing chart
     console.log('D3Chart: Container cleared');
 
     const { chartSize } = get(chartDimensions);
@@ -658,11 +659,11 @@
       // Create a group for the sign and its hover area
       const signGroup = g.append('g');
       
-      // Add invisible hover area with smaller radius
+      // Add invisible hover area with larger radius for easier interaction
       signGroup.append('circle')
         .attr('cx', x)
         .attr('cy', y)
-        .attr('r', isMobile ? 8 : 12) // Smaller hover radius
+        .attr('r', isMobile ? 12 : 16) // Larger hover radius
         .attr('fill', 'transparent')
         .style('cursor', 'pointer')
         .on('mouseover', (!isMobile ? function(this: SVGCircleElement, event: MouseEvent) {
@@ -968,12 +969,12 @@
         planetRadius = transitOuterRadius + (isMobile ? 15 : 25);
       }
 
-      // Transparent circle for hover area (normal size)
+      // Transparent circle for hover area (larger for easier interaction)
       group.append('circle')
         .attr('class', 'planet-hover-area')
         .attr('cx', Math.cos(angleRad) * planetRadius)
         .attr('cy', Math.sin(angleRad) * planetRadius)
-        .attr('r', isMobile ? 8 : 15)
+        .attr('r', isMobile ? 12 : 20)
         .attr('fill', 'transparent')
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
