@@ -26,13 +26,15 @@
 - Add dark mode support
 - Fix chart legend positioning on mobile
 - Improve form validation styling and feedback
+- Convert tooltips to dialogues
+
 
 # Major features
-- Biwheel chart
+- ~Biwheel chart~
 - Synastry
 - Kabbalah
 - Rituals and meditations
-
+- tarot layouts
 
 # Optimisations
 
