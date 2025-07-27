@@ -20,6 +20,10 @@
     planetMeaning: string;
     planetInSign: string;
     signInHouse: string;
+    planetSymbol: string;
+    planetColor: string;
+    isRetrograde: boolean;
+    zodiacSymbol: string;
   };
 
   type AspectInterpretation = {
@@ -29,6 +33,13 @@
     nature: string;
     general: string;
     specific: string;
+    planet1Symbol: string;
+    planet2Symbol: string;
+    planet1Color: string;
+    planet2Color: string;
+    isTransitAspect: boolean;
+    aspectSymbol: string;
+    aspectColor: string;
   };
 
   type SignInterpretation = {
@@ -49,14 +60,55 @@
     const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
     const planetMeaning = (PLANET_INTERPRETATIONS as any)[planet]?.description || "";
 
+    // Planet symbols for display
+    const planetSymbols: Record<string, string> = {
+      "Sun": "☉", "Moon": "☽", "Mercury": "☿", "Venus": "♀", "Mars": "♂", "Jupiter": "♃",
+      "Saturn": "♄", "Uranus": "♅", "Neptune": "♆", "Pluto": "♇", "Node": "☊",
+      "Lilith": "⚸", "Chiron": "⚷", "Fortune": "⊗", "Vertex": "Vx"
+    };
+
+    // Zodiac symbols
+    const zodiacSymbols: Record<string, string> = {
+      "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍",
+      "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
+    };
+
+    // Transit planet colors
+    const transitColors: Record<string, string> = {
+      'Sun': '#ff6b35',
+      'Moon': '#4a90e2', 
+      'Mercury': '#8bc34a',
+      'Venus': '#ffc107',
+      'Mars': '#f44336',
+      'Jupiter': '#9c27b0',
+      'Saturn': '#607d8b',
+      'Uranus': '#00bcd4',
+      'Neptune': '#3f51b5',
+      'Pluto': '#795548',
+      'Node': '#ff9800',
+      'Chiron': '#e91e63',
+      'Lilith': '#9e9e9e',
+      'Fortune': '#4caf50',
+      'Vertex': '#673ab7'
+    };
+
+    const planetSymbol = planetSymbols[planet] || planet;
+    const zodiacSymbol = zodiacSymbols[sign] || sign;
+    const planetColor = isTransit ? (transitColors[planet] || '#ff9500') : '#333';
+    const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
+
     return {
-      title: `${planet} in ${sign} (House ${house})`,
+      title: `${planetSymbol} ${planet} in ${zodiacSymbol} ${sign} (House ${house})`,
       type: isTransit ? 'Transit Planet' : 'Natal Planet',
       typeColor: isTransit ? 'text-orange-600' : 'text-gray-800',
-      position: `${degree}°${minute.toString().padStart(2, '0')}' ${sign}${isRetrograde ? ' (Retrograde)' : ''}`,
+      position: `${degree}°${minute.toString().padStart(2, '0')}' ${zodiacSymbol} ${sign}${retrogradeText}`,
       planetMeaning,
       planetInSign,
-      signInHouse
+      signInHouse,
+      planetSymbol,
+      planetColor,
+      isRetrograde,
+      zodiacSymbol
     };
   }
 
@@ -69,13 +121,74 @@
     const generalInterpretation = interpretationParts[0] || '';
     const specificInterpretation = interpretationParts[1] || '';
 
+    // Planet symbols for display
+    const planetSymbols: Record<string, string> = {
+      "Sun": "☉", "Moon": "☽", "Mercury": "☿", "Venus": "♀", "Mars": "♂", "Jupiter": "♃",
+      "Saturn": "♄", "Uranus": "♅", "Neptune": "♆", "Pluto": "♇", "Node": "☊",
+      "Lilith": "⚸", "Chiron": "⚷", "Fortune": "⊗", "Vertex": "Vx"
+    };
+
+    // Aspect symbols
+    const aspectSymbols: Record<string, string> = {
+      'Conjunction': '☌',
+      'Opposition': '☍',
+      'Square': '□',
+      'Trine': '△',
+      'Sextile': '⚹',
+      'Quincunx': '⚻'
+    };
+
+    // Aspect colors
+    const aspectColors: Record<string, string> = {
+      'Conjunction': '#228B22',
+      'Opposition': '#FF0000',
+      'Square': '#FF0000',
+      'Trine': '#0000FF',
+      'Sextile': '#0000FF',
+      'Quincunx': '#B8860B'
+    };
+
+    // Transit planet colors
+    const transitColors: Record<string, string> = {
+      'Sun': '#ff6b35',
+      'Moon': '#4a90e2', 
+      'Mercury': '#8bc34a',
+      'Venus': '#ffc107',
+      'Mars': '#f44336',
+      'Jupiter': '#9c27b0',
+      'Saturn': '#607d8b',
+      'Uranus': '#00bcd4',
+      'Neptune': '#3f51b5',
+      'Pluto': '#795548',
+      'Node': '#ff9800',
+      'Chiron': '#e91e63',
+      'Lilith': '#9e9e9e',
+      'Fortune': '#4caf50',
+      'Vertex': '#673ab7'
+    };
+
+    const planet1Symbol = planetSymbols[planet1] || planet1;
+    const planet2Symbol = planetSymbols[planet2] || planet2;
+    const aspectSymbol = aspectSymbols[aspect] || aspect;
+    const aspectColor = aspectColors[aspect] || '#666';
+    // For transit aspects: planet1 is transit (orange), planet2 is natal (gray)
+    const planet1Color = isTransitAspect ? '#ff9500' : '#333';
+    const planet2Color = '#333'; // Natal planet is always gray
+
     return {
-      title: `${planet1} ${aspect} ${planet2}`,
+      title: `${planet1} ${aspect.toLowerCase()} ${planet2}`,
       type: isTransitAspect ? 'Transit Aspect' : 'Natal Aspect',
       orb: orb !== undefined ? `${orb.toFixed(2)}°` : aspectDataInfo?.orb || 'Unknown',
       nature: aspectDataInfo?.nature || 'Unknown',
       general: generalInterpretation,
-      specific: specificInterpretation
+      specific: specificInterpretation,
+      planet1Symbol,
+      planet2Symbol,
+      planet1Color,
+      planet2Color,
+      isTransitAspect,
+      aspectSymbol,
+      aspectColor
     };
   }
 
@@ -114,7 +227,33 @@
   <Dialog.Content class="max-w-3xl max-h-[90vh] overflow-y-auto">
     {#if elementData && interpretation}
       <Dialog.Header>
-        <Dialog.Title>{interpretation.title}</Dialog.Title>
+        {#if isAspectInterpretation(interpretation)}
+          <Dialog.Title>
+            <span style="color: {interpretation.planet1Color};">{elementData.planet1}</span>
+            <span class="text-gray-700"> {elementData.aspect.toLowerCase()} </span>
+            <span style="color: {interpretation.planet2Color};">{elementData.planet2}</span>
+            <span class="text-gray-500 ml-2">(</span>
+            <span class="font-symbols" style="color: {interpretation.planet1Color};">{interpretation.planet1Symbol}</span>
+            <span class="font-aspect ml-1" style="color: {interpretation.aspectColor};">{interpretation.aspectSymbol}</span>
+            <span class="font-symbols ml-1" style="color: {interpretation.planet2Color};">{interpretation.planet2Symbol}</span>
+            <span class="text-gray-500">)</span>
+          </Dialog.Title>
+        {:else if isPlanetInterpretation(interpretation)}
+          <Dialog.Title>
+            <span style="color: {interpretation.planetColor};">{elementData.planet}</span>
+            <span class="text-gray-700 ml-1">in</span>
+            <span class="text-gray-700 ml-1">{elementData.sign}</span>
+            <span class="text-gray-500 ml-2">(</span>
+            <span class="font-symbols" style="color: {interpretation.planetColor};">{interpretation.planetSymbol}</span>
+            <span class="font-zodiac ml-1 text-gray-600">{interpretation.zodiacSymbol}</span>
+            <span class="text-gray-500">)</span>
+            {#if elementData.house}
+              <span class="text-gray-500 ml-2">(House {elementData.house})</span>
+            {/if}
+          </Dialog.Title>
+        {:else}
+          <Dialog.Title>{interpretation.title}</Dialog.Title>
+        {/if}
         <Dialog.Description>
           {#if isPlanetInterpretation(interpretation) || isAspectInterpretation(interpretation)}
             <span class="text-lg {isPlanetInterpretation(interpretation) ? interpretation.typeColor : 'text-gray-800'} font-medium">
@@ -130,21 +269,40 @@
           <div class="space-y-4">
             <div class="bg-gray-50 rounded-lg p-4">
               <h3 class="font-semibold text-gray-900 mb-2">Position</h3>
-              <p class="text-gray-700">{interpretation.position}</p>
+              <div class="flex items-center gap-2">
+                <span class="text-2xl font-symbols" style="color: {interpretation.planetColor};">{interpretation.planetSymbol}</span>
+                <p class="text-gray-700 font-zodiac">{interpretation.position}</p>
+                {#if interpretation.isRetrograde}
+                  <span class="text-sm text-red-500 font-medium">Rx</span>
+                {/if}
+              </div>
             </div>
 
             <div class="border rounded-lg p-4">
-              <h3 class="font-semibold text-gray-900 mb-2">{elementData.planet} - Core Meaning</h3>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xl font-symbols" style="color: {interpretation.planetColor};">{interpretation.planetSymbol}</span>
+                <h3 class="font-semibold text-gray-900">{elementData.planet} - Core Meaning</h3>
+              </div>
               <p class="text-gray-700 leading-relaxed">{interpretation.planetMeaning}</p>
             </div>
 
             <div class="border rounded-lg p-4">
-              <h3 class="font-semibold text-gray-900 mb-2">{elementData.planet} in {elementData.sign}</h3>
+              <h3 class="font-semibold text-gray-900 mb-3">
+                <span class="font-symbols" style="color: {interpretation.planetColor};">{interpretation.planetSymbol}</span>
+                <span class="ml-1" style="color: {interpretation.planetColor};">{elementData.planet}</span>
+                <span class="ml-1 text-gray-700">in</span>
+                <span class="font-zodiac ml-1 text-gray-600">{interpretation.zodiacSymbol}</span>
+                <span class="ml-1 text-gray-700">{elementData.sign}</span>
+              </h3>
               <p class="text-gray-700 leading-relaxed">{interpretation.planetInSign}</p>
             </div>
 
             <div class="border rounded-lg p-4">
-              <h3 class="font-semibold text-gray-900 mb-2">{elementData.sign} in House {elementData.house}</h3>
+              <h3 class="font-semibold text-gray-900 mb-3">
+                <span class="font-zodiac text-gray-600">{interpretation.zodiacSymbol}</span>
+                <span class="ml-1 text-gray-700">{elementData.sign}</span>
+                <span class="ml-1 text-gray-700">in House {elementData.house}</span>
+              </h3>
               <p class="text-gray-700 leading-relaxed">{interpretation.signInHouse}</p>
             </div>
           </div>
@@ -166,14 +324,14 @@
 
             {#if interpretation.general}
               <div class="border rounded-lg p-4">
-                <h3 class="font-semibold text-gray-900 mb-2">General Interpretation</h3>
+                <h3 class="font-semibold text-gray-900 mb-3">General Interpretation</h3>
                 <p class="text-gray-700 leading-relaxed">{interpretation.general}</p>
               </div>
             {/if}
 
             {#if interpretation.specific}
               <div class="border rounded-lg p-4">
-                <h3 class="font-semibold text-gray-900 mb-2">Specific Meaning</h3>
+                <h3 class="font-semibold text-gray-900 mb-3">Specific Meaning</h3>
                 <p class="text-gray-700 leading-relaxed">{interpretation.specific}</p>
               </div>
             {/if}
@@ -195,4 +353,20 @@
       </div>
     {/if}
   </Dialog.Content>
-</Dialog.Root> 
+</Dialog.Root>
+
+<style>
+  .font-symbols {
+    font-family: 'Noto Sans Symbols', 'Arial', sans-serif;
+  }
+  
+  .font-zodiac {
+    font-family: 'Noto Sans Symbols', 'Arial Unicode MS', 'Arial', sans-serif;
+    font-weight: 500;
+  }
+  
+  .font-aspect {
+    font-family: 'Noto Sans Symbols', 'Arial Unicode MS', 'Arial', sans-serif;
+    font-weight: 600;
+  }
+</style> 
