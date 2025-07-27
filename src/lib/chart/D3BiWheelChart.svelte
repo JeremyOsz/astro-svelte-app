@@ -342,13 +342,13 @@
       if (name === 'Ic') name = 'IC';
       
       const degreeMatch = degreePart.match(/^(\d+)°(\d+)'$/);
-      if (!degreeMatch || !zodiacSigns.includes(sign)) {
+      if (!degreeMatch || !zodiacSigns.includes(sign as typeof zodiacSigns[number])) {
         return;
       }
       
       const degree = parseInt(degreeMatch[1]);
       const minute = parseInt(degreeMatch[2]);
-      const signIndex = zodiacSigns.indexOf(sign);
+      const signIndex = zodiacSigns.indexOf(sign as typeof zodiacSigns[number]);
       const absoluteDegree = signIndex * 30 + degree + minute / 60;
 
       const planetData: PlanetData = {
@@ -391,7 +391,7 @@
 
     // If we don't have API house cusps, calculate them using whole sign system
     if (!hasApiHouseCusps) {
-      const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+      const ascSignIndex = zodiacSigns.indexOf(asc.sign as typeof zodiacSigns[number]);
       for (let i = 0; i < 12; i++) {
         const signIndex = (ascSignIndex + i) % 12;
         const angle = signIndex * 30; // 0, 30, 60, ...
@@ -664,7 +664,7 @@
     }
     
     // Calculate the offset to make the Ascendant's sign start at the top (0°)
-    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign as typeof zodiacSigns[number]);
     const ascSignStartAngle = ascSignIndex * 30; // 0° of the Ascendant's sign
     const zodiacOffset = ascSignStartAngle - house1CuspAngle;
     
@@ -692,8 +692,8 @@
       let houseNumber = 0;
       
       // For Whole Sign system, the house is determined by the sign's position relative to the Ascendant's sign
-      const ascSignIndex = zodiacSigns.indexOf(asc.sign);
-      const signIndex = zodiacSigns.indexOf(sign);
+      const ascSignIndex = zodiacSigns.indexOf(asc.sign as typeof zodiacSigns[number]);
+      const signIndex = zodiacSigns.indexOf(sign as typeof zodiacSigns[number]);
       const houseOffset = (signIndex - ascSignIndex + 12) % 12;
       houseNumber = houseOffset + 1;
 
@@ -805,7 +805,7 @@
       return;
     }
     
-    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign as typeof zodiacSigns[number] );
     const ascSignStartAngle = ascSignIndex * 30;
     // Use same rotation offset as zodiac wheel
     const zodiacOffset = ascSignStartAngle - 360; // 270° puts House 1 on the left
@@ -889,7 +889,7 @@
       return;
     }
     
-    const ascSignIndex = zodiacSigns.indexOf(asc.sign);
+    const ascSignIndex = zodiacSigns.indexOf(asc.sign as typeof zodiacSigns[number]);
     const ascSignStartAngle = ascSignIndex * 30;
     // Use same rotation offset as zodiac wheel
     const zodiacOffset = ascSignStartAngle - 360; // 270° puts House 1 on the left
@@ -989,7 +989,7 @@
       return;
     }
     
-    const natalAscSignIndex = zodiacSigns.indexOf(natalAsc.sign);
+    const natalAscSignIndex = zodiacSigns.indexOf(natalAsc.sign as typeof zodiacSigns[number]);
     const natalAscSignStartAngle = natalAscSignIndex * 30;
     
     let zodiacOffset: number;
