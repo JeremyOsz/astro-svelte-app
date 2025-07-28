@@ -3,13 +3,13 @@
   import { writable, derived, get } from 'svelte/store';
   import * as d3 from 'd3';
   import { CHART_LAYOUT } from '../data/chart-styles';
-  import ChartElementDialog from './ChartElementDialog.svelte';
+  import ChartElementDialog from '../components/dialogs/ChartElementDialog.svelte';
   import { chartStore } from '../stores/chart-store';
   import { 
     createBriefTooltip, 
     showBriefTooltip, 
     hideBriefTooltip 
-  } from './brief-tooltip';
+  } from '../components/tooltips/brief-tooltip';
 
   // Props (removed chartData prop since we'll use the store directly)
   export let showDegreeMarkers: boolean = true;

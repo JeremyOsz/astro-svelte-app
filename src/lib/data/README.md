@@ -47,7 +47,7 @@ import {
 // Data was scattered across multiple files
 import { getTransitInterpretation } from './transit-interpretations';
 import { ZODIAC_SIGNS } from './some-other-file';
-import './chart/styles.css';
+import '../styles/chart-tooltip-styles.css';
 ```
 
 ### After (Consolidated Data)

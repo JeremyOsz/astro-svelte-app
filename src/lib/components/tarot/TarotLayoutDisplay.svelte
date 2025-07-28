@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
-  import type { TarotLayout } from '$lib/data/tarot-layouts';
+  import type { TarotLayout } from '../../data/tarot-layouts';
 
   export let layout: TarotLayout;
   export let width = 600;

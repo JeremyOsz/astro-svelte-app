@@ -7,8 +7,8 @@
     createBriefTooltip, 
     showBriefTooltip, 
     hideBriefTooltip 
-  } from './brief-tooltip';
-  import ChartElementDialog from './ChartElementDialog.svelte';
+  } from '../components/tooltips/brief-tooltip';
+  import ChartElementDialog from '../components/dialogs/ChartElementDialog.svelte';
   import { chartStore } from '../stores/chart-store';
 
   // Props (removed chartData prop since we'll use the store directly)

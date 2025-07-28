@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { ASPECT_SYMBOLS, ASPECT_DEFINITIONS } from '../data/symbols';
+import { ASPECT_SYMBOLS, ASPECT_DEFINITIONS } from '../../data/symbols';
 
 let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>;
 
