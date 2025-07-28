@@ -36,6 +36,22 @@
     evening: 'text-purple-400',
     night: 'text-blue-400'
   };
+
+  // Helper function for ordinal suffixes
+  function getOrdinalSuffix(num: number): string {
+    const j = num % 10;
+    const k = num % 100;
+    if (j === 1 && k !== 11) {
+      return "st";
+    }
+    if (j === 2 && k !== 12) {
+      return "nd";
+    }
+    if (j === 3 && k !== 13) {
+      return "rd";
+    }
+    return "th";
+  }
 </script>
 
 <div class="space-y-6">
@@ -211,21 +227,4 @@
   :global(.accordion-trigger[data-state="open"]) {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-</style>
-
-<script context="module">
-  function getOrdinalSuffix(num: number): string {
-    const j = num % 10;
-    const k = num % 100;
-    if (j === 1 && k !== 11) {
-      return "st";
-    }
-    if (j === 2 && k !== 12) {
-      return "nd";
-    }
-    if (j === 3 && k !== 13) {
-      return "rd";
-    }
-    return "th";
-  }
-</script> 
+</style> 

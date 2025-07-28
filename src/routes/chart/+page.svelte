@@ -95,6 +95,11 @@ MC,Leo,10°14'`;
     console.log('No chart data, hiding chart');
   }
 
+  // Show loading state when API calls are in progress
+  $: if (isLoading) {
+    console.log('Chart is loading, showing loading state');
+  }
+
   // Accordion open state for mobile
   let mobileAccordionValue = '';
   $: mobileAccordionValue = !showChart ? 'birth-form' : 'saved-charts';

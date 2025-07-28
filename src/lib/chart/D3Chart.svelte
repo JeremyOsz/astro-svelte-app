@@ -129,6 +129,9 @@
     detectDeviceType();
     createBriefTooltip();
     
+    // Debounce chart updates to prevent excessive re-renders
+    let updateTimeout: NodeJS.Timeout;
+    
     // Manual subscription to chart store
     chartStoreUnsubscribe = chartStore.subscribe((state) => {
       const { chartData, error, isLoading, version } = state;
@@ -143,20 +146,28 @@
         isLoading 
       });
       
+      // Clear any pending update
+      if (updateTimeout) {
+        clearTimeout(updateTimeout);
+      }
+      
       // Only process if we have new data and container is ready
       if (chartData && version > currentVersion && chartContainer) {
-        currentChartData = chartData;
-        currentVersion = version;
-        
-        if (chartData.trim()) {
-          console.log('D3Chart: Processing new chart data from store (version:', version, ')');
-          console.log('D3Chart: Raw chart data:', chartData);
-          parseChartData(chartData);
-        } else {
-          console.log('D3Chart: Chart data is empty, clearing chart');
-          // Clear the chart if no data
-          d3.select(chartContainer).html('');
-        }
+        // Debounce chart updates to prevent excessive re-renders
+        updateTimeout = setTimeout(() => {
+          currentChartData = chartData;
+          currentVersion = version;
+          
+          if (chartData.trim()) {
+            console.log('D3Chart: Processing new chart data from store (version:', version, ')');
+            console.log('D3Chart: Raw chart data:', chartData);
+            parseChartData(chartData);
+          } else {
+            console.log('D3Chart: Chart data is empty, clearing chart');
+            // Clear the chart if no data
+            d3.select(chartContainer).html('');
+          }
+        }, 100); // 100ms debounce
       } else {
         console.log('D3Chart: Skipping update - conditions not met:', {
           hasData: !!chartData,

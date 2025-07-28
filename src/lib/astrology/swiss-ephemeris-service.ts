@@ -31,6 +31,9 @@ export class SwissEphemerisService {
     }
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
         headers: {
@@ -38,7 +41,10 @@ export class SwissEphemerisService {
           'X-API-Key': API_KEY,
         },
         body: JSON.stringify(data),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
