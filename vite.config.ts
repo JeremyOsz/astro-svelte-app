@@ -8,9 +8,7 @@ export default defineConfig({
 		rollupOptions: {
 			output: {
 				manualChunks: {
-					'd3': ['d3'],
-					'ui': ['@lucide/svelte', 'lucide-svelte'],
-					'charts': ['@tailwindcss/forms', '@tailwindcss/typography']
+					'ui': ['@lucide/svelte', 'lucide-svelte']
 				}
 			}
 		},
