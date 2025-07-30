@@ -389,7 +389,7 @@ MC,Leo,10°14'`;
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col min-w-0 w-full md:w-auto">
       <!-- Header with controls -->
-      <div class="border-b bg-background px-4 py-3 flex items-center justify-between">
+      <div class="border-b bg-background px-4 py-3 flex items-center justify-between sm:justify-between flex-wrap">
         <div class="flex items-center gap-2">
           <Button 
             variant="ghost" 
@@ -399,30 +399,30 @@ MC,Leo,10°14'`;
           >
             <PanelLeft class="h-4 w-4" />
           </Button>
-          <h2 class="text-xl font-semibold text-gray-800 hidden sm:block">Chart Visualization</h2>
-          <h2 class="text-lg font-semibold text-gray-800 sm:hidden">Chart</h2>
+          <h2 class="text-xl font-semibold text-gray-800 sm:block">Chart Visualization</h2>
         </div>
         
-       
-
-        <!-- Save and Share Buttons -->
-        {#if showChart}
-          <div class="flex items-center gap-2">
+        <!-- Right side buttons - wrap on mobile, normal on desktop -->
+        <div class="flex flex-wrap items-center gap-2 sm:flex-nowrap">
+          {#if showChart}
             <SaveChartButton />
             <ShareChartButton />
-          </div>
-        {/if}
+          {/if}
+          <Sheet.Root bind:open={sheetOpen}>
+            <Sheet.Trigger>
+              <Button variant="outline" size="sm" class="h-10">
+                <Settings class="h-4 w-4 mr-2" />
+                <span class="hidden sm:inline">Controls & Legend</span>
+                <span class="sm:hidden">Controls & Legend</span>
+              </Button>
+            </Sheet.Trigger>
+          </Sheet.Root>
+        </div>
+      </div>
 
-         <!-- Controls & Legend -->
-         <Sheet.Root bind:open={sheetOpen}>
-          <Sheet.Trigger>
-            <Button variant="outline" size="sm" class="h-10">
-              <Settings class="h-4 w-4 mr-2" />
-              <span class="hidden sm:inline">Controls & Legend</span>
-              <span class="sm:hidden">Controls & Legend</span>
-            </Button>
-          </Sheet.Trigger>
-          <Sheet.Content side="right" class="w-full sm:w-96 md:w-[540px] flex flex-col">
+      <!-- Sheet Content -->
+      <Sheet.Root bind:open={sheetOpen}>
+        <Sheet.Content side="right" class="w-full sm:w-96 md:w-[540px] flex flex-col">
                         <div class="sticky top-0 bg-white border-b z-10 flex-shrink-0">
               <div class="flex items-start justify-between p-6">
                 <Sheet.Header class="p-0 flex-1">
@@ -742,7 +742,6 @@ MC,Leo,10°14'`;
             </div>
           </Sheet.Content>
         </Sheet.Root>
-      </div>
 
       <!-- Chart Content -->
       <div class="flex-1 p-2 sm:p-4 min-h-0">

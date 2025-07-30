@@ -92,8 +92,42 @@
 
   // Derived store for chart dimensions
   const chartDimensions = derived(chartState, ($chartState) => {
-    // layout contains both natal and transit radii now; expose them all
-    return { ...$chartState.layout } as const;
+    const { layout } = $chartState;
+    const { isMobile, isTablet } = $chartState;
+    
+    // Get container width for responsive sizing
+    const containerWidth = chartContainer?.clientWidth || layout.chartSize;
+    const containerHeight = chartContainer?.clientHeight || layout.chartSize;
+    
+    // Use the smaller dimension to maintain aspect ratio, but allow it to grow
+    const responsiveSize = Math.min(containerWidth, containerHeight, layout.chartSize);
+    
+    // Scale all radii proportionally based on the responsive size
+    const scaleFactor = responsiveSize / layout.chartSize;
+    
+    const dimensions = {
+      chartSize: responsiveSize,
+      containerWidth,
+      containerHeight,
+      scaleFactor,
+      zodiacOuterRadius: layout.zodiacOuterRadius * scaleFactor,
+      zodiacInnerRadius: layout.zodiacInnerRadius * scaleFactor,
+      planetRingRadius: layout.planetRingRadius * scaleFactor,
+      labelRadius: layout.labelRadius * scaleFactor,
+      houseLineInnerRadius: layout.houseLineInnerRadius * scaleFactor,
+      houseNumRadius: layout.houseNumRadius * scaleFactor,
+      aspectHubRadius: layout.aspectHubRadius * scaleFactor,
+      // Transit radii
+      transitZodiacOuterRadius: layout.transitZodiacOuterRadius * scaleFactor,
+      transitZodiacInnerRadius: layout.transitZodiacInnerRadius * scaleFactor,
+      transitPlanetRingRadius: layout.transitPlanetRingRadius * scaleFactor,
+      transitLabelRadius: layout.transitLabelRadius * scaleFactor,
+      transitHouseLineInnerRadius: layout.transitHouseLineInnerRadius * scaleFactor,
+      transitHouseNumRadius: layout.transitHouseNumRadius * scaleFactor,
+      transitAspectHubRadius: layout.transitAspectHubRadius * scaleFactor
+    };
+    console.log('D3BiWheelChart: Chart dimensions calculated:', dimensions);
+    return dimensions;
   });
 
   // Update CSS custom property when chart dimensions change
@@ -101,6 +135,9 @@
     console.log('D3BiWheelChart: Setting chart size CSS property:', $chartDimensions.chartSize);
     chartContainer.style.setProperty('--chart-size', `${$chartDimensions.chartSize}px`);
   }
+
+  // Resize observer for responsive chart
+  let resizeObserver: ResizeObserver | null = null;
 
   // Utility to pick the right radius depending on inner (natal) vs outer (transit)
   function getRadius(name: string, isInner: boolean) {
@@ -157,6 +194,20 @@
     console.log('D3Chart: Component mounted');
     detectDeviceType();
     createBriefTooltip();
+    
+    // Set up resize observer for responsive chart
+    if (chartContainer) {
+      resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          console.log('D3BiWheelChart: Container resized:', entry.contentRect);
+          // Force chart recreation when container size changes
+          if (currentChartData) {
+            createChart();
+          }
+        }
+      });
+      resizeObserver.observe(chartContainer);
+    }
     
     // Manual subscription to chart store
     chartStoreUnsubscribe = chartStore.subscribe((state) => {
@@ -240,12 +291,20 @@
   // Debug chart container binding
   $: if (chartContainer) {
     console.log('D3Chart: Chart container bound:', chartContainer);
+    // Re-observe if container changes
+    if (resizeObserver) {
+      resizeObserver.disconnect();
+      resizeObserver.observe(chartContainer);
+    }
   }
 
   // Cleanup subscription
   onDestroy(() => {
     if (chartStoreUnsubscribe) {
       chartStoreUnsubscribe();
+    }
+    if (resizeObserver) {
+      resizeObserver.disconnect();
     }
   });
 
@@ -585,10 +644,13 @@
     const { chartSize } = get(chartDimensions);
     console.log('D3Chart: Chart size:', chartSize);
 
+    const { containerWidth, containerHeight } = get(chartDimensions);
+    
     svg = container.append('svg')
-      .attr('width', chartSize)
-      .attr('height', chartSize)
+      .attr('width', '100%')
+      .attr('height', '100%')
       .attr('viewBox', `0 0 ${chartSize} ${chartSize}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
       .style('cursor', 'grab');
     console.log('D3Chart: SVG created:', svg.node());
 
@@ -1352,8 +1414,8 @@
 
   <div class="relative w-full">
     <div 
-      class="flex justify-center items-center border border-gray-200 rounded bg-gray-50 overflow-hidden relative touch-pan-x touch-pan-y w-full max-w-full"
-      style="min-height: var(--chart-size, 900px);"
+      class="chart-container flex justify-center items-center border border-gray-200 rounded bg-gray-50 overflow-hidden relative touch-pan-x touch-pan-y w-full h-full"
+      style="aspect-ratio: 1; min-height: 350px; max-height: 900px;"
       bind:this={chartContainer}
     >
       <!-- Chart will be rendered here by D3 -->
@@ -1395,6 +1457,15 @@
   :global(.chart-svg) {
     max-width: 100%;
     height: auto;
+  }
+
+  /* Ensure the chart container can grow to full width */
+  .chart-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   :global(.chart-tooltip) {

@@ -1,3 +1,8 @@
+# Bugs
+- Saving a new chart over old chart doesn't work
+- Selecting another chart on transits a bit janky
+- 
+
 # TODO
 - ~Make Svelte work with tooltips~
 - ~Make Birth Chart Data Calculator work~
@@ -5,12 +10,13 @@
 - ~Convert Styles to tailwind/shadcn~
 - ~Fix footer data~
 - ~Flesh out Interpretations browser~
-- Make transits chart
-- fix house alignment
+- ~Make transits chart~
+- ~fix house alignment~
 - Fix fonts on safari
 - ~Store Birth Data~
 - ~Loading state for chart~
-- make scroll not impact with the chart
+- ~make scroll not impact with the chart~
+- ~allow lat/lon input instead of birthplace optionaly ~
 
 # Layout & UI Improvements
 - ~Add proper container padding to pages after layout changes~
@@ -23,7 +29,7 @@
 - Add proper error boundaries for failed chart renders
 - Fix chart zoom/pan on touch devices
 - Improve accessibility with proper ARIA labels
-- Add dark mode support
+- ~Add dark mode support~
 - Fix chart legend positioning on mobile
 - Improve form validation styling and feedback
 - Convert tooltips to dialogues
