@@ -744,7 +744,7 @@ MC,Leo,10°14'`;
         </Sheet.Root>
 
       <!-- Chart Content -->
-      <div class="flex-1 p-2 sm:p-4 min-h-0">
+      <div class="flex-1 p-2 sm:py-2 sm:py-4 m:p-4 min-h-0">
         <!-- Loading State -->
         {#if isLoading}
           <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
@@ -755,7 +755,11 @@ MC,Leo,10°14'`;
             </div>
           </div>
         {:else if showChart}
-          <div class="bg-white rounded-lg shadow-md p-2 sm:p-4">
+          <div class="bg-white rounded-lg shadow-md p-2 sm:p-4 md:p-4"
+               class:px-0={isMobile}
+               class:rounded-none={isMobile}
+               class:shadow-none={isMobile}
+               class:-mx-4={isMobile}>
             <D3Chart 
               bind:this={chartComponent}
               {showDegreeMarkers}
