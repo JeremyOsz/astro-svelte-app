@@ -982,4 +982,146 @@ export function getTransitInterpretation(aspect: string, transitPlanet: string, 
     const aspectMeaning = aspectMeanings[aspect as keyof typeof aspectMeanings] || 'transformation';
 
     return `${aspectMeaning} between ${transitPlanetMeaning} and ${natalPlanetMeaning}. This transit brings opportunities for growth and development.`;
+}
+
+// Enhanced transit interpretation functions
+export function getTransitPlanetInHouseMeaning(transitPlanet: string, houseNumber: number): string {
+    const planetMeanings = {
+        'Sun': 'your core identity and life purpose',
+        'Moon': 'your emotional needs and intuitive responses',
+        'Mercury': 'your communication style and mental focus',
+        'Venus': 'your approach to love and what you value',
+        'Mars': 'your drive and how you take action',
+        'Jupiter': 'your growth and expansion areas',
+        'Saturn': 'your challenges and areas requiring discipline',
+        'Uranus': 'your need for freedom and innovation',
+        'Neptune': 'your spiritual inspiration and idealism',
+        'Pluto': 'your areas of deep transformation'
+    };
+
+    const houseMeanings = {
+        1: 'how you present yourself and your personal identity',
+        2: 'your material security and self-worth',
+        3: 'your communication and immediate environment',
+        4: 'your home life and emotional foundation',
+        5: 'your creativity and self-expression',
+        6: 'your daily work and health routines',
+        7: 'your partnerships and close relationships',
+        8: 'shared resources and deep transformation',
+        9: 'your beliefs and higher learning',
+        10: 'your career and public reputation',
+        11: 'your friendships and group connections',
+        12: 'your spiritual life and hidden aspects'
+    };
+
+    const planetMeaning = planetMeanings[transitPlanet as keyof typeof planetMeanings] || 'your personal growth';
+    const houseMeaning = houseMeanings[houseNumber as keyof typeof houseMeanings] || 'your life areas';
+
+    return `The transit ${transitPlanet} is currently activating ${planetMeaning} in the area of ${houseMeaning}. This brings temporary focus and energy to this life area.`;
+}
+
+export function getTransitPlanetInSignMeaning(transitPlanet: string, sign: string): string {
+    const planetMeanings = {
+        'Sun': 'your current identity and life direction',
+        'Moon': 'your emotional state and intuitive responses',
+        'Mercury': 'your current thinking and communication style',
+        'Venus': 'your current approach to love and values',
+        'Mars': 'your current drive and action style',
+        'Jupiter': 'your current areas of growth and optimism',
+        'Saturn': 'your current challenges and responsibilities',
+        'Uranus': 'your current need for freedom and change',
+        'Neptune': 'your current spiritual inspiration and dreams',
+        'Pluto': 'your current areas of deep transformation'
+    };
+
+    const signMeanings = {
+        'Aries': 'with bold, direct energy and a pioneering spirit',
+        'Taurus': 'with steady, practical energy and a focus on stability',
+        'Gemini': 'with curious, adaptable energy and a focus on communication',
+        'Cancer': 'with nurturing, protective energy and emotional sensitivity',
+        'Leo': 'with creative, expressive energy and a desire for recognition',
+        'Virgo': 'with analytical, service-oriented energy and attention to detail',
+        'Libra': 'with harmonious, diplomatic energy and a focus on relationships',
+        'Scorpio': 'with intense, transformative energy and emotional depth',
+        'Sagittarius': 'with expansive, philosophical energy and a quest for meaning',
+        'Capricorn': 'with disciplined, ambitious energy and a focus on achievement',
+        'Aquarius': 'with innovative, independent energy and a desire for change',
+        'Pisces': 'with intuitive, compassionate energy and spiritual sensitivity'
+    };
+
+    const planetMeaning = planetMeanings[transitPlanet as keyof typeof planetMeanings] || 'your current energy';
+    const signMeaning = signMeanings[sign as keyof typeof signMeanings] || 'with unique characteristics';
+
+    return `The transit ${transitPlanet} is currently expressing ${planetMeaning} ${signMeaning}. This colors how you experience this energy during this transit period.`;
+}
+
+export function getEnhancedTransitInterpretation(aspect: string, transitPlanet: string, natalPlanet: string, transitHouse?: number, transitSign?: string): string {
+    // 1. What the transit planet represents
+    const transitPlanetMeanings = {
+        'Sun': `your current identity and life purpose - how you're expressing yourself right now`,
+        'Moon': `your current emotional needs and intuitive responses - what's touching your heart`,
+        'Mercury': `your current communication and thinking - how you're processing information`,
+        'Venus': `your current approach to love and values - what you're drawn to`,
+        'Mars': `your current drive and action style - how you're taking initiative`,
+        'Jupiter': `your current areas of growth and optimism - where you're expanding`,
+        'Saturn': 'your current challenges and responsibilities - what requires discipline',
+        'Uranus': 'your current need for freedom and innovation - what needs to change',
+        'Neptune': `your current spiritual inspiration and dreams - what you're idealizing`,
+        'Pluto': `your current areas of deep transformation - what's being reborn`
+    };
+
+    // 2. What the natal planet represents
+    const natalPlanetMeanings = {
+        'Sun': 'your core identity and life purpose - who you fundamentally are',
+        'Moon': 'your emotional foundation and intuitive nature - your emotional core',
+        'Mercury': 'your natural communication style and thinking patterns - your mental approach',
+        'Venus': `your natural approach to love and what you value - your heart's desires`,
+        'Mars': 'your natural drive and action style - how you naturally take action',
+        'Jupiter': 'your natural areas of growth and optimism - your expansive nature',
+        'Saturn': 'your natural challenges and responsibilities - your areas of discipline',
+        'Uranus': 'your natural need for freedom and innovation - your unique nature',
+        'Neptune': 'your natural spiritual inspiration and dreams - your idealistic side',
+        'Pluto': 'your natural areas of transformation - your power to change'
+    };
+
+    // 3. What the aspect represents
+    const aspectMeanings = {
+        'Conjunction': 'integration and new beginnings - these energies are working together as one',
+        'Opposition': 'awareness and balance - these energies are in tension, requiring integration',
+        'Square': 'challenge and growth - these energies are in conflict, requiring action',
+        'Trine': 'harmony and ease - these energies flow together naturally',
+        'Sextile': 'opportunity and cooperation - these energies can work together with effort',
+        'Quincunx': 'adjustment and integration - these energies seem incompatible but can work together'
+    };
+
+    // 4. What the interaction represents
+    const interactionMeanings = {
+        'Conjunction': 'This transit brings a powerful fusion of energies, creating a time of new beginnings and direct manifestation.',
+        'Opposition': 'This transit creates awareness of polarities, requiring you to find balance between these energies.',
+        'Square': 'This transit brings challenges that require action and growth, pushing you to develop new skills.',
+        'Trine': 'This transit brings harmonious energy flow, making it easier to work with these energies together.',
+        'Sextile': 'This transit brings opportunities for growth through conscious effort and cooperation.',
+        'Quincunx': 'This transit requires adjustment and integration of seemingly incompatible energies.'
+    };
+
+    const transitPlanetMeaning = transitPlanetMeanings[transitPlanet as keyof typeof transitPlanetMeanings] || 'your current energy';
+    const natalPlanetMeaning = natalPlanetMeanings[natalPlanet as keyof typeof natalPlanetMeanings] || 'your core nature';
+    const aspectMeaning = aspectMeanings[aspect as keyof typeof aspectMeanings] || 'transformation';
+    const interactionMeaning = interactionMeanings[aspect as keyof typeof interactionMeanings] || 'This transit brings change and growth.';
+
+    let interpretation = `**Transit ${transitPlanet}** represents ${transitPlanetMeaning}. `;
+    interpretation += `**Your natal ${natalPlanet}** represents ${natalPlanetMeaning}. `;
+    interpretation += `**The ${aspect} aspect** represents ${aspectMeaning}. `;
+    interpretation += `${interactionMeaning}`;
+
+    // Add house and sign information if available
+    if (transitHouse) {
+        interpretation += `\n\n${getTransitPlanetInHouseMeaning(transitPlanet, transitHouse)}`;
+    }
+
+    if (transitSign) {
+        interpretation += `\n\n${getTransitPlanetInSignMeaning(transitPlanet, transitSign)}`;
+    }
+
+    return interpretation;
 } 

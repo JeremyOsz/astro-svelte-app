@@ -22,9 +22,9 @@
 
 
 # Making transits better
-- Transit planets in house
-- Transit planets in sun
-- Stop using birth chart info 
+- Transit planets in house meaning
+- Transit planets in sign meaning
+- Descriptions for transit planets should be what they mean in time - not in natal chart
 - Clearly say what:
     1. Transit planet is and represents
     2. Natal planet is and represents
