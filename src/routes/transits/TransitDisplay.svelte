@@ -291,7 +291,7 @@
         const transitSign = getSignByDegree(transitPlanet.longitude);
         const natalSign = natalPlanet ? getSignByDegree(natalPlanet.longitude) : '';
         
-        const houseMeaning = getTransitPlanetInHouseMeaning(transitPlanet.name, transitHouse);
+        const houseMeaning = getTransitPlanetInHouseMeaning(transitPlanet.name, transitHouse, transitSign);
         const signMeaning = getTransitPlanetInSignMeaning(transitPlanet.name, transitSign);
         
         houseData.push({

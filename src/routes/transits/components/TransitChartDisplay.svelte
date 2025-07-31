@@ -4,6 +4,7 @@
   import * as Dialog from '$lib/components/ui/dialog';
   import D3BiWheelChart from '$lib/chart/D3BiWheelChart.svelte';
   import { chartStore } from '$lib/stores/chart-store';
+  import ChartElementDialog from '$lib/components/dialogs/ChartElementDialog.svelte';
   import { 
     createBriefTooltip,
     showBriefTooltip,
@@ -22,8 +23,12 @@
     getTransitPlanetInSignMeaning,
     getEnhancedTransitInterpretation,
     ASPECT_INTERPRETATIONS,
-    PLANET_INTERPRETATIONS
+    PLANET_INTERPRETATIONS,
+    HOUSES,
+    PLANET_IN_SIGN_INTERPRETATIONS,
+    SIGN_IN_HOUSE_INTERPRETATIONS
   } from '$lib/data/interpretations';
+  import { SIGN_CHARACTERISTICS } from '$lib/data/astrological-data';
 
   export let transitChartData: string;
   export let natalChartData: string;
@@ -33,9 +38,8 @@
   export let chartReady: boolean;
 
   // State for detailed transit interpretation dialog
-  let showTransitDialog = false;
-  let selectedTransitData: any = null;
-  let detailedInterpretation: any = null;
+  let dialogOpen = false;
+  let selectedElementData: any = null;
 
   // Custom handlers that combine brief tooltips with detailed dialogs
   function handleTransitHover(event: MouseEvent, data: any) {
@@ -51,30 +55,9 @@
   function handleTransitClick(event: MouseEvent, data: any) {
     event.stopPropagation();
     
-    // Generate detailed interpretation
-    if (data.aspect && data.isTransitAspect) {
-      // It's a transit aspect
-      detailedInterpretation = {
-        type: 'aspect',
-        title: `${data.planet1} ${data.aspect} ${data.planet2}`,
-        symbols: getAspectSymbols(data.planet1, data.aspect, data.planet2),
-        orb: data.orb ? `${data.orb.toFixed(2)}°` : 'Unknown',
-        nature: getAspectNature(data.aspect),
-        sections: generateTransitAspectSections(data)
-      };
-    } else if (data.planet && data.isTransit) {
-      // It's a transit planet
-      detailedInterpretation = {
-        type: 'planet',
-        title: `${data.planet} in ${data.sign} (House ${data.house})`,
-        symbols: getPlanetSymbols(data.planet, data.sign),
-        position: `${data.degree}°${data.minute.toString().padStart(2, '0')}' ${data.sign}${data.isRetrograde ? ' (Retrograde)' : ''}`,
-        sections: generateTransitPlanetSections(data)
-      };
-    }
-    
-    selectedTransitData = data;
-    showTransitDialog = true;
+    // Use our ChartElementDialog for consistent display
+    selectedElementData = data;
+    dialogOpen = true;
   }
 
   function getAspectSymbols(planet1: string, aspect: string, planet2: string): string {
@@ -104,6 +87,15 @@
     return `(${planetSymbols[planet] || planet} ${signSymbols[sign] || sign})`;
   }
 
+  function getSignSymbols(sign: string): string {
+    const signSymbols: Record<string, string> = {
+      'Aries': '♈', 'Taurus': '♉', 'Gemini': '♊', 'Cancer': '♋', 'Leo': '♌', 'Virgo': '♍',
+      'Libra': '♎', 'Scorpio': '♏', 'Sagittarius': '♐', 'Capricorn': '♑', 'Aquarius': '♒', 'Pisces': '♓'
+    };
+    
+    return `(${signSymbols[sign] || sign})`;
+  }
+
   function getAspectNature(aspect: string): string {
     const aspectData = ASPECT_INTERPRETATIONS[aspect];
     return aspectData?.nature || 'Aspect nature information not available';
@@ -118,6 +110,60 @@
       return 'text-yellow-600 font-medium'; // Neutral aspects
     }
     return 'text-gray-600 font-medium'; // Default
+  }
+
+  function getHouseMeaning(houseNumber: number): string {
+    const houseKey = `${houseNumber}${houseNumber === 1 ? 'st' : houseNumber === 2 ? 'nd' : houseNumber === 3 ? 'rd' : 'th'}`;
+    return HOUSES[houseKey] || 'life areas and experiences';
+  }
+
+  function getHouseInteractionDynamics(natalHouse: number, transitHouse: number): string {
+    const houseMeanings = {
+      1: 'self-expression and personal identity',
+      2: 'values, resources, and self-worth',
+      3: 'communication, learning, and local connections',
+      4: 'home, family, and emotional foundation',
+      5: 'creativity, romance, and self-expression',
+      6: 'work, health, and daily routines',
+      7: 'partnerships, relationships, and balance',
+      8: 'transformation, shared resources, and deep change',
+      9: 'higher learning, philosophy, and expansion',
+      10: 'career, public image, and life goals',
+      11: 'friends, groups, and social causes',
+      12: 'spirituality, subconscious, and hidden matters'
+    };
+
+    const natalTheme = houseMeanings[natalHouse as keyof typeof houseMeanings] || 'personal development';
+    const transitTheme = houseMeanings[transitHouse as keyof typeof houseMeanings] || 'current experiences';
+
+    // Create meaningful house interaction descriptions
+    const interactions = {
+      '1-1': 'intense focus on personal identity and self-expression',
+      '1-7': 'balancing personal needs with relationship dynamics',
+      '1-10': 'aligning personal identity with career and public image',
+      '2-8': 'transformation of values and shared resources',
+      '3-9': 'expansion of communication and learning',
+      '4-10': 'balancing home life with career ambitions',
+      '5-11': 'creative expression within social groups',
+      '6-12': 'spiritual approach to work and health',
+      '7-1': 'relationship dynamics affecting personal identity',
+      '8-2': 'deep transformation of values and resources',
+      '9-3': 'philosophical expansion of communication',
+      '10-4': 'career affecting home and family life',
+      '11-5': 'social connections enhancing creativity',
+      '12-6': 'spiritual insights into daily work and health'
+    };
+
+    const interactionKey = `${natalHouse}-${transitHouse}`;
+    const specificInteraction = interactions[interactionKey as keyof typeof interactions];
+    
+    if (specificInteraction) {
+      return specificInteraction;
+    } else if (natalHouse === transitHouse) {
+      return `intensified focus on ${natalTheme}`;
+    } else {
+      return `the relationship between ${natalTheme} and ${transitTheme}`;
+    }
   }
 
   function generateTransitAspectSections(data: any) {
@@ -160,11 +206,67 @@
     } else {
       // Fallback if the interpretation doesn't have the expected structure
       sections.push({
-        title: 'Enhanced Transit Interpretation',
+        title: 'Interpretation',
         content: enhancedInterpretation,
         type: 'enhanced-interpretation'
       });
     }
+    
+    // Add house placement sections if we have house data
+    if (data.transitHouse && data.natalHouse) {
+      // 5. Natal Planet House Placement
+      sections.push({
+        title: 'Natal Planet House Context',
+        content: `Your natal ${data.planet2} is in House ${data.natalHouse} which represents ${getHouseMeaning(data.natalHouse)}.`,
+        type: 'natal-house'
+      });
+      
+      // 6. Transit Planet House Placement
+      sections.push({
+        title: 'Transit Planet House Context',
+        content: `Planet ${data.planet1} is currently transiting through House ${data.transitHouse} enhancing ${getHouseMeaning(data.transitHouse)}.`,
+        type: 'transit-house'
+      });
+      
+      // 7. House Interaction Dynamics
+      sections.push({
+        title: 'House Interaction Dynamics',
+        content: `The house placements emphasize ${getHouseInteractionDynamics(data.natalHouse, data.transitHouse)}.`,
+        type: 'house-interaction'
+      });
+    }
+    
+    return sections;
+  }
+
+  function generateNatalPlanetSections(data: any) {
+    const sections = [];
+    
+    // 1. Natal Planet in House Meaning - using natal sign in house data
+    const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[data.sign]?.[data.house] || "No interpretation available.";
+    sections.push({
+      title: 'Natal Planet in House Meaning',
+      content: signInHouse,
+      type: 'natal-house'
+    });
+    
+    // 2. Natal Planet in Sign Meaning - using natal planet in sign data
+    const planetInSign = (PLANET_IN_SIGN_INTERPRETATIONS as any)[data.planet]?.[data.sign] || "No interpretation available.";
+    sections.push({
+      title: 'Natal Planet in Sign Meaning',
+      content: planetInSign,
+      type: 'natal-sign'
+    });
+    
+    // 3. Natal Planet Core Meaning - using centralized data from interpretations
+    const planetData = PLANET_INTERPRETATIONS[data.planet];
+    const planetMeaning = planetData?.description || 'your core planetary energy';
+    
+    sections.push({
+      title: 'Natal Planet Core Meaning',
+      content: `**Your natal ${data.planet}** represents ${planetMeaning}.`,
+      type: 'natal-core'
+    });
     
     return sections;
   }
@@ -174,9 +276,9 @@
     let planetColor = 'text-blue-600'; // Default for transit planets
     let aspectColor = 'text-green-600'; // Default for harmonious aspects
     
-    if (type === 'transit-planet' || type === 'transit-energy') {
+    if (type === 'transit-planet' || type === 'transit-energy' || type === 'transit-house') {
       planetColor = 'text-orange-600'; // Transit planets in orange
-    } else if (type === 'natal-planet') {
+    } else if (type === 'natal-planet' || type === 'natal-house' || type === 'natal-sign' || type === 'natal-core') {
       planetColor = 'text-purple-600'; // Natal planets in purple
     }
     
@@ -228,7 +330,7 @@
     // 1. Transit Planet in House Meaning
     sections.push({
       title: 'Transit Planet in House Meaning',
-      content: getTransitPlanetInHouseMeaning(data.planet, data.house),
+      content: getTransitPlanetInHouseMeaning(data.planet, data.house, data.sign),
       type: 'house-meaning'
     });
     
@@ -247,6 +349,61 @@
       title: 'Transit Planet Meaning',
       content: `**Transit ${data.planet}** represents ${planetMeaning}.`,
       type: 'transit-energy'
+    });
+    
+    return sections;
+  }
+
+  function generateSignSections(data: any) {
+    const sections = [];
+    
+    // 1. Sign Overview
+    const signChars = SIGN_CHARACTERISTICS[data.sign] || {};
+    sections.push({
+      title: `${data.sign} - Sign Overview`,
+      content: signChars.description || "Sign description not available.",
+      type: 'sign-overview',
+      metadata: {
+        element: signChars.element || "Unknown",
+        quality: signChars.quality || "Unknown", 
+        ruler: signChars.ruler || "Unknown",
+        polarity: signChars.polarity || "Unknown"
+      }
+    });
+    
+    // 2. House General Meaning
+    const houseKey = `${data.house}${data.house === 1 ? 'st' : data.house === 2 ? 'nd' : data.house === 3 ? 'rd' : 'th'}`;
+    const houseGeneral = HOUSES[houseKey] || "House information not available.";
+    sections.push({
+      title: `House ${data.house} represents`,
+      content: houseGeneral,
+      type: 'house-general'
+    });
+    
+    // 3. Sign in House Meaning
+    const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[data.sign]?.[data.house] || "No interpretation available.";
+    sections.push({
+      title: `${data.sign} in House ${data.house}`,
+      content: signInHouse,
+      type: 'sign-house-meaning'
+    });
+    
+    // 4. Key Characteristics
+    sections.push({
+      title: `${data.sign} - Key Characteristics`,
+      content: 'Keywords and themes for this sign',
+      type: 'sign-characteristics',
+      keywords: signChars.keywords || [],
+      themes: signChars.themes || []
+    });
+    
+    // 5. Strengths and Challenges
+    sections.push({
+      title: 'Strengths and Challenges',
+      content: 'Personal strengths and areas for growth',
+      type: 'sign-strengths-challenges',
+      strengths: signChars.strengths || [],
+      challenges: signChars.challenges || []
     });
     
     return sections;
@@ -291,61 +448,20 @@
   </Card.Content>
 </Card.Root>
 
-<!-- Detailed Transit Interpretation Dialog -->
-<Dialog.Root bind:open={showTransitDialog}>
-  <Dialog.Content class="max-w-2xl max-h-[80vh] overflow-y-auto">
-    <Dialog.Header class="pb-4">
-      <Dialog.Title class="text-xl font-semibold text-gray-900 mb-2">
-        {detailedInterpretation?.title}
-      </Dialog.Title>
-      <Dialog.Description class="text-sm text-gray-600">
-        {detailedInterpretation?.symbols} • {detailedInterpretation?.type === 'aspect' ? 'Transit Aspect' : 'Transit Planet'}
-      </Dialog.Description>
-    </Dialog.Header>
-    
-    {#if detailedInterpretation}
-      <!-- Orb and Nature Section -->
-      {#if detailedInterpretation.type === 'aspect'}
-        <div class="bg-gray-50 p-6 rounded-lg mb-6">
-          <div class="grid grid-cols-2 gap-6">
-            <div>
-              <h4 class="font-semibold text-gray-800 mb-2">Orb</h4>
-              <p class="text-sm text-gray-600">{detailedInterpretation.orb}</p>
-            </div>
-            <div>
-              <h4 class="font-semibold text-gray-800 mb-2">Nature</h4>
-              <p class="text-sm">
-                <span class={getAspectHarmonyClass(detailedInterpretation.title)}>
-                  {detailedInterpretation.nature}
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      {/if}
-      
-      <!-- Enhanced Transit Interpretation Section -->
-      <div class="bg-gray-50 p-6 rounded-lg">
-        <h4 class="font-medium text-gray-800 mb-4 text-lg">Enhanced Transit Interpretation</h4>
-        <div class="space-y-6">
-          {#each detailedInterpretation.sections as section}
-            <div class="border-l-4 border-gray-300 pl-6 py-2">
-              <h5 class="font-semibold text-gray-900 mb-3 text-base">{section.title}</h5>
-              <div class="text-sm text-gray-700 leading-relaxed">
-                {@html formatInterpretationContent(section.content, section.type)}
-              </div>
-            </div>
-          {/each}
-        </div>
-      </div>
-    {/if}
-    
-    <Dialog.Footer>
-      <Dialog.Close class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">
-        Close
-      </Dialog.Close>
-    </Dialog.Footer>
-  </Dialog.Content>
-</Dialog.Root>
+<!-- Chart Element Dialog -->
+<ChartElementDialog 
+  bind:open={dialogOpen} 
+  elementData={selectedElementData} 
+  chartType="transit" 
+/>
 
- 
+<style>
+  .font-zodiac {
+    font-family: 'Noto Sans Symbols', 'Arial Unicode MS', 'Arial', sans-serif;
+    font-weight: 500;
+  }
+  
+  .font-symbols {
+    font-family: 'Noto Sans Symbols', 'Arial', sans-serif;
+  }
+</style>

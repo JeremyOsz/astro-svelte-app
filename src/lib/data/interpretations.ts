@@ -985,7 +985,19 @@ export function getTransitInterpretation(aspect: string, transitPlanet: string, 
 }
 
 // Enhanced transit interpretation functions
-export function getTransitPlanetInHouseMeaning(transitPlanet: string, houseNumber: number): string {
+function getOrdinalSuffix(num: number): string {
+    if (num >= 11 && num <= 13) return 'th';
+    switch (num % 10) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+    }
+}
+
+
+
+export function getTransitPlanetInHouseMeaning(transitPlanet: string, houseNumber: number, transitSign?: string): string {
     const planetMeanings = {
         'Sun': 'your core identity and life purpose',
         'Moon': 'your emotional needs and intuitive responses',
@@ -1017,7 +1029,11 @@ export function getTransitPlanetInHouseMeaning(transitPlanet: string, houseNumbe
     const planetMeaning = planetMeanings[transitPlanet as keyof typeof planetMeanings] || 'your personal growth';
     const houseMeaning = houseMeanings[houseNumber as keyof typeof houseMeanings] || 'your life areas';
 
-    return `The transit ${transitPlanet} is currently activating ${planetMeaning} in the area of ${houseMeaning}. This brings temporary focus and energy to this life area.`;
+    if (transitSign) {
+        return `${transitPlanet} is currently transiting through ${transitSign} in the ${houseNumber}${getOrdinalSuffix(houseNumber)} house - this is activating ${planetMeaning} in the area of ${houseMeaning}. This brings temporary focus and energy to this life area.`;
+    }
+
+    return `${transitPlanet} is currently transiting through the ${houseNumber}${getOrdinalSuffix(houseNumber)} house - this is activating ${planetMeaning} in the area of ${houseMeaning}. This brings temporary focus and energy to this life area.`;
 }
 
 export function getTransitPlanetInSignMeaning(transitPlanet: string, sign: string): string {
@@ -1052,7 +1068,7 @@ export function getTransitPlanetInSignMeaning(transitPlanet: string, sign: strin
     const planetMeaning = planetMeanings[transitPlanet as keyof typeof planetMeanings] || 'your current energy';
     const signMeaning = signMeanings[sign as keyof typeof signMeanings] || 'with unique characteristics';
 
-    return `The transit ${transitPlanet} is currently expressing ${planetMeaning} ${signMeaning}. This colors how you experience this energy during this transit period.`;
+    return `${transitPlanet} is currently transiting through ${sign} - this is expressing ${planetMeaning} ${signMeaning}. This colors how you experience this energy during this transit period.`;
 }
 
 export function getEnhancedTransitInterpretation(aspect: string, transitPlanet: string, natalPlanet: string, transitHouse?: number, transitSign?: string): string {
@@ -1116,7 +1132,7 @@ export function getEnhancedTransitInterpretation(aspect: string, transitPlanet: 
 
     // Add house and sign information if available
     if (transitHouse) {
-        interpretation += `\n\n${getTransitPlanetInHouseMeaning(transitPlanet, transitHouse)}`;
+        interpretation += `\n\n${getTransitPlanetInHouseMeaning(transitPlanet, transitHouse, transitSign)}`;
     }
 
     if (transitSign) {

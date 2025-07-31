@@ -58,10 +58,12 @@ export const ZODIAC_SIGNS = [
 ```
 
 #### Data Organization (`src/lib/data/`)
-- Centralize all astrological constants and reference data
+- **ALL interpretations and astrological data MUST be centralized in `@data/` folder**
+- Never hardcode astrological meanings, interpretations, or data in components
 - Use descriptive exports with clear naming
-- Group related data together (zodiac, planets, aspects)
+- Group related data together (zodiac, planets, aspects, interpretations)
 - Export utility functions alongside data
+- Import from `@data/` for all astrological content
 
 ### Component Patterns
 
@@ -273,6 +275,9 @@ describe('Component', () => {
 - Focus on curiosity and shared journey
 - Avoid grandiose or overly professional language
 - Tailor content for astrology and mysticism audience
+- **All astrological interpretations and meanings MUST come from `@data/` folder**
+- Never hardcode planet meanings, aspect interpretations, or house descriptions in components
+- Use centralized interpretation functions and data structures
 
 ## 🚀 Deployment Standards
 
@@ -316,6 +321,13 @@ pnpm preview
 - Use Svelte's reactive features effectively
 
 ## 🔍 Common Patterns to Follow
+
+### Data Centralization
+- **All astrological data MUST be in `src/lib/data/` folder**
+- **All interpretation functions MUST be in `src/lib/data/interpretations.ts`**
+- **All planet meanings, aspect descriptions, house meanings MUST be centralized**
+- **Components should ONLY import from `@data/` for astrological content**
+- **Never hardcode astrological meanings in components**
 
 ### File Naming
 - Use kebab-case for file names

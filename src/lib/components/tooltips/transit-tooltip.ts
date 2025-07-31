@@ -88,7 +88,7 @@ function getTransitPlanetInterpretation(planetData: any) {
   const planetTypeText = `<p><strong>Type:</strong> <span style="color: #ff9500; font-weight: bold;">Transit planet</span> - current position at the time of the transit chart</p>`;
   
   // Enhanced transit meanings
-  const houseMeaning = getTransitPlanetInHouseMeaning(planet, house);
+      const houseMeaning = getTransitPlanetInHouseMeaning(planet, house, sign);
   const signMeaning = getTransitPlanetInSignMeaning(planet, sign);
   const enhancedTransitInfo = `
     <p><strong>Current Transit Meaning:</strong></p>
@@ -105,7 +105,6 @@ function getTransitPlanetInterpretation(planetData: any) {
       <p><strong>Position:</strong> ${position} ${sign}${retrogradeText}</p>
       <p><strong>${planet}:</strong> ${planetMeaning}</p>
       <p><strong>In ${sign}:</strong> ${planetInSign}</p>
-      <p><strong>In House ${house}:</strong> ${signInHouse}</p>
       ${enhancedTransitInfo}
     </div>
   `;

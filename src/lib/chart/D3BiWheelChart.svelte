@@ -780,7 +780,8 @@
       const signData = {
         sign: sign,
         house: houseNumber,
-        angle: signAngle
+        angle: signAngle,
+        isTransit: true // This is a transit chart, so signs are transit-related
       };
 
       // Create a group for the sign and its hover area
@@ -1468,6 +1469,7 @@
   <ChartElementDialog 
     bind:open={dialogOpen}
     elementData={selectedElementData}
+    chartType="biwheel"
   />
 
 <style>

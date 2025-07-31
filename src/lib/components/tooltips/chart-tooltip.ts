@@ -91,7 +91,7 @@ function getPlanetInterpretation(planetData: any) {
   
   let enhancedTransitInfo = '';
   if (isTransit) {
-    const houseMeaning = getTransitPlanetInHouseMeaning(planet, house);
+    const houseMeaning = getTransitPlanetInHouseMeaning(planet, house, sign);
     const signMeaning = getTransitPlanetInSignMeaning(planet, sign);
     enhancedTransitInfo = `
       <p><strong>Current Transit Meaning:</strong></p>

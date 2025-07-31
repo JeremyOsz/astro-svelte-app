@@ -613,7 +613,8 @@
       const signData = {
         sign: sign,
         house: houseNumber,
-        angle: signAngle
+        angle: signAngle,
+        isTransit: false // This is a natal chart
       };
 
       // Create a group for the sign and its hover area
@@ -1236,7 +1237,7 @@
   </div>
 
   <!-- Chart Element Dialog -->
-  <ChartElementDialog bind:open={dialogOpen} elementData={selectedElementData} />
+  <ChartElementDialog bind:open={dialogOpen} elementData={selectedElementData} chartType="natal" />
 
 <style>
   :global(.chart-svg) {

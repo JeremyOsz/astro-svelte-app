@@ -25,6 +25,48 @@
 
   export let open = false;
   export let elementData: any = null;
+  export let chartType: 'natal' | 'transit' | 'biwheel' | 'synastry' | 'composite' | 'solar-return' | 'lunar-return' | 'progressed' = 'natal';
+
+  // Enhanced type definitions for better abstraction
+  interface BaseElementData {
+    type?: string;
+    chartType?: string;
+    isTransit?: boolean;
+    isRetrograde?: boolean;
+  }
+
+  interface PlanetData extends BaseElementData {
+    planet: string;
+    sign: string;
+    house: number;
+    degree: number;
+    minute: number;
+    isTransit?: boolean;
+    isRetrograde?: boolean;
+  }
+
+  interface AspectData extends BaseElementData {
+    aspect: string;
+    planet1: string;
+    planet2: string;
+    orb: number;
+    isTransitAspect?: boolean;
+  }
+
+  interface SignData extends BaseElementData {
+    sign: string;
+    house: number;
+    isTransit?: boolean;
+  }
+
+  interface AngularHouseData extends BaseElementData {
+    planet: 'ASC' | 'MC' | 'DSC' | 'IC';
+    sign: string;
+    degree: number;
+    minute: number;
+  }
+
+  type ElementData = PlanetData | AspectData | SignData | AngularHouseData;
 
   type PlanetInterpretation = {
     title: string;
@@ -39,6 +81,7 @@
     isRetrograde: boolean;
     zodiacSymbol: string;
     enhancedTransitInfo?: string;
+    chartType: string;
   };
 
   type AspectInterpretation = {
@@ -56,6 +99,7 @@
     isTransitAspect: boolean;
     aspectSymbol: string;
     aspectColor: string;
+    chartType: string;
   };
 
   type SignInterpretation = {
@@ -63,6 +107,7 @@
     houseGeneral: string;
     signInHouse: string;
     zodiacSymbol: string;
+    chartType: string;
   };
 
   type AngularHouseInterpretation = {
@@ -74,6 +119,7 @@
     zodiacSymbol: string;
     degree: number;
     minute: number;
+    chartType: string;
   };
 
   type Interpretation = PlanetInterpretation | AspectInterpretation | SignInterpretation | AngularHouseInterpretation;
@@ -82,8 +128,39 @@
     open = false;
   }
 
-  function getPlanetInterpretation(planetData: any): PlanetInterpretation {
+  // Enhanced chart type detection
+  function detectChartType(data: any): string {
+    if (data.chartType) return data.chartType;
+    if (data.isTransit || data.isTransitAspect) return 'transit';
+    if (data.isSynastry) return 'synastry';
+    if (data.isComposite) return 'composite';
+    if (data.isSolarReturn) return 'solar-return';
+    if (data.isLunarReturn) return 'lunar-return';
+    if (data.isProgressed) return 'progressed';
+    return chartType || 'natal';
+  }
+
+  // Enhanced type detection with better abstraction
+  function isPlanetData(data: any): data is PlanetData {
+    return data && typeof data.planet === 'string' && typeof data.sign === 'string' && typeof data.house === 'number';
+  }
+
+  function isAspectData(data: any): data is AspectData {
+    return data && typeof data.aspect === 'string' && typeof data.planet1 === 'string' && typeof data.planet2 === 'string';
+  }
+
+  function isSignData(data: any): data is SignData {
+    return data && typeof data.sign === 'string' && typeof data.house === 'number' && !data.planet;
+  }
+
+  function isAngularHouseData(data: any): data is AngularHouseData {
+    return data && ['ASC', 'MC', 'DSC', 'IC'].includes(data.planet) && typeof data.sign === 'string';
+  }
+
+  function getPlanetInterpretation(planetData: PlanetData): PlanetInterpretation {
     const { planet, sign, house, degree, minute, isRetrograde, isTransit } = planetData;
+    const detectedChartType = detectChartType(planetData);
+    
     const planetInSign = (PLANET_IN_SIGN_INTERPRETATIONS as any)[planet]?.[sign] || "No interpretation available.";
     const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
     const planetMeaning = (PLANET_INTERPRETATIONS as any)[planet]?.description || "";
@@ -94,10 +171,37 @@
     const planetColor = isTransit ? (TRANSIT_COLORS[planet] || '#ff9500') : '#333';
     const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
 
+    // Enhanced chart type specific handling
+    let typeLabel = isTransit ? 'Transit Planet' : 'Natal Planet';
+    let typeColor = isTransit ? 'text-orange-600' : 'text-gray-800';
+    
+    switch (detectedChartType) {
+      case 'synastry':
+        typeLabel = 'Synastry Planet';
+        typeColor = 'text-purple-600';
+        break;
+      case 'composite':
+        typeLabel = 'Composite Planet';
+        typeColor = 'text-blue-600';
+        break;
+      case 'solar-return':
+        typeLabel = 'Solar Return Planet';
+        typeColor = 'text-yellow-600';
+        break;
+      case 'lunar-return':
+        typeLabel = 'Lunar Return Planet';
+        typeColor = 'text-indigo-600';
+        break;
+      case 'progressed':
+        typeLabel = 'Progressed Planet';
+        typeColor = 'text-green-600';
+        break;
+    }
+
     // Add enhanced transit meanings if it's a transit planet
     let enhancedTransitInfo = '';
     if (isTransit) {
-      const houseMeaning = getTransitPlanetInHouseMeaning(planet, house);
+      const houseMeaning = getTransitPlanetInHouseMeaning(planet, house, sign);
       const signMeaning = getTransitPlanetInSignMeaning(planet, sign);
       enhancedTransitInfo = `
         <div class="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
@@ -112,22 +216,24 @@
 
     return {
       title: `${planetSymbol} ${planet} in ${zodiacSymbol} ${sign} (House ${house})`,
-      type: isTransit ? 'Transit Planet' : 'Natal Planet',
-      typeColor: isTransit ? 'text-orange-600' : 'text-gray-800',
+      type: typeLabel,
+      typeColor,
       position: `${degree}°${minute.toString().padStart(2, '0')}' ${zodiacSymbol} ${sign}${retrogradeText}`,
       planetMeaning,
       planetInSign,
       signInHouse,
       planetSymbol,
       planetColor,
-      isRetrograde,
+      isRetrograde: isRetrograde || false,
       zodiacSymbol,
-      enhancedTransitInfo
+      enhancedTransitInfo,
+      chartType: detectedChartType
     };
   }
 
-  function getAspectInterpretation(aspectData: any): AspectInterpretation {
+  function getAspectInterpretation(aspectData: AspectData): AspectInterpretation {
     const { aspect, planet1, planet2, orb, isTransitAspect } = aspectData;
+    const detectedChartType = detectChartType(aspectData);
     const aspectDataInfo = (ASPECT_INTERPRETATIONS as any)[aspect];
     
     let generalInterpretation = '';
@@ -154,9 +260,30 @@
     const planet1Color = isTransitAspect ? '#ff9500' : '#333';
     const planet2Color = '#333'; // Natal planet is always gray
 
+    // Enhanced chart type specific handling
+    let typeLabel = isTransitAspect ? 'Transit Aspect' : 'Natal Aspect';
+    
+    switch (detectedChartType) {
+      case 'synastry':
+        typeLabel = 'Synastry Aspect';
+        break;
+      case 'composite':
+        typeLabel = 'Composite Aspect';
+        break;
+      case 'solar-return':
+        typeLabel = 'Solar Return Aspect';
+        break;
+      case 'lunar-return':
+        typeLabel = 'Lunar Return Aspect';
+        break;
+      case 'progressed':
+        typeLabel = 'Progressed Aspect';
+        break;
+    }
+
     return {
       title: `${planet1} ${aspect.toLowerCase()} ${planet2}`,
-      type: isTransitAspect ? 'Transit Aspect' : 'Natal Aspect',
+      type: typeLabel,
       orb: orb !== undefined ? `${orb.toFixed(2)}°` : aspectDataInfo?.orb || 'Unknown',
       nature: aspectDataInfo?.nature || 'Unknown',
       general: generalInterpretation,
@@ -166,37 +293,48 @@
       planet2Symbol,
       planet1Color,
       planet2Color,
-      isTransitAspect,
+      isTransitAspect: isTransitAspect || false,
       aspectSymbol,
-      aspectColor
+      aspectColor,
+      chartType: detectedChartType
     };
   }
 
-  function getSignInterpretation(signData: any): SignInterpretation {
+  function getSignInterpretation(signData: SignData): SignInterpretation {
     const { sign, house } = signData;
+    // Always use 'natal' chart type for signs to ensure identical content
+    const detectedChartType = 'natal';
+    
+    // Use the same sign-in-house interpretations for all chart types
+    // This provides consistent zodiac sign meanings across natal, transit, and other chart types
     const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
     const houseKey = `${house}${house === 1 ? 'st' : house === 2 ? 'nd' : house === 3 ? 'rd' : 'th'}`;
     const houseGeneral = HOUSES[houseKey] || "House information not available.";
     
+    // Keep the same title for all chart types to ensure consistency
+    let title = `${sign} in House ${house}`;
+    
+    // Use the same interpretation for all chart types to ensure identical content
+    let enhancedSignInHouse = signInHouse;
+    
     // Use centralized zodiac symbols
     return {
-      title: `${sign} in House ${house}`,
+      title,
       houseGeneral,
-      signInHouse,
-      zodiacSymbol: ZODIAC_SYMBOLS[sign] || sign
+      signInHouse: enhancedSignInHouse,
+      zodiacSymbol: ZODIAC_SYMBOLS[sign] || sign,
+      chartType: detectedChartType
     };
   }
 
-
-  function getAngularHouseInterpretation(angularHouseData: any): AngularHouseInterpretation {
+  function getAngularHouseInterpretation(angularHouseData: AngularHouseData): AngularHouseInterpretation {
     const { planet, sign, degree, minute } = angularHouseData;
+    const detectedChartType = detectChartType(angularHouseData);
     
     // Angular house symbols
     const angularHouseSymbols: Record<string, string> = {
       "ASC": "Asc", "MC": "MC", "DSC": "Dsc", "IC": "IC"
     };
-
-    // Use centralized zodiac symbols
 
     // Angular house meanings and descriptions
     const angularHouseInfo: Record<string, { meaning: string; description: string }> = {
@@ -230,7 +368,8 @@
       sign,
       zodiacSymbol,
       degree,
-      minute
+      minute,
+      chartType: detectedChartType
     };
   }
 
@@ -250,10 +389,11 @@
     return 'meaning' in interpretation && 'symbol' in interpretation;
   }
 
+  // Enhanced interpretation generation with better type safety
   $: interpretation = elementData ? 
-    (elementData.aspect ? getAspectInterpretation(elementData) :
-     elementData.planet ? (['ASC', 'MC', 'DSC', 'IC'].includes(elementData.planet) ? getAngularHouseInterpretation(elementData) : getPlanetInterpretation(elementData)) :
-     elementData.sign ? getSignInterpretation(elementData) : null) : null;
+    (isAspectData(elementData) ? getAspectInterpretation(elementData) :
+     isPlanetData(elementData) ? (['ASC', 'MC', 'DSC', 'IC'].includes(elementData.planet) ? getAngularHouseInterpretation(elementData as AngularHouseData) : getPlanetInterpretation(elementData)) :
+     isSignData(elementData) ? getSignInterpretation(elementData) : null) : null;
 
   // Enhanced planet characteristics
   function getPlanetCharacteristics(planet: string): { keywords: string[], description: string, themes: string[], challenges: string[], strengths: string[] } {
@@ -279,6 +419,26 @@
       challenges: [],
       strengths: []
     };
+  }
+
+  // Chart type specific styling
+  function getChartTypeStyles(chartType: string) {
+    switch (chartType) {
+      case 'synastry':
+        return 'border-purple-200 bg-purple-50';
+      case 'composite':
+        return 'border-blue-200 bg-blue-50';
+      case 'solar-return':
+        return 'border-yellow-200 bg-yellow-50';
+      case 'lunar-return':
+        return 'border-indigo-200 bg-indigo-50';
+      case 'progressed':
+        return 'border-green-200 bg-green-50';
+      case 'transit':
+        return 'border-orange-200 bg-orange-50';
+      default:
+        return 'border-gray-200 bg-gray-50';
+    }
   }
 </script>
 
