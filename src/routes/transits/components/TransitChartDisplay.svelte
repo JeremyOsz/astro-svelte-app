@@ -109,6 +109,17 @@
     return aspectData?.nature || 'Aspect nature information not available';
   }
 
+  function getAspectHarmonyClass(aspectTitle: string): string {
+    if (aspectTitle.includes('Trine') || aspectTitle.includes('Sextile') || aspectTitle.includes('Conjunction')) {
+      return 'text-green-600 font-medium'; // Harmonious aspects
+    } else if (aspectTitle.includes('Square') || aspectTitle.includes('Opposition')) {
+      return 'text-red-600 font-medium'; // Challenging aspects
+    } else if (aspectTitle.includes('Quincunx')) {
+      return 'text-yellow-600 font-medium'; // Neutral aspects
+    }
+    return 'text-gray-600 font-medium'; // Default
+  }
+
   function generateTransitAspectSections(data: any) {
     const sections = [];
     
@@ -156,6 +167,59 @@
     }
     
     return sections;
+  }
+
+  function formatInterpretationContent(content: string, type: string): string {
+    // Color coding based on section type
+    let planetColor = 'text-blue-600'; // Default for transit planets
+    let aspectColor = 'text-green-600'; // Default for harmonious aspects
+    
+    if (type === 'transit-planet' || type === 'transit-energy') {
+      planetColor = 'text-orange-600'; // Transit planets in orange
+    } else if (type === 'natal-planet') {
+      planetColor = 'text-purple-600'; // Natal planets in purple
+    }
+    
+    // Determine aspect harmony color
+    if (content.includes('Trine') || content.includes('Sextile') || content.includes('Conjunction')) {
+      aspectColor = 'text-green-600'; // Harmonious aspects in green
+    } else if (content.includes('Square') || content.includes('Opposition')) {
+      aspectColor = 'text-red-600'; // Challenging aspects in red
+    } else if (content.includes('Quincunx')) {
+      aspectColor = 'text-yellow-600'; // Neutral aspects in yellow
+    }
+    
+    // Format the content with color coding
+    let formattedContent = content;
+    
+    // Color code planet names
+    const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+    planets.forEach(planet => {
+      const regex = new RegExp(`\\b${planet}\\b`, 'g');
+      formattedContent = formattedContent.replace(regex, `<span class="${planetColor} font-semibold">${planet}</span>`);
+    });
+    
+    // Color code aspect names
+    const aspects = ['Conjunction', 'Opposition', 'Square', 'Trine', 'Sextile', 'Quincunx'];
+    aspects.forEach(aspect => {
+      const regex = new RegExp(`\\b${aspect}\\b`, 'g');
+      formattedContent = formattedContent.replace(regex, `<span class="${aspectColor} font-semibold">${aspect}</span>`);
+    });
+    
+    // Color code sign names
+    const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+    signs.forEach(sign => {
+      const regex = new RegExp(`\\b${sign}\\b`, 'g');
+      formattedContent = formattedContent.replace(regex, `<span class="text-indigo-600 font-semibold">${sign}</span>`);
+    });
+    
+    // Color code house numbers
+    formattedContent = formattedContent.replace(/\bHouse (\d+)\b/g, '<span class="text-teal-600 font-semibold">House $1</span>');
+    
+    // Handle bold text (already formatted with **)
+    formattedContent = formattedContent.replace(/\*\*(.*?)\*\*/g, `<span class="${planetColor} font-semibold">$1</span>`);
+    
+    return formattedContent;
   }
 
   function generateTransitPlanetSections(data: any) {
@@ -230,8 +294,8 @@
 <!-- Detailed Transit Interpretation Dialog -->
 <Dialog.Root bind:open={showTransitDialog}>
   <Dialog.Content class="max-w-2xl max-h-[80vh] overflow-y-auto">
-    <Dialog.Header>
-      <Dialog.Title class="text-xl font-semibold text-orange-600">
+    <Dialog.Header class="pb-4">
+      <Dialog.Title class="text-xl font-semibold text-gray-900 mb-2">
         {detailedInterpretation?.title}
       </Dialog.Title>
       <Dialog.Description class="text-sm text-gray-600">
@@ -242,29 +306,33 @@
     {#if detailedInterpretation}
       <!-- Orb and Nature Section -->
       {#if detailedInterpretation.type === 'aspect'}
-        <div class="bg-gray-50 p-4 rounded-lg mb-4">
-          <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gray-50 p-6 rounded-lg mb-6">
+          <div class="grid grid-cols-2 gap-6">
             <div>
-              <h4 class="font-medium text-gray-700">Orb</h4>
-              <p class="text-sm">{detailedInterpretation.orb}</p>
+              <h4 class="font-semibold text-gray-800 mb-2">Orb</h4>
+              <p class="text-sm text-gray-600">{detailedInterpretation.orb}</p>
             </div>
             <div>
-              <h4 class="font-medium text-gray-700">Nature</h4>
-              <p class="text-sm">{detailedInterpretation.nature}</p>
+              <h4 class="font-semibold text-gray-800 mb-2">Nature</h4>
+              <p class="text-sm">
+                <span class={getAspectHarmonyClass(detailedInterpretation.title)}>
+                  {detailedInterpretation.nature}
+                </span>
+              </p>
             </div>
           </div>
         </div>
       {/if}
       
       <!-- Enhanced Transit Interpretation Section -->
-      <div class="bg-orange-50 p-4 rounded-lg">
-        <h4 class="font-medium text-orange-700 mb-3">Enhanced Transit Interpretation</h4>
-        <div class="space-y-4">
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h4 class="font-medium text-gray-800 mb-4 text-lg">Enhanced Transit Interpretation</h4>
+        <div class="space-y-6">
           {#each detailedInterpretation.sections as section}
-            <div class="border-l-4 border-orange-200 pl-4">
-              <h5 class="font-medium text-gray-800 mb-2">{section.title}</h5>
+            <div class="border-l-4 border-gray-300 pl-6 py-2">
+              <h5 class="font-semibold text-gray-900 mb-3 text-base">{section.title}</h5>
               <div class="text-sm text-gray-700 leading-relaxed">
-                {@html section.content.replace(/\*\*(.*?)\*\*/g, '<span class="text-orange-600 font-semibold">$1</span>')}
+                {@html formatInterpretationContent(section.content, section.type)}
               </div>
             </div>
           {/each}
