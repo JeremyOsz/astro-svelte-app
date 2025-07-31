@@ -16,7 +16,20 @@
 - ~Store Birth Data~
 - ~Loading state for chart~
 - ~make scroll not impact with the chart~
-- ~allow lat/lon input instead of birthplace optionaly ~
+- allow lat/lon input instead of birthplace optionaly 
+- set default in database
+- Make aspect toltips better
+
+
+# Making transits better
+- Transit planets in house
+- Transit planets in sun
+- Stop using birth chart info 
+- Clearly say what:
+    1. Transit planet is and represents
+    2. Natal planet is and represents
+    3. What the aspect represents
+    4. What the interraction represents
 
 # Layout & UI Improvements
 - ~Add proper container padding to pages after layout changes~
