@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import D3BiWheelChart from '$lib/chart/D3BiWheelChart.svelte';
   import { chartStore } from '$lib/stores/chart-store';
+  import ChartInstructions from '$lib/components/ChartInstructions.svelte';
 
   // Sample natal (inner wheel) data – minimal demo set
   const natalData = `#HOUSES: 120,150,180,210,240,270,300,330,0,30,60,90
@@ -32,6 +33,9 @@ Pluto,Capricorn,27°58'
 ASC,Virgo,15°00'
 MC,Gemini,12°00'`;
 
+  // Chart instructions
+  let showInstructions = true;
+
   onMount(() => {
     // Load natal data into the shared chart store
     chartStore.setChartData(natalData);
@@ -40,6 +44,10 @@ MC,Gemini,12°00'`;
 
 <section class="biwheel-demo">
   <h1 class="title">Bi-Wheel Chart Demo</h1>
+  
+  <!-- Chart Instructions -->
+  <ChartInstructions bind:showInstructions />
+  
   <D3BiWheelChart {transitData} />
 </section>
 

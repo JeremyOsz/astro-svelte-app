@@ -91,7 +91,7 @@
     </Alert.Root>
   {/if}
 
-  <div class="grid gap-6 lg:grid-cols-2">
+  <div class="grid gap-6 lg:grid-cols-2 pb-4">
     <!-- Birth Chart Selection -->
     <BirthChartSelector 
       {selectedBirthChart}

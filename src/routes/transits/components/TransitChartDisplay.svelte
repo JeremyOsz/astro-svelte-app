@@ -5,6 +5,7 @@
   import D3BiWheelChart from '$lib/chart/D3BiWheelChart.svelte';
   import { chartStore } from '$lib/stores/chart-store';
   import ChartElementDialog from '$lib/components/dialogs/ChartElementDialog.svelte';
+  import ChartInstructions from '$lib/components/ChartInstructions.svelte';
   import { 
     createBriefTooltip,
     showBriefTooltip,
@@ -36,6 +37,9 @@
   export let transitTime: string;
   export let selectedTransitCityData: any;
   export let chartReady: boolean;
+
+  // Chart instructions
+  let showInstructions = true;
 
   // State for detailed transit interpretation dialog
   let dialogOpen = false;
@@ -420,6 +424,9 @@
     createTransitTooltip();
   });
 </script>
+
+<!-- Chart Instructions -->
+<ChartInstructions bind:showInstructions />
 
 <Card.Root class="mt-6">
   <Card.Header>

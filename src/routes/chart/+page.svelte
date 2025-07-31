@@ -16,6 +16,7 @@
   import { chartStore, currentChart } from '$lib/stores/chart-store';
   import * as Accordion from "$lib/components/ui/accordion";
   import { Input } from '$lib/components/ui/input';
+  import ChartInstructions from '$lib/components/ChartInstructions.svelte';
 
   // export let data: PageData;
 
@@ -45,6 +46,9 @@
 
   // Sidebar tabs
   let activeTab = 'form'; // 'form' | 'saved'
+
+  // Chart instructions
+  let showInstructions = true;
 
   // Constraints for sidebar width
   const MIN_SIDEBAR_WIDTH = 240;
@@ -755,6 +759,9 @@ MC,Leo,10°14'`;
             </div>
           </div>
         {:else if showChart}
+          <!-- Chart Instructions -->
+          <ChartInstructions bind:showInstructions />
+          
           <div class="bg-white rounded-lg shadow-md p-2 sm:p-4 md:p-4"
                class:px-0={isMobile}
                class:rounded-none={isMobile}
