@@ -39,7 +39,7 @@
   export let chartReady: boolean;
 
   // Chart instructions
-  let showInstructions = true;
+  let showInstructions = false;
 
   // State for detailed transit interpretation dialog
   let dialogOpen = false;

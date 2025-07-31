@@ -48,7 +48,7 @@
   let activeTab = 'form'; // 'form' | 'saved'
 
   // Chart instructions
-  let showInstructions = true;
+  let showInstructions = false;
 
   // Constraints for sidebar width
   const MIN_SIDEBAR_WIDTH = 240;

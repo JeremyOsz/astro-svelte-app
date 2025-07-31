@@ -34,7 +34,7 @@ ASC,Virgo,15°00'
 MC,Gemini,12°00'`;
 
   // Chart instructions
-  let showInstructions = true;
+  let showInstructions = false;
 
   onMount(() => {
     // Load natal data into the shared chart store
