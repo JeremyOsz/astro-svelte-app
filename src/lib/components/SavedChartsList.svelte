@@ -1,7 +1,7 @@
 <script lang="ts">
   import { chartStore, type SavedChart } from '$lib/stores/chart-store';
   import { Button } from '$lib/components/ui/button';
-  import { Trash2, Edit, Eye, Share2 } from 'lucide-svelte';
+  import { Trash2, Edit, Eye, Share2, Check } from 'lucide-svelte';
   import { URLSharingService } from '$lib/services/url-sharing';
   
   export let onChartSelect: (chart: SavedChart) => void = () => {};
@@ -77,31 +77,40 @@
   {:else}
     <div class="space-y-2">
       {#each $chartStore.savedCharts as chart}
-        <div class="flex items-center justify-between p-3 rounded-lg transition-colors {theme === 'dark' ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-50 hover:bg-gray-100'}">
+        {@const isSelected = $chartStore.currentChartId === chart.id}
+        <div 
+          class="flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer {isSelected ? (theme === 'dark' ? 'bg-blue-600/20 border-blue-500/50' : 'bg-blue-50 border-blue-200') : (theme === 'dark' ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-50 hover:bg-gray-100')} border {isSelected ? 'border-2' : 'border-transparent'}"
+          onclick={() => onChartSelect(chart)}
+        >
           <div class="flex-1 min-w-0">
             {#if editingChartId === chart.id}
               <input
                 type="text"
                 bind:value={editingName}
                 class="w-full px-2 py-1 border rounded text-sm"
-                on:keydown={(e) => e.key === 'Enter' && handleSaveEdit()}
-                on:blur={handleSaveEdit}
+                onkeydown={(e) => e.key === 'Enter' && handleSaveEdit()}
+                onblur={handleSaveEdit}
               />
             {:else}
-              <div class="font-medium truncate {theme === 'dark' ? 'text-white' : 'text-gray-900'}">{chart.name}</div>
+              <div class="flex items-center gap-2">
+                {#if isSelected}
+                  <Check class="h-4 w-4 {theme === 'dark' ? 'text-blue-300' : 'text-blue-600'}" />
+                {/if}
+                <div class="font-medium truncate {theme === 'dark' ? 'text-white' : 'text-gray-900'}">{chart.name}</div>
+              </div>
               <div class="text-sm {theme === 'dark' ? 'text-slate-300' : 'text-gray-500'}">
                 {new Date(chart.createdAt).toLocaleDateString()} • {chart.birthData.place}
               </div>
             {/if}
           </div>
           
-          <div class="flex gap-1 ml-2">
+          <div class="flex gap-1 ml-2" onclick={(e) => e.stopPropagation()}>
             <Button
               variant="ghost"
               size="sm"
               onclick={() => onChartSelect(chart)}
-              title="View chart"
-              class="{theme === 'dark' ? 'text-slate-300 hover:text-white hover:bg-white/20' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-200'}"
+              title={isSelected ? "Currently viewing" : "View chart"}
+              class="{isSelected ? (theme === 'dark' ? 'text-blue-300 bg-blue-600/30 hover:bg-blue-600/40' : 'text-blue-600 bg-blue-100 hover:bg-blue-200') : (theme === 'dark' ? 'text-slate-300 hover:text-white hover:bg-white/20' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-200')}"
             >
               <Eye class="h-4 w-4" />
             </Button>

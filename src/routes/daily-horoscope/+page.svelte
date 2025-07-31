@@ -98,7 +98,7 @@
           </Button>
         </div>
       {:else}
-        <SavedChartsList theme="dark" on:chartSelect={(e) => handleChartSelect(e.detail)} />
+        <SavedChartsList theme="dark" onChartSelect={handleChartSelect} />
       {/if}
     </div>
 
