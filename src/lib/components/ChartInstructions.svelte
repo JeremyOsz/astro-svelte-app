@@ -5,13 +5,17 @@
   import { Info, MousePointer, Hand, Eye, X } from 'lucide-svelte';
   import { createEventDispatcher } from 'svelte';
 
-  export let showInstructions = true;
+  export let showInstructions = false;
   
   const dispatch = createEventDispatcher();
 
   function closeInstructions() {
     showInstructions = false;
     dispatch('close');
+  }
+
+  function openInstructions() {
+    showInstructions = true;
   }
 </script>
 
@@ -24,7 +28,7 @@
           <CardTitle class="text-lg text-blue-900">How to Explore Your Chart</CardTitle>
         </div>
         <button 
-          on:click={() => closeInstructions()}
+          on:click={closeInstructions}
           class="h-8 w-8 p-0 hover:bg-blue-100 rounded-md flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors"
         >
           <X class="h-4 w-4" />
@@ -65,10 +69,10 @@
 
         <!-- Click Instructions -->
         <div class="space-y-3">
-                  <div class="flex items-center gap-2">
-          <Hand class="h-4 w-4 text-blue-600" />
-          <h3 class="font-medium text-blue-900">Click for Detailed Meanings</h3>
-        </div>
+          <div class="flex items-center gap-2">
+            <Hand class="h-4 w-4 text-blue-600" />
+            <h3 class="font-medium text-blue-900">Click for Detailed Meanings</h3>
+          </div>
           <div class="space-y-2 text-sm text-blue-800">
             <div class="flex items-start gap-2">
               <Badge variant="outline" class="text-xs">Planets</Badge>
@@ -123,4 +127,14 @@
       </div>
     </CardContent>
   </Card>
+{:else}
+  <div class="mb-4 flex justify-center">
+    <button 
+      on:click={openInstructions}
+      class="inline-flex items-center gap-2 px-4 py-2 text-sm text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors"
+    >
+      <Info class="h-4 w-4" />
+      <span>How to Explore Your Chart</span>
+    </button>
+  </div>
 {/if} 
