@@ -236,6 +236,8 @@
     const detectedChartType = detectChartType(aspectData);
     const aspectDataInfo = (ASPECT_INTERPRETATIONS as any)[aspect];
     
+    console.log('🔍 getAspectInterpretation called with:', { aspect, planet1, planet2, orb, isTransitAspect });
+    
     let generalInterpretation = '';
     let specificInterpretation = '';
     let enhancedInterpretation = '';
@@ -244,16 +246,16 @@
     if (isTransitAspect) {
       enhancedInterpretation = getEnhancedTransitInterpretation(aspect, planet1, planet2);
     } else {
-      // Use regular interpretation for natal aspects
+      // Use enhanced interpretation for natal aspects too
       const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
       const interpretationParts = interpretation.split('\n\n');
       generalInterpretation = interpretationParts[0] || '';
       specificInterpretation = interpretationParts[1] || '';
       
-      // Add more detailed general interpretation if it's too short
-      if (!generalInterpretation || generalInterpretation.length < 100) {
-        generalInterpretation = getAspectGeneralDescription(aspect);
-      }
+      // Always use enhanced general description for natal aspects
+      generalInterpretation = getAspectGeneralDescription(aspect);
+      
+      console.log('📝 Natal aspect interpretation:', { generalInterpretation, specificInterpretation });
     }
 
     // Use centralized symbols and colors
@@ -493,13 +495,46 @@
 
   function getAspectGeneralDescription(aspect: string): string {
     const aspectDescriptions: Record<string, string> = {
-      'conjunction': 'Planets in conjunction create a powerful unified energy. This aspect represents intense focus, new beginnings, and the merging of planetary energies. The planets work together as one force, creating a concentrated and potent influence in your chart.',
-      'opposition': 'Planets in opposition create awareness and balance. This aspect represents tension, integration, and the need to find harmony between opposing forces. The planets are in dialogue, requiring you to find balance and perspective between these energies.',
-      'square': 'Planets in square create challenge and growth. This aspect represents tension, action, and the need for transformation. The planets are in conflict, pushing you to grow and evolve through overcoming obstacles and developing new skills.',
-      'trine': 'Planets in trine create harmonious flow and natural talent. This aspect represents ease, talent, and natural abilities. The planets work together effortlessly, creating positive opportunities and natural gifts that come easily to you.',
-      'sextile': 'Planets in sextile create opportunity and cooperation. This aspect represents potential, support, and the ability to work harmoniously. The planets are in a supportive relationship, offering opportunities for growth and positive development.'
+      'conjunction': 'Planets in conjunction create a powerful unified energy. This aspect represents intense focus, new beginnings, and the merging of planetary energies. The planets work together as one force, creating a concentrated and potent influence in your chart. This is one of the most powerful aspects, representing the complete fusion of two planetary energies.',
+      'opposition': 'Planets in opposition create awareness and balance. This aspect represents tension, integration, and the need to find harmony between opposing forces. The planets are in dialogue, requiring you to find balance and perspective between these energies. This aspect often manifests as relationships, partnerships, or internal conflicts that need resolution.',
+      'square': 'Planets in square create challenge and growth. This aspect represents tension, action, and the need for transformation. The planets are in conflict, pushing you to grow and evolve through overcoming obstacles and developing new skills. This aspect provides the motivation and drive for personal development and achievement.',
+      'trine': 'Planets in trine create harmonious flow and natural talent. This aspect represents ease, talent, and natural abilities. The planets work together effortlessly, creating positive opportunities and natural gifts that come easily to you. This is considered one of the most beneficial aspects, representing natural talents and harmonious energy flow.',
+      'sextile': 'Planets in sextile create opportunity and cooperation. This aspect represents potential, support, and the ability to work harmoniously. The planets are in supportive relationship, offering opportunities for growth and positive development. This aspect provides gentle support and opportunities for growth without the intensity of major aspects.'
     };
     return aspectDescriptions[aspect.toLowerCase()] || 'This aspect creates a unique energy combination between the planets, influencing how they work together in your chart.';
+  }
+
+  function getAspectLifeAreas(aspect: string): string {
+    const aspectLifeAreas: Record<string, string> = {
+      'conjunction': 'Identity, core purpose, and personal power',
+      'opposition': 'Relationships, partnerships, and balance',
+      'square': 'Career, challenges, and personal growth',
+      'trine': 'Natural talents, creativity, and spiritual gifts',
+      'sextile': 'Opportunities, learning, and skill development'
+    };
+    return aspectLifeAreas[aspect.toLowerCase()] || 'Personal development and life experience';
+  }
+
+  function getAspectDevelopmentPhase(aspect: string): string {
+    const aspectDevelopmentPhases: Record<string, string> = {
+      'conjunction': 'Early life and identity formation',
+      'opposition': 'Mid-life relationships and integration',
+      'square': 'Ongoing challenges and transformation',
+      'trine': 'Natural expression throughout life',
+      'sextile': 'Continuous learning and opportunity'
+    };
+    return aspectDevelopmentPhases[aspect.toLowerCase()] || 'Lifelong development';
+  }
+
+  function getAspectKeyLessons(aspect: string): string {
+    const aspectKeyLessons: Record<string, string> = {
+      'conjunction': 'Understanding your core identity and purpose',
+      'opposition': 'Finding balance and harmony in relationships',
+      'square': 'Embracing challenges as opportunities for growth',
+      'trine': 'Developing and sharing your natural gifts',
+      'sextile': 'Recognizing and seizing opportunities'
+    };
+    return aspectKeyLessons[aspect.toLowerCase()] || 'Personal growth and self-awareness';
   }
 </script>
 
@@ -733,6 +768,16 @@
                 </ul>
               </div>
             </div>
+
+            <!-- Aspect Development and Timing -->
+            <div class="aspect-development rounded-lg p-4">
+              <h4 class="font-semibold mb-2">Development & Timing</h4>
+              <div class="text-sm text-blue-700 space-y-2">
+                <p><strong>Life Areas:</strong> {getAspectLifeAreas(elementData.aspect)}</p>
+                <p><strong>Development Phase:</strong> {getAspectDevelopmentPhase(elementData.aspect)}</p>
+                <p><strong>Key Lessons:</strong> {getAspectKeyLessons(elementData.aspect)}</p>
+              </div>
+            </div>
           </div>
         {:else if elementData.sign && isSignInterpretation(interpretation)}
           <!-- Sign Details -->
@@ -891,5 +936,18 @@
   .aspect-keyword:hover {
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Enhanced aspect development section */
+  .aspect-development {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #bfdbfe;
+  }
+
+  .aspect-development h4 {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 </style> 

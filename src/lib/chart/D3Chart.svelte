@@ -30,6 +30,11 @@
   // Dialog state
   let dialogOpen = false;
   let selectedElementData: any = null;
+  
+  // Debug dialog state changes
+  $: if (dialogOpen) {
+    console.log('🎯 D3Chart: Dialog opened with data:', selectedElementData);
+  }
 
   // Subscribe to the chart store - use manual subscription for better control
   let chartStoreUnsubscribe: () => void;
@@ -60,6 +65,7 @@
     color: string;
     weight: number;
     style: string;
+    isTransitAspect?: boolean;
   }
 
   // Reactive stores
@@ -472,15 +478,17 @@
         
         for (const [aspectName, aspectDef] of Object.entries(aspectDefs)) {
           if (Math.abs(minAngle - aspectDef.angle) <= aspectDef.orb) {
-            aspects.push({
+            const aspect = {
               planet1: planet1.planet,
               planet2: planet2.planet,
               aspect: aspectName,
               orb: Math.abs(minAngle - aspectDef.angle),
               color: aspectDef.color,
               weight: aspectDef.weight,
-              style: aspectDef.style
-            });
+              style: aspectDef.style,
+              isTransitAspect: false // This is a natal chart
+            };
+            aspects.push(aspect);
           }
         }
       }
@@ -540,8 +548,13 @@
     drawHouseLinesAndNumbers(g, house1CuspAngle);
     console.log('D3Chart: House lines drawn');
     if (showAspectLines) {
+      console.log('D3Chart: showAspectLines is true, drawing aspects...');
+      const { aspects } = get(chartState);
+      console.log('D3Chart: Number of aspects to draw:', aspects.length);
       drawAspects(g, house1CuspAngle);
       console.log('D3Chart: Aspects drawn');
+    } else {
+      console.log('D3Chart: showAspectLines is false, skipping aspects');
     }
     drawPlanets(g, house1CuspAngle);
     console.log('D3Chart: Planets drawn');
@@ -856,6 +869,7 @@
           hideBriefTooltip();
         })
         .on('click', () => {
+          console.log('🎯 D3Chart: Aspect clicked:', aspect);
           selectedElementData = aspect;
           dialogOpen = true;
           hideBriefTooltip();
