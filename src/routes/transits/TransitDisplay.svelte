@@ -27,7 +27,7 @@
   $: transitAspects = calculateTransitAspects();
 
   function calculateTransitAspects(): TransitAspect[] {
-    if (!natalChart || !currentTransits) return [];
+    if (!natalChart || !currentTransits || !currentTransits.planets) return [];
 
     const aspects: TransitAspect[] = [];
 
@@ -35,7 +35,17 @@
       natalChart.planets.forEach((natalPlanet) => {
         if (natalPlanet.name === 'Vertex' || transitPlanet.name === 'Vertex') return;
         
-        const angleDiff = Math.abs(transitPlanet.longitude - natalPlanet.longitude);
+        // Extract longitude values - handle both direct values and nested objects
+        let transitLongitude: number;
+        if (typeof transitPlanet.longitude === 'number') {
+          transitLongitude = transitPlanet.longitude;
+        } else if (transitPlanet.longitude && typeof transitPlanet.longitude === 'object' && transitPlanet.longitude.raw !== undefined) {
+          transitLongitude = transitPlanet.longitude.raw;
+        } else {
+          return; // Skip if no valid longitude
+        }
+        
+        const angleDiff = Math.abs(transitLongitude - (typeof natalPlanet.longitude === 'number' ? natalPlanet.longitude : natalPlanet.longitude.raw));
         const diff = Math.min(angleDiff, 360 - angleDiff);
 
         let closestAspect: (TransitAspect & { defOrb: number }) | null = null;
@@ -98,7 +108,7 @@
   }
 
   function getMainPlanetAspects() {
-    if (!natalChart || !currentTransits) return [];
+    if (!natalChart || !currentTransits || !currentTransits.planets) return [];
     
     const aspects: Array<{
       transitPlanet: string;
@@ -122,14 +132,37 @@
       natalChart.planets.forEach((natalPlanet) => {
         if (!mainPlanets.includes(natalPlanet.name)) return;
         
-        const angleDiff = Math.abs(transitPlanet.longitude - natalPlanet.longitude);
+        // Extract longitude values - handle both direct values and nested objects
+        let transitLongitude: number;
+        if (typeof transitPlanet.longitude === 'number') {
+          transitLongitude = transitPlanet.longitude;
+        } else if (transitPlanet.longitude && typeof transitPlanet.longitude === 'object' && transitPlanet.longitude.raw !== undefined) {
+          transitLongitude = transitPlanet.longitude.raw;
+        } else {
+          return; // Skip if no valid longitude
+        }
+        
+        const natalLongitude = typeof natalPlanet.longitude === 'number' ? natalPlanet.longitude : natalPlanet.longitude.raw;
+        const angleDiff = Math.abs(transitLongitude - natalLongitude);
         const diff = Math.min(angleDiff, 360 - angleDiff);
 
         for (const [aspectName, aspectDef] of Object.entries(ASPECT_DEFINITIONS)) {
           const orb = Math.abs(diff - aspectDef.angle);
           if (orb <= aspectDef.orb && orb < 3) {
+            // Extract sign for house calculation
+            let transitSign: string;
+            if (typeof transitPlanet.sign === 'string') {
+              transitSign = transitPlanet.sign;
+            } else if (transitPlanet.sign && typeof transitPlanet.sign === 'object' && transitPlanet.sign.name) {
+              transitSign = transitPlanet.sign.name;
+            } else {
+              const signNames = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
+                                'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+              const signIndex = Math.floor(transitLongitude / 30);
+              transitSign = signNames[signIndex];
+            }
+            
             const transitHouse = getHouseForPlanet(transitPlanet, natalChart.houses);
-            const transitSign = getSignByDegree(transitPlanet.longitude);
             const enhancedInterpretation = getEnhancedTransitInterpretation(
               aspectName, 
               transitPlanet.name, 
@@ -146,8 +179,8 @@
               transitSymbol: getPlanetSymbol(transitPlanet.name),
               birthSymbol: getPlanetSymbol(natalPlanet.name),
               aspectSymbol: getAspectSymbol(aspectName),
-              transitLongitude: transitPlanet.longitude,
-              natalLongitude: natalPlanet.longitude,
+              transitLongitude: transitLongitude,
+              natalLongitude: natalLongitude,
               transitHouse: transitHouse,
               transitSign: transitSign,
               enhancedInterpretation: enhancedInterpretation
@@ -189,20 +222,55 @@
     const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
     const objects = ['ASC', 'MC', 'DSC', 'IC', 'Node', 'S.Node', 'Lilith', 'Chiron', 'Fortune', 'Vertex'];
     
-    currentTransits.planets.forEach((transitPlanet) => {
+    // Extract planets from the objects structure
+    let transitPlanets: any[] = [];
+    if (currentTransits.planets && Array.isArray(currentTransits.planets)) {
+      transitPlanets = currentTransits.planets;
+    } else if (currentTransits.objects && typeof currentTransits.objects === 'object') {
+      transitPlanets = Object.values(currentTransits.objects).filter((obj: any) => 
+        obj && typeof obj === 'object' && obj.name && obj.longitude !== undefined
+      );
+    } else {
+      return [];
+    }
+    
+    transitPlanets.forEach((transitPlanet) => {
       if (!mainPlanets.includes(transitPlanet.name)) return;
       
       natalChart.planets.forEach((natalPlanet) => {
         if (!objects.includes(natalPlanet.name)) return;
         
-        const angleDiff = Math.abs(transitPlanet.longitude - natalPlanet.longitude);
+        // Extract longitude values - handle both direct values and nested objects
+        let transitLongitude: number;
+        if (typeof transitPlanet.longitude === 'number') {
+          transitLongitude = transitPlanet.longitude;
+        } else if (transitPlanet.longitude && typeof transitPlanet.longitude === 'object' && transitPlanet.longitude.raw !== undefined) {
+          transitLongitude = transitPlanet.longitude.raw;
+        } else {
+          return; // Skip if no valid longitude
+        }
+        
+        const natalLongitude = typeof natalPlanet.longitude === 'number' ? natalPlanet.longitude : natalPlanet.longitude.raw;
+        const angleDiff = Math.abs(transitLongitude - natalLongitude);
         const diff = Math.min(angleDiff, 360 - angleDiff);
 
         for (const [aspectName, aspectDef] of Object.entries(ASPECT_DEFINITIONS)) {
           const orb = Math.abs(diff - aspectDef.angle);
           if (orb <= aspectDef.orb && orb < 3) {
+            // Extract sign for house calculation
+            let transitSign: string;
+            if (typeof transitPlanet.sign === 'string') {
+              transitSign = transitPlanet.sign;
+            } else if (transitPlanet.sign && typeof transitPlanet.sign === 'object' && transitPlanet.sign.name) {
+              transitSign = transitPlanet.sign.name;
+            } else {
+              const signNames = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
+                                'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+              const signIndex = Math.floor(transitLongitude / 30);
+              transitSign = signNames[signIndex];
+            }
+            
             const transitHouse = getHouseForPlanet(transitPlanet, natalChart.houses);
-            const transitSign = getSignByDegree(transitPlanet.longitude);
             const enhancedInterpretation = getEnhancedTransitInterpretation(
               aspectName, 
               transitPlanet.name, 
@@ -219,8 +287,8 @@
               transitSymbol: getPlanetSymbol(transitPlanet.name),
               birthSymbol: getPlanetSymbol(natalPlanet.name),
               aspectSymbol: getAspectSymbol(aspectName),
-              transitLongitude: transitPlanet.longitude,
-              natalLongitude: natalPlanet.longitude,
+              transitLongitude: transitLongitude,
+              natalLongitude: natalLongitude,
               transitHouse: transitHouse,
               transitSign: transitSign,
               enhancedInterpretation: enhancedInterpretation
@@ -231,38 +299,7 @@
       });
     });
     
-    const planetOrder = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
-    return aspects.sort((a, b) => {
-      const aIndex = planetOrder.indexOf(a.transitPlanet);
-      const bIndex = planetOrder.indexOf(b.transitPlanet);
-      if (aIndex !== bIndex) {
-        return aIndex - bIndex;
-      }
-      return a.orb - b.orb;
-    });
-  }
-
-  function getHouseForPlanet(planet: Planet, houses: any[]): number {
-    if (!houses || houses.length === 0) return 1;
-    
-    const planetLongitude = planet.longitude;
-    
-    for (let i = 0; i < houses.length; i++) {
-      const currentCusp = houses[i].longitude;
-      const nextCusp = houses[(i + 1) % houses.length].longitude;
-      
-      if (nextCusp > currentCusp) {
-        if (planetLongitude >= currentCusp && planetLongitude < nextCusp) {
-          return i + 1;
-        }
-      } else {
-        if (planetLongitude >= currentCusp || planetLongitude < nextCusp) {
-          return i + 1;
-        }
-      }
-    }
-    
-    return 1;
+    return aspects.sort((a, b) => a.orb - b.orb);
   }
 
   function getPlanetHouseData() {
@@ -283,25 +320,58 @@
       signMeaning: string;
     }> = [];
     
-    currentTransits.planets.forEach((transitPlanet) => {
+    // Extract planets from the objects structure
+    let transitPlanets: any[] = [];
+    if (currentTransits.planets && Array.isArray(currentTransits.planets)) {
+      transitPlanets = currentTransits.planets;
+    } else if (currentTransits.objects && typeof currentTransits.objects === 'object') {
+      transitPlanets = Object.values(currentTransits.objects).filter((obj: any) => 
+        obj && typeof obj === 'object' && obj.name && obj.longitude !== undefined
+      );
+    } else {
+      return [];
+    }
+    
+    transitPlanets.forEach((transitPlanet) => {
       if (mainPlanets.includes(transitPlanet.name)) {
-        const transitHouse = getHouseForPlanet(transitPlanet, natalChart.houses);
-        const natalPlanet = natalChart.planets.find(p => p.name === transitPlanet.name);
-        const natalHouse = natalPlanet ? getHouseForPlanet(natalPlanet, natalChart.houses) : null;
-        const transitSign = getSignByDegree(transitPlanet.longitude);
-        const natalSign = natalPlanet ? getSignByDegree(natalPlanet.longitude) : '';
+        // Extract longitude and sign
+        let transitLongitude: number;
+        if (typeof transitPlanet.longitude === 'number') {
+          transitLongitude = transitPlanet.longitude;
+        } else if (transitPlanet.longitude && typeof transitPlanet.longitude === 'object' && transitPlanet.longitude.raw !== undefined) {
+          transitLongitude = transitPlanet.longitude.raw;
+        } else {
+          return; // Skip if no valid longitude
+        }
         
+        let transitSign: string;
+        if (typeof transitPlanet.sign === 'string') {
+          transitSign = transitPlanet.sign;
+        } else if (transitPlanet.sign && typeof transitPlanet.sign === 'object' && transitPlanet.sign.name) {
+          transitSign = transitPlanet.sign.name;
+        } else {
+          const signNames = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
+                            'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+          const signIndex = Math.floor(transitLongitude / 30);
+          transitSign = signNames[signIndex];
+        }
+        
+        const natalPlanet = natalChart.planets.find(p => p.name === transitPlanet.name);
+        const natalLongitude = natalPlanet ? (typeof natalPlanet.longitude === 'number' ? natalPlanet.longitude : natalPlanet.longitude.raw) : null;
+        const natalSign = natalPlanet && natalLongitude !== null ? getSignByDegree(natalLongitude) : '';
+        
+        const transitHouse = getHouseForPlanet(transitPlanet, natalChart.houses);
         const houseMeaning = getTransitPlanetInHouseMeaning(transitPlanet.name, transitHouse, transitSign);
         const signMeaning = getTransitPlanetInSignMeaning(transitPlanet.name, transitSign);
         
         houseData.push({
           planet: transitPlanet.name,
           planetSymbol: getPlanetSymbol(transitPlanet.name),
-          transitPosition: `${formatDegrees(transitPlanet.longitude % 30)} ${getSignSymbol(transitSign)}`,
+          transitPosition: `${formatDegrees(transitLongitude % 30)} ${getSignSymbol(transitSign)}`,
           transitHouse: transitHouse,
-          natalPosition: natalPlanet ? `${formatDegrees(natalPlanet.longitude % 30)} ${getSignSymbol(natalSign)}` : 'N/A',
-          natalHouse: natalHouse,
-          movement: natalPlanet ? Math.abs(transitPlanet.longitude - natalPlanet.longitude).toFixed(1) : 'N/A',
+          natalPosition: natalLongitude !== null ? `${formatDegrees(natalLongitude % 30)} ${getSignSymbol(natalSign)}` : 'N/A',
+          natalHouse: natalPlanet ? getHouseForPlanet(natalPlanet, natalChart.houses) : null,
+          movement: natalLongitude !== null ? Math.abs(transitLongitude - natalLongitude).toFixed(1) : 'N/A',
           transitSign: transitSign,
           natalSign: natalSign,
           houseMeaning: houseMeaning,
@@ -312,6 +382,37 @@
     
     const planetOrder = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
     return houseData.sort((a, b) => planetOrder.indexOf(a.planet) - planetOrder.indexOf(b.planet));
+  }
+
+  function getHouseForPlanet(planet: Planet, houses: any[]): number {
+    if (!houses || houses.length === 0) return 1;
+    
+    // Extract longitude - handle both direct values and nested objects
+    let planetLongitude: number;
+    if (typeof planet.longitude === 'number') {
+      planetLongitude = planet.longitude;
+    } else if (planet.longitude && typeof planet.longitude === 'object' && planet.longitude.raw !== undefined) {
+      planetLongitude = planet.longitude.raw;
+    } else {
+      return 1; // Default to house 1 if no valid longitude
+    }
+    
+    for (let i = 0; i < houses.length; i++) {
+      const currentCusp = houses[i].longitude;
+      const nextCusp = houses[(i + 1) % houses.length].longitude;
+      
+      if (nextCusp > currentCusp) {
+        if (planetLongitude >= currentCusp && planetLongitude < nextCusp) {
+          return i + 1;
+        }
+      } else {
+        if (planetLongitude >= currentCusp || planetLongitude < nextCusp) {
+          return i + 1;
+        }
+      }
+    }
+    
+    return 1;
   }
 
   $: mainPlanetAspects = getMainPlanetAspects();

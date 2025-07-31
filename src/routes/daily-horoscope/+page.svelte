@@ -225,7 +225,7 @@
       </div>
     {:else if currentHoroscope}
       <!-- Daily Horoscope Display -->
-      <DailyHoroscopeDisplay {currentHoroscope} />
+      <DailyHoroscopeDisplay {currentHoroscope} {natalChart} />
     {:else if natalChart}
       <div class="bg-white/10 backdrop-blur-sm rounded-lg p-8 text-center">
         <p class="text-slate-300 text-lg">Click "Today" or select a date to generate your horoscope</p>

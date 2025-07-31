@@ -1,10 +1,13 @@
 <script lang="ts">
   import { format } from 'date-fns';
-  import { Moon, Sun, Star, Zap, Target, Lightbulb, Calendar, Clock, TrendingUp, TrendingDown, Minus } from 'lucide-svelte';
+  import { Moon, Sun, Star, Zap, Target, Lightbulb, Calendar, Clock, TrendingUp, TrendingDown, Minus, ExternalLink, Info } from 'lucide-svelte';
   import * as Accordion from '$lib/components/ui/accordion';
+  import { Button } from '$lib/components/ui/button';
   import type { DailyHoroscope } from '$lib/services/daily-horoscope';
+  import type { BirthChart } from '$lib/types/types';
 
   export let currentHoroscope: DailyHoroscope;
+  export let natalChart: BirthChart | null = null;
 
   // Format date
   $: formattedDate = format(new Date(currentHoroscope.date), 'EEEE, MMMM d, yyyy');
@@ -52,6 +55,9 @@
     }
     return "th";
   }
+
+  // Generate transit URL with current date
+  $: transitUrl = natalChart ? `/transits?date=${currentHoroscope.date}&chart=${encodeURIComponent(JSON.stringify(natalChart))}` : '/transits';
 </script>
 
 <div class="space-y-6">
@@ -103,10 +109,21 @@
 
   <!-- Key Transits -->
   <div class="bg-gradient-to-r from-green-600/20 to-emerald-600/20 backdrop-blur-sm rounded-lg p-6 border border-green-500/30">
-    <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-      <Zap class="w-5 h-5 text-green-400" />
-      Key Transits
-    </h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-semibold text-white flex items-center gap-2">
+        <Zap class="w-5 h-5 text-green-400" />
+        Key Transits
+      </h3>
+      <Button 
+        href={transitUrl} 
+        variant="outline" 
+        size="sm"
+        class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
+      >
+        <ExternalLink class="w-4 h-4 mr-1" />
+        View Details
+      </Button>
+    </div>
     
     <div class="text-sm text-slate-300 bg-white/5 rounded p-3 mb-4">
       <p class="italic">⚡ <strong>Understanding Transits:</strong> These are current planetary positions forming aspects to your natal planets. The closer the orb (degree), the stronger the influence.</p>
@@ -141,10 +158,21 @@
 
   <!-- Guidance -->
   <div class="bg-gradient-to-r from-purple-600/20 to-violet-600/20 backdrop-blur-sm rounded-lg p-6 border border-purple-500/30">
-    <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-      <Target class="w-5 h-5 text-purple-400" />
-      Guidance
-    </h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-semibold text-white flex items-center gap-2">
+        <Target class="w-5 h-5 text-purple-400" />
+        Guidance
+      </h3>
+      <Button 
+        href="/interpretations" 
+        variant="outline" 
+        size="sm"
+        class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
+      >
+        <Info class="w-4 h-4 mr-1" />
+        View Interpretations
+      </Button>
+    </div>
     <p class="text-slate-200 leading-relaxed text-lg mb-3">{currentHoroscope.guidance}</p>
     <div class="text-sm text-slate-300 bg-white/5 rounded p-3">
       <p class="italic">🎯 <strong>How to use this:</strong> This guidance synthesizes all the day's planetary influences into practical advice. Consider how these energies might manifest in your daily activities and relationships.</p>
@@ -176,10 +204,21 @@
 
   <!-- Action Advice -->
   <div class="bg-gradient-to-r from-orange-600/20 to-red-600/20 backdrop-blur-sm rounded-lg p-6 border border-orange-500/30">
-    <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-      <Sun class="w-5 h-5 text-orange-400" />
-      Action Advice
-    </h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-semibold text-white flex items-center gap-2">
+        <Sun class="w-5 h-5 text-orange-400" />
+        Action Advice
+      </h3>
+      <Button 
+        href={transitUrl.replace('/transits', '/biwheel')} 
+        variant="outline" 
+        size="sm"
+        class="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white/50"
+      >
+        <ExternalLink class="w-4 h-4 mr-1" />
+        View Chart
+      </Button>
+    </div>
     <p class="text-slate-200 leading-relaxed text-lg mb-3">{currentHoroscope.actionAdvice}</p>
     <div class="text-sm text-slate-300 bg-white/5 rounded p-3">
       <p class="italic">🌅 <strong>Take Action:</strong> These are specific, actionable steps you can take today to align with the cosmic energies and make the most of the day's opportunities.</p>
@@ -190,31 +229,136 @@
   <Accordion.Root type="single" class="bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
     <Accordion.Item value="details">
       <Accordion.Trigger class="text-white hover:text-slate-200 px-6 py-4">
-        <span class="text-lg font-medium">Additional Details</span>
+        <span class="text-lg font-medium flex items-center gap-2">
+          <Info class="w-5 h-5" />
+          Additional Details
+        </span>
       </Accordion.Trigger>
       <Accordion.Content class="px-6 pb-4">
-        <div class="grid md:grid-cols-2 gap-4 text-sm text-slate-300">
-          <div>
-            <h4 class="font-medium text-white mb-2">Moon Aspects</h4>
-            {#if currentHoroscope.moonInfo.aspects.length === 0}
-              <p class="italic">No major Moon aspects today</p>
-            {:else}
-              <ul class="space-y-1">
-                {#each currentHoroscope.moonInfo.aspects as aspect}
-                  <li>{aspect.transitPlanet} {aspect.type} {aspect.natalPlanet} (orb: {aspect.orb.toFixed(1)}°)</li>
-                {/each}
-              </ul>
-            {/if}
+        <div class="space-y-6">
+          <!-- Transit Information -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-medium text-white mb-3 flex items-center gap-2">
+                <Zap class="w-4 h-4 text-green-400" />
+                Transit Details
+              </h4>
+              {#if currentHoroscope.keyTransits.length === 0}
+                <p class="text-slate-300 italic text-sm">No major transits today</p>
+              {:else}
+                <div class="space-y-2">
+                  {#each currentHoroscope.keyTransits as transit}
+                    <div class="bg-white/5 rounded p-3">
+                      <div class="flex items-center gap-2 mb-1">
+                        <span class="text-sm">{planetSymbols[transit.transitPlanet] || '★'}</span>
+                        <span class="text-white text-sm font-medium">{transit.transitPlanet}</span>
+                        <span class="text-sm">{aspectSymbols[transit.aspect] || '∠'}</span>
+                        <span class="text-white text-sm font-medium">{transit.natalPlanet}</span>
+                      </div>
+                      <div class="text-xs text-slate-400">
+                        <span>Orb: {transit.orb.toFixed(1)}°</span>
+                        {#if transit.daypart}
+                          <span class="ml-2 {daypartColors[transit.daypart]}">{transit.daypart}</span>
+                        {/if}
+                      </div>
+                    </div>
+                  {/each}
+                </div>
+              {/if}
+            </div>
+            
+            <div>
+              <h4 class="font-medium text-white mb-3 flex items-center gap-2">
+                <Moon class="w-4 h-4 text-blue-400" />
+                Moon Information
+              </h4>
+              <div class="space-y-2 text-sm">
+                <div class="bg-white/5 rounded p-3">
+                  <p><span class="text-slate-400">Sign:</span> <span class="text-white">{currentHoroscope.moonInfo.sign}</span></p>
+                  <p><span class="text-slate-400">House:</span> <span class="text-white">{currentHoroscope.moonInfo.house}{getOrdinalSuffix(currentHoroscope.moonInfo.house)}</span></p>
+                  <p><span class="text-slate-400">Void of Course:</span> <span class="text-white">{currentHoroscope.moonInfo.voidOfCourse ? 'Yes' : 'No'}</span></p>
+                </div>
+                
+                {#if currentHoroscope.moonInfo.aspects.length > 0}
+                  <div class="bg-white/5 rounded p-3">
+                    <p class="text-slate-400 mb-1">Moon Aspects:</p>
+                    <ul class="space-y-1">
+                      {#each currentHoroscope.moonInfo.aspects as aspect}
+                        <li class="text-xs">
+                          {aspect.transitPlanet} {aspect.type} {aspect.natalPlanet} (orb: {aspect.orb.toFixed(1)}°)
+                        </li>
+                      {/each}
+                    </ul>
+                  </div>
+                {/if}
+              </div>
+            </div>
           </div>
-          
+
+          <!-- Technical Details -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-medium text-white mb-3 flex items-center gap-2">
+                <Calendar class="w-4 h-4 text-purple-400" />
+                Technical Details
+              </h4>
+              <div class="bg-white/5 rounded p-3 space-y-1 text-sm">
+                <p><span class="text-slate-400">Date:</span> <span class="text-white">{currentHoroscope.date}</span></p>
+                <p><span class="text-slate-400">Intensity Level:</span> <span class="text-white capitalize">{currentHoroscope.intensity}</span></p>
+                <p><span class="text-slate-400">Key Transits:</span> <span class="text-white">{currentHoroscope.keyTransits.length}</span></p>
+                <p><span class="text-slate-400">Lunar Phase:</span> <span class="text-white">{currentHoroscope.lunarPhase.phase} ({currentHoroscope.lunarPhase.percentage}%)</span></p>
+                <p><span class="text-slate-400">Moon House:</span> <span class="text-white">{currentHoroscope.moonInfo.house}{getOrdinalSuffix(currentHoroscope.moonInfo.house)}</span></p>
+              </div>
+            </div>
+            
+            <div>
+              <h4 class="font-medium text-white mb-3 flex items-center gap-2">
+                <Star class="w-4 h-4 text-yellow-400" />
+                More Information
+              </h4>
+              <div class="space-y-3">
+                <div class="bg-white/5 rounded p-3">
+                  <p class="text-slate-300 text-sm mb-2">Get detailed transit information and charts for this date:</p>
+                  <Button 
+                    href={transitUrl} 
+                    class="w-full bg-purple-600 hover:bg-purple-700 text-white text-sm"
+                  >
+                    <ExternalLink class="w-4 h-4 mr-2" />
+                    View Detailed Transits
+                  </Button>
+                </div>
+                
+                <div class="bg-white/5 rounded p-3">
+                  <p class="text-slate-300 text-sm mb-2">Explore your birth chart and interpretations:</p>
+                  <Button 
+                    href="/interpretations" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm"
+                  >
+                    <Info class="w-4 h-4 mr-2" />
+                    View Interpretations
+                  </Button>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Summary -->
           <div>
-            <h4 class="font-medium text-white mb-2">Technical Details</h4>
-            <ul class="space-y-1">
-              <li>Date: {currentHoroscope.date}</li>
-              <li>Intensity Level: {currentHoroscope.intensity}</li>
-              <li>Key Transits: {currentHoroscope.keyTransits.length}</li>
-              <li>Moon House: {currentHoroscope.moonInfo.house}</li>
-            </ul>
+            <h4 class="font-medium text-white mb-3 flex items-center gap-2">
+              <Lightbulb class="w-4 h-4 text-yellow-400" />
+              Daily Summary
+            </h4>
+            <div class="bg-white/5 rounded p-3">
+              <p class="text-slate-300 text-sm leading-relaxed">
+                Today's energy is characterized by <span class="text-white font-medium">{currentHoroscope.intensity}</span> intensity with the Moon in <span class="text-white font-medium">{currentHoroscope.moonInfo.sign}</span> 
+                ({currentHoroscope.moonInfo.house}{getOrdinalSuffix(currentHoroscope.moonInfo.house)} house). The lunar phase is <span class="text-white font-medium">{currentHoroscope.lunarPhase.phase}</span> 
+                with {currentHoroscope.lunarPhase.percentage}% illumination. {currentHoroscope.keyTransits.length > 0 ? 
+                  `There are ${currentHoroscope.keyTransits.length} significant transit(s) today.` : 
+                  'There are no major transits today, making this a gentle day for reflection and small steps forward.'
+                }
+              </p>
+            </div>
           </div>
         </div>
       </Accordion.Content>

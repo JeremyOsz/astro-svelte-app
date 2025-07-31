@@ -59,13 +59,38 @@ function calculateHouseForPlanet(planetLongitude: number, houseCusps: number[]):
 
 // Convert transit data to CSV format for BiWheelChart
 export function convertTransitDataToCSV(transitData: any, natalChart?: any): string {
-  if (!transitData || !transitData.planets) {
-    console.log('No transit data or planets to convert');
+  if (!transitData) {
+    console.log('No transit data to convert');
     return '';
   }
   
   console.log('Converting transit data to CSV:', transitData);
   console.log('Natal chart for house calculations:', natalChart);
+  
+  // Handle different possible response structures
+  let planets: any[] = [];
+  
+  if (transitData.planets && Array.isArray(transitData.planets)) {
+    planets = transitData.planets;
+  } else if (transitData.objects && typeof transitData.objects === 'object') {
+    // Handle case where planets are stored with numeric IDs as keys
+    planets = Object.values(transitData.objects).filter((obj: any) => 
+      obj && typeof obj === 'object' && obj.name && obj.longitude !== undefined
+    );
+    console.log('Extracted planets from objects structure:', planets.length);
+  } else if (Array.isArray(transitData)) {
+    // Handle case where transitData might be the planets array directly
+    planets = transitData;
+  } else {
+    console.error('Transit data structure:', transitData);
+    console.log('No planets found in transit data. Expected planets array or objects structure.');
+    return '';
+  }
+  
+  if (planets.length === 0) {
+    console.log('No planets found in transit data');
+    return '';
+  }
   
   const lines: string[] = [];
   
@@ -73,13 +98,17 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
   let houseCusps: number[] = [];
   if (natalChart && natalChart.houses && natalChart.houses.length > 0) {
     // Use natal chart house cusps for transit house calculations
-    houseCusps = natalChart.houses.map((house: any) => house.longitude);
+    houseCusps = natalChart.houses.map((house: any) => 
+      typeof house === 'number' ? house : house.longitude || 0
+    );
     const houseCuspsStr = houseCusps.join(',');
     lines.push(`#HOUSES:${houseCuspsStr}`);
     console.log('Added natal house cusps for transit calculations:', houseCuspsStr);
   } else if (transitData.houses && transitData.houses.length > 0) {
     // Fallback to transit chart house cusps if natal not available
-    houseCusps = transitData.houses.map((house: any) => house.longitude);
+    houseCusps = transitData.houses.map((house: any) => 
+      typeof house === 'number' ? house : house.longitude || 0
+    );
     const houseCuspsStr = houseCusps.join(',');
     lines.push(`#HOUSES:${houseCuspsStr}`);
     console.log('Added transit house cusps:', houseCuspsStr);
@@ -96,35 +125,50 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
   }
   
   // Add planets
-  transitData.planets.forEach((planet: any) => {
+  planets.forEach((planet: any) => {
     console.log('Processing planet:', planet);
     
-    let degree: number, minute: number;
-    
-    if (typeof planet.degree === 'number') {
-      degree = Math.floor(planet.degree);
-      minute = Math.floor((planet.degree - degree) * 60);
-    } else if (planet.longitude !== undefined) {
-      const totalDegrees = planet.longitude;
-      degree = Math.floor(totalDegrees % 30);
-      minute = Math.floor((totalDegrees % 1) * 60);
+    // Extract longitude - handle both direct values and nested objects
+    let longitude: number;
+    if (typeof planet.longitude === 'number') {
+      longitude = planet.longitude;
+    } else if (planet.longitude && typeof planet.longitude === 'object' && planet.longitude.raw !== undefined) {
+      longitude = planet.longitude.raw;
     } else {
-      degree = 0;
-      minute = 0;
+      longitude = 0;
     }
+    
+    // Extract sign - handle both direct values and nested objects
+    let sign: string;
+    if (typeof planet.sign === 'string') {
+      sign = planet.sign;
+    } else if (planet.sign && typeof planet.sign === 'object' && planet.sign.name) {
+      sign = planet.sign.name;
+    } else {
+      // Calculate sign from longitude if not available
+      const signNames = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
+                        'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+      const signIndex = Math.floor(longitude / 30);
+      sign = signNames[signIndex];
+    }
+    
+    // Calculate degree and minute
+    const degree = Math.floor(longitude % 30);
+    const minute = Math.floor((longitude % 1) * 60);
     
     // Calculate house for transit planet using natal chart house cusps
     let houseNumber = 1;
-    if (planet.longitude !== undefined && houseCusps.length > 0) {
-      houseNumber = calculateHouseForPlanet(planet.longitude, houseCusps);
-      console.log(`Calculated house for ${planet.name} at ${planet.longitude}°: House ${houseNumber}`);
-    } else if (planet.house) {
+    if (longitude !== 0 && houseCusps.length > 0) {
+      houseNumber = calculateHouseForPlanet(longitude, houseCusps);
+      console.log(`Calculated house for ${planet.name} at ${longitude}°: House ${houseNumber}`);
+    } else if (planet.house && planet.house.number) {
       // Use existing house data if available
-      houseNumber = planet.house;
+      houseNumber = planet.house.number;
       console.log(`Using existing house data for ${planet.name}: House ${houseNumber}`);
     }
     
-    const retrograde = planet.retrograde ? ',R' : '';
+    // Check for retrograde movement
+    const retrograde = planet.movement && planet.movement.retrograde ? ',R' : '';
     const house = `,${houseNumber}`;
     
     let planetName = planet.name;
@@ -133,7 +177,7 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
     if (planetName === 'Dsc') planetName = 'DSC';
     if (planetName === 'Ic') planetName = 'IC';
     
-    const line = `${planetName},${planet.sign},${degree}°${minute.toString().padStart(2, '0')}'${house}${retrograde}`;
+    const line = `${planetName},${sign},${degree}°${minute.toString().padStart(2, '0')}'${house}${retrograde}`;
     lines.push(line);
     console.log('Added planet line:', line);
   });

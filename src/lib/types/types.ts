@@ -46,13 +46,14 @@ export interface TransitData {
 
 export interface Planet {
     name: string;
-    longitude: number;
-    latitude: number;
+    longitude: number | { raw: number; formatted: string; degrees: number; minutes: number; seconds: number };
+    latitude: number | { raw: number; formatted: string; degrees: number; minutes: number; seconds: number };
     distance: number;
-    sign: string;
+    sign: string | { number: number; name: string; element: string; modality: string };
     degree: number;
-    house?: number;
+    house?: number | { number: number; name: string };
     retrograde?: boolean;
+    movement?: { direct: boolean; retrograde: boolean; formatted: string };
 }
 
 export interface HouseCusp {
@@ -71,7 +72,19 @@ export interface NatalChart {
 }
 
 export interface TransitChart {
-    planets: Planet[];
+    planets?: Planet[];
+    objects?: Record<string, Planet>;
+    houses?: Record<string, any>;
+    aspects?: Record<string, any>;
+    ascendant?: number;
+    mc?: number;
+    type?: string;
+    house_system?: string;
+    shape?: string;
+    diurnal?: boolean;
+    moon_phase?: any;
+    native?: any;
+    weightings?: any;
 }
 
 export interface TransitAspect {

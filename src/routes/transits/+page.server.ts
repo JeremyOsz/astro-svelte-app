@@ -18,9 +18,6 @@ export const actions = {
       const transitLng = parseFloat(formData.get('transitLng') as string);
       const transitLocationName = formData.get('transitLocationName') as string;
 
-      console.log('Server action - selectedBirthChartId:', selectedBirthChartId);
-      console.log('Server action - chartData length:', formChartData?.length || 0);
-
       // Validation
       if (!selectedBirthChartId || !formChartData || !transitDate || !transitTime) {
         return fail(400, { 
