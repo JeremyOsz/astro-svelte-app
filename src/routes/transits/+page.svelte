@@ -11,6 +11,7 @@
     TransitDetails 
   } from './components';
   import { enhance } from '$app/forms';
+  import TransitLoadingState from '$lib/components/TransitLoadingState.svelte';
 
   // Core data
   let selectedBirthChart: any = null;
@@ -32,6 +33,7 @@
   // Chart display
   let transitChartData: string | null = null;
   let chartReady = false;
+  let preparingChart = false;
 
   // Form validation
   let formError: string = '';
@@ -57,6 +59,8 @@
     currentTransits = null;
     transitChartData = null;
     error = null;
+    chartReady = false;
+    preparingChart = false;
   }
 </script>
 
@@ -139,10 +143,14 @@
             currentTransits = result.data.currentTransits;
             transitChartData = result.data.transitChartData as string;
             
+            // Show preparing chart state
+            preparingChart = true;
+            
             // Small delay to ensure DOM is ready
             setTimeout(() => {
               chartReady = true;
-            }, 100);
+              preparingChart = false;
+            }, 1000);
           }
         };
       }}
@@ -170,8 +178,18 @@
     </form>
   </div>
 
+  <!-- Chart Preparation Loading State -->
+  {#if preparingChart}
+    <div class="mt-8">
+      <TransitLoadingState 
+        message="Preparing transit chart visualization..." 
+        showProgress={false}
+      />
+    </div>
+  {/if}
+
   <!-- Transit Results -->
-  {#if currentTransits && transitChartData && chartReady}
+  {#if currentTransits && transitChartData && chartReady && !preparingChart}
     <TransitChartDisplay 
       {transitChartData}
       natalChartData={selectedBirthChart?.chartData || ''}
@@ -183,7 +201,7 @@
   {/if}
 
   <!-- Transit Details -->
-  {#if currentTransits}
+  {#if currentTransits && !preparingChart}
     <TransitDetails {natalChart} {currentTransits} />
   {/if}
 </div>

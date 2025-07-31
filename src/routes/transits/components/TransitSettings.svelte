@@ -6,6 +6,7 @@
   import * as Label from '$lib/components/ui/label';
   import { Calendar, MapPin, Clock } from 'lucide-svelte';
   import { searchCities, type CitySearchResult } from '$lib/services/city-service';
+  import TransitLoadingState from '$lib/components/TransitLoadingState.svelte';
 
   export let transitDate: string;
   export let transitTime: string;
@@ -114,98 +115,102 @@
   }
 </script>
 
-<Card.Root>
-  <Card.Header>
-    <Card.Title class="flex items-center gap-2">
-      <Calendar class="h-5 w-5" />
-      Transit Settings
-    </Card.Title>
-  </Card.Header>
-  <Card.Content class="space-y-6">
-    <!-- Quick Action -->
-    <div>
-      <Button variant="outline" size="sm" onclick={useCurrentTimeAndLocation}>
-        Use Current Time & Location
-      </Button>
-    </div>
-
-    <!-- Date and Time -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="space-y-2">
-        <Label.Root for="transit-date" class="flex items-center gap-2">
-          <Calendar class="h-4 w-4" />
-          Transit Date
-        </Label.Root>
-        <Input 
-          id="transit-date"
-          type="date" 
-          bind:value={transitDate}
-        />
+{#if loading}
+  <TransitLoadingState message="Calculating planetary transits for {transitDate} at {selectedTransitCityData?.fullLocation || 'selected location'}..." />
+{:else}
+  <Card.Root>
+    <Card.Header>
+      <Card.Title class="flex items-center gap-2">
+        <Calendar class="h-5 w-5" />
+        Transit Settings
+      </Card.Title>
+    </Card.Header>
+    <Card.Content class="space-y-6">
+      <!-- Quick Action -->
+      <div>
+        <Button variant="outline" size="sm" onclick={useCurrentTimeAndLocation}>
+          Use Current Time & Location
+        </Button>
       </div>
 
-      <div class="space-y-2">
-        <Label.Root for="transit-time" class="flex items-center gap-2">
-          <Clock class="h-4 w-4" />
-          Transit Time
-        </Label.Root>
-        <Input 
-          id="transit-time"
-          type="time" 
-          bind:value={transitTime}
-        />
-      </div>
-    </div>
+      <!-- Date and Time -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <Label.Root for="transit-date" class="flex items-center gap-2">
+            <Calendar class="h-4 w-4" />
+            Transit Date
+          </Label.Root>
+          <Input 
+            id="transit-date"
+            type="date" 
+            bind:value={transitDate}
+          />
+        </div>
 
-    <!-- Location -->
-    <div class="space-y-2">
-      <Label.Root for="transit-location" class="flex items-center gap-2">
-        <MapPin class="h-4 w-4" />
-        Transit Location
-      </Label.Root>
-      <div class="relative">
-        <Input 
-          id="transit-location"
-          type="text"
-          bind:value={transitCitySearch}
-          placeholder="Search for a city..."
-          oninput={onTransitCityInput}
-          onblur={() => setTimeout(() => showTransitCityDropdown = false, 200)}
-        />
+        <div class="space-y-2">
+          <Label.Root for="transit-time" class="flex items-center gap-2">
+            <Clock class="h-4 w-4" />
+            Transit Time
+          </Label.Root>
+          <Input 
+            id="transit-time"
+            type="time" 
+            bind:value={transitTime}
+          />
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="space-y-2">
+        <Label.Root for="transit-location" class="flex items-center gap-2">
+          <MapPin class="h-4 w-4" />
+          Transit Location
+        </Label.Root>
+        <div class="relative">
+          <Input 
+            id="transit-location"
+            type="text"
+            bind:value={transitCitySearch}
+            placeholder="Search for a city..."
+            oninput={onTransitCityInput}
+            onblur={() => setTimeout(() => showTransitCityDropdown = false, 200)}
+          />
+          
+          {#if showTransitCityDropdown}
+            <div class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-48 overflow-y-auto">
+              {#each transitCityResults as city}
+                <div 
+                  class="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                  role="button"
+                  tabindex="0"
+                  on:click={() => selectTransitCity(city)}
+                  on:keydown={(e) => e.key === 'Enter' && selectTransitCity(city)}
+                >
+                  <div class="font-medium">{city.name}</div>
+                  <div class="text-sm text-gray-600">{city.fullLocation}</div>
+                </div>
+              {/each}
+            </div>
+          {/if}
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-3">
+        <Button 
+          type="submit"
+          disabled={loading || !transitDate || !selectedTransitCityData}
+          class="w-full"
+        >
+          {loading ? 'Calculating...' : 'Calculate Transits'}
+        </Button>
         
-        {#if showTransitCityDropdown}
-          <div class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-48 overflow-y-auto">
-            {#each transitCityResults as city}
-              <div 
-                class="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
-                role="button"
-                tabindex="0"
-                on:click={() => selectTransitCity(city)}
-                on:keydown={(e) => e.key === 'Enter' && selectTransitCity(city)}
-              >
-                <div class="font-medium">{city.name}</div>
-                <div class="text-sm text-gray-600">{city.fullLocation}</div>
-              </div>
-            {/each}
-          </div>
+        {#if hasResults}
+          <Button variant="outline" onclick={onClear} class="w-full">
+            Clear Results
+          </Button>
         {/if}
       </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="space-y-3">
-      <Button 
-        type="submit"
-        disabled={loading || !transitDate || !selectedTransitCityData}
-        class="w-full"
-      >
-        {loading ? 'Calculating...' : 'Calculate Transits'}
-      </Button>
-      
-      {#if hasResults}
-        <Button variant="outline" onclick={onClear} class="w-full">
-          Clear Results
-        </Button>
-      {/if}
-    </div>
-  </Card.Content>
-</Card.Root> 
+    </Card.Content>
+  </Card.Root>
+{/if} 
