@@ -249,6 +249,11 @@
       const interpretationParts = interpretation.split('\n\n');
       generalInterpretation = interpretationParts[0] || '';
       specificInterpretation = interpretationParts[1] || '';
+      
+      // Add more detailed general interpretation if it's too short
+      if (!generalInterpretation || generalInterpretation.length < 100) {
+        generalInterpretation = getAspectGeneralDescription(aspect);
+      }
     }
 
     // Use centralized symbols and colors
@@ -440,6 +445,62 @@
         return 'border-gray-200 bg-gray-50';
     }
   }
+
+  // Aspect characteristic helper functions
+  function getAspectKeywords(aspect: string): string[] {
+    const aspectKeywords: Record<string, string[]> = {
+      'conjunction': ['Unity', 'Focus', 'Intensity', 'New Beginnings', 'Power'],
+      'opposition': ['Awareness', 'Balance', 'Tension', 'Integration', 'Polarity'],
+      'square': ['Challenge', 'Growth', 'Action', 'Conflict', 'Transformation'],
+      'trine': ['Harmony', 'Talent', 'Ease', 'Flow', 'Natural Ability'],
+      'sextile': ['Opportunity', 'Cooperation', 'Support', 'Potential', 'Alignment']
+    };
+    return aspectKeywords[aspect.toLowerCase()] || ['Aspect', 'Energy', 'Connection'];
+  }
+
+  function getAspectThemes(aspect: string): string[] {
+    const aspectThemes: Record<string, string[]> = {
+      'conjunction': ['Unity', 'Focus', 'New Cycles', 'Intensity', 'Power'],
+      'opposition': ['Balance', 'Awareness', 'Integration', 'Polarity', 'Completion'],
+      'square': ['Growth', 'Challenge', 'Action', 'Transformation', 'Crisis'],
+      'trine': ['Harmony', 'Natural Talent', 'Flow', 'Ease', 'Blessing'],
+      'sextile': ['Opportunity', 'Support', 'Cooperation', 'Potential', 'Alignment']
+    };
+    return aspectThemes[aspect.toLowerCase()] || ['Connection', 'Energy', 'Influence'];
+  }
+
+  function getAspectStrengths(aspect: string): string[] {
+    const aspectStrengths: Record<string, string[]> = {
+      'conjunction': ['Intense focus and power', 'Clear direction and purpose', 'Strong unified energy'],
+      'opposition': ['Heightened awareness', 'Balance and perspective', 'Integration of opposites'],
+      'square': ['Strong motivation for growth', 'Action-oriented approach', 'Transformative potential'],
+      'trine': ['Natural talents and abilities', 'Harmonious energy flow', 'Ease and grace'],
+      'sextile': ['Supportive opportunities', 'Cooperative energy', 'Positive potential']
+    };
+    return aspectStrengths[aspect.toLowerCase()] || ['Unique energy combination', 'Personal growth potential'];
+  }
+
+  function getAspectChallenges(aspect: string): string[] {
+    const aspectChallenges: Record<string, string[]> = {
+      'conjunction': ['Can be overwhelming', 'May lack perspective', 'Intensity can be exhausting'],
+      'opposition': ['Tension and conflict', 'Difficulty finding balance', 'Polarized thinking'],
+      'square': ['Stress and pressure', 'Internal conflicts', 'Resistance to change'],
+      'trine': ['May become complacent', 'Underutilized potential', 'Lack of motivation'],
+      'sextile': ['Missed opportunities', 'Underdeveloped potential', 'Lack of follow-through']
+    };
+    return aspectChallenges[aspect.toLowerCase()] || ['Learning to work with energy', 'Finding balance'];
+  }
+
+  function getAspectGeneralDescription(aspect: string): string {
+    const aspectDescriptions: Record<string, string> = {
+      'conjunction': 'Planets in conjunction create a powerful unified energy. This aspect represents intense focus, new beginnings, and the merging of planetary energies. The planets work together as one force, creating a concentrated and potent influence in your chart.',
+      'opposition': 'Planets in opposition create awareness and balance. This aspect represents tension, integration, and the need to find harmony between opposing forces. The planets are in dialogue, requiring you to find balance and perspective between these energies.',
+      'square': 'Planets in square create challenge and growth. This aspect represents tension, action, and the need for transformation. The planets are in conflict, pushing you to grow and evolve through overcoming obstacles and developing new skills.',
+      'trine': 'Planets in trine create harmonious flow and natural talent. This aspect represents ease, talent, and natural abilities. The planets work together effortlessly, creating positive opportunities and natural gifts that come easily to you.',
+      'sextile': 'Planets in sextile create opportunity and cooperation. This aspect represents potential, support, and the ability to work harmoniously. The planets are in a supportive relationship, offering opportunities for growth and positive development.'
+    };
+    return aspectDescriptions[aspect.toLowerCase()] || 'This aspect creates a unique energy combination between the planets, influencing how they work together in your chart.';
+  }
 </script>
 
 <Dialog.Root bind:open>
@@ -577,17 +638,49 @@
             </div>
           </div>
         {:else if elementData.aspect && isAspectInterpretation(interpretation)}
-          <!-- Aspect Details -->
+          <!-- Enhanced Aspect Details -->
           <div class="space-y-4">
-            <div class="bg-gray-50 rounded-lg p-4">
+            <!-- Aspect Overview -->
+            <div class="aspect-overview rounded-lg p-4">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex items-center gap-2 aspect-symbols">
+                  <span class="text-2xl font-symbols" style="color: {interpretation.planet1Color};">{interpretation.planet1Symbol}</span>
+                  <span class="text-xl font-aspect" style="color: {interpretation.aspectColor};">{interpretation.aspectSymbol}</span>
+                  <span class="text-2xl font-symbols" style="color: {interpretation.planet2Color};">{interpretation.planet2Symbol}</span>
+                </div>
+                <h3 class="font-semibold text-gray-900">{elementData.planet1} {elementData.aspect} {elementData.planet2}</h3>
+              </div>
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <h4 class="font-medium text-gray-900 mb-1">Orb</h4>
-                  <p class="text-gray-700">{interpretation.orb}</p>
+                  <p class="text-gray-700 font-mono">{interpretation.orb}</p>
                 </div>
                 <div>
                   <h4 class="font-medium text-gray-900 mb-1">Nature</h4>
                   <p class="text-gray-700">{interpretation.nature}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Aspect Keywords and Themes -->
+            <div class="border rounded-lg p-4">
+              <h3 class="font-semibold text-gray-900 mb-3">Aspect Characteristics</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 class="font-medium text-gray-900 mb-2">Keywords</h4>
+                  <div class="flex flex-wrap gap-1">
+                    {#each getAspectKeywords(elementData.aspect) as keyword}
+                      <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full aspect-keyword">{keyword}</span>
+                    {/each}
+                  </div>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-900 mb-2">Themes</h4>
+                  <div class="flex flex-wrap gap-1">
+                    {#each getAspectThemes(elementData.aspect) as theme}
+                      <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full aspect-keyword">{theme}</span>
+                    {/each}
+                  </div>
                 </div>
               </div>
             </div>
@@ -614,6 +707,32 @@
                 </div>
               </div>
             {/if}
+
+            <!-- Aspect Strengths and Challenges -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="border rounded-lg p-4 bg-green-50">
+                <h4 class="font-semibold text-green-800 mb-2">Strengths</h4>
+                <ul class="text-sm text-green-700 space-y-1">
+                  {#each getAspectStrengths(elementData.aspect) as strength}
+                    <li class="flex items-start gap-2">
+                      <span class="text-green-600 mt-1">•</span>
+                      <span>{strength}</span>
+                    </li>
+                  {/each}
+                </ul>
+              </div>
+              <div class="border rounded-lg p-4 bg-orange-50">
+                <h4 class="font-semibold text-orange-800 mb-2">Challenges</h4>
+                <ul class="text-sm text-orange-700 space-y-1">
+                  {#each getAspectChallenges(elementData.aspect) as challenge}
+                    <li class="flex items-start gap-2">
+                      <span class="text-orange-600 mt-1">•</span>
+                      <span>{challenge}</span>
+                    </li>
+                  {/each}
+                </ul>
+              </div>
+            </div>
           </div>
         {:else if elementData.sign && isSignInterpretation(interpretation)}
           <!-- Sign Details -->
@@ -754,5 +873,23 @@
   .font-aspect {
     font-family: 'Noto Sans Symbols', 'Arial Unicode MS', 'Arial', sans-serif;
     font-weight: 600;
+  }
+
+  /* Enhanced aspect styling */
+  .aspect-overview {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+
+  .aspect-symbols {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
+  .aspect-keyword {
+    transition: all 0.2s ease;
+  }
+
+  .aspect-keyword:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 </style> 
