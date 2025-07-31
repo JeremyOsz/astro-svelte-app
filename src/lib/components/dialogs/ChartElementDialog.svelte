@@ -4,6 +4,9 @@
     PLANET_IN_SIGN_INTERPRETATIONS,
     SIGN_IN_HOUSE_INTERPRETATIONS,
     getDetailedAspectInterpretation,
+    getEnhancedTransitInterpretation,
+    getTransitPlanetInHouseMeaning,
+    getTransitPlanetInSignMeaning,
     PLANET_INTERPRETATIONS,
     ASPECT_INTERPRETATIONS,
     HOUSES
@@ -35,6 +38,7 @@
     planetColor: string;
     isRetrograde: boolean;
     zodiacSymbol: string;
+    enhancedTransitInfo?: string;
   };
 
   type AspectInterpretation = {
@@ -44,6 +48,7 @@
     nature: string;
     general: string;
     specific: string;
+    enhancedInterpretation?: string;
     planet1Symbol: string;
     planet2Symbol: string;
     planet1Color: string;
@@ -89,6 +94,22 @@
     const planetColor = isTransit ? (TRANSIT_COLORS[planet] || '#ff9500') : '#333';
     const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
 
+    // Add enhanced transit meanings if it's a transit planet
+    let enhancedTransitInfo = '';
+    if (isTransit) {
+      const houseMeaning = getTransitPlanetInHouseMeaning(planet, house);
+      const signMeaning = getTransitPlanetInSignMeaning(planet, sign);
+      enhancedTransitInfo = `
+        <div class="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+          <h4 class="font-semibold text-orange-800 mb-2">Current Transit Meaning</h4>
+          <div class="space-y-2 text-sm">
+            <p><strong>House ${house}:</strong> ${houseMeaning}</p>
+            <p><strong>${sign}:</strong> ${signMeaning}</p>
+          </div>
+        </div>
+      `;
+    }
+
     return {
       title: `${planetSymbol} ${planet} in ${zodiacSymbol} ${sign} (House ${house})`,
       type: isTransit ? 'Transit Planet' : 'Natal Planet',
@@ -100,18 +121,29 @@
       planetSymbol,
       planetColor,
       isRetrograde,
-      zodiacSymbol
+      zodiacSymbol,
+      enhancedTransitInfo
     };
   }
 
   function getAspectInterpretation(aspectData: any): AspectInterpretation {
     const { aspect, planet1, planet2, orb, isTransitAspect } = aspectData;
-    const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
     const aspectDataInfo = (ASPECT_INTERPRETATIONS as any)[aspect];
     
-    const interpretationParts = interpretation.split('\n\n');
-    const generalInterpretation = interpretationParts[0] || '';
-    const specificInterpretation = interpretationParts[1] || '';
+    let generalInterpretation = '';
+    let specificInterpretation = '';
+    let enhancedInterpretation = '';
+
+    // Use enhanced interpretation for transit aspects
+    if (isTransitAspect) {
+      enhancedInterpretation = getEnhancedTransitInterpretation(aspect, planet1, planet2);
+    } else {
+      // Use regular interpretation for natal aspects
+      const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
+      const interpretationParts = interpretation.split('\n\n');
+      generalInterpretation = interpretationParts[0] || '';
+      specificInterpretation = interpretationParts[1] || '';
+    }
 
     // Use centralized symbols and colors
     const planet1Symbol = PLANET_SYMBOLS[planet1] || planet1;
@@ -129,6 +161,7 @@
       nature: aspectDataInfo?.nature || 'Unknown',
       general: generalInterpretation,
       specific: specificInterpretation,
+      enhancedInterpretation,
       planet1Symbol,
       planet2Symbol,
       planet1Color,
@@ -353,6 +386,10 @@
               <p class="text-gray-700 leading-relaxed">{interpretation.signInHouse}</p>
             </div>
 
+            {#if interpretation.enhancedTransitInfo}
+              {@html interpretation.enhancedTransitInfo}
+            {/if}
+
             <!-- Planet Strengths and Challenges -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="border rounded-lg p-4 bg-green-50">
@@ -406,6 +443,15 @@
               <div class="border rounded-lg p-4">
                 <h3 class="font-semibold text-gray-900 mb-3">Specific Meaning</h3>
                 <p class="text-gray-700 leading-relaxed">{interpretation.specific}</p>
+              </div>
+            {/if}
+
+            {#if interpretation.enhancedInterpretation}
+              <div class="border rounded-lg p-4 bg-orange-50 border-orange-200">
+                <h3 class="font-semibold text-orange-800 mb-3">Enhanced Transit Interpretation</h3>
+                <div class="text-gray-700 leading-relaxed">
+                  {@html interpretation.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-orange-600">$1</strong>')}
+                </div>
               </div>
             {/if}
           </div>

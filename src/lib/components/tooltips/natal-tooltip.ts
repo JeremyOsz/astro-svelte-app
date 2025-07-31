@@ -3,9 +3,6 @@ import {
   PLANET_IN_SIGN_INTERPRETATIONS,
   SIGN_IN_HOUSE_INTERPRETATIONS,
   getDetailedAspectInterpretation,
-  getEnhancedTransitInterpretation,
-  getTransitPlanetInHouseMeaning,
-  getTransitPlanetInSignMeaning,
   PLANET_INTERPRETATIONS,
   ASPECT_INTERPRETATIONS,
   HOUSES
@@ -15,69 +12,60 @@ let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>;
 let tooltipPinned = false;
 let pinnedData: any = null;
 
-export function createTooltip() {
-  if (d3.select('.chart-tooltip').empty()) {
+export function createNatalTooltip() {
+  if (d3.select('.natal-chart-tooltip').empty()) {
     tooltip = d3.select('body')
       .append('div')
-      .attr('class', 'chart-tooltip')
+      .attr('class', 'natal-chart-tooltip')
       .style('opacity', 0)
       .style('position', 'absolute')
       .style('pointer-events', 'none');
   } else {
-    tooltip = d3.select('.chart-tooltip');
+    tooltip = d3.select('.natal-chart-tooltip');
   }
 }
 
-export function handleMouseOver(event: MouseEvent, d: any) {
+export function handleNatalMouseOver(event: MouseEvent, d: any) {
   if (tooltipPinned) return;
 
   let interpretationHtml, title;
   if (d.aspect) { // It's an aspect
-    const aspectType = d.isTransitAspect ? 'Transit' : 'Natal';
-    if (d.isTransitAspect) {
-      title = `${aspectType} Aspect: <span style="color: #ff9500;">${d.planet1}</span> ${d.aspect} <span style="color: #333;">${d.planet2}</span>`;
-    } else {
-      title = `${aspectType} Aspect: ${d.planet1} ${d.aspect} ${d.planet2}`;
-    }
-    interpretationHtml = getAspectInterpretation(d.aspect, d.planet1, d.planet2, d.orb, d.isTransitAspect);
+    title = `Natal Aspect: ${d.planet1} ${d.aspect} ${d.planet2}`;
+    interpretationHtml = getNatalAspectInterpretation(d.aspect, d.planet1, d.planet2, d.orb);
   } else if (d.planet) { // It's a planet
-    const planetType = d.isTransit ? 'Transit' : 'Natal';
-    const planetColor = d.isTransit ? '#ff9500' : '#333';
-    title = `${planetType} Planet: <span style="color: ${planetColor};">${d.planet}</span> in ${d.sign} (House ${d.house})`;
-    interpretationHtml = getPlanetInterpretation(d);
-  } else if (d.sign && d.house !== undefined && !d.planet) { // It's a sign (no planet property)
+    title = `Natal Planet: <span style="color: #333;">${d.planet}</span> in ${d.sign} (House ${d.house})`;
+    interpretationHtml = getNatalPlanetInterpretation(d);
+  } else if (d.sign && d.house !== undefined && !d.planet) { // It's a sign
     title = `Sign: ${d.sign} in House ${d.house}`;
-    interpretationHtml = getSignInterpretation(d.sign, d.house);
+    interpretationHtml = getNatalSignInterpretation(d.sign, d.house);
   } else { // Fallback
     title = "Unknown element";
     interpretationHtml = "No interpretation available.";
   }
 
-  showInterpretation(event, interpretationHtml, title);
+  showNatalInterpretation(event, interpretationHtml, title);
 }
 
-export function handleMouseOut() {
+export function handleNatalMouseOut() {
   if (tooltipPinned) return;
-  hideInterpretation();
+  hideNatalInterpretation();
 }
 
-export function handleClick(event: MouseEvent, d: any) {
+export function handleNatalClick(event: MouseEvent, d: any) {
   event.stopPropagation();
   if (tooltipPinned && pinnedData === d) {
     tooltipPinned = false;
     pinnedData = null;
-    hideInterpretation();
+    hideNatalInterpretation();
   } else {
     pinnedData = d;
-    handleMouseOver(event, d); // Show tooltip first
-    tooltipPinned = true;      // Then pin it so future hovers don't overwrite
+    handleNatalMouseOver(event, d);
+    tooltipPinned = true;
   }
 }
 
-export { getPlanetInterpretation, getAspectInterpretation, getSignInterpretation };
-
-function getPlanetInterpretation(planetData: any) {
-  const { planet, sign, house, degree, minute, isRetrograde, isTransit } = planetData;
+function getNatalPlanetInterpretation(planetData: any) {
+  const { planet, sign, house, degree, minute, isRetrograde } = planetData;
   const planetInSign = (PLANET_IN_SIGN_INTERPRETATIONS as any)[planet]?.[sign] || "No interpretation available.";
   const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
   const planetMeaning = (PLANET_INTERPRETATIONS as any)[planet]?.description || "";
@@ -85,22 +73,7 @@ function getPlanetInterpretation(planetData: any) {
   // Format position
   const position = `${degree}°${minute.toString().padStart(2, '0')}'`;
   const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
-  const planetTypeText = isTransit ? 
-    `<p><strong>Type:</strong> <span style="color: #ff9500; font-weight: bold;">Transit planet</span> - current position at the time of the transit chart</p>` : 
-    `<p><strong>Type:</strong> <span style="color: #333; font-weight: bold;">Natal planet</span> - position at the time of birth</p>`;
-  
-  let enhancedTransitInfo = '';
-  if (isTransit) {
-    const houseMeaning = getTransitPlanetInHouseMeaning(planet, house);
-    const signMeaning = getTransitPlanetInSignMeaning(planet, sign);
-    enhancedTransitInfo = `
-      <p><strong>Current Transit Meaning:</strong></p>
-      <div style="margin-left: 1rem; margin-bottom: 1rem;">
-        <p><strong>House ${house}:</strong> ${houseMeaning}</p>
-        <p><strong>${sign}:</strong> ${signMeaning}</p>
-      </div>
-    `;
-  }
+  const planetTypeText = `<p><strong>Type:</strong> <span style="color: #333; font-weight: bold;">Natal planet</span> - position at the time of birth</p>`;
   
   return `
     <div class="interpretation-content">
@@ -110,12 +83,12 @@ function getPlanetInterpretation(planetData: any) {
       <p><strong>${planet}:</strong> ${planetMeaning}</p>
       <p><strong>In ${sign}:</strong> ${planetInSign}</p>
       <p><strong>In House ${house}:</strong> ${signInHouse}</p>
-      ${enhancedTransitInfo}
     </div>
   `;
 }
 
-function getAspectInterpretation(aspect: string, planet1: string, planet2: string, orbValue?: number, isTransitAspect?: boolean) {
+function getNatalAspectInterpretation(aspect: string, planet1: string, planet2: string, orbValue?: number) {
+  const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
   const aspectData = (ASPECT_INTERPRETATIONS as any)[aspect];
   
   let detailedInfo = '';
@@ -127,30 +100,20 @@ function getAspectInterpretation(aspect: string, planet1: string, planet2: strin
     `;
   }
   
-  let interpretationHtml = '';
-  const aspectTypeText = isTransitAspect ? 
-    `<p><strong>Type:</strong> Transit aspect</p>
-     <p><span style="color: #ff9500; font-weight: bold;">${planet1}</span> (transit) ${aspect} <span style="color: #333; font-weight: bold;">${planet2}</span> (natal)</p>` : 
-    `<p><strong>Type:</strong> Natal aspect - both planets are from the birth chart</p>`;
+  // Split interpretation into general and specific parts
+  const interpretationParts = interpretation.split('\n\n');
+  const generalInterpretation = interpretationParts[0] || '';
+  const specificInterpretation = interpretationParts[1] || '';
   
-  // Use enhanced interpretation for transit aspects
-  if (isTransitAspect) {
-    const enhancedInterpretation = getEnhancedTransitInterpretation(aspect, planet1, planet2);
-    interpretationHtml = `<p><strong>Interpretation:</strong></p><div style="margin-left: 1rem;">${enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #059669;">$1</strong>')}</div>`;
-  } else {
-    // Use regular interpretation for natal aspects
-    const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
-    const interpretationParts = interpretation.split('\n\n');
-    const generalInterpretation = interpretationParts[0] || '';
-    const specificInterpretation = interpretationParts[1] || '';
-    
-    if (generalInterpretation) {
-      interpretationHtml += `<p><strong>General:</strong> ${generalInterpretation}</p>`;
-    }
-    if (specificInterpretation) {
-      interpretationHtml += `<p><strong>Specific:</strong> ${specificInterpretation}</p>`;
-    }
+  let interpretationHtml = '';
+  if (generalInterpretation) {
+    interpretationHtml += `<p><strong>General:</strong> ${generalInterpretation}</p>`;
   }
+  if (specificInterpretation) {
+    interpretationHtml += `<p><strong>Specific:</strong> ${specificInterpretation}</p>`;
+  }
+  
+  const aspectTypeText = `<p><strong>Type:</strong> Natal aspect - both planets are from the birth chart</p>`;
     
   return `
     <div class="interpretation-content">
@@ -162,7 +125,7 @@ function getAspectInterpretation(aspect: string, planet1: string, planet2: strin
   `;
 }
 
-function getSignInterpretation(sign: string, house: number) {
+function getNatalSignInterpretation(sign: string, house: number) {
   const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
   const houseKey = `${house}${house === 1 ? 'st' : house === 2 ? 'nd' : house === 3 ? 'rd' : 'th'}`;
   const houseGeneral = HOUSES[houseKey] || "House information not available.";
@@ -176,8 +139,8 @@ function getSignInterpretation(sign: string, house: number) {
   `;
 }
 
-function showInterpretation(event: MouseEvent, interpretationHtml: string, title: string) {
-  if (!tooltip) createTooltip();
+function showNatalInterpretation(event: MouseEvent, interpretationHtml: string, title: string) {
+  if (!tooltip) createNatalTooltip();
 
   tooltip.html(`<div class="tooltip-header">${title}</div><div class="tooltip-body">${interpretationHtml}</div>`);
 
@@ -185,10 +148,10 @@ function showInterpretation(event: MouseEvent, interpretationHtml: string, title
     .duration(200)
     .style('opacity', 1);
 
-  positionTooltip(event);
+  positionNatalTooltip(event);
 }
 
-function hideInterpretation() {
+function hideNatalInterpretation() {
   if (tooltip) {
     tooltip.transition().duration(200).style('opacity', 0).on('end', () => {
       tooltip.style('pointer-events', 'none');
@@ -196,7 +159,7 @@ function hideInterpretation() {
   }
 }
 
-function positionTooltip(event: MouseEvent) {
+function positionNatalTooltip(event: MouseEvent) {
   if (!tooltip) return;
 
   const tooltipNode = tooltip.node() as HTMLElement;
@@ -243,10 +206,12 @@ function positionTooltip(event: MouseEvent) {
          .style('pointer-events', 'auto');
 }
 
-export function unpinTooltip() {
+export function unpinNatalTooltip() {
     if (tooltipPinned) {
         tooltipPinned = false;
         pinnedData = null;
-        hideInterpretation();
+        hideNatalInterpretation();
     }
-} 
+}
+
+export { getNatalPlanetInterpretation, getNatalAspectInterpretation, getNatalSignInterpretation }; 

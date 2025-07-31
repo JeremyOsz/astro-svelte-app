@@ -17,6 +17,11 @@
   export let showAspectLines: boolean = true;
   export let showPlanetLabels: boolean = true;
   export let zoomLevel: number = 1;
+  
+  // Tooltip handlers - allow customization
+  export let onMouseOver: ((event: MouseEvent, data: any) => void) | null = null;
+  export let onMouseOut: ((event: MouseEvent) => void) | null = null;
+  export let onClick: ((event: MouseEvent, data: any) => void) | null = null;
 
   // Transit chart raw data (outer wheel)
   export let transitData: string | null = null;
@@ -151,22 +156,34 @@
   function handleElementHover(event: MouseEvent, data: any) {
     const { isMobile } = get(chartState);
     if (!isMobile) {
-      showBriefTooltip(event, data);
+      if (onMouseOver) {
+        onMouseOver(event, data);
+      } else {
+        showBriefTooltip(event, data);
+      }
     }
   }
 
-  function handleElementLeave() {
+  function handleElementLeave(event: MouseEvent) {
     const { isMobile } = get(chartState);
     if (!isMobile) {
-      hideBriefTooltip();
+      if (onMouseOut) {
+        onMouseOut(event);
+      } else {
+        hideBriefTooltip();
+      }
     }
   }
 
   function handleElementClick(event: MouseEvent, data: any) {
     event.stopPropagation();
-    selectedElementData = data;
-    dialogOpen = true;
-    hideBriefTooltip();
+    if (onClick) {
+      onClick(event, data);
+    } else {
+      selectedElementData = data;
+      dialogOpen = true;
+      hideBriefTooltip();
+    }
   }
 
   // Import centralized symbols and colors
@@ -783,7 +800,7 @@
         } : null) as any)
         .on('mouseout', (!isMobile ? function(this: SVGCircleElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleElementLeave();
+          handleElementLeave(event);
         } : null) as any)
         .on('click', (event) => handleElementClick(event, signData));
 
@@ -1025,7 +1042,7 @@
         } : null) as any)
         .on('mouseout', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleElementLeave();
+          handleElementLeave(event);
         } : null) as any)
         .on('click', (event) => {
           const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
@@ -1104,7 +1121,7 @@
         })
         .on('mouseout', function(this: SVGCircleElement, event: MouseEvent) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          handleElementLeave();
+          handleElementLeave(event);
         })
         .on('click', (event) => {
           const planetDataWithType = { ...p, isTransit: !isInner };
