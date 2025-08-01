@@ -11,7 +11,7 @@
   import * as Sidebar from "$lib/components/ui/sidebar"; 
    import * as Sheet from "$lib/components/ui/sheet";
   import { Button } from "$lib/components/ui/button";
-  import { PanelLeft, Settings, X, BookOpen } from 'lucide-svelte';
+  import { PanelLeft, Settings, X, BookOpen, Star } from 'lucide-svelte';
   import type { PageData } from './$types';
   import { chartStore, currentChart } from '$lib/stores/chart-store';
   import * as Accordion from "$lib/components/ui/accordion";
@@ -49,6 +49,9 @@
 
   // Chart instructions
   let showInstructions = false;
+
+  // Loading progress tracking
+  let loadingProgress = 0;
 
   // Constraints for sidebar width
   const MIN_SIDEBAR_WIDTH = 240;
@@ -102,6 +105,23 @@ MC,Leo,10°14'`;
   // Show loading state when API calls are in progress
   $: if (isLoading) {
     console.log('Chart is loading, showing loading state');
+  } else {
+    loadingProgress = 0;
+  }
+
+  // Progress simulation
+  let progressInterval: ReturnType<typeof setInterval> | null = null;
+  
+  $: if (isLoading && !progressInterval) {
+    progressInterval = setInterval(() => {
+      if (loadingProgress < 90) {
+        loadingProgress += Math.random() * 15;
+      }
+    }, 500);
+  } else if (!isLoading && progressInterval) {
+    clearInterval(progressInterval);
+    progressInterval = null;
+    loadingProgress = 0;
   }
 
   // Accordion open state for mobile
@@ -751,12 +771,12 @@ MC,Leo,10°14'`;
       <div class="flex-1 p-2 sm:py-2 sm:py-4 m:p-4 min-h-0">
         <!-- Loading State -->
         {#if isLoading}
-          <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
-            <div class="text-center p-8">
-              <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
-              <p class="text-gray-600 text-lg font-medium">Generating your birth chart...</p>
-              <p class="text-gray-500 text-sm mt-2">This may take a few moments</p>
-            </div>
+          <div class="flex items-center justify-center h-full min-h-[400px]">
+            <ChartLoadingState 
+              message="Connecting to the ephemeris service..."
+              showProgress={true}
+              progress={loadingProgress}
+            />
           </div>
         {:else if showChart}
           <!-- Chart Instructions -->
@@ -787,9 +807,28 @@ MC,Leo,10°14'`;
           <!-- Interpretations list -->
           <InterpretationList filter={interpretationFilter} />
         {:else}
-          <div class="flex items-center justify-center h-full bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
-            <div class="text-center p-4">
-              <p class="text-gray-500 text-sm sm:text-lg">Enter your birth details or load test data to see the chart visualization</p>
+          <div class="flex items-center justify-center h-full min-h-[400px]">
+            <div class="text-center p-8 max-w-md">
+              <div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 border border-indigo-200 rounded-2xl p-8 shadow-lg mystical-glow">
+                <div class="mb-6">
+                  <div class="w-16 h-16 mx-auto mb-4 relative">
+                    <div class="absolute inset-0 border-4 border-indigo-200 rounded-full opacity-50"></div>
+                    <div class="absolute inset-2 border-4 border-purple-300 rounded-full opacity-50"></div>
+                    <div class="absolute inset-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                      <Star class="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Ready to Discover Your Chart</h3>
+                <p class="text-sm text-gray-600 mb-4">
+                  Enter your birth details to reveal your unique astrological blueprint and cosmic signature
+                </p>
+                <div class="text-xs text-gray-500 space-y-1">
+                  <p>✨ Your birth chart reveals your soul's journey</p>
+                  <p>🌟 Each planet tells a story of your potential</p>
+                  <p>🌙 The stars align to guide your path</p>
+                </div>
+              </div>
             </div>
           </div>
         {/if}

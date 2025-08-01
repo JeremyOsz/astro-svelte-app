@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { Button } from '$lib/components/ui/button';
+
   import { Input } from '$lib/components/ui/input';
   import * as Card from '$lib/components/ui/card';
   import * as Label from '$lib/components/ui/label';
@@ -136,11 +136,10 @@
           <Card.Title>Transit Calculator</Card.Title>
         </div>
         {#if hasResults}
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onclick={toggleCollapse}
-            class="flex items-center gap-1"
+          <button 
+            type="button"
+            on:click={toggleCollapse}
+            class="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <Settings class="h-4 w-4" />
             {isCollapsed ? 'Show Form' : 'Hide Form'}
@@ -149,7 +148,7 @@
             {:else}
               <ChevronUp class="h-4 w-4" />
             {/if}
-          </Button>
+          </button>
         {/if}
       </div>
       <Card.Description>
@@ -183,12 +182,20 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <Button variant="outline" size="sm" onclick={toggleCollapse}>
+          <button 
+            type="button"
+            on:click={toggleCollapse}
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 focus:ring-2 focus:ring-gray-300 transition-colors"
+          >
             Edit Settings
-          </Button>
-          <Button variant="outline" size="sm" onclick={onClear}>
+          </button>
+          <button 
+            type="button"
+            on:click={onClear}
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 focus:ring-2 focus:ring-gray-300 transition-colors"
+          >
             Clear Results
-          </Button>
+          </button>
         </div>
       </Card.Content>
     {:else}
@@ -211,9 +218,13 @@
                   <span>Location: {selectedBirthChart.birthData.place}</span>
                 </div>
               </div>
-              <Button variant="outline" size="sm" onclick={onClearSelection} class="mt-3">
+              <button 
+                type="button"
+                on:click={onClearSelection} 
+                class="mt-3 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 focus:ring-2 focus:ring-gray-300 transition-colors"
+              >
                 Change Chart
-              </Button>
+              </button>
             </div>
           {:else}
             <div class="space-y-4">
@@ -225,9 +236,13 @@
                   <User class="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <h3 class="text-lg font-semibold text-gray-900 mb-2">No Saved Charts</h3>
                   <p class="text-gray-600 mb-4">You need to create and save a birth chart first.</p>
-                  <Button onclick={() => window.location.href = '/chart'}>
+                  <button 
+                    type="button"
+                    on:click={() => window.location.href = '/chart'}
+                    class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
+                  >
                     Create Birth Chart
-                  </Button>
+                  </button>
                 </div>
               {/if}
             </div>
@@ -243,9 +258,13 @@
           
           <!-- Quick Action -->
           <div>
-            <Button variant="outline" size="sm" onclick={useCurrentTimeAndLocation}>
+            <button 
+              type="button"
+              on:click={useCurrentTimeAndLocation}
+              class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 focus:ring-2 focus:ring-gray-300 transition-colors"
+            >
               Use Current Time & Location
-            </Button>
+            </button>
           </div>
 
           <!-- Date and Time -->
@@ -313,21 +332,42 @@
 
         <!-- Action Buttons -->
         <div class="space-y-3 pt-4 border-t border-gray-200">
-          <Button 
+          <button
             type="submit"
             disabled={loading || !selectedBirthChart || !transitDate || !selectedTransitCityData}
-            class="w-full"
+            class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            style="min-height: 56px;"
           >
             {loading ? 'Calculating...' : 'Calculate Transits'}
-          </Button>
+          </button>
           
           {#if hasResults}
-            <Button variant="outline" onclick={onClear} class="w-full">
-              Clear Results
-            </Button>
+                      <button
+            type="button"
+            on:click={onClear}
+            class="w-full bg-white border-2 border-gray-300 text-gray-700 font-semibold py-4 px-6 rounded-xl shadow-lg hover:bg-gray-50 hover:border-gray-400 focus:ring-4 focus:ring-gray-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
+            style="min-height: 56px;"
+          >
+            Clear Results
+          </button>
           {/if}
         </div>
       </Card.Content>
     {/if}
   </Card.Root>
 {/if} 
+
+<style>
+  /* Ensure all buttons and interactive elements have pointer cursor */
+  button, 
+  [role="button"],
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  /* Make sure all clickable elements show pointer */
+  input[type="checkbox"] + span,
+  label[class*="cursor-pointer"] {
+    cursor: pointer;
+  }
+</style>

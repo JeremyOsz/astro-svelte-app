@@ -126,6 +126,8 @@
       return false;
     }
     
+    // Set loading state immediately when form is valid and about to submit
+    chartStore.setLoading(true);
     console.log('Form validation passed, proceeding with submission');
     return true;
   }
