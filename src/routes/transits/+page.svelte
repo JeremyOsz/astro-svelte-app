@@ -5,11 +5,10 @@
   import * as Alert from '$lib/components/ui/alert';
   import { AlertCircle } from 'lucide-svelte';
   import { 
-    TransitSettings, 
-    BirthChartSelector, 
     TransitChartDisplay, 
     TransitDetails 
   } from './components';
+  import UnifiedTransitForm from './components/UnifiedTransitForm.svelte';
   import { enhance } from '$app/forms';
   import TransitLoadingState from '$lib/components/TransitLoadingState.svelte';
 
@@ -95,15 +94,8 @@
     </Alert.Root>
   {/if}
 
-  <div class="grid gap-6 lg:grid-cols-2 pb-4">
-    <!-- Birth Chart Selection -->
-    <BirthChartSelector 
-      {selectedBirthChart}
-      onChartSelect={handleChartSelect}
-      onClearSelection={() => selectedBirthChart = null}
-    />
-
-    <!-- Transit Settings -->
+  <!-- Unified Transit Form -->
+  <div class=" mx-auto pb-4">
     <form 
       method="POST" 
       action="?/calculateTransits"
@@ -166,12 +158,15 @@
       <input type="hidden" name="transitLng" value={selectedTransitCityData?.lng || ''} />
       <input type="hidden" name="transitLocationName" value={selectedTransitCityData?.fullLocation || ''} />
       
-      <TransitSettings 
+      <UnifiedTransitForm 
+        {selectedBirthChart}
         bind:transitDate
         bind:transitTime
         bind:transitCitySearch
         bind:selectedTransitCityData
         {loading}
+        onChartSelect={handleChartSelect}
+        onClearSelection={() => selectedBirthChart = null}
         onClear={clearTransits}
         hasResults={!!currentTransits}
       />
