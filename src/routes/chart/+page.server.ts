@@ -13,13 +13,30 @@ export const actions: Actions = {
   calculate: async ({ request }) => {
     const formData = await request.formData();
     
+    // Debug: Log all form data
+    console.log('=== FORM DATA DEBUG ===');
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+    
     try {
       // Handle both prefixed and non-prefixed field names
       const birthDate = (formData.get('birthDate') || formData.get('mobile_birthDate') || formData.get('desktop_birthDate')) as string;
       const birthTime = (formData.get('birthTime') || formData.get('mobile_birthTime') || formData.get('desktop_birthTime')) as string;
       const cityDataStr = (formData.get('cityData') || formData.get('mobile_cityData') || formData.get('desktop_cityData')) as string;
       
+      console.log('=== EXTRACTED VALUES ===');
+      console.log('birthDate:', birthDate);
+      console.log('birthTime:', birthTime);
+      console.log('cityDataStr:', cityDataStr);
+      
       if (!birthDate || !birthTime || !cityDataStr) {
+        console.log('=== VALIDATION FAILED ===');
+        console.log('Missing fields:', {
+          birthDate: !birthDate,
+          birthTime: !birthTime,
+          cityDataStr: !cityDataStr
+        });
         return fail(400, {
           error: 'Please fill in all required fields',
           chartData: null

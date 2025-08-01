@@ -22,6 +22,7 @@
   let selectedCityData: any = null;
   let formError = ''; // Client-side form validation error
   let cityInputBlurred = false;
+  let isSubmitting = false;
   
   function onCityInput(e: Event) {
     citySearch = (e.target as HTMLInputElement).value;
@@ -95,19 +96,83 @@
   }
 
   // Removed updateTimezoneInfo and onDateTimeChange
+  
+  // Form validation
+  function validateForm() {
+    if (!birthDate) {
+      formError = 'Please select your birth date';
+      return false;
+    }
+    if (!birthTime) {
+      formError = 'Please select your birth time';
+      return false;
+    }
+    if (!selectedCityData) {
+      formError = 'Please select your birth city from the dropdown';
+      return false;
+    }
+    formError = '';
+    return true;
+  }
+  
+  // Handle form submission
+  function handleSubmit(e: Event) {
+    console.log('Form submission started');
+    console.log('Form data:', { birthDate, birthTime, selectedCityData });
+    
+    if (!validateForm()) {
+      console.log('Form validation failed:', formError);
+      e.preventDefault();
+      return false;
+    }
+    
+    console.log('Form validation passed, proceeding with submission');
+    return true;
+  }
 </script>
 
 <div class="p-4 mx-auto">
   <form 
     method="POST" 
+    action="?/calculate"
+    enctype="application/x-www-form-urlencoded"
+    on:submit={handleSubmit}
     use:enhance={() => {
-      return async ({ result }) => {
-        if (result.type === 'success') {
-          // Form submitted successfully
-          console.log('Form submitted successfully');
-        } else if (result.type === 'failure') {
-          // Form submission failed
-          console.error('Form submission failed:', result);
+      return async ({ result, update }) => {
+        console.log('Enhance function called with result:', result);
+        isSubmitting = true;
+        
+        try {
+          if (result.type === 'success') {
+            // Form submitted successfully
+            console.log('Form submitted successfully');
+            console.log('Result data:', result.data);
+            
+            // Update the chart store with the result data
+            if (result.data?.chartData) {
+              console.log('Setting chart data:', result.data.chartData);
+              chartStore.setChartData(String(result.data.chartData), result.data.birthData as any);
+            } else {
+              console.log('No chart data in result');
+            }
+            
+            // Update the page
+            await update();
+          } else if (result.type === 'failure') {
+            // Form submission failed
+            console.error('Form submission failed:', result);
+            console.error('Failure data:', result.data);
+            
+            // Set error in chart store
+            if (result.data?.error) {
+              chartStore.setError(String(result.data.error));
+            }
+            
+            // Update the page
+            await update();
+          }
+        } finally {
+          isSubmitting = false;
         }
       };
     }}
@@ -123,7 +188,7 @@
         <input
           type="date"
           id="{formPrefix}birth-date"
-          name="birthDate"
+          name="{formPrefix}birthDate"
           bind:value={birthDate}
           required
           class="w-full px-4 py-3 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white shadow-sm"
@@ -139,7 +204,7 @@
         <input
           type="time"
           id="{formPrefix}birth-time"
-          name="birthTime"
+          name="{formPrefix}birthTime"
           bind:value={birthTime}
           required
           class="w-full px-4 py-3 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white shadow-sm"
@@ -159,7 +224,7 @@
           <input
             type="text"
             id="{formPrefix}city"
-            name="city"
+            name="{formPrefix}city"
             bind:value={citySearch}
             on:input={onCityInput}
             on:keydown={onCityKeydown}
@@ -203,16 +268,17 @@
       </div>
 
       <!-- Hidden input for city data -->
-      <input type="hidden" id="{formPrefix}city-data" name="cityData" />
+      <input type="hidden" id="{formPrefix}city-data" name="{formPrefix}cityData" />
 
       <!-- Submit Button -->
       <div class="pt-4">
         <button
           type="submit"
-          class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
+          disabled={isSubmitting}
+          class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           style="min-height: 56px;"
         >
-          Calculate Birth Chart
+          {isSubmitting ? 'Calculating...' : 'Calculate Birth Chart'}
         </button>
       </div>
 

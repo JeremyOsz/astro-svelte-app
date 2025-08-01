@@ -1,235 +1,222 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Mobile-specific improvements */
+@import "tw-animate-css";
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols:wght@400;700&display=swap');
+
+/* Force Safari to use proper fonts instead of emoji */
+.astrological-symbol,
+[class*="font-['Noto_Sans_Symbols']"],
+.zodiac-symbol,
+.zodiac-aries,
+.zodiac-taurus,
+.zodiac-gemini,
+.zodiac-cancer,
+.zodiac-leo,
+.zodiac-virgo,
+.zodiac-libra,
+.zodiac-scorpio,
+.zodiac-sagittarius,
+.zodiac-capricorn,
+.zodiac-aquarius,
+.zodiac-pisces {
+  font-family: 'Noto Sans Symbols' !important;
+  font-variant-emoji: none !important;
+  -webkit-font-variant-emoji: none !important;
+  font-feature-settings: "emoji" 0 !important;
+  -webkit-font-feature-settings: "emoji" 0 !important;
+  font-feature-settings: "liga" 0 !important;
+  -webkit-font-feature-settings: "liga" 0 !important;
+}
+
+/* Safari-specific overrides to prevent emoji substitution */
+@supports (-webkit-appearance: none) {
+  .astrological-symbol,
+  [class*="font-['Noto_Sans_Symbols']"],
+  .zodiac-symbol,
+  .zodiac-aries,
+  .zodiac-taurus,
+  .zodiac-gemini,
+  .zodiac-cancer,
+  .zodiac-leo,
+  .zodiac-virgo,
+  .zodiac-libra,
+  .zodiac-scorpio,
+  .zodiac-sagittarius,
+  .zodiac-capricorn,
+  .zodiac-aquarius,
+  .zodiac-pisces {
+    font-family: 'Noto Sans Symbols' !important;
+    font-variant-emoji: none !important;
+    -webkit-font-variant-emoji: none !important;
+    font-feature-settings: "emoji" 0 !important;
+    -webkit-font-feature-settings: "emoji" 0 !important;
+    font-feature-settings: "liga" 0 !important;
+    -webkit-font-feature-settings: "liga" 0 !important;
+  }
+}
+
+/* Force zodiac symbols to render as text, not emoji */
+.zodiac-aries,
+.zodiac-taurus,
+.zodiac-gemini,
+.zodiac-cancer,
+.zodiac-leo,
+.zodiac-virgo,
+.zodiac-libra,
+.zodiac-scorpio,
+.zodiac-sagittarius,
+.zodiac-capricorn,
+.zodiac-aquarius,
+.zodiac-pisces {
+  font-family: 'Noto Sans Symbols', 'Apple Symbols', sans-serif !important;
+  font-variant-emoji: none;
+  -webkit-font-variant-emoji: none;
+  font-feature-settings: "emoji" 0;
+  -webkit-font-feature-settings: "emoji" 0;
+}
+
+/* Additional Safari-specific emoji prevention */
+@supports (-webkit-appearance: none) {
+  .astrological-symbol,
+  [class*="font-['Noto_Sans_Symbols']"],
+  .zodiac-symbol,
+  .zodiac-aries,
+  .zodiac-taurus,
+  .zodiac-gemini,
+  .zodiac-cancer,
+  .zodiac-leo,
+  .zodiac-virgo,
+  .zodiac-libra,
+  .zodiac-scorpio,
+  .zodiac-sagittarius,
+  .zodiac-capricorn,
+  .zodiac-aquarius,
+  .zodiac-pisces {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.208 0.042 265.755);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+@theme {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
 @layer base {
-  /* Prevent zoom on input focus on iOS */
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="number"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="search"],
-  input[type="date"],
-  input[type="time"],
-  textarea,
-  select {
-    font-size: 16px !important;
+  * {
+    border-color: var(--color-border);
+    outline-color: color-mix(in oklch, var(--color-ring) 50%, transparent);
   }
-
-  /* Smooth scrolling for mobile */
-  html {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Prevent text selection on buttons */
-  button {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
-  /* Better touch targets */
-  button, a, [role="button"] {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
-  /* Mobile-safe area padding */
-  .safe-area-top {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  /* Prevent horizontal scroll on mobile */
   body {
-    overflow-x: hidden;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
 }
 
-@layer components {
-  /* Mobile-optimized cards */
-  .mobile-card {
-    @apply bg-white rounded-2xl shadow-lg border border-gray-100 p-6;
-    backdrop-filter: blur(10px);
-  }
-
-  /* Mobile-optimized buttons */
-  .mobile-button {
-    @apply px-6 py-4 rounded-xl font-semibold transition-all duration-200;
-    @apply active:scale-95 focus:outline-none focus:ring-4 focus:ring-opacity-50;
-    min-height: 56px;
-  }
-
-  .mobile-button-primary {
-    @apply mobile-button bg-gradient-to-r from-indigo-600 to-purple-600 text-white;
-    @apply hover:from-indigo-700 hover:to-purple-700 focus:ring-indigo-300;
-  }
-
-  .mobile-button-secondary {
-    @apply mobile-button bg-gray-100 text-gray-900;
-    @apply hover:bg-gray-200 focus:ring-gray-300;
-  }
-
-  /* Mobile-optimized inputs */
-  .mobile-input {
-    @apply w-full px-4 py-3 text-lg border border-gray-300 rounded-xl;
-    @apply focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors;
-    @apply bg-white shadow-sm;
-    min-height: 48px;
-    -webkit-appearance: none;
-  }
-
-  /* Mobile-optimized navigation */
-  .mobile-nav-item {
-    @apply flex flex-col items-center py-2 px-3 min-w-0 flex-1 transition-colors;
-    @apply text-gray-500 hover:text-gray-700;
-  }
-
-  .mobile-nav-item.active {
-    @apply text-indigo-600;
-  }
-
-  /* Mobile-optimized charts */
-  .mobile-chart-container {
-    @apply relative w-full flex justify-center items-center;
-    @apply border border-gray-200 rounded-xl bg-gray-50 overflow-hidden;
-    @apply touch-pan-x touch-pan-y;
-    aspect-ratio: 1;
-    min-height: 350px;
-    max-height: 800px;
-  }
-
-  /* Mobile-optimized tooltips */
-  .mobile-tooltip {
-    @apply absolute z-50 px-3 py-2 text-sm bg-gray-900 text-white rounded-lg;
-    @apply shadow-lg max-w-xs;
-    backdrop-filter: blur(10px);
-  }
-
-  /* Mobile-optimized modals */
-  .mobile-modal {
-    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
-    @apply bg-black bg-opacity-50 backdrop-blur-sm;
-  }
-
-  .mobile-modal-content {
-    @apply bg-white rounded-2xl shadow-2xl max-w-sm w-full max-h-[90vh] overflow-y-auto;
-    @apply p-6;
-  }
-}
-
-@layer utilities {
-  /* Mobile-specific utilities */
-  .touch-none {
-    touch-action: none;
-  }
-
-  .touch-pan-x {
-    touch-action: pan-x;
-  }
-
-  .touch-pan-y {
-    touch-action: pan-y;
-  }
-
-  .touch-pan-x-y {
-    touch-action: pan-x pan-y;
-  }
-
-  /* Mobile-safe areas */
-  .pt-safe {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .pl-safe {
-    padding-left: env(safe-area-inset-left);
-  }
-
-  .pr-safe {
-    padding-right: env(safe-area-inset-right);
-  }
-}
-
-/* Chart-specific mobile optimizations */
-.chart-container {
-  touch-action: pan-x pan-y pinch-zoom;
-}
-
-.chart-container svg {
-  touch-action: pan-x pan-y pinch-zoom;
-}
-
-/* Mobile-optimized form elements */
-input[type="date"],
-input[type="time"] {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
-  background: transparent;
-  bottom: 0;
-  color: transparent;
+button, [role="button"] {
   cursor: pointer;
-  height: auto;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: auto;
-}
-
-/* Mobile-optimized dropdowns */
-.mobile-dropdown {
-  @apply absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-xl shadow-lg;
-  @apply max-h-60 overflow-y-auto;
-  backdrop-filter: blur(10px);
-}
-
-.mobile-dropdown-item {
-  @apply w-full px-4 py-3 text-left hover:bg-gray-50 focus:bg-gray-50;
-  @apply focus:outline-none transition-colors;
-  min-height: 48px;
-}
-
-/* Mobile-optimized loading states */
-.mobile-loading {
-  @apply flex items-center justify-center p-8;
-}
-
-.mobile-loading-spinner {
-  @apply w-8 h-8 border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin;
-}
-
-/* Mobile-optimized error states */
-.mobile-error {
-  @apply bg-red-50 border border-red-200 rounded-xl p-4;
-}
-
-.mobile-error-text {
-  @apply text-red-700 text-sm;
-}
-
-/* Mobile-optimized success states */
-.mobile-success {
-  @apply bg-green-50 border border-green-200 rounded-xl p-4;
-}
-
-.mobile-success-text {
-  @apply text-green-700 text-sm;
 }

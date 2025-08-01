@@ -15,6 +15,72 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Symbols:wght@400;700&family=Noto+Sans+Symbols+2:wght@400;700&display=swap" rel="stylesheet">
 		<script>
+			// Prevent Safari from converting symbols to emoji
+			(function() {
+				// Force Safari to use text symbols instead of emoji
+				const style = document.createElement('style');
+				style.textContent = `
+					.astrological-symbol,
+					[class*="font-['Noto_Sans_Symbols']"],
+					.zodiac-symbol,
+					.zodiac-aries,
+					.zodiac-taurus,
+					.zodiac-gemini,
+					.zodiac-cancer,
+					.zodiac-leo,
+					.zodiac-virgo,
+					.zodiac-libra,
+					.zodiac-scorpio,
+					.zodiac-sagittarius,
+					.zodiac-capricorn,
+					.zodiac-aquarius,
+					.zodiac-pisces {
+						font-family: 'Noto Sans Symbols' !important;
+						font-variant-emoji: none !important;
+						-webkit-font-variant-emoji: none !important;
+						font-feature-settings: "emoji" 0 !important;
+						-webkit-font-feature-settings: "emoji" 0 !important;
+						font-feature-settings: "liga" 0 !important;
+						-webkit-font-feature-settings: "liga" 0 !important;
+					}
+					
+					/* Target SVG text elements specifically */
+					svg text {
+						font-family: 'Noto Sans Symbols' !important;
+						font-variant-emoji: none !important;
+						-webkit-font-variant-emoji: none !important;
+						font-feature-settings: "emoji" 0 !important;
+						-webkit-font-feature-settings: "emoji" 0 !important;
+					}
+					
+					/* Target all text elements that might contain symbols */
+					text, tspan {
+						font-family: 'Noto Sans Symbols' !important;
+						font-variant-emoji: none !important;
+						-webkit-font-variant-emoji: none !important;
+						font-feature-settings: "emoji" 0 !important;
+						-webkit-font-feature-settings: "emoji" 0 !important;
+					}
+				`;
+				document.head.appendChild(style);
+				
+				// Force font loading by creating hidden elements
+				const symbols = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓'];
+				symbols.forEach(symbol => {
+					const span = document.createElement('span');
+					span.style.fontFamily = 'Noto Sans Symbols';
+					span.style.fontVariantEmoji = 'none';
+					span.style.webkitFontVariantEmoji = 'none';
+					span.style.fontFeatureSettings = '"emoji" 0';
+					span.style.webkitFontFeatureSettings = '"emoji" 0';
+					span.textContent = symbol;
+					span.style.position = 'absolute';
+					span.style.left = '-9999px';
+					span.style.visibility = 'hidden';
+					document.documentElement.appendChild(span);
+				});
+			})();
+
 			// Register service worker for caching
 			if ('serviceWorker' in navigator) {
 				window.addEventListener('load', () => {

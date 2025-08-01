@@ -1068,7 +1068,14 @@
             .attr('font-size', 9);
           
           labelText.append('tspan').text(`${p.degree}°`);
-          labelText.append('tspan').style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif").style('fill', zodiacColors[p.sign]).text(zodiacSymbols[p.sign]);
+          labelText.append('tspan')
+            .style('font-family', "'Noto Sans Symbols'")
+            .style('font-variant-emoji', 'none')
+            .style('-webkit-font-variant-emoji', 'none')
+            .style('font-feature-settings', '"emoji" 0')
+            .style('-webkit-font-feature-settings', '"emoji" 0')
+            .style('fill', zodiacColors[p.sign])
+            .text(zodiacSymbols[p.sign]);
           if (p.isRetrograde) {
             labelText.append('tspan').text('Rx');
           }
@@ -1085,7 +1092,11 @@
             .attr('class', 'planet-label-sign')
             .attr('text-anchor', 'middle')
             .attr('y', 5)
-            .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
+            .style('font-family', "'Noto Sans Symbols'")
+            .style('font-variant-emoji', 'none')
+            .style('-webkit-font-variant-emoji', 'none')
+            .style('font-feature-settings', '"emoji" 0')
+            .style('-webkit-font-feature-settings', '"emoji" 0')
             .style('font-size', '10px')
             .style('fill', zodiacColors[p.sign])
             .text(zodiacSymbols[p.sign]);
