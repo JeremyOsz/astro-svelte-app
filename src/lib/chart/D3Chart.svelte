@@ -503,7 +503,7 @@
     if (!get(chartSettings).showExtendedPlanets) {
       planetsToDraw = planetsToDraw.filter(p => !extendedPlanetNames.includes(p.planet));
     }
-    calculateVisualDegrees(planetsToDraw, parsedData);
+    calculateVisualDegrees(planetsToDraw, parsedData); // Use simple clustering with larger chart
 
     // Calculate aspects
     const aspects = calculateAspects(parsedData);
@@ -958,26 +958,50 @@
 
     // Simple approach: create planet groups directly without D3 data binding
     planetsToDraw.forEach((p: PlanetData) => {
-      const group = g.append('g').attr('class', 'planet-group');
       const adjustedAngle = p.visualDegree - zodiacOffset;
       const displayAngle = (180 - adjustedAngle);
       const angleRad = displayAngle * Math.PI / 180;
+      const x = Math.cos(angleRad) * planetRingRadius;
+      const y = Math.sin(angleRad) * planetRingRadius;
+      
+      const group = g.append('g')
+        .attr('class', 'planet-group')
+        .attr('data-planet', p.planet)
+        .attr('transform', `translate(${x}, ${y})`);
+
+      // Calculate optimal hover radius based on clustering
+      const hoverRadius = calculateOptimalHoverRadius(p, planetsToDraw, isMobile);
+      const clusterInfo = getPlanetClusterInfo(planetsToDraw, p);
 
       // Transparent circle for larger hover area
       group.append('circle')
         .attr('class', 'planet-hover-area')
-        .attr('cx', Math.cos(angleRad) * planetRingRadius)
-        .attr('cy', Math.sin(angleRad) * planetRingRadius)
-        .attr('r', isMobile ? 12 : 20)
+        .attr('cx', 0)
+        .attr('cy', 0)
+        .attr('r', hoverRadius)
         .attr('fill', 'transparent')
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, p.sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
-          showBriefTooltip(event, p);
+          
+          // Add visual indicator for clustered planets
+          if (clusterInfo.isInCluster) {
+            d3.select(this).style('stroke', '#ff6b6b').style('stroke-width', '2').style('stroke-dasharray', '3,3');
+          }
+          
+          // Enhance tooltip data for clustered planets
+          const enhancedPlanetData = {
+            ...p,
+            isInCluster: clusterInfo.isInCluster,
+            clusterSize: clusterInfo.clusterSize
+          };
+          
+          showBriefTooltip(event, enhancedPlanetData);
         })
         .on('mouseout', function(this: SVGCircleElement) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
+          d3.select(this).style('stroke', null).style('stroke-width', null).style('stroke-dasharray', null);
           hideBriefTooltip();
         })
         .on('click', () => {
@@ -989,14 +1013,30 @@
       // Planet glyph
       group.append('text')
         .attr('class', 'planet-glyph')
-        .attr('x', Math.cos(angleRad) * planetRingRadius)
-        .attr('y', Math.sin(angleRad) * planetRingRadius)
+        .attr('x', 0)
+        .attr('y', 0)
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
         .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
         .attr('font-size', isMobile ? 16 : 28)
         .attr('fill', p.isRetrograde ? '#e53935' : '#333')
         .style('pointer-events', 'none'); // Pass events to the hover area
+      
+      // Add subtle visual indicator for clustered planets
+      if (clusterInfo.isInCluster) {
+        group.select('.planet-glyph').style('filter', 'drop-shadow(0 0 2px rgba(255, 107, 107, 0.3))');
+        
+        // Add a subtle background circle for clustered planets to make them more visible
+        group.insert('circle', '.planet-hover-area')
+          .attr('class', 'cluster-indicator')
+          .attr('cx', 0)
+          .attr('cy', 0)
+          .attr('r', hoverRadius * 0.8)
+          .attr('fill', 'rgba(255, 107, 107, 0.05)')
+          .attr('stroke', 'rgba(255, 107, 107, 0.2)')
+          .attr('stroke-width', 0.5)
+          .style('pointer-events', 'none');
+      }
         
 
       // Add the text after the glyph so it's on top
@@ -1019,7 +1059,7 @@
 
         const labelGroup = group.append('g')
           .attr('class', 'planet-label-group')
-          .attr('transform', `translate(${labelX}, ${labelY}) rotate(${rotation})`);
+          .attr('transform', `translate(${labelX - x}, ${labelY - y}) rotate(${rotation})`);
         
         if (isMobile) {
           const labelText = labelGroup.append('text')
@@ -1095,7 +1135,7 @@
       p.visualDegree = p.angle;
     });
 
-    const clusterSpread = 4; // Degrees to spread planets in a cluster
+    const clusterSpread = 6; // Increased from 5 to 6 degrees for better separation with larger chart
     let clusters = findClusters(planetsToDraw);
 
     clusters.forEach(cluster => {
@@ -1115,6 +1155,35 @@
     });
   }
 
+
+
+  // Enhanced clustering detection for hover areas
+  function getPlanetClusterInfo(planets: PlanetData[], targetPlanet: PlanetData, clusterThreshold = 5) {
+    const nearbyPlanets = planets.filter(p => 
+      p.planet !== targetPlanet.planet && 
+      Math.abs(p.visualDegree - targetPlanet.visualDegree) < clusterThreshold
+    );
+    
+    return {
+      isInCluster: nearbyPlanets.length > 0,
+      clusterSize: nearbyPlanets.length + 1,
+      nearbyPlanets
+    };
+  }
+
+  function calculateOptimalHoverRadius(planet: PlanetData, allPlanets: PlanetData[], isMobile: boolean) {
+    const clusterInfo = getPlanetClusterInfo(allPlanets, planet);
+    const baseRadius = isMobile ? 14 : 24; // Increased from 12/20 to 14/24 for better selection
+    
+    if (clusterInfo.isInCluster) {
+      // Reduce hover radius for clustered planets to prevent overlap
+      const reductionFactor = Math.max(0.4, 1 - (clusterInfo.clusterSize * 0.15));
+      return Math.max(8, baseRadius * reductionFactor); // Increased minimum from 6 to 8
+    }
+    
+    return baseRadius;
+  }
+
   // Interpretation functions
   function setupZoom() {
     if (!svg) return;
@@ -1132,8 +1201,10 @@
         currentTransform = transform;
         g.attr('transform', `translate(${chartSize / 2}, ${chartSize / 2}) scale(${transform.k}) translate(${transform.x / transform.k}, ${transform.y / transform.k})`);
         
-        // Show reset button if not at initial position (scale not 1 or any translation)
-        showResetButton = Math.abs(transform.k - 1) > 0.01 || Math.abs(transform.x) > 0.01 || Math.abs(transform.y) > 0.01;
+        // Show reset button if not at initial position (scale not 0.8 or any translation)
+        showResetButton = Math.abs(transform.k - 0.8) > 0.01 || Math.abs(transform.x) > 0.01 || Math.abs(transform.y) > 0.01;
+        
+
         
         // Debug logging
         console.log('Zoom transform:', { k: transform.k, x: transform.x, y: transform.y, showReset: showResetButton });
@@ -1142,8 +1213,9 @@
         showResetButton = showResetButton;
       });
 
-    // Apply zoom behavior to the SVG
+    // Apply zoom behavior to the SVG and set initial zoom to 0.8 (slightly zoomed out)
     svg.call(zoomBehavior as any);
+    svg.call(zoomBehavior.transform as any, d3.zoomIdentity.scale(0.8));
   }
 
   function updateZoom() {
@@ -1188,9 +1260,11 @@
     if (svg && zoomBehavior) {
       svg.transition().duration(300).call(
         zoomBehavior.transform as any,
-        d3.zoomIdentity
+        d3.zoomIdentity.scale(0.8) // Reset to default zoom level (slightly zoomed out)
       );
       showResetButton = false;
+      
+
     }
   }
 
@@ -1273,7 +1347,7 @@
   <div class="relative w-full">
     <div 
       class="chart-container flex justify-center items-center border border-gray-200 rounded bg-gray-50 overflow-hidden relative touch-pan-x touch-pan-y w-full h-full"
-      style="aspect-ratio: 1; min-height: 350px; max-height: 800px;"
+      style="aspect-ratio: 1; min-height: 450px; max-height: 1000px;"
       bind:this={chartContainer}
       on:touchstart={handleTouchStart}
       on:touchend={handleTouchEnd}

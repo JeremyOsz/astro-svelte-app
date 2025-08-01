@@ -528,7 +528,7 @@
             <span class="font-zodiac ml-1 text-gray-600">{interpretation.zodiacSymbol}</span>
             <span class="text-gray-500">)</span>
             {#if elementData.house}
-              <span class="text-gray-500 ml-2">(House {elementData.house})</span>
+              <span class="text-gray-500 sm:ml-2">(House {elementData.house})</span>
             {/if}
           </Dialog.Title>
         {:else}
