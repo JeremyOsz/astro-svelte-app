@@ -5,6 +5,7 @@
   import { Badge } from '$lib/components/ui/badge';
   import { Search, Sparkles, Star, Home, Users, Zap, BookOpen, Calendar, Moon, Sun, ArrowRight, Clock, TrendingUp } from 'lucide-svelte';
   import { cn } from '$lib/utils';
+  import CurrentPlanetPositions from '$lib/components/CurrentPlanetPositions.svelte';
   
   let currentTime = new Date();
   
@@ -48,6 +49,14 @@
       href: "/interpretations",
       color: "from-green-500 to-teal-500",
       badge: "Guide"
+    },
+    {
+      icon: Sparkles,
+      title: "Tarot Cards",
+      description: "Explore all 78 tarot cards",
+      href: "/tarot",
+      color: "from-purple-500 to-indigo-500",
+      badge: "Divination"
     }
   ];
 
@@ -74,8 +83,8 @@
 </script>
 
 <svelte:head>
-  <title>Astro Chart - Your Personal Astrological Companion</title>
-  <meta name="description" content="Calculate birth charts, view transits, and explore astrological interpretations with professional accuracy" />
+  <title>Chiron's Quest - Your Not-So-Serious Astrological Adventure</title>
+  <meta name="description" content="Embark on Chiron's Quest: birth charts, transits, and tarot wisdom with a wink. Discover your cosmic story (or just have a laugh)." />
 </svelte:head>
 
 <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
@@ -85,33 +94,23 @@
       <div class="mb-6">
         <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
           <Sparkles class="w-4 h-4" />
-          Professional Astrology
+          Chiron's Quest
         </div>
         <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-4">
-          Your Cosmic
+          Welcome to
           <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Journey
+            Chiron's Quest
           </span>
         </h1>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-          Discover your astrological blueprint with Swiss Ephemeris precision. 
-          Calculate birth charts, track transits, and explore the wisdom of the stars.
+          Calculate your birth chart with Swiss Ephemeris precision and discover your unique astrological blueprint. The stars might surprise you—or at least give you something fun to ponder.
         </p>
       </div>
 
-      <!-- Current Time Display -->
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-lg border border-white/20">
-        <div class="flex items-center justify-center gap-4">
-          <Clock class="w-6 h-6 text-indigo-600" />
-          <div class="text-center">
-            <div class="text-2xl font-bold text-gray-900">
-              {currentTime.toLocaleTimeString()}
-            </div>
-            <div class="text-sm text-gray-600">
-              {currentTime.toLocaleDateString()}
-            </div>
-          </div>
-        </div>
+      <!-- Current Time and Planet Positions -->
+      <div class="mb-8">
+        <!-- Planet Positions -->
+        <CurrentPlanetPositions />
       </div>
     </div>
   </div>
@@ -160,7 +159,7 @@
   <div class="px-4 py-8 bg-white/50">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">
-        Why Choose Astro Chart?
+        Why Join Chiron's Quest?
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {#each recentFeatures as feature}
@@ -180,19 +179,112 @@
     </div>
   </div>
 
+  <!-- Tarot Section -->
+  <div class="px-4 py-12 bg-gradient-to-br from-purple-50 to-indigo-100">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">
+          Explore the Wisdom of Tarot
+        </h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Discover the meanings and interpretations of all 78 tarot cards. Each card offers insight into love, career, health, and the journey of life.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <!-- Tarot Info -->
+        <div class="space-y-6">
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Complete Tarot Library</h3>
+            <div class="space-y-4 text-sm text-gray-700">
+              <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <span class="font-medium">Major Arcana (22 cards):</span> The Fool's Journey through life's spiritual lessons
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <span class="font-medium">Minor Arcana (56 cards):</span> Daily life experiences through the four suits
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <span class="font-medium">Detailed Interpretations:</span> Love, career, health, and general guidance for each card
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <span class="font-medium">Astrological Connections:</span> Planetary rulers, zodiac signs, and elemental associations
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">How to Use</h3>
+            <div class="space-y-3 text-sm text-gray-700">
+              <p>• <span class="font-medium">Search & Filter:</span> Find specific cards by name, keywords, or suit (or just click around, we won't judge)</p>
+              <p>• <span class="font-medium">Detailed Meanings:</span> Explore upright and reversed interpretations (for when you need extra drama)</p>
+              <p>• <span class="font-medium">Symbolic Wisdom:</span> Understand the deeper symbolism and astrological connections (or just enjoy the art)</p>
+              <p>• <span class="font-medium">Life Guidance:</span> Apply tarot wisdom to your personal journey (or your next snack decision)</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tarot Preview -->
+        <div class="relative">
+          <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <div class="text-center mb-6">
+              <div class="text-4xl mb-2">🔮</div>
+              <h3 class="text-lg font-semibold text-gray-900">Sample Cards</h3>
+              <p class="text-sm text-gray-600">Click to explore the full collection</p>
+            </div>
+            
+            <!-- Sample card grid -->
+            <div class="grid grid-cols-3 gap-3 mb-6">
+              <div class="aspect-[3/5] bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg border-2 border-purple-200 flex items-center justify-center">
+                <span class="text-xs font-medium text-purple-700 text-center">The Fool</span>
+              </div>
+              <div class="aspect-[3/5] bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg border-2 border-blue-200 flex items-center justify-center">
+                <span class="text-xs font-medium text-blue-700 text-center">The Moon</span>
+              </div>
+              <div class="aspect-[3/5] bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg border-2 border-green-200 flex items-center justify-center">
+                <span class="text-xs font-medium text-green-700 text-center">Ace of Cups</span>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <a 
+                href="/tarot"
+                class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105"
+              >
+                <Sparkles class="w-4 h-4" />
+                Explore All 78 Cards
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- CTA Section -->
   <div class="px-4 py-12">
     <div class="max-w-2xl mx-auto text-center">
       <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white">
         <h3 class="text-2xl font-bold mb-4">
-          Ready to Explore Your Chart?
+          Ready to Embark on Chiron's Quest?
         </h3>
         <p class="text-indigo-100 mb-6">
-          Calculate your birth chart with Swiss Ephemeris precision and discover your unique astrological blueprint.
+          Calculate your birth chart with Swiss Ephemeris precision and discover your unique astrological blueprint. Or just see what the stars have to say about your snack choices—no judgment here.
         </p>
         <Button size="lg" class="bg-white text-indigo-600 hover:bg-gray-100">
           <Star class="w-5 h-5 mr-2" />
-          Calculate Birth Chart
+          Begin Your Quest
         </Button>
       </div>
     </div>
