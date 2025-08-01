@@ -172,7 +172,7 @@
   </header>
 
   <main class="flex-1 w-full">
-    <div class="container mx-auto px-4 sm:px-6 max-w-none lg:px-0">
+    <div class="container mx-auto max-w-none lg:px-0">
       <slot />
     </div>
   </main>

@@ -127,7 +127,7 @@
   <!-- Tabs -->
   <div class="mb-8">
     <div class="flex justify-center">
-      <div class="inline-flex rounded-lg bg-gray-100 p-1">
+      <div class="inline-flex flex-wrap rounded-lg bg-gray-100 p-1">
         <button
           class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'planets' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
           on:click={() => activeTab = 'planets'}
