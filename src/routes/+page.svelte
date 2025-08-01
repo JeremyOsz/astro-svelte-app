@@ -3,7 +3,7 @@
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Button } from '$lib/components/ui/button';
   import { Badge } from '$lib/components/ui/badge';
-  import { Search, Sparkles, Star, Home, Users, Zap, BookOpen, Calendar, Moon, Sun } from 'lucide-svelte';
+  import { Search, Sparkles, Star, Home, Users, Zap, BookOpen, Calendar, Moon, Sun, ArrowRight, Clock, TrendingUp } from 'lucide-svelte';
   import { cn } from '$lib/utils';
   
   let currentTime = new Date();
@@ -16,316 +16,185 @@
     return () => clearInterval(timer);
   });
 
-  const features = [
+  const quickActions = [
     {
-      icon: Sun,
-      title: "Birth Charts",
-      description: "Generate accurate natal charts with precise planetary positions, aspects, and house placements using Swiss Ephemeris calculations.",
+      icon: Star,
+      title: "Birth Chart",
+      description: "Calculate your natal chart",
       href: "/chart",
       color: "from-orange-500 to-red-500",
-      badge: "Core Feature"
+      badge: "Core"
     },
     {
       icon: Moon,
-      title: "Transits",
-      description: "Calculate current planetary transits and their aspects to your natal chart for timing analysis and predictive work.",
+      title: "Current Transits",
+      description: "See today's planetary influences",
       href: "/transits",
       color: "from-blue-500 to-purple-500",
-      badge: "Live Data"
-    },
-    {
-      icon: BookOpen,
-      title: "Interpretations",
-      description: "Reference guide for planetary meanings, sign characteristics, house significations, and aspect interpretations.",
-      href: "/interpretations",
-      color: "from-green-500 to-teal-500",
-      badge: "Reference"
+      badge: "Live"
     },
     {
       icon: Calendar,
       title: "Daily Horoscope",
-      description: "Daily transit analysis showing how current planetary movements affect your natal chart placements.",
+      description: "Your daily astrological guidance",
       href: "/daily-horoscope",
       color: "from-pink-500 to-rose-500",
       badge: "Daily"
     },
     {
-      icon: Search,
-      title: "Chart Comparison",
-      description: "Compare multiple birth charts to explore compatibility, synastry, and relationship dynamics between people.",
+      icon: BookOpen,
+      title: "Interpretations",
+      description: "Learn planetary meanings",
       href: "/interpretations",
-      color: "from-purple-500 to-indigo-500",
-      badge: "Relationships"
-    },
-    {
-      icon: Zap,
-      title: "Aspect Calculator",
-      description: "Interactive tool to calculate and understand planetary aspects, their meanings, and how they influence chart interpretation.",
-      href: "/interpretations",
-      color: "from-yellow-500 to-orange-500",
-      badge: "Learning"
-    },
-    {
-      icon: Users,
-      title: "Chart Library",
-      description: "Save and organize multiple charts for family, friends, and clients with notes and personal observations.",
-      href: "/chart",
-      color: "from-emerald-500 to-green-500",
-      badge: "Organization"
-    },
-    {
-      icon: Star,
-      title: "Learning Hub",
-      description: "Educational content, tutorials, and guides to help you understand astrological concepts and chart reading techniques.",
-      href: "/interpretations",
-      color: "from-cyan-500 to-blue-500",
-      badge: "Education"
+      color: "from-green-500 to-teal-500",
+      badge: "Guide"
     }
   ];
 
-  const technicalFeatures = [
-    { name: "Swiss Ephemeris", description: "High-precision astronomical calculations" },
-    { name: "Multiple House Systems", description: "Whole sign and Placidus house calculations" },
-    { name: "Chart Visualization", description: "Clean, readable natal and transit charts" },
-    { name: "Aspect Analysis", description: "Major and minor aspect calculations" },
-    { name: "Data Export", description: "Save and share chart configurations" },
-    { name: "Responsive Design", description: "Works on desktop and mobile devices" },
-    { name: "Chart Comparison", description: "Synastry and compatibility analysis" },
-    { name: "Educational Content", description: "Learning resources and tutorials" },
-    { name: "Personal Notes", description: "Add observations to saved charts" },
-    { name: "Multiple Charts", description: "Organize charts for family and friends" }
-  ];
-
-  const learningFeatures = [
+  const recentFeatures = [
     {
-      title: "Interactive Tutorials",
-      description: "Step-by-step guides to reading birth charts, understanding aspects, and interpreting planetary placements."
+      title: "Enhanced Chart Accuracy",
+      description: "Swiss Ephemeris calculations for professional-grade precision",
+      icon: Sparkles,
+      color: "text-purple-600"
     },
     {
-      title: "Glossary & Definitions",
-      description: "Comprehensive reference for astrological terms, symbols, and concepts with clear explanations."
+      title: "Real-time Transits",
+      description: "Live planetary positions and current influences",
+      icon: TrendingUp,
+      color: "text-blue-600"
     },
     {
-      title: "Chart Reading Practice",
-      description: "Practice interpreting sample charts with guided analysis and feedback on your observations."
-    },
-    {
-      title: "Aspect Visualization",
-      description: "Visual tools to understand how planetary aspects work and their effects on personality and life events."
+      title: "Mobile Optimized",
+      description: "Beautiful charts that work perfectly on all devices",
+      icon: Zap,
+      color: "text-green-600"
     }
   ];
 </script>
 
 <svelte:head>
-  <title>Astro Chart - Birth Charts, Transits & Interpretations</title>
-  <meta name="description" content="Calculate birth charts, view transits, and get astrological interpretations using Swiss Ephemeris" />
+  <title>Astro Chart - Your Personal Astrological Companion</title>
+  <meta name="description" content="Calculate birth charts, view transits, and explore astrological interpretations with professional accuracy" />
 </svelte:head>
 
-<!-- Hero Section -->
-<section class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white">
-  <div class="absolute inset-0 bg-black/20"></div>
-  <div class="relative px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
-    <div class="mx-auto max-w-4xl text-center">
-      <div class="flex items-center justify-center gap-2 mb-6">
-        <Sparkles class="h-8 w-8 text-yellow-300" />
-        <Badge variant="secondary" class="bg-white/20 text-white border-white/30">
-          Swiss Ephemeris Powered
-        </Badge>
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+  <!-- Hero Section -->
+  <div class="px-4 py-8 lg:py-12">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="mb-6">
+        <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <Sparkles class="w-4 h-4" />
+          Professional Astrology
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-4">
+          Your Cosmic
+          <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            Journey
+          </span>
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+          Discover your astrological blueprint with Swiss Ephemeris precision. 
+          Calculate birth charts, track transits, and explore the wisdom of the stars.
+        </p>
       </div>
-      
-      <h1 class="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl mb-6">
-        Explore Your
-        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300">
-          Astrological Journey
-        </span>
-      </h1>
-      
-      <p class="text-xl sm:text-2xl text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-        Generate accurate birth charts, explore relationships, learn astrological concepts, and discover 
-        tools to deepen your understanding of this ancient practice.
-      </p>
-      
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <Button href="/chart" size="lg" class="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-3 text-lg">
-          <Star class="mr-2 h-5 w-5" />
-          Calculate Birth Chart
-        </Button>
-        
+
+      <!-- Current Time Display -->
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-lg border border-white/20">
+        <div class="flex items-center justify-center gap-4">
+          <Clock class="w-6 h-6 text-indigo-600" />
+          <div class="text-center">
+            <div class="text-2xl font-bold text-gray-900">
+              {currentTime.toLocaleTimeString()}
+            </div>
+            <div class="text-sm text-gray-600">
+              {currentTime.toLocaleDateString()}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- Features Section -->
-<section class="py-16 sm:py-24">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
-        Tools for Your Astrological Exploration
+  <!-- Quick Actions Grid -->
+  <div class="px-4 pb-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center lg:text-left">
+        Quick Actions
       </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-        Accurate astrological calculations, relationship insights, and learning resources 
-        to support your journey of discovery and understanding.
-      </p>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      {#each features as feature}
-        <div 
-          class="cursor-pointer"
-          role="button"
-          tabindex="0"
-          on:click={() => window.location.href = feature.href}
-          on:keydown={(e) => e.key === 'Enter' && (window.location.href = feature.href)}
-        >
-          <Card class="group hover:shadow-lg transition-all duration-300 border-0 shadow-md">
-            <CardHeader class="pb-4">
-              <div class="flex items-center justify-between mb-4">
-                <div class={cn("p-3 rounded-lg bg-gradient-to-br", feature.color)}>
-                  <svelte:component this={feature.icon} class="h-6 w-6 text-white" />
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {#each quickActions as action}
+          <Card class="group hover:shadow-lg transition-all duration-300 cursor-pointer border-0 shadow-md bg-white/80 backdrop-blur-sm">
+            <CardHeader class="pb-3">
+              <div class="flex items-center justify-between">
+                <div class="p-2 rounded-lg bg-gradient-to-r {action.color} text-white">
+                  <svelte:component this={action.icon} class="w-5 h-5" />
                 </div>
                 <Badge variant="secondary" class="text-xs">
-                  {feature.badge}
+                  {action.badge}
                 </Badge>
               </div>
-              <CardTitle class="text-xl">{feature.title}</CardTitle>
             </CardHeader>
-            <CardContent class="space-y-4">
-              <CardDescription class="text-gray-600 leading-relaxed">
-                {feature.description}
+            <CardContent class="pt-0">
+              <CardTitle class="text-lg mb-2 group-hover:text-indigo-600 transition-colors">
+                {action.title}
+              </CardTitle>
+              <CardDescription class="text-sm text-gray-600 mb-4">
+                {action.description}
               </CardDescription>
-              <Button href={feature.href} variant="ghost" class="p-0 h-auto text-indigo-600 hover:text-indigo-700 group-hover:translate-x-1 transition-transform">
-                Get Started →
-              </Button>
+              <a 
+                href={action.href}
+                class="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium text-sm group-hover:gap-1 transition-all"
+              >
+                Get Started
+                <ArrowRight class="w-4 h-4 ml-1" />
+              </a>
             </CardContent>
           </Card>
-        </div>
-      {/each}
-    </div>
-  </div>
-</section>
-
-<!-- Learning Section -->
-<section class="py-16 sm:py-24 bg-white">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-              <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
-          Learn & Explore Together
-        </h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Educational tools and resources to help you understand astrological concepts 
-          and grow your knowledge alongside others on this journey.
-        </p>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {#each learningFeatures as feature}
-        <Card class="border-0 shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader>
-            <CardTitle class="text-lg">{feature.title}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CardDescription class="text-gray-600 leading-relaxed">
-              {feature.description}
-            </CardDescription>
-          </CardContent>
-        </Card>
-      {/each}
-    </div>
-  </div>
-</section>
-
-<!-- About Section -->
-<section class="py-16 sm:py-24 bg-gray-50">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <div>
-        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-6">
-          Built for
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-            Curious Minds
-          </span>
-        </h2>
-        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-          This application provides accurate astrological tools using Swiss Ephemeris 
-          for precise planetary positions and calculations. Whether you're just beginning 
-          your astrological journey or have been exploring for years, these tools support 
-          your learning and discovery.
-        </p>
-        
-        <div class="space-y-4">
-          <div class="flex items-center gap-3">
-            <div class="w-2 h-2 bg-indigo-600 rounded-full"></div>
-            <span class="text-gray-700">Swiss Ephemeris precision</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-2 h-2 bg-indigo-600 rounded-full"></div>
-            <span class="text-gray-700">Multiple house systems</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-2 h-2 bg-indigo-600 rounded-full"></div>
-            <span class="text-gray-700">Comprehensive aspect calculations</span>
-          </div>
-        </div>
+        {/each}
       </div>
-      
-              <Card class="border-0 shadow-lg">
-          <CardHeader>
-            <CardTitle class="text-xl">What's Included</CardTitle>
-            <CardDescription>
-              Tools and features to support your astrological exploration
-            </CardDescription>
-          </CardHeader>
-        <CardContent>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {#each technicalFeatures as feature}
-              <div class="p-4 rounded-lg bg-gray-50 border border-gray-200">
-                <h4 class="font-semibold text-gray-900 mb-1">{feature.name}</h4>
-                <p class="text-sm text-gray-600">{feature.description}</p>
-              </div>
-            {/each}
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="px-4 py-8 bg-white/50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">
+        Why Choose Astro Chart?
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {#each recentFeatures as feature}
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 mb-4">
+              <svelte:component this={feature.icon} class="w-6 h-6 {feature.color}" />
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">
+              {feature.title}
+            </h3>
+            <p class="text-gray-600 text-sm">
+              {feature.description}
+            </p>
           </div>
-        </CardContent>
-      </Card>
+        {/each}
+      </div>
     </div>
   </div>
-</section>
 
-<!-- CTA Section -->
-<section class="py-16 sm:py-24 bg-gradient-to-r from-indigo-600 to-purple-600">
-  <div class="mx-auto max-w-4xl text-center px-4 sm:px-6 lg:px-8">
-    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-4">
-      Ready to Begin Your Journey?
-    </h2>
-    <p class="text-xl text-indigo-100 mb-8">
-      Start with your birth chart and discover the tools available for your astrological exploration.
-    </p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <Button href="/chart" size="lg" class="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-3 text-lg">
-        <Star class="mr-2 h-5 w-5" />
-        Calculate Birth Chart
-      </Button>
-      <Button href="/interpretations" size="lg" variant="outline" class="border-white/30 hover:bg-white/10 px-8 py-3 text-lg">
-        <BookOpen class="mr-2 h-5 w-5" />
-        View Interpretations
-      </Button>
+  <!-- CTA Section -->
+  <div class="px-4 py-12">
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white">
+        <h3 class="text-2xl font-bold mb-4">
+          Ready to Explore Your Chart?
+        </h3>
+        <p class="text-indigo-100 mb-6">
+          Calculate your birth chart with Swiss Ephemeris precision and discover your unique astrological blueprint.
+        </p>
+        <Button size="lg" class="bg-white text-indigo-600 hover:bg-gray-100">
+          <Star class="w-5 h-5 mr-2" />
+          Calculate Birth Chart
+        </Button>
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- Current Time Display -->
-<div class="py-8 text-center bg-gray-50 border-t">
-  <div class="flex items-center justify-center gap-2 text-gray-600">
-    <Calendar class="h-4 w-4" />
-    <span class="font-medium">Current Time:</span>
-    <span class="font-mono">{currentTime.toLocaleString()}</span>
   </div>
 </div>
-
-<style>
-  
-  /* Smooth transitions */
-  * {
-    transition: all 0.2s ease-in-out;
-  }
-</style>

@@ -543,7 +543,7 @@
         </Dialog.Description>
       </Dialog.Header>
 
-      <div class="space-y-6 my-6">
+      <div class="space-y-6 mt-0 mb-6">
         {#if elementData.planet && isPlanetInterpretation(interpretation)}
           <!-- Planet Details -->
           {@const planetChars = getPlanetCharacteristics(elementData.planet)}

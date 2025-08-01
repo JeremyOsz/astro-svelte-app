@@ -4,6 +4,8 @@
   import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import { cn } from "$lib/utils";
+  import { Home, Star, BookOpen, Calendar, Search, Moon } from 'lucide-svelte';
+  import { page } from '$app/stores';
   let mobileMenuOpen = false;
 
   // Astrology navigation items
@@ -43,6 +45,42 @@
       description: "Discover tarot spreads and reading layouts"
     }
   ];
+
+  // Mobile bottom navigation items
+  const mobileNavItems = [
+    {
+      title: "Home",
+      href: "/",
+      icon: Home,
+      description: "Main dashboard"
+    },
+    {
+      title: "Birth Chart",
+      href: "/chart",
+      icon: Star,
+      description: "Calculate natal chart"
+    },
+    {
+      title: "Transits",
+      href: "/transits",
+      icon: Moon,
+      description: "Current transits"
+    },
+    {
+      title: "Interpretations",
+      href: "/interpretations",
+      icon: BookOpen,
+      description: "Astrological meanings"
+    },
+    {
+      title: "Daily",
+      href: "/daily-horoscope",
+      icon: Calendar,
+      description: "Daily horoscope"
+    }
+  ];
+
+  $: currentPath = $page.url.pathname;
 </script>
 
 <div class="min-h-screen flex flex-col">
@@ -171,18 +209,32 @@
     </nav>
   </header>
 
-  <main class="flex-1 w-full">
-    <div class="container mx-auto max-w-none lg:px-0">
-      <slot />
-    </div>
-  </main>
+     <main class="flex-1 w-full pb-20 lg:pb-0">
+     <div class="container mx-auto max-w-none lg:px-0">
+       <slot />
+     </div>
+   </main>
 
-  <footer class="bg-gray-100 py-4 text-center text-gray-500 border-t">
-    <p>&copy; 2025 Astro Chart by Jeremy Osztreicher. Powered by Swiss Ephemeris and D3.js</p>
-  </footer>
-</div>
+   <!-- Mobile Bottom Navigation -->
+   <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 lg:hidden z-50 pb-safe">
+     <div class="flex justify-around">
+       {#each mobileNavItems as item}
+         <a
+           href={item.href}
+           class="flex flex-col items-center py-3 px-2 min-w-0 flex-1 transition-colors {currentPath === item.href ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700'}"
+         >
+           <svelte:component this={item.icon} class="w-6 h-6 mb-1" />
+           <span class="text-xs font-medium truncate">{item.title}</span>
+         </a>
+       {/each}
+     </div>
+   </nav>
 
-<style>
+   <!-- Desktop Footer -->
+   <footer class="bg-gray-100 py-4 text-center text-gray-500 border-t hidden lg:block">
+     <p>&copy; 2025 Astro Chart by Jeremy Osztreicher. Powered by Swiss Ephemeris and D3.js</p>
+   </footer>
+</div><style>
   /* Ensure navigation menu dropdowns stay within viewport */
   :global([data-radix-navigation-menu-viewport]) {
     position: absolute !important;
@@ -212,3 +264,4 @@
     }
   }
 </style>
+

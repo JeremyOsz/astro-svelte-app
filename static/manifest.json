@@ -1,0 +1,71 @@
+{
+  "name": "Astro Chart - Your Personal Astrological Companion",
+  "short_name": "Astro Chart",
+  "description": "Calculate birth charts, view transits, and explore astrological interpretations with Swiss Ephemeris precision",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["lifestyle", "education", "astrology"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Birth Chart",
+      "short_name": "Chart",
+      "description": "Calculate your natal chart",
+      "url": "/chart",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Daily Horoscope",
+      "short_name": "Daily",
+      "description": "Your daily astrological guidance",
+      "url": "/daily-horoscope",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Transits",
+      "short_name": "Transits",
+      "description": "Current planetary transits",
+      "url": "/transits",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+} 

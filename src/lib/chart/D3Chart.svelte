@@ -27,6 +27,14 @@
   let currentTransform = d3.zoomIdentity;
   let zoomBehavior: d3.ZoomBehavior<Element, unknown> | null = null;
 
+  // Mobile-specific state
+  let isMobile = false;
+  let isTablet = false;
+  let touchStartTime = 0;
+  let touchStartPosition = { x: 0, y: 0 };
+  let lastTapTime = 0;
+  let tapCount = 0;
+
   // Dialog state
   let dialogOpen = false;
   let selectedElementData: any = null;
@@ -254,11 +262,11 @@
   // Functions
   function detectDeviceType() {
     const width = window.innerWidth;
-    const isMobile = width < 768;
-    const isTablet = width >= 768 && width < 1024;
+    isMobile = width < 768;
+    isTablet = width >= 768 && width < 1024;
     const layout = isMobile ? CHART_LAYOUT.MOBILE : isTablet ? CHART_LAYOUT.TABLET : CHART_LAYOUT.DESKTOP;
     
-    console.log('D3Chart: Device detection - width:', width, 'layout:', layout);
+    console.log('D3Chart: Device detection - width:', width, 'layout:', layout, 'isMobile:', isMobile);
     
     chartState.update(state => ({
       ...state,
@@ -266,6 +274,53 @@
       isTablet,
       layout
     } as any));
+  }
+
+  // Mobile touch handling
+  function handleTouchStart(event: TouchEvent) {
+    if (event.touches.length === 1) {
+      touchStartTime = Date.now();
+      touchStartPosition = {
+        x: event.touches[0].clientX,
+        y: event.touches[0].clientY
+      };
+    }
+  }
+
+  function handleTouchEnd(event: TouchEvent) {
+    if (event.touches.length === 0) {
+      const touchDuration = Date.now() - touchStartTime;
+      const touchDistance = Math.sqrt(
+        Math.pow(event.changedTouches[0].clientX - touchStartPosition.x, 2) +
+        Math.pow(event.changedTouches[0].clientY - touchStartPosition.y, 2)
+      );
+
+      // Single tap detection (less than 300ms and small movement)
+      if (touchDuration < 300 && touchDistance < 10) {
+        const currentTime = Date.now();
+        if (currentTime - lastTapTime < 300) {
+          tapCount++;
+          if (tapCount === 2) {
+            // Double tap - reset zoom
+            resetZoom();
+            tapCount = 0;
+          }
+        } else {
+          tapCount = 1;
+        }
+        lastTapTime = currentTime;
+      }
+    }
+  }
+
+  function resetZoom() {
+    if (svg && zoomBehavior) {
+      svg.transition().duration(300).call(
+        zoomBehavior.transform as any,
+        d3.zoomIdentity
+      );
+      showResetButton = false;
+    }
   }
 
   function parseChartData(data: string) {
@@ -1220,6 +1275,8 @@
       class="chart-container flex justify-center items-center border border-gray-200 rounded bg-gray-50 overflow-hidden relative touch-pan-x touch-pan-y w-full h-full"
       style="aspect-ratio: 1; min-height: 350px; max-height: 800px;"
       bind:this={chartContainer}
+      on:touchstart={handleTouchStart}
+      on:touchend={handleTouchEnd}
     >
       <!-- Chart will be rendered here by D3 -->
     </div>
