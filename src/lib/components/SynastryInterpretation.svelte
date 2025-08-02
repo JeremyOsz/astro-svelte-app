@@ -2,7 +2,9 @@
   import * as Card from '$lib/components/ui/card';
   import * as Accordion from '$lib/components/ui/accordion';
   import { Badge } from '$lib/components/ui/badge';
-  import { Heart, Zap, AlertTriangle, Info } from 'lucide-svelte';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Heart, Zap, AlertTriangle, Info, Search, Filter } from 'lucide-svelte';
   import { 
     getSynastryAspectInterpretation, 
     getSynastryHouseOverlay, 
@@ -16,6 +18,7 @@
     person2Planet: string;
     aspect: string;
     orb: number;
+    strength?: 'strong' | 'moderate' | 'weak';
   }> = [];
 
   export let mainAspects: Array<{
@@ -52,6 +55,14 @@
   export let relationshipType: 'romance' | 'friendship' | 'family' | 'business' = 'romance';
   export let person1Name: string = 'Person 1';
   export let person2Name: string = 'Person 2';
+  export let isLoading: boolean = false;
+
+  // Search and filter state
+  let searchTerm = '';
+  let selectedCompatibility: 'all' | 'harmonious' | 'challenging' | 'neutral' = 'all';
+  let selectedIntensity: 'all' | 'strong' | 'moderate' | 'weak' = 'all';
+  let selectedAspect: 'all' | 'conjunction' | 'sextile' | 'square' | 'trine' | 'opposition' = 'all';
+  let sortBy: 'strength' | 'orb' | 'compatibility' = 'strength';
 
   // Process aspects to get interpretations
   $: synastryAspects = aspects.map(aspect => {
@@ -65,7 +76,7 @@
       ...aspect,
       interpretation: interpretation?.interpretation || '',
       compatibility: interpretation?.compatibility || 'neutral',
-      intensity: interpretation?.intensity || 'moderate'
+      intensity: aspect.strength || interpretation?.intensity || 'moderate'
     };
   });
 
@@ -175,6 +186,59 @@
     return coloredText;
   }
 
+  // Filtered aspects based on search and filters
+  $: filteredAspects = synastryAspects.filter(aspect => {
+    const matchesSearch = searchTerm === '' || 
+      aspect.person1Planet.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      aspect.person2Planet.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      aspect.aspect.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      aspect.interpretation.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCompatibility = selectedCompatibility === 'all' || aspect.compatibility === selectedCompatibility;
+    const matchesIntensity = selectedIntensity === 'all' || aspect.intensity === selectedIntensity;
+    const matchesAspect = selectedAspect === 'all' || aspect.aspect.toLowerCase() === selectedAspect;
+    
+    return matchesSearch && matchesCompatibility && matchesIntensity && matchesAspect;
+  }).sort((a, b) => {
+    // Sort by selected criteria
+    switch (sortBy) {
+      case 'strength':
+        const strengthOrder = { 'strong': 3, 'moderate': 2, 'weak': 1 };
+        const aStrength = strengthOrder[a.intensity as keyof typeof strengthOrder] || 0;
+        const bStrength = strengthOrder[b.intensity as keyof typeof strengthOrder] || 0;
+        if (aStrength !== bStrength) return bStrength - aStrength;
+        return a.orb - b.orb; // Then by orb (tightest first)
+      
+      case 'orb':
+        return a.orb - b.orb; // Tightest orbs first
+      
+      case 'compatibility':
+        const compatibilityOrder = { 'harmonious': 3, 'neutral': 2, 'challenging': 1 };
+        const aCompat = compatibilityOrder[a.compatibility as keyof typeof compatibilityOrder] || 0;
+        const bCompat = compatibilityOrder[b.compatibility as keyof typeof compatibilityOrder] || 0;
+        if (aCompat !== bCompat) return bCompat - aCompat;
+        return a.orb - b.orb; // Then by orb (tightest first)
+      
+      default:
+        return 0;
+    }
+  });
+
+  // Summary statistics
+  $: harmoniousAspects = synastryAspects.filter(a => a.compatibility === 'harmonious');
+  $: challengingAspects = synastryAspects.filter(a => a.compatibility === 'challenging');
+  $: strongAspects = synastryAspects.filter(a => a.intensity === 'strong');
+  $: moderateAspects = synastryAspects.filter(a => a.intensity === 'moderate');
+
+  // Top harmonious and challenging aspects for summary
+  $: topHarmonious = harmoniousAspects
+    .sort((a, b) => b.intensity === 'strong' ? 1 : -1)
+    .slice(0, 3);
+  
+  $: topChallenging = challengingAspects
+    .sort((a, b) => b.intensity === 'strong' ? 1 : -1)
+    .slice(0, 3);
+
   $: relationshipStrengths = synastryAspects.filter(a=>a.compatibility==='harmonious').map(makeDynamicsPhrase);
   $: relationshipChallenges = synastryAspects.filter(a=>a.compatibility==='challenging').map(makeDynamicsPhrase);
 
@@ -242,9 +306,370 @@
     };
     return planetColors[planet] || 'text-gray-600';
   }
+
+  function clearFilters() {
+    searchTerm = '';
+    selectedCompatibility = 'all';
+    selectedIntensity = 'all';
+    selectedAspect = 'all';
+    sortBy = 'strength';
+  }
 </script>
 
-<Accordion.Root type="multiple" value={['compatibility', 'dynamics', 'key-aspects', 'house-overlays', 'main-aspects', 'angular-aspects', 'minor-aspects']} class="space-y-4">
+{#if isLoading}
+  <div class="flex flex-col items-center justify-center py-12">
+    <div class="relative">
+      <div class="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+      <div class="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-purple-600 rounded-full animate-spin" style="animation-delay: -0.5s;"></div>
+    </div>
+    <div class="mt-6 text-center">
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Analyzing Synastry</h3>
+      <p class="text-gray-600">Calculating planetary connections and compatibility...</p>
+    </div>
+  </div>
+{:else}
+  <!-- Summary Section -->
+  <div class="mb-6">
+    <Card.Root>
+      <Card.Header>
+        <Card.Title class="flex items-center gap-2">
+          <Zap class="h-5 w-5" />
+          Synastry Summary
+        </Card.Title>
+      </Card.Header>
+      <Card.Content>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+            <div class="text-2xl font-bold text-green-600">{harmoniousAspects.length}</div>
+            <div class="text-green-700 font-medium">Harmonious</div>
+            <div class="text-xs text-green-600 mt-1">Strong: {harmoniousAspects.filter(a => a.intensity === 'strong').length}</div>
+          </div>
+          <div class="text-center p-4 bg-red-50 rounded-lg border border-red-200">
+            <div class="text-2xl font-bold text-red-600">{challengingAspects.length}</div>
+            <div class="text-red-700 font-medium">Challenging</div>
+            <div class="text-xs text-red-600 mt-1">Strong: {challengingAspects.filter(a => a.intensity === 'strong').length}</div>
+          </div>
+          <div class="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
+            <div class="text-2xl font-bold text-purple-600">{strongAspects.length}</div>
+            <div class="text-purple-700 font-medium">Strong Aspects</div>
+            <div class="text-xs text-purple-600 mt-1">Most impactful</div>
+          </div>
+          <div class="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div class="text-2xl font-bold text-blue-600">{synastryAspects.length}</div>
+            <div class="text-blue-700 font-medium">Total Aspects</div>
+            <div class="text-xs text-blue-600 mt-1">All interactions</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-semibold mb-3 text-green-700 flex items-center gap-2">
+              <Heart class="h-4 w-4" />
+              Top Harmonious Aspects
+            </h4>
+            {#if topHarmonious.length}
+              <div class="space-y-2">
+                {#each topHarmonious as aspect}
+                  <div class="flex items-center justify-between p-2 bg-green-50 rounded border border-green-200">
+                    <span class="text-sm">
+                      <span class={getPlanetColor(aspect.person1Planet)}>{aspect.person1Planet}</span> - 
+                      <span class={getPlanetColor(aspect.person2Planet)}>{aspect.person2Planet}</span> 
+                      <span class="text-green-600 font-medium">{aspect.aspect}</span>
+                    </span>
+                    <Badge class="bg-green-100 text-green-800 text-xs">{aspect.intensity}</Badge>
+                  </div>
+                {/each}
+              </div>
+            {:else}
+              <p class="text-sm text-gray-500 italic">No major harmonious aspects detected.</p>
+            {/if}
+          </div>
+          
+          <div>
+            <h4 class="font-semibold mb-3 text-red-700 flex items-center gap-2">
+              <AlertTriangle class="h-4 w-4" />
+              Top Challenging Aspects
+            </h4>
+            {#if topChallenging.length}
+              <div class="space-y-2">
+                {#each topChallenging as aspect}
+                  <div class="flex items-center justify-between p-2 bg-red-50 rounded border border-red-200">
+                    <span class="text-sm">
+                      <span class={getPlanetColor(aspect.person1Planet)}>{aspect.person1Planet}</span> - 
+                      <span class={getPlanetColor(aspect.person2Planet)}>{aspect.person2Planet}</span> 
+                      <span class="text-red-600 font-medium">{aspect.aspect}</span>
+                    </span>
+                    <Badge class="bg-red-100 text-red-800 text-xs">{aspect.intensity}</Badge>
+                  </div>
+                {/each}
+              </div>
+            {:else}
+              <p class="text-sm text-gray-500 italic">No major challenging aspects detected.</p>
+            {/if}
+          </div>
+        </div>
+      </Card.Content>
+    </Card.Root>
+  </div>
+
+  <!-- Search and Filter Section -->
+  <div class="mb-6">
+    <Card.Root>
+      <Card.Header>
+        <Card.Title class="flex items-center gap-2">
+          <Search class="h-5 w-5" />
+          Search & Filter Aspects
+        </Card.Title>
+      </Card.Header>
+      <Card.Content>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div>
+            <Label for="search">Search</Label>
+            <div class="relative">
+              <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input 
+                id="search"
+                bind:value={searchTerm}
+                placeholder="Search planets, aspects..."
+                class="pl-10"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <Label for="compatibility">Compatibility</Label>
+            <select 
+              id="compatibility"
+              bind:value={selectedCompatibility}
+              class="w-full p-2 border rounded-md bg-white"
+            >
+              <option value="all">All Types</option>
+              <option value="harmonious">Harmonious</option>
+              <option value="challenging">Challenging</option>
+              <option value="neutral">Neutral</option>
+            </select>
+          </div>
+          
+          <div>
+            <Label for="intensity">Intensity</Label>
+            <select 
+              id="intensity"
+              bind:value={selectedIntensity}
+              class="w-full p-2 border rounded-md bg-white"
+            >
+              <option value="all">All Strengths</option>
+              <option value="strong">Strong</option>
+              <option value="moderate">Moderate</option>
+              <option value="weak">Weak</option>
+            </select>
+          </div>
+          
+          <div>
+            <Label for="aspect">Aspect Type</Label>
+            <select 
+              id="aspect"
+              bind:value={selectedAspect}
+              class="w-full p-2 border rounded-md bg-white"
+            >
+              <option value="all">All Aspects</option>
+              <option value="conjunction">Conjunction</option>
+              <option value="sextile">Sextile</option>
+              <option value="square">Square</option>
+              <option value="trine">Trine</option>
+              <option value="opposition">Opposition</option>
+            </select>
+          </div>
+          
+          <div>
+            <Label for="sort">Sort By</Label>
+            <select 
+              id="sort"
+              bind:value={sortBy}
+              class="w-full p-2 border rounded-md bg-white"
+            >
+              <option value="strength">Strength (Strong First)</option>
+              <option value="orb">Orb (Tightest First)</option>
+              <option value="compatibility">Compatibility</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="flex items-center justify-between mt-4">
+          <div class="text-sm text-gray-600">
+            Showing {filteredAspects.length} of {synastryAspects.length} aspects
+          </div>
+          <button 
+            on:click={clearFilters}
+            class="text-sm text-blue-600 hover:text-blue-800 underline"
+          >
+            Clear Filters
+          </button>
+        </div>
+      </Card.Content>
+    </Card.Root>
+  </div>
+
+  <!-- Filtered Aspects Display -->
+  {#if filteredAspects.length > 0}
+    <div class="mb-6">
+      <Card.Root>
+        <Card.Header>
+          <Card.Title class="flex items-center gap-2">
+            <Filter class="h-5 w-5" />
+            Filtered Aspects ({filteredAspects.length})
+          </Card.Title>
+        </Card.Header>
+        <Card.Content>
+          <Accordion.Root type="multiple" value={['main-aspects', 'angular-aspects', 'minor-aspects']} class="space-y-4">
+            <!-- Main Aspects -->
+            {#if filteredAspects.filter(a => ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'].includes(a.person1Planet) && ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'].includes(a.person2Planet)).length > 0}
+              <Accordion.Item value="main-aspects">
+                <Accordion.Trigger class="flex items-center justify-between w-full py-4 text-lg font-semibold text-gray-900">
+                  <span class="flex items-center gap-2">
+                    <Zap class="h-5 w-5" />
+                    Main Planetary Aspects ({filteredAspects.filter(a => ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'].includes(a.person1Planet) && ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'].includes(a.person2Planet)).length})
+                  </span>
+                </Accordion.Trigger>
+                <Accordion.Content>
+                  <div class="space-y-3">
+                    {#each filteredAspects.filter(a => ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'].includes(a.person1Planet) && ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'].includes(a.person2Planet)) as aspect}
+                      <div class="border rounded-lg p-4 hover:bg-gray-50">
+                        <div class="flex items-center justify-between mb-2">
+                          <h4 class="font-semibold">
+                            {person1Name}'s <span class={getPlanetColor(aspect.person1Planet)}>{aspect.person1Planet}</span> - {person2Name}'s <span class={getPlanetColor(aspect.person2Planet)}>{aspect.person2Planet}</span> {aspect.aspect}
+                          </h4>
+                          <div class="flex gap-2">
+                            <Badge class={getCompatibilityColor(aspect.compatibility)}>
+                              <svelte:component this={getCompatibilityIcon(aspect.compatibility)} class="h-3 w-3 mr-1" />
+                              {aspect.compatibility}
+                            </Badge>
+                            <Badge class={getIntensityColor(aspect.intensity)}>
+                              {aspect.intensity}
+                            </Badge>
+                          </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">
+                          Orb: {aspect.orb.toFixed(1)}°
+                        </p>
+                        {#if aspect.interpretation}
+                          <p class="text-gray-700">{aspect.interpretation}</p>
+                        {:else}
+                          <p class="text-gray-500 italic">This aspect creates a dynamic interaction between your charts.</p>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                </Accordion.Content>
+              </Accordion.Item>
+            {/if}
+
+            <!-- Angular Aspects -->
+            {#if filteredAspects.filter(a => ['ASC', 'MC', 'DSC', 'IC'].includes(a.person1Planet) || ['ASC', 'MC', 'DSC', 'IC'].includes(a.person2Planet)).length > 0}
+              <Accordion.Item value="angular-aspects">
+                <Accordion.Trigger class="flex items-center justify-between w-full py-4 text-lg font-semibold text-gray-900">
+                  <span class="flex items-center gap-2">
+                    <Info class="h-5 w-5" />
+                    Angular Aspects ({filteredAspects.filter(a => ['ASC', 'MC', 'DSC', 'IC'].includes(a.person1Planet) || ['ASC', 'MC', 'DSC', 'IC'].includes(a.person2Planet)).length})
+                  </span>
+                </Accordion.Trigger>
+                <Accordion.Content>
+                  <div class="space-y-3">
+                    {#each filteredAspects.filter(a => ['ASC', 'MC', 'DSC', 'IC'].includes(a.person1Planet) || ['ASC', 'MC', 'DSC', 'IC'].includes(a.person2Planet)) as aspect}
+                      <div class="border rounded-lg p-4 hover:bg-gray-50">
+                        <div class="flex items-center justify-between mb-2">
+                          <h4 class="font-semibold">
+                            {person1Name}'s <span class={getPlanetColor(aspect.person1Planet)}>{aspect.person1Planet}</span> - {person2Name}'s <span class={getPlanetColor(aspect.person2Planet)}>{aspect.person2Planet}</span> {aspect.aspect}
+                          </h4>
+                          <div class="flex gap-2">
+                            <Badge class={getCompatibilityColor(aspect.compatibility)}>
+                              <svelte:component this={getCompatibilityIcon(aspect.compatibility)} class="h-3 w-3 mr-1" />
+                              {aspect.compatibility}
+                            </Badge>
+                            <Badge class={getIntensityColor(aspect.intensity)}>
+                              {aspect.intensity}
+                            </Badge>
+                          </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">
+                          Orb: {aspect.orb.toFixed(1)}°
+                        </p>
+                        {#if aspect.interpretation}
+                          <p class="text-gray-700">{aspect.interpretation}</p>
+                        {:else}
+                          <p class="text-gray-500 italic">This aspect creates a dynamic interaction between your charts.</p>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                </Accordion.Content>
+              </Accordion.Item>
+            {/if}
+
+            <!-- Minor Aspects -->
+            {#if filteredAspects.filter(a => !['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC', 'MC', 'DSC', 'IC'].includes(a.person1Planet) || !['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC', 'MC', 'DSC', 'IC'].includes(a.person2Planet)).length > 0}
+              <Accordion.Item value="minor-aspects">
+                <Accordion.Trigger class="flex items-center justify-between w-full py-4 text-lg font-semibold text-gray-900">
+                  <span class="flex items-center gap-2">
+                    <AlertTriangle class="h-5 w-5" />
+                    Minor Aspects ({filteredAspects.filter(a => !['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC', 'MC', 'DSC', 'IC'].includes(a.person1Planet) || !['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC', 'MC', 'DSC', 'IC'].includes(a.person2Planet)).length})
+                  </span>
+                </Accordion.Trigger>
+                <Accordion.Content>
+                  <div class="space-y-3">
+                    {#each filteredAspects.filter(a => !['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC', 'MC', 'DSC', 'IC'].includes(a.person1Planet) || !['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC', 'MC', 'DSC', 'IC'].includes(a.person2Planet)) as aspect}
+                      <div class="border rounded-lg p-4 hover:bg-gray-50">
+                        <div class="flex items-center justify-between mb-2">
+                          <h4 class="font-semibold">
+                            {person1Name}'s <span class={getPlanetColor(aspect.person1Planet)}>{aspect.person1Planet}</span> - {person2Name}'s <span class={getPlanetColor(aspect.person2Planet)}>{aspect.person2Planet}</span> {aspect.aspect}
+                          </h4>
+                          <div class="flex gap-2">
+                            <Badge class={getCompatibilityColor(aspect.compatibility)}>
+                              <svelte:component this={getCompatibilityIcon(aspect.compatibility)} class="h-3 w-3 mr-1" />
+                              {aspect.compatibility}
+                            </Badge>
+                            <Badge class={getIntensityColor(aspect.intensity)}>
+                              {aspect.intensity}
+                            </Badge>
+                          </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">
+                          Orb: {aspect.orb.toFixed(1)}°
+                        </p>
+                        {#if aspect.interpretation}
+                          <p class="text-gray-700">{aspect.interpretation}</p>
+                        {:else}
+                          <p class="text-gray-500 italic">This aspect creates a dynamic interaction between your charts.</p>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                </Accordion.Content>
+              </Accordion.Item>
+            {/if}
+          </Accordion.Root>
+        </Card.Content>
+      </Card.Root>
+    </div>
+  {:else if searchTerm || selectedCompatibility !== 'all' || selectedIntensity !== 'all' || selectedAspect !== 'all'}
+    <div class="mb-6">
+      <Card.Root>
+        <Card.Content>
+          <div class="text-center py-8">
+            <Filter class="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <p class="text-gray-600">No aspects match your current filters.</p>
+            <button 
+              on:click={clearFilters}
+              class="mt-2 text-blue-600 hover:text-blue-800 underline"
+            >
+              Clear filters to see all aspects
+            </button>
+          </div>
+        </Card.Content>
+      </Card.Root>
+    </div>
+  {/if}
+
+  <Accordion.Root type="multiple" value={['compatibility', 'dynamics', 'key-aspects', 'house-overlays', 'main-aspects', 'angular-aspects', 'minor-aspects']} class="space-y-4">
   <!-- Compatibility Summary -->
   <Accordion.Item value="compatibility">
     <Accordion.Trigger class="flex items-center justify-between w-full py-4 text-lg font-semibold text-gray-900">
@@ -541,3 +966,4 @@
     </Accordion.Item>
   {/if}
 </Accordion.Root>
+{/if}

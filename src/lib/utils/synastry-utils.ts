@@ -14,11 +14,51 @@ export interface SynastryAspect {
   person2Planet: string;
   aspect: string;
   orb: number;
+  strength?: 'strong' | 'moderate' | 'weak';
 }
 
 export interface SynastryHouseOverlay {
   person2Planet: string;
   person1House: number;
+}
+
+/**
+ * Calculate aspect strength based on orb
+ * @param orb The orb of the aspect
+ * @param maxOrb The maximum allowed orb for this aspect type
+ * @returns 'strong', 'moderate', 'weak', or null if too wide
+ */
+export function calculateAspectStrength(orb: number, maxOrb: number): 'strong' | 'moderate' | 'weak' | null {
+  // If orb is beyond maximum, aspect is invalid
+  if (orb > maxOrb) {
+    return null;
+  }
+  
+  // Calculate strength based on orb percentage
+  const orbPercentage = orb / maxOrb;
+  
+  if (orbPercentage <= 0.25) {
+    return 'strong'; // 0-25% of max orb
+  } else if (orbPercentage <= 0.6) {
+    return 'moderate'; // 25-60% of max orb
+  } else {
+    return 'weak'; // 60-100% of max orb
+  }
+}
+
+/**
+ * Get recommended orb limits for different aspect types
+ * These are more conservative than the maximum orbs
+ */
+export function getRecommendedOrbLimits(): Record<string, number> {
+  return {
+    'Conjunction': 6,   // 0-6° for meaningful conjunctions
+    'Opposition': 6,    // 0-6° for meaningful oppositions  
+    'Square': 6,        // 0-6° for meaningful squares
+    'Trine': 6,         // 0-6° for meaningful trines
+    'Sextile': 4,       // 0-4° for meaningful sextiles
+    'Quincunx': 2       // 0-2° for meaningful quincunxes
+  };
 }
 
 /**
@@ -117,6 +157,7 @@ export function parseChartCSV(chartData: string): PlanetData[] {
 
 export function calculateSynastryAspects(person1: PlanetData[], person2: PlanetData[]): SynastryAspect[] {
   const aspects: SynastryAspect[] = [];
+  const recommendedOrbs = getRecommendedOrbLimits();
   
   // Filter out angles and keep only planets
   const corePlanets1 = person1.filter(p => !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
@@ -142,18 +183,41 @@ export function calculateSynastryAspects(person1: PlanetData[], person2: PlanetD
       // Check each aspect definition
       for (const [aspectName, def] of Object.entries(ASPECT_DEFINITIONS)) {
         const orb = Math.abs(minAngle - def.angle);
-        if (orb <= def.orb) {
-          aspects.push({
-            person1Planet: p1.planet,
-            person2Planet: p2.planet,
-            aspect: aspectName,
-            orb: parseFloat(orb.toFixed(2))
-          });
-          break; // Only count the closest aspect
+        
+        // Use recommended orb limits instead of maximum orbs
+        const recommendedOrb = recommendedOrbs[aspectName] || def.orb;
+        
+        if (orb <= recommendedOrb) {
+          // Calculate strength based on orb
+          const strength = calculateAspectStrength(orb, recommendedOrb);
+          
+          if (strength) {
+            aspects.push({
+              person1Planet: p1.planet,
+              person2Planet: p2.planet,
+              aspect: aspectName,
+              orb: parseFloat(orb.toFixed(2)),
+              strength
+            });
+            break; // Only count the closest aspect
+          }
         }
       }
     }
   }
+  
+  // Sort aspects by strength (strong first) and then by orb (tightest first)
+  aspects.sort((a, b) => {
+    const strengthOrder = { 'strong': 3, 'moderate': 2, 'weak': 1 };
+    const aStrength = strengthOrder[a.strength || 'weak'];
+    const bStrength = strengthOrder[b.strength || 'weak'];
+    
+    if (aStrength !== bStrength) {
+      return bStrength - aStrength;
+    }
+    
+    return a.orb - b.orb; // Tighter orbs first
+  });
   
   return aspects;
 }
@@ -230,6 +294,15 @@ MC,Gemini,12°00'`;
     
     const aspects = calculateSynastryAspects(p1, p2);
     console.log('Synastry aspects found:', aspects.length);
+    
+    // Log aspect strength distribution
+    const strongAspects = aspects.filter(a => a.strength === 'strong');
+    const moderateAspects = aspects.filter(a => a.strength === 'moderate');
+    const weakAspects = aspects.filter(a => a.strength === 'weak');
+    
+    console.log('Strong aspects:', strongAspects.length);
+    console.log('Moderate aspects:', moderateAspects.length);
+    console.log('Weak aspects:', weakAspects.length);
     
     const houseOverlays = calculateHouseOverlays(p1, p2);
     console.log('House overlays found:', houseOverlays.length);
