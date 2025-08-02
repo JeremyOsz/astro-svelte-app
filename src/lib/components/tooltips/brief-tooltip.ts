@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { ASPECT_SYMBOLS, ASPECT_DEFINITIONS } from '../../data/symbols';
+import { ASPECT_SYMBOLS, ASPECT_DEFINITIONS, getAspectColorByChartType } from '../../data/symbols';
 
 let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>;
 
@@ -32,7 +32,7 @@ export function showBriefTooltip(event: MouseEvent, data: any) {
     const planet1Color = data.isTransitAspect ? '#ff9500' : '#000000'; // orange for transit, black for natal
     const planet2Color = '#000000'; // natal planet is always black
     const aspectSymbol = aspectSymbols[data.aspect] || data.aspect;
-    const aspectColor = aspectColors[data.aspect] || '#B8860B';
+    const aspectColor = getAspectColorByChartType(data.aspect, data.chartType || 'natal');
     const orbText = data.orb !== undefined ? ` (${data.orb.toFixed(1)}°)` : '';
     content = `<span style="color: ${planet1Color}; font-weight: 700;">${data.planet1}</span> <span style="color: ${aspectColor}; font-weight: 600;">${aspectSymbol}</span> <span style="color: ${planet2Color}; font-weight: 700;">${data.planet2}</span>${orbText}`;
   } else if (data.planet) {

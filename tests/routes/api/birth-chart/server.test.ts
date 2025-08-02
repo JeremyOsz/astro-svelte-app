@@ -2,14 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from '../../../../src/routes/api/birth-chart/+server';
 import { mockBirthDataMinimal } from '../../../utils/test-helpers';
 
-// Mock the Swiss Ephemeris service
-vi.mock('$lib/astrology/swiss-ephemeris-service', () => ({
-  SwissEphemerisService: {
-    calculateBirthChart: vi.fn(),
-  },
-}));
-
-import { SwissEphemerisService } from '$lib/astrology/swiss-ephemeris-service';
+// Mock the fetch function
+const mockFetch = vi.fn();
+global.fetch = mockFetch;
 
 describe('/api/birth-chart', () => {
   beforeEach(() => {
@@ -17,7 +12,7 @@ describe('/api/birth-chart', () => {
   });
 
   describe('POST', () => {
-    it('should return birth chart data using Swiss Ephemeris API', async () => {
+    it('should return birth chart data using external API', async () => {
       const mockChartData = {
         ascendant: 180,
         mc: 270,
@@ -37,7 +32,10 @@ describe('/api/birth-chart', () => {
         longitude: -74.0060,
       };
 
-      vi.mocked(SwissEphemerisService.calculateBirthChart).mockResolvedValue(mockChartData);
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockChartData),
+      });
 
       const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
@@ -61,14 +59,17 @@ describe('/api/birth-chart', () => {
         planets: mockChartData.planets,
         latitude: mockChartData.latitude,
         longitude: mockChartData.longitude,
-        date: mockChartData.date.toISOString(), // JSON serialization converts Date to string
+        date: mockChartData.date,
       });
-      expect(SwissEphemerisService.calculateBirthChart).toHaveBeenCalledWith(
-        new Date(mockBirthDataMinimal.date),
-        mockBirthDataMinimal.latitude,
-        mockBirthDataMinimal.longitude,
-        'New York, USA',
-        'whole_sign'
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://immanuel-astro.onrender.com/birth-chart',
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({
+            'Content-Type': 'application/json',
+          }),
+          body: expect.stringContaining('New York, USA'),
+        })
       );
     });
 
@@ -88,7 +89,7 @@ describe('/api/birth-chart', () => {
 
       expect(response.status).toBe(400);
       expect(data.error).toBe('Missing required fields: date, latitude, longitude');
-      expect(SwissEphemerisService.calculateBirthChart).not.toHaveBeenCalled();
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('should return 400 error when latitude is missing', async () => {
@@ -107,7 +108,7 @@ describe('/api/birth-chart', () => {
 
       expect(response.status).toBe(400);
       expect(data.error).toBe('Missing required fields: date, latitude, longitude');
-      expect(SwissEphemerisService.calculateBirthChart).not.toHaveBeenCalled();
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('should return 400 error when longitude is missing', async () => {
@@ -126,7 +127,7 @@ describe('/api/birth-chart', () => {
 
       expect(response.status).toBe(400);
       expect(data.error).toBe('Missing required fields: date, latitude, longitude');
-      expect(SwissEphemerisService.calculateBirthChart).not.toHaveBeenCalled();
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('should handle null latitude (validation passes)', async () => {
@@ -140,7 +141,10 @@ describe('/api/birth-chart', () => {
         longitude: -74.0060,
       };
 
-      vi.mocked(SwissEphemerisService.calculateBirthChart).mockResolvedValue(mockChartData);
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockChartData),
+      });
 
       const invalidData = { ...mockBirthDataMinimal, latitude: null };
 
@@ -155,7 +159,7 @@ describe('/api/birth-chart', () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      expect(SwissEphemerisService.calculateBirthChart).toHaveBeenCalled();
+      expect(mockFetch).toHaveBeenCalled();
     });
 
     it('should handle null longitude (validation passes)', async () => {
@@ -169,7 +173,10 @@ describe('/api/birth-chart', () => {
         longitude: -74.0060,
       };
 
-      vi.mocked(SwissEphemerisService.calculateBirthChart).mockResolvedValue(mockChartData);
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockChartData),
+      });
 
       const invalidData = { ...mockBirthDataMinimal, longitude: null };
 
@@ -184,11 +191,16 @@ describe('/api/birth-chart', () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      expect(SwissEphemerisService.calculateBirthChart).toHaveBeenCalled();
+      expect(mockFetch).toHaveBeenCalled();
     });
 
-    it('should return 500 error when Swiss Ephemeris API fails', async () => {
-      vi.mocked(SwissEphemerisService.calculateBirthChart).mockRejectedValue(new Error('API Error'));
+    it('should return 500 error when external API fails', async () => {
+      mockFetch.mockResolvedValue({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error',
+        text: () => Promise.resolve('API Error'),
+      });
 
       const request = new Request('http://localhost:5173/api/birth-chart', {
         method: 'POST',
@@ -202,7 +214,7 @@ describe('/api/birth-chart', () => {
 
       expect(response.status).toBe(500);
       expect(data.error).toBe('Failed to calculate birth chart');
-      expect(SwissEphemerisService.calculateBirthChart).toHaveBeenCalled();
+      expect(mockFetch).toHaveBeenCalled();
     });
 
     it('should return 500 error when request.json() throws an error', async () => {
@@ -218,7 +230,7 @@ describe('/api/birth-chart', () => {
 
       expect(response.status).toBe(500);
       expect(data.error).toBe('Failed to calculate birth chart');
-      expect(SwissEphemerisService.calculateBirthChart).not.toHaveBeenCalled();
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('should handle empty request body', async () => {
@@ -233,7 +245,7 @@ describe('/api/birth-chart', () => {
 
       expect(response.status).toBe(500);
       expect(data.error).toBe('Failed to calculate birth chart');
-      expect(SwissEphemerisService.calculateBirthChart).not.toHaveBeenCalled();
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('should handle invalid date format', async () => {
@@ -247,7 +259,10 @@ describe('/api/birth-chart', () => {
         longitude: -74.0060,
       };
 
-      vi.mocked(SwissEphemerisService.calculateBirthChart).mockResolvedValue(mockChartData);
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockChartData),
+      });
 
       const invalidData = { ...mockBirthDataMinimal, date: 'invalid-date' };
 
@@ -262,12 +277,15 @@ describe('/api/birth-chart', () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      expect(SwissEphemerisService.calculateBirthChart).toHaveBeenCalledWith(
-        new Date('invalid-date'),
-        mockBirthDataMinimal.latitude,
-        mockBirthDataMinimal.longitude,
-        'Unknown Location',
-        'whole_sign'
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://immanuel-astro.onrender.com/birth-chart',
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({
+            'Content-Type': 'application/json',
+          }),
+          body: expect.stringContaining('invalid-date'),
+        })
       );
     });
   });

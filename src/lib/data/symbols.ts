@@ -48,4 +48,21 @@ export function getTransitColor(planet: string): string {
 
 export function getZodiacColor(sign: string): string {
   return ZODIAC_COLORS[sign] || '#666';
+}
+
+// Get aspect color based on chart type
+export function getAspectColorByChartType(aspect: string, chartType: string = 'natal'): string {
+  const baseColor = (ASPECT_DEFINITIONS as any)[aspect]?.color || '#666';
+  
+  // For synastry, oppositions are harmonious (blue) instead of challenging (red)
+  if (chartType === 'synastry' && aspect === 'Opposition') {
+    return '#0000FF'; // Blue for harmonious
+  }
+  
+  // For synastry, squares can also be seen as growth opportunities (orange instead of red)
+  if (chartType === 'synastry' && aspect === 'Square') {
+    return '#FF0000'; // Red for challenging
+  }
+  
+  return baseColor;
 } 

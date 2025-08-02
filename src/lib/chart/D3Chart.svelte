@@ -143,7 +143,8 @@
     PLANET_SYMBOLS,
     EXTENDED_PLANET_NAMES,
     ASPECT_DEFINITIONS,
-    CORE_ASPECT_BODIES
+    CORE_ASPECT_BODIES,
+    getAspectColorByChartType
   } from '../data/symbols';
 
   // Chart constants - use centralized data
@@ -899,7 +900,7 @@
         .attr('y1', Math.sin(angle1) * aspectHubRadius)
         .attr('x2', Math.cos(angle2) * aspectHubRadius)
         .attr('y2', Math.sin(angle2) * aspectHubRadius)
-        .attr('stroke', aspect.color)
+        .attr('stroke', getAspectColorByChartType(aspect.aspect, 'natal'))
         .attr('stroke-width', isMobile ? aspect.weight * 0.6 : aspect.weight)
         .attr('stroke-dasharray', aspect.style === 'dotted' ? '1,3' : aspect.style === 'dashed' ? '4,4' : 'none')
         .style('pointer-events', 'none');
@@ -915,7 +916,7 @@
         .attr('stroke-width', 15) // Wider for easier hovering
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGLineElement, event: MouseEvent) {
-          const filterUrl = ensureGlowFilterForAspect(g, aspect.color);
+          const filterUrl = ensureGlowFilterForAspect(g, getAspectColorByChartType(aspect.aspect, 'natal'));
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
           showBriefTooltip(event, aspect);
         })

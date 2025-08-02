@@ -65,6 +65,192 @@ export const SYNASTRY_ASPECT_INTERPRETATIONS: Record<string, SynastryAspectInter
         business: "Easy business rapport! You naturally support each other's self-expression and personal goals. This creates harmonious business partnerships with mutual encouragement."
     },
 
+    // SUN-MERCURY ASPECTS (Communication & Identity)
+    "Sun_Mercury_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Mercury",
+        interpretation: "Perfect mental and identity alignment! Your core identity and communication style merge into one powerful force. This creates natural authority in communication and clear self-expression.",
+        compatibility: "harmonious",
+        intensity: "strong",
+        romance: "Perfect romantic communication! Your identity and communication styles merge, creating natural authority and clear self-expression in romantic relationships.",
+        friendship: "Perfect friendship communication! Your identity and communication styles merge, creating natural authority and clear self-expression in friendships.",
+        family: "Perfect family communication! Your identity and communication styles merge, creating natural authority and clear self-expression in family relationships.",
+        business: "Perfect business communication! Your identity and communication styles merge, creating natural authority and clear self-expression in business partnerships."
+    },
+    "Sun_Mercury_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Mercury",
+        interpretation: "Balanced identity and communication! Your core identity and communication style complement each other perfectly. This creates awareness and growth in how you express your true self.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced romantic communication! Your identity and communication styles complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced friendship communication! Your identity and communication styles complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced family communication! Your identity and communication styles complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced business communication! Your identity and communication styles complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Sun_Mercury_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Mercury",
+        interpretation: "Natural identity and communication harmony! Your core identity and communication style work together beautifully. This creates effortless self-expression and clear communication.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic communication harmony! Your identity and communication styles work together beautifully, creating effortless self-expression in romance.",
+        friendship: "Natural friendship communication harmony! Your identity and communication styles work together beautifully, creating effortless self-expression in friendship.",
+        family: "Natural family communication harmony! Your identity and communication styles work together beautifully, creating effortless self-expression in family relationships.",
+        business: "Natural business communication harmony! Your identity and communication styles work together beautifully, creating effortless self-expression in business partnerships."
+    },
+    "Sun_Mercury_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Mercury",
+        interpretation: "Challenging identity and communication! Your core identity and communication style may clash, creating tension but also growth opportunities. This requires conscious effort to express your true self clearly.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic communication! Your identity and communication styles may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging friendship communication! Your identity and communication styles may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging family communication! Your identity and communication styles may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging business communication! Your identity and communication styles may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Sun_Mercury_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Mercury",
+        interpretation: "Easy identity and communication rapport! Your core identity and communication style complement each other well. This creates natural opportunities for clear self-expression.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic communication rapport! Your identity and communication styles complement each other well, creating natural opportunities for clear self-expression in romance.",
+        friendship: "Easy friendship communication rapport! Your identity and communication styles complement each other well, creating natural opportunities for clear self-expression in friendship.",
+        family: "Easy family communication rapport! Your identity and communication styles complement each other well, creating natural opportunities for clear self-expression in family relationships.",
+        business: "Easy business communication rapport! Your identity and communication styles complement each other well, creating natural opportunities for clear self-expression in business partnerships."
+    },
+
+    // SUN-VENUS ASPECTS (Love & Identity)
+    "Sun_Venus_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Venus",
+        interpretation: "Perfect love and identity alignment! Your core identity and love nature merge into one powerful force. This creates natural charm and authentic romantic expression.",
+        compatibility: "harmonious",
+        intensity: "strong",
+        romance: "Perfect romantic alignment! Your identity and love nature merge, creating natural charm and authentic romantic expression.",
+        friendship: "Perfect friendship alignment! Your identity and love nature merge, creating natural charm and authentic friendship expression.",
+        family: "Perfect family alignment! Your identity and love nature merge, creating natural charm and authentic family expression.",
+        business: "Perfect business alignment! Your identity and love nature merge, creating natural charm and authentic business expression."
+    },
+    "Sun_Venus_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Venus",
+        interpretation: "Balanced love and identity! Your core identity and love nature complement each other perfectly. This creates awareness and growth in how you express love authentically.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced romantic expression! Your identity and love nature complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced friendship expression! Your identity and love nature complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced family expression! Your identity and love nature complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced business expression! Your identity and love nature complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Sun_Venus_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Venus",
+        interpretation: "Natural love and identity harmony! Your core identity and love nature work together beautifully. This creates effortless charm and authentic romantic expression.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic harmony! Your identity and love nature work together beautifully, creating effortless charm in romance.",
+        friendship: "Natural friendship harmony! Your identity and love nature work together beautifully, creating effortless charm in friendship.",
+        family: "Natural family harmony! Your identity and love nature work together beautifully, creating effortless charm in family relationships.",
+        business: "Natural business harmony! Your identity and love nature work together beautifully, creating effortless charm in business partnerships."
+    },
+    "Sun_Venus_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Venus",
+        interpretation: "Challenging love and identity! Your core identity and love nature may clash, creating tension but also growth opportunities. This requires conscious effort to express love authentically.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic expression! Your identity and love nature may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging friendship expression! Your identity and love nature may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging family expression! Your identity and love nature may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging business expression! Your identity and love nature may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Sun_Venus_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Venus",
+        interpretation: "Easy love and identity rapport! Your core identity and love nature complement each other well. This creates natural opportunities for authentic romantic expression.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic rapport! Your identity and love nature complement each other well, creating natural opportunities for authentic romantic expression.",
+        friendship: "Easy friendship rapport! Your identity and love nature complement each other well, creating natural opportunities for authentic friendship expression.",
+        family: "Easy family rapport! Your identity and love nature complement each other well, creating natural opportunities for authentic family expression.",
+        business: "Easy business rapport! Your identity and love nature complement each other well, creating natural opportunities for authentic business expression."
+    },
+
+    // SUN-MARS ASPECTS (Action & Identity)
+    "Sun_Mars_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Mars",
+        interpretation: "Perfect action and identity alignment! Your core identity and action style merge into one powerful force. This creates natural leadership and dynamic self-expression.",
+        compatibility: "harmonious",
+        intensity: "strong",
+        romance: "Perfect romantic action! Your identity and action styles merge, creating natural leadership and dynamic romantic expression.",
+        friendship: "Perfect friendship action! Your identity and action styles merge, creating natural leadership and dynamic friendship expression.",
+        family: "Perfect family action! Your identity and action styles merge, creating natural leadership and dynamic family expression.",
+        business: "Perfect business action! Your identity and action styles merge, creating natural leadership and dynamic business expression."
+    },
+    "Sun_Mars_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Mars",
+        interpretation: "Balanced action and identity! Your core identity and action style complement each other perfectly. This creates awareness and growth in how you express your drive authentically.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced romantic action! Your identity and action styles complement each other perfectly, creating awareness and growth in romantic drive.",
+        friendship: "Balanced friendship action! Your identity and action styles complement each other perfectly, creating awareness and growth in friendship drive.",
+        family: "Balanced family action! Your identity and action styles complement each other perfectly, creating awareness and growth in family drive.",
+        business: "Balanced business action! Your identity and action styles complement each other perfectly, creating awareness and growth in business drive."
+    },
+    "Sun_Mars_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Mars",
+        interpretation: "Natural action and identity harmony! Your core identity and action style work together beautifully. This creates effortless leadership and dynamic self-expression.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic action harmony! Your identity and action styles work together beautifully, creating effortless leadership in romance.",
+        friendship: "Natural friendship action harmony! Your identity and action styles work together beautifully, creating effortless leadership in friendship.",
+        family: "Natural family action harmony! Your identity and action styles work together beautifully, creating effortless leadership in family relationships.",
+        business: "Natural business action harmony! Your identity and action styles work together beautifully, creating effortless leadership in business partnerships."
+    },
+    "Sun_Mars_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Mars",
+        interpretation: "Challenging action and identity! Your core identity and action style may clash, creating tension but also growth opportunities. This requires conscious effort to express your drive authentically.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic action! Your identity and action styles may clash, creating tension but also growth opportunities in romantic drive.",
+        friendship: "Challenging friendship action! Your identity and action styles may clash, creating tension but also growth opportunities in friendship drive.",
+        family: "Challenging family action! Your identity and action styles may clash, creating tension but also growth opportunities in family drive.",
+        business: "Challenging business action! Your identity and action styles may clash, creating tension but also growth opportunities in business drive."
+    },
+    "Sun_Mars_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Mars",
+        interpretation: "Easy action and identity rapport! Your core identity and action style complement each other well. This creates natural opportunities for dynamic self-expression.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic action rapport! Your identity and action styles complement each other well, creating natural opportunities for dynamic romantic expression.",
+        friendship: "Easy friendship action rapport! Your identity and action styles complement each other well, creating natural opportunities for dynamic friendship expression.",
+        family: "Easy family action rapport! Your identity and action styles complement each other well, creating natural opportunities for dynamic family expression.",
+        business: "Easy business action rapport! Your identity and action styles complement each other well, creating natural opportunities for dynamic business expression."
+    },
+
     // SUN-MOON ASPECTS (Most Important for Relationships)
     "Sun_Moon_Conjunction": {
         aspect: "Conjunction",
@@ -249,5 +435,749 @@ export const SYNASTRY_ASPECT_INTERPRETATIONS: Record<string, SynastryAspectInter
         friendship: "Easy friendship mental rapport! Your thinking styles complement each other well. You communicate naturally and can easily understand each other's perspectives in friendship.",
         family: "Easy family mental rapport! Your thinking styles complement each other well. You communicate naturally and can easily understand each other's perspectives in family relationships.",
         business: "Easy business mental rapport! Your thinking styles complement each other well. You communicate naturally and can easily understand each other's perspectives in business partnerships."
+    },
+
+    // MERCURY-PLUTO ASPECTS (Communication & Transformation)
+    "Mercury_Pluto_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Mercury",
+        person2Planet: "Pluto",
+        interpretation: "Intense mental and psychological connection! Your communication style and transformative energy merge into a powerful force. This creates deep, penetrating conversations and the ability to uncover hidden truths together.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Deep psychological romance! Your communication and transformation energies merge, creating intense mental and emotional connection. You can have profound conversations that lead to deep personal growth.",
+        friendship: "Deep psychological friendship! Your communication and transformation energies merge, creating intense mental and emotional connection. You can have profound conversations that lead to deep personal growth.",
+        family: "Deep psychological family bond! Your communication and transformation energies merge, creating intense mental and emotional connection. You can have profound conversations that lead to deep personal growth.",
+        business: "Deep psychological business partnership! Your communication and transformation energies merge, creating intense mental and emotional connection. You can have profound conversations that lead to deep personal growth."
+    },
+    "Mercury_Pluto_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Mercury",
+        person2Planet: "Pluto",
+        interpretation: "Mental tension with transformative potential! Your communication style and psychological depth create awareness and growth opportunities. This aspect often leads to deep, challenging conversations that promote personal development.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Growth-oriented mental tension! Your communication and transformation styles create awareness and growth opportunities. This leads to deep, challenging conversations that promote personal development in romance.",
+        friendship: "Growth-oriented mental tension! Your communication and transformation styles create awareness and growth opportunities. This leads to deep, challenging conversations that promote personal development in friendship.",
+        family: "Growth-oriented mental tension! Your communication and transformation styles create awareness and growth opportunities. This leads to deep, challenging conversations that promote personal development in family relationships.",
+        business: "Growth-oriented mental tension! Your communication and transformation styles create awareness and growth opportunities. This leads to deep, challenging conversations that promote personal development in business partnerships."
+    },
+    "Mercury_Pluto_Trine": {
+        aspect: "Trine",
+        person1Planet: "Mercury",
+        person2Planet: "Pluto",
+        interpretation: "Natural psychological communication! Your mental and transformative energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural psychological romance! Your mental and transformative energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters in romance.",
+        friendship: "Natural psychological friendship! Your mental and transformative energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters in friendship.",
+        family: "Natural psychological family bond! Your mental and transformative energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters in family relationships.",
+        business: "Natural psychological business partnership! Your mental and transformative energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters in business partnerships."
+    },
+    "Mercury_Pluto_Square": {
+        aspect: "Square",
+        person1Planet: "Mercury",
+        person2Planet: "Pluto",
+        interpretation: "Challenging mental transformation! Your communication style and psychological depth may clash, creating tension but also growth opportunities. This aspect requires conscious effort to balance clear thinking with deep psychological insight.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging mental transformation in romance! Your communication and transformation styles may clash, creating tension but also growth opportunities. This requires conscious effort to balance clear thinking with deep psychological insight.",
+        friendship: "Challenging mental transformation in friendship! Your communication and transformation styles may clash, creating tension but also growth opportunities. This requires conscious effort to balance clear thinking with deep psychological insight.",
+        family: "Challenging mental transformation in family! Your communication and transformation styles may clash, creating tension but also growth opportunities. This requires conscious effort to balance clear thinking with deep psychological insight.",
+        business: "Challenging mental transformation in business! Your communication and transformation styles may clash, creating tension but also growth opportunities. This requires conscious effort to balance clear thinking with deep psychological insight."
+    },
+    "Mercury_Pluto_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Mercury",
+        person2Planet: "Pluto",
+        interpretation: "Easy psychological communication! Your mental and transformative energies complement each other well. This creates natural opportunities for deep conversations and psychological insight.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy psychological romance! Your mental and transformative energies complement each other well. This creates natural opportunities for deep conversations and psychological insight in romance.",
+        friendship: "Easy psychological friendship! Your mental and transformative energies complement each other well. This creates natural opportunities for deep conversations and psychological insight in friendship.",
+        family: "Easy psychological family bond! Your mental and transformative energies complement each other well. This creates natural opportunities for deep conversations and psychological insight in family relationships.",
+        business: "Easy psychological business partnership! Your mental and transformative energies complement each other well. This creates natural opportunities for deep conversations and psychological insight in business partnerships."
+    },
+
+    // PLUTO-MERCURY ASPECTS (Reverse of Mercury-Pluto)
+    "Pluto_Mercury_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Pluto",
+        person2Planet: "Mercury",
+        interpretation: "Intense mental and psychological connection! Your transformative energy and communication style merge into a powerful force. This creates deep, penetrating conversations and the ability to uncover hidden truths together.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Deep psychological romance! Your transformation and communication energies merge, creating intense mental and emotional connection. You can have profound conversations that lead to deep personal growth.",
+        friendship: "Deep psychological friendship! Your transformation and communication energies merge, creating intense mental and emotional connection. You can have profound conversations that lead to deep personal growth.",
+        family: "Deep psychological family bond! Your transformation and communication energies merge, creating intense mental and emotional connection. You can have profound conversations that lead to deep personal growth.",
+        business: "Deep psychological business partnership! Your transformation and communication energies merge, creating intense mental and emotional connection. You can have profound conversations that lead to deep personal growth."
+    },
+    "Pluto_Mercury_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Pluto",
+        person2Planet: "Mercury",
+        interpretation: "Mental tension with transformative potential! Your psychological depth and communication style create awareness and growth opportunities. This aspect often leads to deep, challenging conversations that promote personal development.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Growth-oriented mental tension! Your transformation and communication styles create awareness and growth opportunities. This leads to deep, challenging conversations that promote personal development in romance.",
+        friendship: "Growth-oriented mental tension! Your transformation and communication styles create awareness and growth opportunities. This leads to deep, challenging conversations that promote personal development in friendship.",
+        family: "Growth-oriented mental tension! Your transformation and communication styles create awareness and growth opportunities. This leads to deep, challenging conversations that promote personal development in family relationships.",
+        business: "Growth-oriented mental tension! Your transformation and communication styles create awareness and growth opportunities. This leads to deep, challenging conversations that promote personal development in business partnerships."
+    },
+    "Pluto_Mercury_Trine": {
+        aspect: "Trine",
+        person1Planet: "Pluto",
+        person2Planet: "Mercury",
+        interpretation: "Natural psychological communication! Your transformative and mental energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural psychological romance! Your transformative and mental energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters in romance.",
+        friendship: "Natural psychological friendship! Your transformative and mental energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters in friendship.",
+        family: "Natural psychological family bond! Your transformative and mental energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters in family relationships.",
+        business: "Natural psychological business partnership! Your transformative and mental energies work together harmoniously. This creates easy, deep conversations and natural insight into psychological matters in business partnerships."
+    },
+    "Pluto_Mercury_Square": {
+        aspect: "Square",
+        person1Planet: "Pluto",
+        person2Planet: "Mercury",
+        interpretation: "Challenging mental transformation! Your psychological depth and communication style may clash, creating tension but also growth opportunities. This aspect requires conscious effort to balance deep psychological insight with clear thinking.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging mental transformation in romance! Your transformation and communication styles may clash, creating tension but also growth opportunities. This requires conscious effort to balance deep psychological insight with clear thinking.",
+        friendship: "Challenging mental transformation in friendship! Your transformation and communication styles may clash, creating tension but also growth opportunities. This requires conscious effort to balance deep psychological insight with clear thinking.",
+        family: "Challenging mental transformation in family! Your transformation and communication styles may clash, creating tension but also growth opportunities. This requires conscious effort to balance deep psychological insight with clear thinking.",
+        business: "Challenging mental transformation in business! Your transformation and communication styles may clash, creating tension but also growth opportunities. This requires conscious effort to balance deep psychological insight with clear thinking."
+    },
+    "Pluto_Mercury_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Pluto",
+        person2Planet: "Mercury",
+        interpretation: "Easy psychological communication! Your transformative and mental energies complement each other well. This creates natural opportunities for deep conversations and psychological insight.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy psychological romance! Your transformative and mental energies complement each other well. This creates natural opportunities for deep conversations and psychological insight in romance.",
+        friendship: "Easy psychological friendship! Your transformative and mental energies complement each other well. This creates natural opportunities for deep conversations and psychological insight in friendship.",
+        family: "Easy psychological family bond! Your transformative and mental energies complement each other well. This creates natural opportunities for deep conversations and psychological insight in family relationships.",
+        business: "Easy psychological business partnership! Your transformative and mental energies complement each other well. This creates natural opportunities for deep conversations and psychological insight in business partnerships."
+    },
+
+    // VENUS-MOON ASPECTS (Love & Emotions)
+    "Venus_Moon_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Venus",
+        person2Planet: "Moon",
+        interpretation: "Perfect love and emotional alignment! Your love nature and emotional needs merge into one powerful force. This creates deep emotional connection and natural romantic harmony.",
+        compatibility: "harmonious",
+        intensity: "strong",
+        romance: "Perfect romantic emotional connection! Your love and emotional natures merge, creating deep emotional connection and natural romantic harmony.",
+        friendship: "Perfect friendship emotional connection! Your love and emotional natures merge, creating deep emotional connection and natural friendship harmony.",
+        family: "Perfect family emotional connection! Your love and emotional natures merge, creating deep emotional connection and natural family harmony.",
+        business: "Perfect business emotional connection! Your love and emotional natures merge, creating deep emotional connection and natural business harmony."
+    },
+    "Venus_Moon_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Venus",
+        person2Planet: "Moon",
+        interpretation: "Balanced love and emotions! Your love nature and emotional needs complement each other perfectly. This creates awareness and growth in how you express love emotionally.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced romantic emotional expression! Your love and emotional natures complement each other perfectly, creating awareness and growth in romantic emotional expression.",
+        friendship: "Balanced friendship emotional expression! Your love and emotional natures complement each other perfectly, creating awareness and growth in friendship emotional expression.",
+        family: "Balanced family emotional expression! Your love and emotional natures complement each other perfectly, creating awareness and growth in family emotional expression.",
+        business: "Balanced business emotional expression! Your love and emotional natures complement each other perfectly, creating awareness and growth in business emotional expression."
+    },
+    "Venus_Moon_Trine": {
+        aspect: "Trine",
+        person1Planet: "Venus",
+        person2Planet: "Moon",
+        interpretation: "Natural love and emotional harmony! Your love nature and emotional needs work together beautifully. This creates effortless emotional connection and romantic harmony.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic emotional harmony! Your love and emotional natures work together beautifully, creating effortless emotional connection in romance.",
+        friendship: "Natural friendship emotional harmony! Your love and emotional natures work together beautifully, creating effortless emotional connection in friendship.",
+        family: "Natural family emotional harmony! Your love and emotional natures work together beautifully, creating effortless emotional connection in family relationships.",
+        business: "Natural business emotional harmony! Your love and emotional natures work together beautifully, creating effortless emotional connection in business partnerships."
+    },
+    "Venus_Moon_Square": {
+        aspect: "Square",
+        person1Planet: "Venus",
+        person2Planet: "Moon",
+        interpretation: "Challenging love and emotions! Your love nature and emotional needs may clash, creating tension but also growth opportunities. This requires conscious effort to express love emotionally.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic emotional expression! Your love and emotional natures may clash, creating tension but also growth opportunities in romantic emotional expression.",
+        friendship: "Challenging friendship emotional expression! Your love and emotional natures may clash, creating tension but also growth opportunities in friendship emotional expression.",
+        family: "Challenging family emotional expression! Your love and emotional natures may clash, creating tension but also growth opportunities in family emotional expression.",
+        business: "Challenging business emotional expression! Your love and emotional natures may clash, creating tension but also growth opportunities in business emotional expression."
+    },
+    "Venus_Moon_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Venus",
+        person2Planet: "Moon",
+        interpretation: "Easy love and emotional rapport! Your love nature and emotional needs complement each other well. This creates natural opportunities for emotional connection and romantic harmony.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic emotional rapport! Your love and emotional natures complement each other well, creating natural opportunities for emotional connection in romance.",
+        friendship: "Easy friendship emotional rapport! Your love and emotional natures complement each other well, creating natural opportunities for emotional connection in friendship.",
+        family: "Easy family emotional rapport! Your love and emotional natures complement each other well, creating natural opportunities for emotional connection in family relationships.",
+        business: "Easy business emotional rapport! Your love and emotional natures complement each other well, creating natural opportunities for emotional connection in business partnerships."
+    },
+
+    // MOON-VENUS ASPECTS (Reverse of Venus-Moon)
+    "Moon_Venus_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Moon",
+        person2Planet: "Venus",
+        interpretation: "Perfect emotional and love alignment! Your emotional needs and love nature merge into one powerful force. This creates deep emotional connection and natural romantic harmony.",
+        compatibility: "harmonious",
+        intensity: "strong",
+        romance: "Perfect emotional romantic connection! Your emotional and love natures merge, creating deep emotional connection and natural romantic harmony.",
+        friendship: "Perfect emotional friendship connection! Your emotional and love natures merge, creating deep emotional connection and natural friendship harmony.",
+        family: "Perfect emotional family connection! Your emotional and love natures merge, creating deep emotional connection and natural family harmony.",
+        business: "Perfect emotional business connection! Your emotional and love natures merge, creating deep emotional connection and natural business harmony."
+    },
+    "Moon_Venus_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Moon",
+        person2Planet: "Venus",
+        interpretation: "Balanced emotions and love! Your emotional needs and love nature complement each other perfectly. This creates awareness and growth in how you express emotions lovingly.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced emotional romantic expression! Your emotional and love natures complement each other perfectly, creating awareness and growth in emotional romantic expression.",
+        friendship: "Balanced emotional friendship expression! Your emotional and love natures complement each other perfectly, creating awareness and growth in emotional friendship expression.",
+        family: "Balanced emotional family expression! Your emotional and love natures complement each other perfectly, creating awareness and growth in emotional family expression.",
+        business: "Balanced emotional business expression! Your emotional and love natures complement each other perfectly, creating awareness and growth in emotional business expression."
+    },
+    "Moon_Venus_Trine": {
+        aspect: "Trine",
+        person1Planet: "Moon",
+        person2Planet: "Venus",
+        interpretation: "Natural emotional and love harmony! Your emotional needs and love nature work together beautifully. This creates effortless emotional connection and romantic harmony.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural emotional romantic harmony! Your emotional and love natures work together beautifully, creating effortless emotional connection in romance.",
+        friendship: "Natural emotional friendship harmony! Your emotional and love natures work together beautifully, creating effortless emotional connection in friendship.",
+        family: "Natural emotional family harmony! Your emotional and love natures work together beautifully, creating effortless emotional connection in family relationships.",
+        business: "Natural emotional business harmony! Your emotional and love natures work together beautifully, creating effortless emotional connection in business partnerships."
+    },
+    "Moon_Venus_Square": {
+        aspect: "Square",
+        person1Planet: "Moon",
+        person2Planet: "Venus",
+        interpretation: "Challenging emotions and love! Your emotional needs and love nature may clash, creating tension but also growth opportunities. This requires conscious effort to express emotions lovingly.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging emotional romantic expression! Your emotional and love natures may clash, creating tension but also growth opportunities in emotional romantic expression.",
+        friendship: "Challenging emotional friendship expression! Your emotional and love natures may clash, creating tension but also growth opportunities in emotional friendship expression.",
+        family: "Challenging emotional family expression! Your emotional and love natures may clash, creating tension but also growth opportunities in emotional family expression.",
+        business: "Challenging emotional business expression! Your emotional and love natures may clash, creating tension but also growth opportunities in emotional business expression."
+    },
+    "Moon_Venus_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Moon",
+        person2Planet: "Venus",
+        interpretation: "Easy emotional and love rapport! Your emotional needs and love nature complement each other well. This creates natural opportunities for emotional connection and romantic harmony.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy emotional romantic rapport! Your emotional and love natures complement each other well, creating natural opportunities for emotional connection in romance.",
+        friendship: "Easy emotional friendship rapport! Your emotional and love natures complement each other well, creating natural opportunities for emotional connection in friendship.",
+        family: "Easy emotional family rapport! Your emotional and love natures complement each other well, creating natural opportunities for emotional connection in family relationships.",
+        business: "Easy emotional business rapport! Your emotional and love natures complement each other well, creating natural opportunities for emotional connection in business partnerships."
+    },
+
+    // SUN-JUPITER ASPECTS (Identity & Growth)
+    "Sun_Jupiter_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Jupiter",
+        interpretation: "Perfect identity and growth alignment! Your core identity and expansion nature merge into one powerful force. This creates natural leadership and inspiring self-expression.",
+        compatibility: "harmonious",
+        intensity: "strong",
+        romance: "Perfect romantic growth! Your identity and expansion natures merge, creating natural leadership and inspiring romantic expression.",
+        friendship: "Perfect friendship growth! Your identity and expansion natures merge, creating natural leadership and inspiring friendship expression.",
+        family: "Perfect family growth! Your identity and expansion natures merge, creating natural leadership and inspiring family expression.",
+        business: "Perfect business growth! Your identity and expansion natures merge, creating natural leadership and inspiring business expression."
+    },
+    "Sun_Jupiter_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Jupiter",
+        interpretation: "Balanced identity and growth! Your core identity and expansion nature complement each other perfectly. This creates awareness and growth in how you express your identity expansively.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced romantic growth! Your identity and expansion natures complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced friendship growth! Your identity and expansion natures complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced family growth! Your identity and expansion natures complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced business growth! Your identity and expansion natures complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Sun_Jupiter_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Jupiter",
+        interpretation: "Natural identity and growth harmony! Your core identity and expansion nature work together beautifully. This creates effortless leadership and inspiring self-expression.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic growth harmony! Your identity and expansion natures work together beautifully, creating effortless leadership in romance.",
+        friendship: "Natural friendship growth harmony! Your identity and expansion natures work together beautifully, creating effortless leadership in friendship.",
+        family: "Natural family growth harmony! Your identity and expansion natures work together beautifully, creating effortless leadership in family relationships.",
+        business: "Natural business growth harmony! Your identity and expansion natures work together beautifully, creating effortless leadership in business partnerships."
+    },
+    "Sun_Jupiter_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Jupiter",
+        interpretation: "Challenging identity and growth! Your core identity and expansion nature may clash, creating tension but also growth opportunities. This requires conscious effort to express your identity expansively.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic growth! Your identity and expansion natures may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging friendship growth! Your identity and expansion natures may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging family growth! Your identity and expansion natures may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging business growth! Your identity and expansion natures may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Sun_Jupiter_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Jupiter",
+        interpretation: "Easy identity and growth rapport! Your core identity and expansion nature complement each other well. This creates natural opportunities for inspiring self-expression.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic growth rapport! Your identity and expansion natures complement each other well, creating natural opportunities for inspiring romantic expression.",
+        friendship: "Easy friendship growth rapport! Your identity and expansion natures complement each other well, creating natural opportunities for inspiring friendship expression.",
+        family: "Easy family growth rapport! Your identity and expansion natures complement each other well, creating natural opportunities for inspiring family expression.",
+        business: "Easy business growth rapport! Your identity and expansion natures complement each other well, creating natural opportunities for inspiring business expression."
+    },
+
+    // SUN-SATURN ASPECTS (Identity & Structure)
+    "Sun_Saturn_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Saturn",
+        interpretation: "Perfect identity and structure alignment! Your core identity and discipline nature merge into one powerful force. This creates natural authority and responsible self-expression.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Perfect romantic structure! Your identity and discipline natures merge, creating natural authority and responsible romantic expression.",
+        friendship: "Perfect friendship structure! Your identity and discipline natures merge, creating natural authority and responsible friendship expression.",
+        family: "Perfect family structure! Your identity and discipline natures merge, creating natural authority and responsible family expression.",
+        business: "Perfect business structure! Your identity and discipline natures merge, creating natural authority and responsible business expression."
+    },
+    "Sun_Saturn_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Saturn",
+        interpretation: "Balanced identity and structure! Your core identity and discipline nature complement each other perfectly. This creates awareness and growth in how you express your identity responsibly.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Balanced romantic structure! Your identity and discipline natures complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced friendship structure! Your identity and discipline natures complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced family structure! Your identity and discipline natures complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced business structure! Your identity and discipline natures complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Sun_Saturn_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Saturn",
+        interpretation: "Natural identity and structure harmony! Your core identity and discipline nature work together beautifully. This creates effortless authority and responsible self-expression.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic structure harmony! Your identity and discipline natures work together beautifully, creating effortless authority in romance.",
+        friendship: "Natural friendship structure harmony! Your identity and discipline natures work together beautifully, creating effortless authority in friendship.",
+        family: "Natural family structure harmony! Your identity and discipline natures work together beautifully, creating effortless authority in family relationships.",
+        business: "Natural business structure harmony! Your identity and discipline natures work together beautifully, creating effortless authority in business partnerships."
+    },
+    "Sun_Saturn_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Saturn",
+        interpretation: "Challenging identity and structure! Your core identity and discipline nature may clash, creating tension but also growth opportunities. This requires conscious effort to express your identity responsibly.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic structure! Your identity and discipline natures may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging friendship structure! Your identity and discipline natures may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging family structure! Your identity and discipline natures may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging business structure! Your identity and discipline natures may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Sun_Saturn_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Saturn",
+        interpretation: "Easy identity and structure rapport! Your core identity and discipline nature complement each other well. This creates natural opportunities for responsible self-expression.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic structure rapport! Your identity and discipline natures complement each other well, creating natural opportunities for responsible romantic expression.",
+        friendship: "Easy friendship structure rapport! Your identity and discipline natures complement each other well, creating natural opportunities for responsible friendship expression.",
+        family: "Easy family structure rapport! Your identity and discipline natures complement each other well, creating natural opportunities for responsible family expression.",
+        business: "Easy business structure rapport! Your identity and discipline natures complement each other well, creating natural opportunities for responsible business expression."
+    },
+
+    // SUN-URANUS ASPECTS (Identity & Innovation)
+    "Sun_Uranus_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Uranus",
+        interpretation: "Revolutionary identity connection! Your core identity and innovative nature merge into one powerful force. This creates natural leadership through originality and independence.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Revolutionary romantic identity! Your identity and innovation merge, creating natural leadership through originality in romantic relationships.",
+        friendship: "Revolutionary friendship identity! Your identity and innovation merge, creating natural leadership through originality in friendships.",
+        family: "Revolutionary family identity! Your identity and innovation merge, creating natural leadership through originality in family relationships.",
+        business: "Revolutionary business identity! Your identity and innovation merge, creating natural leadership through originality in business partnerships."
+    },
+    "Sun_Uranus_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Uranus",
+        interpretation: "Balanced identity and innovation! Your core identity and innovative nature complement each other perfectly. This creates awareness and growth in authentic self-expression.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced romantic innovation! Your identity and innovation complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced friendship innovation! Your identity and innovation complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced family innovation! Your identity and innovation complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced business innovation! Your identity and innovation complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Sun_Uranus_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Uranus",
+        interpretation: "Natural identity and innovation harmony! Your core identity and innovative nature work together beautifully. This creates effortless authentic leadership and originality.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic innovation harmony! Your identity and innovation work together beautifully, creating effortless authentic leadership in romance.",
+        friendship: "Natural friendship innovation harmony! Your identity and innovation work together beautifully, creating effortless authentic leadership in friendship.",
+        family: "Natural family innovation harmony! Your identity and innovation work together beautifully, creating effortless authentic leadership in family relationships.",
+        business: "Natural business innovation harmony! Your identity and innovation work together beautifully, creating effortless authentic leadership in business partnerships."
+    },
+    "Sun_Uranus_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Uranus",
+        interpretation: "Challenging identity and innovation! Your core identity and innovative nature may clash, creating tension but also growth opportunities. This requires conscious effort to express your identity authentically.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic innovation! Your identity and innovation may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging friendship innovation! Your identity and innovation may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging family innovation! Your identity and innovation may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging business innovation! Your identity and innovation may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Sun_Uranus_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Uranus",
+        interpretation: "Easy identity and innovation rapport! Your core identity and innovative nature complement each other well. This creates natural opportunities for authentic self-expression.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic innovation rapport! Your identity and innovation complement each other well, creating natural opportunities for authentic romantic expression.",
+        friendship: "Easy friendship innovation rapport! Your identity and innovation complement each other well, creating natural opportunities for authentic friendship expression.",
+        family: "Easy family innovation rapport! Your identity and innovation complement each other well, creating natural opportunities for authentic family expression.",
+        business: "Easy business innovation rapport! Your identity and innovation complement each other well, creating natural opportunities for authentic business expression."
+    },
+
+    // SUN-NEPTUNE ASPECTS (Identity & Spirituality)
+    "Sun_Neptune_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Neptune",
+        interpretation: "Spiritual identity connection! Your core identity and spiritual nature merge into one powerful force. This creates natural leadership through compassion and idealism.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Spiritual romantic identity! Your identity and spirituality merge, creating natural leadership through compassion in romantic relationships.",
+        friendship: "Spiritual friendship identity! Your identity and spirituality merge, creating natural leadership through compassion in friendships.",
+        family: "Spiritual family identity! Your identity and spirituality merge, creating natural leadership through compassion in family relationships.",
+        business: "Spiritual business identity! Your identity and spirituality merge, creating natural leadership through compassion in business partnerships."
+    },
+    "Sun_Neptune_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Neptune",
+        interpretation: "Balanced identity and spirituality! Your core identity and spiritual nature complement each other perfectly. This creates awareness and growth in compassionate self-expression.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced romantic spirituality! Your identity and spirituality complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced friendship spirituality! Your identity and spirituality complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced family spirituality! Your identity and spirituality complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced business spirituality! Your identity and spirituality complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Sun_Neptune_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Neptune",
+        interpretation: "Natural identity and spirituality harmony! Your core identity and spiritual nature work together beautifully. This creates effortless compassionate leadership and idealism.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic spirituality harmony! Your identity and spirituality work together beautifully, creating effortless compassionate leadership in romance.",
+        friendship: "Natural friendship spirituality harmony! Your identity and spirituality work together beautifully, creating effortless compassionate leadership in friendship.",
+        family: "Natural family spirituality harmony! Your identity and spirituality work together beautifully, creating effortless compassionate leadership in family relationships.",
+        business: "Natural business spirituality harmony! Your identity and spirituality work together beautifully, creating effortless compassionate leadership in business partnerships."
+    },
+    "Sun_Neptune_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Neptune",
+        interpretation: "Challenging identity and spirituality! Your core identity and spiritual nature may clash, creating tension but also growth opportunities. This requires conscious effort to express your identity compassionately.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic spirituality! Your identity and spirituality may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging friendship spirituality! Your identity and spirituality may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging family spirituality! Your identity and spirituality may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging business spirituality! Your identity and spirituality may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Sun_Neptune_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Neptune",
+        interpretation: "Easy identity and spirituality rapport! Your core identity and spiritual nature complement each other well. This creates natural opportunities for compassionate self-expression.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic spirituality rapport! Your identity and spirituality complement each other well, creating natural opportunities for compassionate romantic expression.",
+        friendship: "Easy friendship spirituality rapport! Your identity and spirituality complement each other well, creating natural opportunities for compassionate friendship expression.",
+        family: "Easy family spirituality rapport! Your identity and spirituality complement each other well, creating natural opportunities for compassionate family expression.",
+        business: "Easy business spirituality rapport! Your identity and spirituality complement each other well, creating natural opportunities for compassionate business expression."
+    },
+
+    // SUN-PLUTO ASPECTS (Identity & Transformation)
+    "Sun_Pluto_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Pluto",
+        interpretation: "Transformative identity connection! Your core identity and transformative nature merge into one powerful force. This creates natural leadership through psychological insight and power.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Transformative romantic identity! Your identity and transformation merge, creating natural leadership through psychological insight in romantic relationships.",
+        friendship: "Transformative friendship identity! Your identity and transformation merge, creating natural leadership through psychological insight in friendships.",
+        family: "Transformative family identity! Your identity and transformation merge, creating natural leadership through psychological insight in family relationships.",
+        business: "Transformative business identity! Your identity and transformation merge, creating natural leadership through psychological insight in business partnerships."
+    },
+    "Sun_Pluto_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Pluto",
+        interpretation: "Balanced identity and transformation! Your core identity and transformative nature complement each other perfectly. This creates awareness and growth in powerful self-expression.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced romantic transformation! Your identity and transformation complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced friendship transformation! Your identity and transformation complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced family transformation! Your identity and transformation complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced business transformation! Your identity and transformation complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Sun_Pluto_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Pluto",
+        interpretation: "Natural identity and transformation harmony! Your core identity and transformative nature work together beautifully. This creates effortless powerful leadership and psychological insight.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural romantic transformation harmony! Your identity and transformation work together beautifully, creating effortless powerful leadership in romance.",
+        friendship: "Natural friendship transformation harmony! Your identity and transformation work together beautifully, creating effortless powerful leadership in friendship.",
+        family: "Natural family transformation harmony! Your identity and transformation work together beautifully, creating effortless powerful leadership in family relationships.",
+        business: "Natural business transformation harmony! Your identity and transformation work together beautifully, creating effortless powerful leadership in business partnerships."
+    },
+    "Sun_Pluto_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Pluto",
+        interpretation: "Challenging identity and transformation! Your core identity and transformative nature may clash, creating tension but also growth opportunities. This requires conscious effort to express your identity powerfully.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging romantic transformation! Your identity and transformation may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging friendship transformation! Your identity and transformation may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging family transformation! Your identity and transformation may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging business transformation! Your identity and transformation may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Sun_Pluto_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Pluto",
+        interpretation: "Easy identity and transformation rapport! Your core identity and transformative nature complement each other well. This creates natural opportunities for powerful self-expression.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy romantic transformation rapport! Your identity and transformation complement each other well, creating natural opportunities for powerful romantic expression.",
+        friendship: "Easy friendship transformation rapport! Your identity and transformation complement each other well, creating natural opportunities for powerful friendship expression.",
+        family: "Easy family transformation rapport! Your identity and transformation complement each other well, creating natural opportunities for powerful family expression.",
+        business: "Easy business transformation rapport! Your identity and transformation complement each other well, creating natural opportunities for powerful business expression."
+    },
+
+    // MOON-URANUS ASPECTS (Emotions & Innovation)
+    "Moon_Uranus_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Moon",
+        person2Planet: "Uranus",
+        interpretation: "Revolutionary emotional connection! Your emotional nature and innovative spirit merge into one powerful force. This creates natural emotional authenticity and independence.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Revolutionary emotional romance! Your emotions and innovation merge, creating natural emotional authenticity in romantic relationships.",
+        friendship: "Revolutionary emotional friendship! Your emotions and innovation merge, creating natural emotional authenticity in friendships.",
+        family: "Revolutionary emotional family! Your emotions and innovation merge, creating natural emotional authenticity in family relationships.",
+        business: "Revolutionary emotional business! Your emotions and innovation merge, creating natural emotional authenticity in business partnerships."
+    },
+    "Moon_Uranus_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Moon",
+        person2Planet: "Uranus",
+        interpretation: "Balanced emotions and innovation! Your emotional nature and innovative spirit complement each other perfectly. This creates awareness and growth in emotional authenticity.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced emotional innovation! Your emotions and innovation complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced emotional innovation! Your emotions and innovation complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced emotional innovation! Your emotions and innovation complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced emotional innovation! Your emotions and innovation complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Moon_Uranus_Trine": {
+        aspect: "Trine",
+        person1Planet: "Moon",
+        person2Planet: "Uranus",
+        interpretation: "Natural emotional and innovation harmony! Your emotional nature and innovative spirit work together beautifully. This creates effortless emotional authenticity and independence.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural emotional innovation harmony! Your emotions and innovation work together beautifully, creating effortless emotional authenticity in romance.",
+        friendship: "Natural emotional innovation harmony! Your emotions and innovation work together beautifully, creating effortless emotional authenticity in friendship.",
+        family: "Natural emotional innovation harmony! Your emotions and innovation work together beautifully, creating effortless emotional authenticity in family relationships.",
+        business: "Natural emotional innovation harmony! Your emotions and innovation work together beautifully, creating effortless emotional authenticity in business partnerships."
+    },
+    "Moon_Uranus_Square": {
+        aspect: "Square",
+        person1Planet: "Moon",
+        person2Planet: "Uranus",
+        interpretation: "Challenging emotions and innovation! Your emotional nature and innovative spirit may clash, creating tension but also growth opportunities. This requires conscious effort to express emotions authentically.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging emotional innovation! Your emotions and innovation may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging emotional innovation! Your emotions and innovation may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging emotional innovation! Your emotions and innovation may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging emotional innovation! Your emotions and innovation may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Moon_Uranus_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Moon",
+        person2Planet: "Uranus",
+        interpretation: "Easy emotions and innovation rapport! Your emotional nature and innovative spirit complement each other well. This creates natural opportunities for emotional authenticity.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy emotional innovation rapport! Your emotions and innovation complement each other well, creating natural opportunities for emotional authenticity in romance.",
+        friendship: "Easy emotional innovation rapport! Your emotions and innovation complement each other well, creating natural opportunities for emotional authenticity in friendship.",
+        family: "Easy emotional innovation rapport! Your emotions and innovation complement each other well, creating natural opportunities for emotional authenticity in family.",
+        business: "Easy emotional innovation rapport! Your emotions and innovation complement each other well, creating natural opportunities for emotional authenticity in business."
+    },
+
+    // MOON-NEPTUNE ASPECTS (Emotions & Spirituality)
+    "Moon_Neptune_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Moon",
+        person2Planet: "Neptune",
+        interpretation: "Spiritual emotional connection! Your emotional nature and spiritual sensitivity merge into one powerful force. This creates natural emotional compassion and idealism.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Spiritual emotional romance! Your emotions and spirituality merge, creating natural emotional compassion in romantic relationships.",
+        friendship: "Spiritual emotional friendship! Your emotions and spirituality merge, creating natural emotional compassion in friendships.",
+        family: "Spiritual emotional family! Your emotions and spirituality merge, creating natural emotional compassion in family relationships.",
+        business: "Spiritual emotional business! Your emotions and spirituality merge, creating natural emotional compassion in business partnerships."
+    },
+    "Moon_Neptune_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Moon",
+        person2Planet: "Neptune",
+        interpretation: "Balanced emotions and spirituality! Your emotional nature and spiritual sensitivity complement each other perfectly. This creates awareness and growth in emotional compassion.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced emotional spirituality! Your emotions and spirituality complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced emotional spirituality! Your emotions and spirituality complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced emotional spirituality! Your emotions and spirituality complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced emotional spirituality! Your emotions and spirituality complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Moon_Neptune_Trine": {
+        aspect: "Trine",
+        person1Planet: "Moon",
+        person2Planet: "Neptune",
+        interpretation: "Natural emotional and spirituality harmony! Your emotional nature and spiritual sensitivity work together beautifully. This creates effortless emotional compassion and idealism.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural emotional spirituality harmony! Your emotions and spirituality work together beautifully, creating effortless emotional compassion in romance.",
+        friendship: "Natural emotional spirituality harmony! Your emotions and spirituality work together beautifully, creating effortless emotional compassion in friendship.",
+        family: "Natural emotional spirituality harmony! Your emotions and spirituality work together beautifully, creating effortless emotional compassion in family relationships.",
+        business: "Natural emotional spirituality harmony! Your emotions and spirituality work together beautifully, creating effortless emotional compassion in business partnerships."
+    },
+    "Moon_Neptune_Square": {
+        aspect: "Square",
+        person1Planet: "Moon",
+        person2Planet: "Neptune",
+        interpretation: "Challenging emotions and spirituality! Your emotional nature and spiritual sensitivity may clash, creating tension but also growth opportunities. This requires conscious effort to express emotions compassionately.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging emotional spirituality! Your emotions and spirituality may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging emotional spirituality! Your emotions and spirituality may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging emotional spirituality! Your emotions and spirituality may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging emotional spirituality! Your emotions and spirituality may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Moon_Neptune_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Moon",
+        person2Planet: "Neptune",
+        interpretation: "Easy emotions and spirituality rapport! Your emotional nature and spiritual sensitivity complement each other well. This creates natural opportunities for emotional compassion.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy emotional spirituality rapport! Your emotions and spirituality complement each other well, creating natural opportunities for emotional compassion in romance.",
+        friendship: "Easy emotional spirituality rapport! Your emotions and spirituality complement each other well, creating natural opportunities for emotional compassion in friendship.",
+        family: "Easy emotional spirituality rapport! Your emotions and spirituality complement each other well, creating natural opportunities for emotional compassion in family.",
+        business: "Easy emotional spirituality rapport! Your emotions and spirituality complement each other well, creating natural opportunities for emotional compassion in business."
+    },
+
+    // MOON-PLUTO ASPECTS (Emotions & Transformation)
+    "Moon_Pluto_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Moon",
+        person2Planet: "Pluto",
+        interpretation: "Transformative emotional connection! Your emotional nature and transformative power merge into one powerful force. This creates natural emotional intensity and psychological insight.",
+        compatibility: "challenging",
+        intensity: "strong",
+        romance: "Transformative emotional romance! Your emotions and transformation merge, creating natural emotional intensity in romantic relationships.",
+        friendship: "Transformative emotional friendship! Your emotions and transformation merge, creating natural emotional intensity in friendships.",
+        family: "Transformative emotional family! Your emotions and transformation merge, creating natural emotional intensity in family relationships.",
+        business: "Transformative emotional business! Your emotions and transformation merge, creating natural emotional intensity in business partnerships."
+    },
+    "Moon_Pluto_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Moon",
+        person2Planet: "Pluto",
+        interpretation: "Balanced emotions and transformation! Your emotional nature and transformative power complement each other perfectly. This creates awareness and growth in emotional intensity.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Balanced emotional transformation! Your emotions and transformation complement each other perfectly, creating awareness and growth in romantic expression.",
+        friendship: "Balanced emotional transformation! Your emotions and transformation complement each other perfectly, creating awareness and growth in friendship expression.",
+        family: "Balanced emotional transformation! Your emotions and transformation complement each other perfectly, creating awareness and growth in family expression.",
+        business: "Balanced emotional transformation! Your emotions and transformation complement each other perfectly, creating awareness and growth in business expression."
+    },
+    "Moon_Pluto_Trine": {
+        aspect: "Trine",
+        person1Planet: "Moon",
+        person2Planet: "Pluto",
+        interpretation: "Natural emotional and transformation harmony! Your emotional nature and transformative power work together beautifully. This creates effortless emotional intensity and psychological insight.",
+        compatibility: "harmonious",
+        intensity: "moderate",
+        romance: "Natural emotional transformation harmony! Your emotions and transformation work together beautifully, creating effortless emotional intensity in romance.",
+        friendship: "Natural emotional transformation harmony! Your emotions and transformation work together beautifully, creating effortless emotional intensity in friendship.",
+        family: "Natural emotional transformation harmony! Your emotions and transformation work together beautifully, creating effortless emotional intensity in family relationships.",
+        business: "Natural emotional transformation harmony! Your emotions and transformation work together beautifully, creating effortless emotional intensity in business partnerships."
+    },
+    "Moon_Pluto_Square": {
+        aspect: "Square",
+        person1Planet: "Moon",
+        person2Planet: "Pluto",
+        interpretation: "Challenging emotions and transformation! Your emotional nature and transformative power may clash, creating tension but also growth opportunities. This requires conscious effort to express emotions intensely.",
+        compatibility: "challenging",
+        intensity: "moderate",
+        romance: "Challenging emotional transformation! Your emotions and transformation may clash, creating tension but also growth opportunities in romantic expression.",
+        friendship: "Challenging emotional transformation! Your emotions and transformation may clash, creating tension but also growth opportunities in friendship expression.",
+        family: "Challenging emotional transformation! Your emotions and transformation may clash, creating tension but also growth opportunities in family expression.",
+        business: "Challenging emotional transformation! Your emotions and transformation may clash, creating tension but also growth opportunities in business expression."
+    },
+    "Moon_Pluto_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Moon",
+        person2Planet: "Pluto",
+        interpretation: "Easy emotions and transformation rapport! Your emotional nature and transformative power complement each other well. This creates natural opportunities for emotional intensity.",
+        compatibility: "harmonious",
+        intensity: "weak",
+        romance: "Easy emotional transformation rapport! Your emotions and transformation complement each other well, creating natural opportunities for emotional intensity in romance.",
+        friendship: "Easy emotional transformation rapport! Your emotions and transformation complement each other well, creating natural opportunities for emotional intensity in friendship.",
+        family: "Easy emotional transformation rapport! Your emotions and transformation complement each other well, creating natural opportunities for emotional intensity in family.",
+        business: "Easy emotional transformation rapport! Your emotions and transformation complement each other well, creating natural opportunities for emotional intensity in business."
     }
-}; 
+};

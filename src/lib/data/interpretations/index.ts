@@ -67,12 +67,16 @@ export function getSynastryAspectInterpretation(
     person2Planet: string, 
     relationshipType: 'romance' | 'friendship' | 'family' | 'business' = 'romance'
 ): any {
+    // Construct the key in the format used by synastry interpretations
     const key = `${person1Planet}_${person2Planet}_${aspect}`;
     const reverseKey = `${person2Planet}_${person1Planet}_${aspect}`;
     
     const interpretation = SYNASTRY_ASPECT_INTERPRETATIONS[key] || SYNASTRY_ASPECT_INTERPRETATIONS[reverseKey];
     
-    if (!interpretation) return null;
+    if (!interpretation) {
+        // If no synastry interpretation found, return null to fall back to natal interpretation
+        return null;
+    }
     
     // Return relationship-specific interpretation if available
     if (relationshipType && interpretation[relationshipType]) {

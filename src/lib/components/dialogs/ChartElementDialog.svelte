@@ -23,7 +23,8 @@
     ZODIAC_SYMBOLS,
     ASPECT_SYMBOLS,
     ASPECT_DEFINITIONS,
-    TRANSIT_COLORS
+    TRANSIT_COLORS,
+    getAspectColorByChartType
   } from '../../data/symbols';
 
   export let open = false;
@@ -299,7 +300,7 @@
     const planet1Symbol = PLANET_SYMBOLS[planet1] || planet1;
     const planet2Symbol = PLANET_SYMBOLS[planet2] || planet2;
     const aspectSymbol = ASPECT_SYMBOLS[aspect] || aspect;
-    const aspectColor = (ASPECT_DEFINITIONS as any)[aspect]?.color || '#666';
+    const aspectColor = getAspectColorByChartType(aspect, detectedChartType);
     // For transit aspects: planet1 is transit (orange), planet2 is natal (gray)
     const planet1Color = isTransitAspect ? '#ff9500' : '#333';
     const planet2Color = '#333'; // Natal planet is always gray

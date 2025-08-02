@@ -195,7 +195,8 @@
     PLANET_SYMBOLS,
     EXTENDED_PLANET_NAMES,
     ASPECT_DEFINITIONS,
-    CORE_ASPECT_BODIES
+    CORE_ASPECT_BODIES,
+    getAspectColorByChartType
   } from '../data/symbols';
 
   // Chart constants - use centralized data
@@ -1020,7 +1021,7 @@
         .attr('y1', Math.sin(angle1) * radius1)
         .attr('x2', Math.cos(angle2) * radius2)
         .attr('y2', Math.sin(angle2) * radius2)
-        .attr('stroke', aspect.color)
+        .attr('stroke', getAspectColorByChartType(aspect.aspect, isSynastryMode ? 'synastry' : (!isInner ? 'transit' : 'natal')))
         .attr('stroke-width', isMobile ? aspect.weight * 0.6 : aspect.weight)
         .attr('stroke-dasharray', aspect.style === 'dotted' ? '1,3' : aspect.style === 'dashed' ? '4,4' : 'none')
         .style('pointer-events', 'none');
@@ -1036,7 +1037,7 @@
         .attr('stroke-width', 15) // Wider for easier hovering
         .style('cursor', 'pointer')
         .on('mouseover', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
-          const filterUrl = ensureGlowFilterForAspect(g, aspect.color);
+          const filterUrl = ensureGlowFilterForAspect(g, getAspectColorByChartType(aspect.aspect, isSynastryMode ? 'synastry' : (!isInner ? 'transit' : 'natal')));
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
           // Add transit/natal information to the aspect data
           const aspectDataWithType = { 

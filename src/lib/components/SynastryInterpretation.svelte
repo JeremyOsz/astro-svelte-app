@@ -306,23 +306,30 @@
       <Card.Content>
         <div class="space-y-3">
           {#each synastryAspects as aspect}
-            <div class="flex items-center justify-between p-3 border rounded-lg">
-              <div class="flex-1">
-                <div class="font-medium">
-                  {aspect.person1Planet}-{aspect.person2Planet} {aspect.aspect}
+            <div class="p-3 border rounded-lg">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex-1">
+                  <div class="font-medium">
+                    {aspect.person1Planet}-{aspect.person2Planet} {aspect.aspect}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    Orb: {aspect.orb.toFixed(1)}°
+                  </div>
                 </div>
-                <div class="text-sm text-gray-500">
-                  Orb: {aspect.orb.toFixed(1)}°
+                <div class="flex gap-2">
+                  <Badge class={getCompatibilityColor(aspect.compatibility)}>
+                    {aspect.compatibility}
+                  </Badge>
+                  <Badge class={getIntensityColor(aspect.intensity)}>
+                    {aspect.intensity}
+                  </Badge>
                 </div>
               </div>
-              <div class="flex gap-2">
-                <Badge class={getCompatibilityColor(aspect.compatibility)}>
-                  {aspect.compatibility}
-                </Badge>
-                <Badge class={getIntensityColor(aspect.intensity)}>
-                  {aspect.intensity}
-                </Badge>
-              </div>
+              {#if aspect.interpretation}
+                <p class="text-gray-700 text-sm leading-relaxed">{aspect.interpretation}</p>
+              {:else}
+                <p class="text-gray-500 italic text-sm">This aspect creates a dynamic interaction between your charts.</p>
+              {/if}
             </div>
           {/each}
         </div>
