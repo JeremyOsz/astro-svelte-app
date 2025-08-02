@@ -4,7 +4,6 @@
   import { chartStore } from '$lib/stores/chart-store';
   import D3BiWheelChart from '$lib/chart/D3BiWheelChart.svelte';
   import ChartInstructions from '$lib/components/ChartInstructions.svelte';
-  import SynastryInterpretation from '$lib/components/SynastryInterpretation.svelte';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
   import * as Card from '$lib/components/ui/card';
@@ -13,6 +12,8 @@
   import { AlertCircle, User, Users, Calendar, MapPin, BookOpen, Settings, ChevronDown, ChevronUp } from 'lucide-svelte';
   import { searchCities, type CitySearchResult } from '$lib/services/city-service';
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
+    import SynastryInterpretation from '$lib/components/SynastryInterpretation.svelte';
+  import SynastryLoadingState from '$lib/components/SynastryLoadingState.svelte';
 
   // Core data
   let person1Data = '';
@@ -370,6 +371,7 @@ MC,Gemini,12°00'`;
     formError = '';
     storedPerson1Data = null;
     storedPerson2Data = null;
+    isFormCollapsed = false; // Show the form again
   }
 
   function toggleFormCollapse() {
@@ -442,9 +444,15 @@ MC,Gemini,12°00'`;
         </Card.Description>
       </Card.Header>
       
-      {#if isChartReady && isFormCollapsed}
+      {#if isFormCollapsed}
         <!-- Collapsed Summary View -->
         <Card.Content class="space-y-4">
+          {#if loading}
+            <SynastryLoadingState 
+              message="Calculating synastry compatibility..." 
+              showProgress={true}
+            />
+          {:else if isChartReady}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
             <div class="space-y-2">
               <div class="flex items-center gap-2">
@@ -519,6 +527,7 @@ MC,Gemini,12°00'`;
               Clear Results
             </button>
           </div>
+          {/if}
         </Card.Content>
       {:else}
         <!-- Full Form View -->
@@ -533,74 +542,78 @@ MC,Gemini,12°00'`;
                 return false;
               }
             }}
-            use:enhance={() => {
+            use:enhance={({ formData }) => {
+              // Set loading state before form submission
+              loading = true;
+              isSubmitting = true;
+              isFormCollapsed = true; // Collapse form on submit
+              console.log('Loading started:', loading);
+              
               return async ({ result, update }) => {
-                isSubmitting = true;
+                loading = false;
+                isSubmitting = false;
+                console.log('Loading finished:', loading);
                 
-                try {
-                  if (result.type === 'success') {
-                    // Form submitted successfully
-                    if (result.data?.synastryData) {
-                      const synastryData = result.data.synastryData as any;
-                      
-                      person1Chart = synastryData.person1_chart;
-                      person2Chart = synastryData.person2_chart;
-                      synastryAspects = synastryData.aspects || [];
-                      synastryHouseOverlays = synastryData.house_overlays || [];
-                      synastryPlanetInSigns = synastryData.composite_points || [];
-                      
-                      // Convert chart data to CSV format for the D3 chart
-                      person1Data = synastryData.person1_chart_data;
-                      person2Data = synastryData.person2_chart_data;
-                     
-                      // Load person 1 data into the chart store (inner wheel)
-                      chartStore.setChartData(person1Data);
-                      
-                      // Store form data for summary display
-                      storedPerson1Data = {
-                        chart: selectedPerson1Chart,
-                        name: person1Name,
-                        date: person1Date,
-                        time: person1Time,
-                        city: person1CitySearch,
-                        cityData: selectedPerson1CityData
-                      };
-                      
-                      storedPerson2Data = {
-                        chart: selectedPerson2Chart,
-                        name: person2Name,
-                        date: person2Date,
-                        time: person2Time,
-                        city: person2CitySearch,
-                        cityData: selectedPerson2CityData
-                      };
-                      
-                      isChartReady = true;
-                      error = null;
-                      formError = '';
-                      
-                      debugInfo = {
-                        p1Planets: person1Chart.planets?.length || 0,
-                        p2Planets: person2Chart.planets?.length || 0,
-                        aspectsFound: synastryAspects.length,
-                        houseOverlaysFound: synastryHouseOverlays.length,
-                        planetInSignsFound: synastryPlanetInSigns.length
-                      };
-                    }
+                if (result.type === 'success') {
+                  // Form submitted successfully
+                  if (result.data?.synastryData) {
+                    const synastryData = result.data.synastryData as any;
                     
-                    // Update the page
-                    await update();
-                  } else if (result.type === 'failure') {
-                    // Form submission failed
-                    if (result.data?.error) {
-                      error = String(result.data.error);
-                    }
+                    person1Chart = synastryData.person1_chart;
+                    person2Chart = synastryData.person2_chart;
+                    synastryAspects = synastryData.aspects || [];
+                    synastryHouseOverlays = synastryData.house_overlays || [];
+                    synastryPlanetInSigns = synastryData.composite_points || [];
                     
-                    // Update the page
-                    await update();
+                    // Convert chart data to CSV format for the D3 chart
+                    person1Data = synastryData.person1_chart_data;
+                    person2Data = synastryData.person2_chart_data;
+                   
+                    // Load person 1 data into the chart store (inner wheel)
+                    chartStore.setChartData(person1Data);
+                    
+                    // Store form data for summary display
+                    storedPerson1Data = {
+                      chart: selectedPerson1Chart,
+                      name: person1Name,
+                      date: person1Date,
+                      time: person1Time,
+                      city: person1CitySearch,
+                      cityData: selectedPerson1CityData
+                    };
+                    
+                    storedPerson2Data = {
+                      chart: selectedPerson2Chart,
+                      name: person2Name,
+                      date: person2Date,
+                      time: person2Time,
+                      city: person2CitySearch,
+                      cityData: selectedPerson2CityData
+                    };
+                    
+                    isChartReady = true;
+                    error = null;
+                    formError = '';
+                    
+                    debugInfo = {
+                      p1Planets: person1Chart.planets?.length || 0,
+                      p2Planets: person2Chart.planets?.length || 0,
+                      aspectsFound: synastryAspects.length,
+                      houseOverlaysFound: synastryHouseOverlays.length,
+                      planetInSignsFound: synastryPlanetInSigns.length
+                    };
                   }
-                } finally {
-                  isSubmitting = false;
+                  
+                  // Update the page
+                  await update();
+                } else if (result.type === 'failure') {
+                  // Form submission failed
+                  if (result.data?.error) {
+                    error = String(result.data.error);
+                  }
+                  
+                  // Update the page
+                  await update();
                 }
               };
             }}
@@ -888,7 +901,7 @@ MC,Gemini,12°00'`;
 
   <!-- Chart Display -->
   {#if isChartReady}
-    <!-- Chart is always visible -->
+    <!-- Chart Section -->
     <Card.Root class="mb-8">
       <Card.Header>
         <Card.Title>Synastry Chart</Card.Title>
@@ -898,9 +911,21 @@ MC,Gemini,12°00'`;
         </Card.Description>
       </Card.Header>
       <Card.Content>
-        <div class="flex justify-center">
-          <D3BiWheelChart transitData={person2Data} isSynastryMode={true} />
-        </div>
+        {#if loading}
+          <div class="flex flex-col items-center justify-center py-12">
+            <div class="mb-4 p-4 bg-red-100 border border-red-300 rounded text-sm">
+              LOADING STATE ACTIVE - loading = {loading}
+            </div>
+            <SynastryLoadingState 
+              message="Calculating synastry compatibility..." 
+              showProgress={true}
+            />
+          </div>
+        {:else}
+          <div class="flex justify-center">
+            <D3BiWheelChart transitData={person2Data} isSynastryMode={true} />
+          </div>
+        {/if}
       </Card.Content>
     </Card.Root>
 
@@ -920,6 +945,16 @@ MC,Gemini,12°00'`;
               </Card.Description>
             </Card.Header>
             <Card.Content>
+              {#if import.meta.env.DEV}
+                <div class="mb-4 p-2 bg-yellow-100 border border-yellow-300 rounded text-sm">
+                  Debug: loading = {loading}, isSubmitting = {isSubmitting}
+                </div>
+                {#if loading}
+                  <div class="mb-4 p-4 bg-red-100 border border-red-300 rounded text-sm">
+                    🚨 LOADING STATE IS ACTIVE! 🚨
+                  </div>
+                {/if}
+              {/if}
               <SynastryInterpretation 
                 aspects={synastryAspects}
                 mainAspects={mainAspects}
@@ -1005,19 +1040,6 @@ MC,Gemini,12°00'`;
         </Accordion.Content>
       </Accordion.Item>
     </Accordion.Root>
-  {:else}
-    <Card.Root>
-      <Card.Content>
-        <div class="flex items-center justify-center h-96 text-muted-foreground">
-          <div class="text-center">
-            <p class="text-lg mb-4">Enter birth information for both people to generate the synastry chart</p>
-            <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50" on:click={loadSampleData}>
-              Load Sample Data
-            </button>
-          </div>
-        </div>
-      </Card.Content>
-    </Card.Root>
   {/if}
 </div>
 

@@ -55,7 +55,6 @@
   export let relationshipType: 'romance' | 'friendship' | 'family' | 'business' = 'romance';
   export let person1Name: string = 'Person 1';
   export let person2Name: string = 'Person 2';
-  export let isLoading: boolean = false;
 
   // Search and filter state
   let searchTerm = '';
@@ -316,18 +315,7 @@
   }
 </script>
 
-{#if isLoading}
-  <div class="flex flex-col items-center justify-center py-12">
-    <div class="relative">
-      <div class="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-      <div class="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-purple-600 rounded-full animate-spin" style="animation-delay: -0.5s;"></div>
-    </div>
-    <div class="mt-6 text-center">
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Analyzing Synastry</h3>
-      <p class="text-gray-600">Calculating planetary connections and compatibility...</p>
-    </div>
-  </div>
-{:else}
+
   <!-- Summary Section -->
   <div class="mb-6">
     <Card.Root>
@@ -966,4 +954,3 @@
     </Accordion.Item>
   {/if}
 </Accordion.Root>
-{/if}
