@@ -36,6 +36,23 @@ export {
   createTooltip as createSharedTooltip
 } from './shared-tooltip';
 
+// Synastry tooltip exports
+export {
+  createSynastryTooltip,
+  getSynastryAspectSummary,
+  getSynastryKeyAspects,
+  type SynastryTooltipData
+} from './synastry-tooltip';
+
+// Synastry chart tooltip exports
+export {
+  createSynastryChartTooltip,
+  handleSynastryMouseOver,
+  handleSynastryMouseOut,
+  handleSynastryClick,
+  unpinSynastryTooltip
+} from './synastry-chart-tooltip';
+
 // Legacy exports for backward compatibility
 export * from './chart-tooltip';
 export * from './brief-tooltip'; 

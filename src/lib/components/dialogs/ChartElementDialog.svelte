@@ -7,6 +7,9 @@
     getEnhancedTransitInterpretation,
     getTransitPlanetInHouseMeaning,
     getTransitPlanetInSignMeaning,
+    getSynastryAspectInterpretation,
+    getSynastryHouseOverlay,
+    getSynastryPlanetInSign,
     PLANET_INTERPRETATIONS,
     ASPECT_INTERPRETATIONS,
     HOUSES
@@ -80,7 +83,7 @@
     planetColor: string;
     isRetrograde: boolean;
     zodiacSymbol: string;
-    enhancedTransitInfo?: string;
+    enhancedInfo?: string;
     chartType: string;
   };
 
@@ -198,12 +201,35 @@
         break;
     }
 
-    // Add enhanced transit meanings if it's a transit planet
-    let enhancedTransitInfo = '';
-    if (isTransit) {
+    // Add enhanced meanings based on chart type
+    let enhancedInfo = '';
+    if (detectedChartType === 'synastry') {
+      // Add synastry-specific interpretations
+      const synastryHouseOverlay = getSynastryHouseOverlay(planet, house);
+      const synastryPlanetInSign = getSynastryPlanetInSign(planet, sign);
+      
+      let synastryInfo = '';
+      if (synastryHouseOverlay) {
+        synastryInfo += `<p><strong>House ${house} Influence:</strong> ${synastryHouseOverlay.interpretation}</p>`;
+      }
+      if (synastryPlanetInSign) {
+        synastryInfo += `<p><strong>${sign} Expression:</strong> ${synastryPlanetInSign.interpretation}</p>`;
+      }
+      
+      if (synastryInfo) {
+        enhancedInfo = `
+          <div class="mt-4 p-4 bg-purple-50 border border-purple-200 rounded-lg">
+            <h4 class="font-semibold text-purple-800 mb-2">Relationship Influence</h4>
+            <div class="space-y-2 text-sm">
+              ${synastryInfo}
+            </div>
+          </div>
+        `;
+      }
+    } else if (isTransit) {
       const houseMeaning = getTransitPlanetInHouseMeaning(planet, house, sign);
       const signMeaning = getTransitPlanetInSignMeaning(planet, sign);
-      enhancedTransitInfo = `
+      enhancedInfo = `
         <div class="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
           <h4 class="font-semibold text-orange-800 mb-2">Current Transit Meaning</h4>
           <div class="space-y-2 text-sm">
@@ -226,7 +252,7 @@
       planetColor,
       isRetrograde: isRetrograde || false,
       zodiacSymbol,
-      enhancedTransitInfo,
+      enhancedInfo,
       chartType: detectedChartType
     };
   }
@@ -240,8 +266,21 @@
     let specificInterpretation = '';
     let enhancedInterpretation = '';
 
-    // Use enhanced interpretation for transit aspects
-    if (isTransitAspect) {
+    // Use enhanced interpretation based on chart type
+    if (detectedChartType === 'synastry') {
+      // Use synastry interpretation for synastry aspects
+      const synastryInterpretation = getSynastryAspectInterpretation(aspect, planet1, planet2);
+      if (synastryInterpretation) {
+        generalInterpretation = synastryInterpretation.interpretation;
+        specificInterpretation = `Compatibility: ${synastryInterpretation.compatibility}, Intensity: ${synastryInterpretation.intensity}`;
+      } else {
+        // Fallback to regular interpretation
+        const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
+        const interpretationParts = interpretation.split('\n\n');
+        generalInterpretation = interpretationParts[0] || '';
+        specificInterpretation = interpretationParts[1] || '';
+      }
+    } else if (isTransitAspect) {
       enhancedInterpretation = getEnhancedTransitInterpretation(aspect, planet1, planet2);
     } else {
       // Use regular interpretation for natal aspects
@@ -607,8 +646,8 @@
               <p class="text-gray-700 leading-relaxed">{interpretation.signInHouse}</p>
             </div>
 
-            {#if interpretation.enhancedTransitInfo}
-              {@html interpretation.enhancedTransitInfo}
+                    {#if interpretation.enhancedInfo}
+          {@html interpretation.enhancedInfo}
             {/if}
 
             <!-- Planet Strengths and Challenges -->

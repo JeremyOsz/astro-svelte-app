@@ -62,15 +62,15 @@ export function generateHorseshoeSVG(width: number = 600, height: number = 400):
   const cardHeight = 120;
   const cardRadius = 4;
   
-  // Horseshoe shape positions
+  // Proper horseshoe shape positions - ascending left curve, descending right curve
   const positions = [
-    { x: 50, y: 200, number: 1, name: "Past" },
-    { x: 150, y: 150, number: 2, name: "Present" },
-    { x: 250, y: 100, number: 3, name: "Hidden" },
-    { x: 350, y: 150, number: 4, name: "Obstacles" },
-    { x: 400, y: 200, number: 5, name: "Advice" },
-    { x: 400, y: 300, number: 6, name: "Future" },
-    { x: 350, y: 350, number: 7, name: "Outcome" }
+    { x: 50, y: 250, number: 1, name: "The Past" },           // Bottom left
+    { x: 140, y: 180, number: 2, name: "The Present" },        // Left middle
+    { x: 230, y: 120, number: 3, name: "Hidden Influences" },  // Top center
+    { x: 320, y: 150, number: 4, name: "The Querent" },        // Right upper
+    { x: 380, y: 200, number: 5, name: "Influence of Others" }, // Right middle
+    { x: 380, y: 280, number: 6, name: "What Should the Querent Do" }, // Right lower
+    { x: 320, y: 320, number: 7, name: "The Final Outcome" }   // Bottom right
   ];
 
   let svg = '';

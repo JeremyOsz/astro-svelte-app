@@ -232,76 +232,77 @@ export const TAROT_LAYOUTS: TarotLayout[] = [
     positions: [
       {
         number: 1,
-        name: "Past",
-        description: "Recent past events affecting the situation",
-        x: 20,
-        y: 100,
-        width: 120,
-        height: 200
+        name: "The Past",
+        description: "Past events that are impacting the current situation or question at hand",
+        x: 50,
+        y: 250,
+        width: 80,
+        height: 120
       },
       {
         number: 2,
-        name: "Present",
-        description: "Current circumstances and immediate situation",
-        x: 150,
-        y: 50,
-        width: 120,
-        height: 200
+        name: "The Present",
+        description: "Current events circling the querent and influencing the issue they're concerned about",
+        x: 140,
+        y: 180,
+        width: 80,
+        height: 120
       },
       {
         number: 3,
         name: "Hidden Influences",
-        description: "Unseen factors affecting the situation",
-        x: 280,
-        y: 20,
-        width: 120,
-        height: 200
+        description: "The unseen, problems and conflicts you don't yet know about, or immediate future",
+        x: 230,
+        y: 120,
+        width: 80,
+        height: 120
       },
       {
         number: 4,
-        name: "Obstacles",
-        description: "Challenges or blocks to overcome",
-        x: 410,
-        y: 50,
-        width: 120,
-        height: 200
+        name: "The Querent",
+        description: "The person themselves and their attitudes about the situation at hand",
+        x: 320,
+        y: 150,
+        width: 80,
+        height: 120
       },
       {
         number: 5,
-        name: "Advice",
-        description: "Guidance on how to proceed",
-        x: 480,
-        y: 150,
-        width: 120,
-        height: 200
+        name: "Influence of Others",
+        description: "External influences holding sway over the situation and how other people feel about it",
+        x: 380,
+        y: 200,
+        width: 80,
+        height: 120
       },
       {
         number: 6,
-        name: "Future",
-        description: "Likely outcome if current path continues",
-        x: 480,
+        name: "What Should the Querent Do",
+        description: "The course of action the querent should take to resolve the situation",
+        x: 380,
         y: 280,
-        width: 120,
-        height: 200
+        width: 80,
+        height: 120
       },
       {
         number: 7,
-        name: "Outcome",
-        description: "Final result or resolution",
-        x: 410,
+        name: "The Final Outcome",
+        description: "The eventual resolution to the problem, factoring in all previous cards",
+        x: 320,
         y: 320,
-        width: 120,
-        height: 200
+        width: 80,
+        height: 120
       }
     ],
-    instructions: "Lay out the cards in a horseshoe pattern starting from the left. Each position reveals different aspects of your situation and guidance.",
+    instructions: "Lay out the cards in a horseshoe pattern starting from the left. Each position reveals different aspects of your situation and guidance. Read in numerical order to understand the flow from past to future.",
     tips: [
       "Read the spread in numerical order",
       "Pay attention to the flow from past to future",
-      "Consider how obstacles relate to advice",
-      "Look for connections between adjacent cards"
+      "Consider how the querent's position relates to advice",
+      "Look for connections between adjacent cards",
+      "The final outcome factors in all previous cards"
     ],
-    bestFor: ["General guidance", "Problem-solving", "Decision-making", "Timeline analysis"]
+    bestFor: ["General guidance", "Problem-solving", "Decision-making", "Timeline analysis", "Understanding personal influence"]
   },
   {
     id: "love-triangle",

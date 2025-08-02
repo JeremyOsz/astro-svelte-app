@@ -17,6 +17,7 @@
   export let showAspectLines: boolean = true;
   export let showPlanetLabels: boolean = true;
   export let zoomLevel: number = 1;
+  export let isSynastryMode: boolean = false;
   
   // Tooltip handlers - allow customization
   export let onMouseOver: ((event: MouseEvent, data: any) => void) | null = null;
@@ -1038,7 +1039,12 @@
           const filterUrl = ensureGlowFilterForAspect(g, aspect.color);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
           // Add transit/natal information to the aspect data
-          const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
+          const aspectDataWithType = { 
+            ...aspect, 
+            isTransitAspect: !isInner,
+            chartType: isSynastryMode ? 'synastry' : (!isInner ? 'transit' : 'natal'),
+            isSynastry: isSynastryMode
+          };
           handleElementHover(event, aspectDataWithType);
         } : null) as any)
         .on('mouseout', (!isMobile ? function(this: SVGLineElement, event: MouseEvent) {
@@ -1046,7 +1052,12 @@
           handleElementLeave(event);
         } : null) as any)
         .on('click', (event) => {
-          const aspectDataWithType = { ...aspect, isTransitAspect: !isInner };
+          const aspectDataWithType = { 
+            ...aspect, 
+            isTransitAspect: !isInner,
+            chartType: isSynastryMode ? 'synastry' : (!isInner ? 'transit' : 'natal'),
+            isSynastry: isSynastryMode
+          };
           handleElementClick(event, aspectDataWithType);
         });
     });
@@ -1117,7 +1128,12 @@
           const filterUrl = ensureGlowFilterForSign(g, p.sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
           // Add transit/natal information to the planet data
-          const planetDataWithType = { ...p, isTransit: !isInner };
+          const planetDataWithType = { 
+            ...p, 
+            isTransit: !isInner,
+            chartType: isSynastryMode ? 'synastry' : (!isInner ? 'transit' : 'natal'),
+            isSynastry: isSynastryMode
+          };
           handleElementHover(event, planetDataWithType);
         })
         .on('mouseout', function(this: SVGCircleElement, event: MouseEvent) {
@@ -1125,7 +1141,12 @@
           handleElementLeave(event);
         })
         .on('click', (event) => {
-          const planetDataWithType = { ...p, isTransit: !isInner };
+          const planetDataWithType = { 
+            ...p, 
+            isTransit: !isInner,
+            chartType: isSynastryMode ? 'synastry' : (!isInner ? 'transit' : 'natal'),
+            isSynastry: isSynastryMode
+          };
           handleElementClick(event, planetDataWithType);
         });
 

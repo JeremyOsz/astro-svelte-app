@@ -4,7 +4,7 @@
   import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import { cn } from "$lib/utils";
-  import { Home, Star, BookOpen, Calendar, Search, Moon } from 'lucide-svelte';
+  import { Home, Star, BookOpen, Calendar, Search, Moon, Users } from 'lucide-svelte';
   import { page } from '$app/stores';
   let mobileMenuOpen = false;
 
@@ -49,12 +49,6 @@
   // Mobile bottom navigation items
   const mobileNavItems = [
     {
-      title: "Home",
-      href: "/",
-      icon: Home,
-      description: "Main dashboard"
-    },
-    {
       title: "Birth Chart",
       href: "/chart",
       icon: Star,
@@ -67,16 +61,22 @@
       description: "Current transits"
     },
     {
-      title: "Interpretations",
-      href: "/interpretations",
-      icon: BookOpen,
-      description: "Astrological meanings"
-    },
-    {
       title: "Daily",
       href: "/daily-horoscope",
       icon: Calendar,
       description: "Daily horoscope"
+    },
+    {
+      title: "Synastry",
+      href: "/synastry",
+      icon: Users,
+      description: "Relationship compatibility"
+    },
+    {
+      title: "Tarot",
+      href: "/tarot",
+      icon: BookOpen,
+      description: "Tarot cards and meanings"
     }
   ];
 
@@ -99,22 +99,6 @@
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
                   <ul class="grid w-[300px] gap-2 p-2 max-h-[80vh] overflow-y-auto">
-                    <li>
-                      <NavigationMenu.Link>
-                        {#snippet child({ props })}
-                          <a
-                            {...props}
-                            href="/"
-                            class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div class="text-sm font-medium leading-none">Home</div>
-                            <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Main landing page
-                            </p>
-                          </a>
-                        {/snippet}
-                      </NavigationMenu.Link>
-                    </li>
                     {#each astrologyItems as item}
                       <li>
                         <NavigationMenu.Link>
@@ -185,7 +169,6 @@
                 <div class="mb-6">
                   <h3 class="font-semibold text-purple-600 mb-3 text-sm uppercase tracking-wide border-b border-gray-200 pb-2">Astrology</h3>
                   <div class="space-y-2">
-                    <a href="/" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Home</a>
                     <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Birth Chart</a>
                     <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Transits</a>
                     <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Interpretations</a>

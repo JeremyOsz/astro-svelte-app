@@ -1141,3 +1141,739 @@ export function getEnhancedTransitInterpretation(aspect: string, transitPlanet: 
 
     return interpretation;
 } 
+
+// Synastry-specific interfaces and types
+export interface SynastryAspectInterpretation {
+    aspect: string;
+    person1Planet: string;
+    person2Planet: string;
+    interpretation: string;
+    compatibility: 'harmonious' | 'challenging' | 'neutral';
+    intensity: 'strong' | 'moderate' | 'weak';
+}
+
+export interface SynastryHouseOverlay {
+    person2Planet: string;
+    person1House: number;
+    interpretation: string;
+    themes: string[];
+}
+
+export interface SynastryPlanetInSign {
+    person2Planet: string;
+    person1Sign: string;
+    interpretation: string;
+    compatibility: 'harmonious' | 'challenging' | 'neutral';
+}
+
+// Synastry aspect interpretations
+export const SYNASTRY_ASPECT_INTERPRETATIONS: Record<string, SynastryAspectInterpretation> = {
+    // SUN ASPECTS
+    "Sun_Sun_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Sun",
+        interpretation: "A powerful soul connection! Your core identities resonate deeply, creating instant recognition and understanding. You share similar life purposes and approaches to self-expression. This aspect often indicates a strong karmic bond and mutual admiration.",
+        compatibility: "harmonious",
+        intensity: "strong"
+    },
+    "Sun_Sun_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Sun",
+        interpretation: "A dynamic relationship of opposites! Your core identities are in tension, creating both attraction and challenge. You complement each other perfectly but may struggle with ego conflicts. This aspect teaches balance and compromise.",
+        compatibility: "challenging",
+        intensity: "strong"
+    },
+    "Sun_Sun_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Sun",
+        interpretation: "Natural harmony between your core identities! You understand each other's essence effortlessly and support each other's personal growth. This creates a comfortable, supportive relationship with mutual respect.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Sun_Sun_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Sun",
+        interpretation: "Tension between your core identities creates growth opportunities. You may challenge each other's sense of self, leading to important personal development. This aspect requires conscious effort to understand different perspectives.",
+        compatibility: "challenging",
+        intensity: "moderate"
+    },
+    "Sun_Sun_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Sun",
+        interpretation: "Easy rapport between your core identities! You naturally support each other's self-expression and personal goals. This creates a harmonious relationship with mutual encouragement and understanding.",
+        compatibility: "harmonious",
+        intensity: "weak"
+    },
+
+    // SUN-MOON ASPECTS (Most Important for Relationships)
+    "Sun_Moon_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Sun",
+        person2Planet: "Moon",
+        interpretation: "The classic romantic aspect! Your ego and emotional needs are perfectly aligned. You naturally nurture each other's core identity and emotional well-being. This creates a deep sense of being 'at home' with each other.",
+        compatibility: "harmonious",
+        intensity: "strong"
+    },
+    "Sun_Moon_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Sun",
+        person2Planet: "Moon",
+        interpretation: "Powerful attraction with complementary needs! Your ego and emotional styles balance each other perfectly. This creates a yin-yang dynamic where you complete each other, though it may require conscious effort to maintain harmony.",
+        compatibility: "harmonious",
+        intensity: "strong"
+    },
+    "Sun_Moon_Trine": {
+        aspect: "Trine",
+        person1Planet: "Sun",
+        person2Planet: "Moon",
+        interpretation: "Natural emotional harmony! Your core identity and emotional nature work together beautifully. You understand each other's needs instinctively and create a supportive, nurturing environment.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Sun_Moon_Square": {
+        aspect: "Square",
+        person1Planet: "Sun",
+        person2Planet: "Moon",
+        interpretation: "Tension between ego and emotional needs creates growth potential. You may struggle to understand each other's core motivations, but this challenge leads to important personal development and deeper understanding.",
+        compatibility: "challenging",
+        intensity: "moderate"
+    },
+    "Sun_Moon_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Sun",
+        person2Planet: "Moon",
+        interpretation: "Easy emotional rapport! Your core identity and emotional nature complement each other well. You naturally support each other's self-expression and emotional needs.",
+        compatibility: "harmonious",
+        intensity: "weak"
+    },
+
+    // VENUS-MARS ASPECTS (Romantic Chemistry)
+    "Venus_Mars_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Venus",
+        person2Planet: "Mars",
+        interpretation: "Intense romantic and sexual chemistry! Your love nature and action style are perfectly matched. This creates powerful attraction and a natural flow between romance and passion. Physical and emotional desires align beautifully.",
+        compatibility: "harmonious",
+        intensity: "strong"
+    },
+    "Venus_Mars_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Venus",
+        person2Planet: "Mars",
+        interpretation: "Intense attraction with underlying tension! Your love and action styles are in opposition, creating magnetic pull but also potential conflicts. This aspect often indicates a passionate but volatile relationship that requires conscious effort.",
+        compatibility: "challenging",
+        intensity: "strong"
+    },
+    "Venus_Mars_Trine": {
+        aspect: "Trine",
+        person1Planet: "Venus",
+        person2Planet: "Mars",
+        interpretation: "Natural romantic harmony! Your love and action styles work together beautifully. This creates a balanced relationship with healthy passion and mutual understanding of romantic needs.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Venus_Mars_Square": {
+        aspect: "Square",
+        person1Planet: "Venus",
+        person2Planet: "Mars",
+        interpretation: "Passionate but challenging romantic dynamics! Your love and action styles may clash, creating intense attraction mixed with conflicts. This aspect requires conscious effort to balance romance and passion.",
+        compatibility: "challenging",
+        intensity: "moderate"
+    },
+    "Venus_Mars_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Venus",
+        person2Planet: "Mars",
+        interpretation: "Easy romantic rapport! Your love and action styles complement each other well. This creates a harmonious relationship with natural chemistry and mutual understanding of romantic needs.",
+        compatibility: "harmonious",
+        intensity: "weak"
+    },
+
+    // MERCURY ASPECTS (Communication)
+    "Mercury_Mercury_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Mercury",
+        person2Planet: "Mercury",
+        interpretation: "Mental connection at its strongest! You think alike and communicate with perfect understanding. This creates intellectual harmony and shared mental interests. Your conversations flow naturally and you understand each other's thoughts instantly.",
+        compatibility: "harmonious",
+        intensity: "strong"
+    },
+    "Mercury_Mercury_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Mercury",
+        person2Planet: "Mercury",
+        interpretation: "Complementary thinking styles! Your mental approaches balance each other perfectly. You may have different perspectives but can learn greatly from each other's viewpoints. This creates intellectual growth through dialogue.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Mercury_Mercury_Trine": {
+        aspect: "Trine",
+        person1Planet: "Mercury",
+        person2Planet: "Mercury",
+        interpretation: "Natural intellectual harmony! Your thinking styles work together beautifully. You communicate easily and share similar mental interests. This creates a relationship with excellent mental rapport and mutual understanding.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Mercury_Mercury_Square": {
+        aspect: "Square",
+        person1Planet: "Mercury",
+        person2Planet: "Mercury",
+        interpretation: "Mental tension creates growth opportunities! Your thinking styles may clash, leading to misunderstandings. However, this challenge can lead to important intellectual growth and deeper understanding of different perspectives.",
+        compatibility: "challenging",
+        intensity: "moderate"
+    },
+    "Mercury_Mercury_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Mercury",
+        person2Planet: "Mercury",
+        interpretation: "Easy communication and mental rapport! Your thinking styles complement each other well, creating natural intellectual harmony. This aspect supports clear communication and mutual understanding in your relationship.",
+        compatibility: "harmonious",
+        intensity: "weak"
+    },
+
+    // JUPITER ASPECTS (Growth & Philosophy)
+    "Jupiter_Jupiter_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Jupiter",
+        person2Planet: "Jupiter",
+        interpretation: "Shared philosophy and growth! You have similar approaches to life's big questions and personal development. This creates a relationship focused on mutual expansion, learning, and shared adventures. You inspire each other's growth.",
+        compatibility: "harmonious",
+        intensity: "strong"
+    },
+    "Jupiter_Jupiter_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Jupiter",
+        person2Planet: "Jupiter",
+        interpretation: "Complementary growth perspectives! Your approaches to expansion and philosophy balance each other perfectly. You may have different beliefs but can learn greatly from each other's viewpoints and life experiences.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Jupiter_Jupiter_Trine": {
+        aspect: "Trine",
+        person1Planet: "Jupiter",
+        person2Planet: "Jupiter",
+        interpretation: "A naturally harmonious and expansive connection! You share similar philosophies and approaches to growth. This aspect brings mutual optimism, shared adventures, and a natural flow of positive energy between you.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Jupiter_Jupiter_Square": {
+        aspect: "Square",
+        person1Planet: "Jupiter",
+        person2Planet: "Jupiter",
+        interpretation: "Tension in growth approaches creates learning opportunities! Your philosophies and expansion styles may clash, leading to important discussions about beliefs and life direction. This can lead to mutual growth through challenge.",
+        compatibility: "challenging",
+        intensity: "moderate"
+    },
+    "Jupiter_Jupiter_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Jupiter",
+        person2Planet: "Jupiter",
+        interpretation: "Easy growth rapport! Your philosophies and expansion styles complement each other well. You naturally support each other's personal development and share similar optimistic outlooks on life.",
+        compatibility: "harmonious",
+        intensity: "weak"
+    },
+
+    // SATURN ASPECTS (Commitment & Structure)
+    "Saturn_Saturn_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Saturn",
+        person2Planet: "Saturn",
+        interpretation: "A serious, committed connection with strong karmic undertones. You share similar approaches to responsibility and long-term goals. This aspect often indicates a relationship that's meant to last, with mutual understanding of life's challenges.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Saturn_Saturn_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Saturn",
+        person2Planet: "Saturn",
+        interpretation: "Complementary approaches to responsibility! Your styles of commitment and structure balance each other perfectly. You may have different ways of handling challenges but can learn from each other's approaches to life's lessons.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Saturn_Saturn_Trine": {
+        aspect: "Trine",
+        person1Planet: "Saturn",
+        person2Planet: "Saturn",
+        interpretation: "Natural commitment harmony! Your approaches to responsibility and long-term goals work together beautifully. This creates a stable, reliable relationship with mutual understanding of life's practical challenges.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Saturn_Saturn_Square": {
+        aspect: "Square",
+        person1Planet: "Saturn",
+        person2Planet: "Saturn",
+        interpretation: "Tension in commitment approaches creates growth! Your styles of responsibility and structure may clash, leading to important discussions about long-term goals and life direction. This can lead to stronger commitment through challenge.",
+        compatibility: "challenging",
+        intensity: "moderate"
+    },
+    "Saturn_Saturn_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Saturn",
+        person2Planet: "Saturn",
+        interpretation: "Easy commitment rapport! Your approaches to responsibility and long-term goals complement each other well. You naturally support each other's practical needs and share similar approaches to life's challenges.",
+        compatibility: "harmonious",
+        intensity: "weak"
+    },
+
+    // CROSS-PLANET ASPECTS (Key Relationship Dynamics)
+    "Saturn_Venus_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Saturn",
+        person2Planet: "Venus",
+        interpretation: "Serious approach to love and commitment! This aspect indicates a relationship built on solid foundations with strong potential for long-term commitment. You take love seriously and are willing to work through challenges together.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Saturn_Venus_Opposition": {
+        aspect: "Opposition",
+        person1Planet: "Saturn",
+        person2Planet: "Venus",
+        interpretation: "Tension between love and responsibility! Your approaches to romance and commitment may clash, creating challenges around emotional expression and long-term security. This aspect requires patience and understanding to work through.",
+        compatibility: "challenging",
+        intensity: "moderate"
+    },
+    "Saturn_Venus_Trine": {
+        aspect: "Trine",
+        person1Planet: "Saturn",
+        person2Planet: "Venus",
+        interpretation: "Natural harmony between love and commitment! Your approaches to romance and responsibility work together beautifully. This creates a stable, loving relationship with strong potential for long-term success.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Saturn_Venus_Square": {
+        aspect: "Square",
+        person1Planet: "Saturn",
+        person2Planet: "Venus",
+        interpretation: "A challenging but growth-oriented connection. Your approach to love and commitment may clash, creating tension around emotional expression and long-term security. This aspect requires patience and understanding to work through.",
+        compatibility: "challenging",
+        intensity: "moderate"
+    },
+    "Saturn_Venus_Sextile": {
+        aspect: "Sextile",
+        person1Planet: "Saturn",
+        person2Planet: "Venus",
+        interpretation: "Easy balance between love and commitment! Your approaches to romance and responsibility complement each other well. This creates a relationship with natural stability and mutual understanding of long-term needs.",
+        compatibility: "harmonious",
+        intensity: "weak"
+    },
+
+    // Additional Key Cross-Planet Aspects
+    "Moon_Venus_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Moon",
+        person2Planet: "Venus",
+        interpretation: "Deep emotional and romantic harmony! Your emotional needs and love nature are perfectly aligned. This creates a nurturing, romantic relationship with strong emotional satisfaction and mutual understanding of love needs.",
+        compatibility: "harmonious",
+        intensity: "strong"
+    },
+    "Moon_Mars_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Moon",
+        person2Planet: "Mars",
+        interpretation: "Intense emotional and physical chemistry! Your emotional needs and action style are perfectly matched. This creates passionate emotional responses and strong physical attraction with deep emotional connection.",
+        compatibility: "harmonious",
+        intensity: "strong"
+    },
+    "Mercury_Venus_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Mercury",
+        person2Planet: "Venus",
+        interpretation: "Beautiful communication in love! Your thinking and love styles are perfectly aligned. This creates a relationship with excellent communication about feelings and natural charm in expressing love and affection.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    },
+    "Mercury_Mars_Conjunction": {
+        aspect: "Conjunction",
+        person1Planet: "Mercury",
+        person2Planet: "Mars",
+        interpretation: "Dynamic mental and physical energy! Your thinking and action styles are perfectly matched. This creates a relationship with sharp communication, quick thinking, and natural alignment of thoughts and actions.",
+        compatibility: "harmonious",
+        intensity: "moderate"
+    }
+};
+
+// Synastry house overlay interpretations
+export const SYNASTRY_HOUSE_OVERLAYS: Record<string, SynastryHouseOverlay[]> = {
+    "Sun": [
+        {
+            person2Planet: "Sun",
+            person1House: 1,
+            interpretation: "Your partner's core identity strongly influences your self-image and personal expression. They help you understand yourself better and may bring out your most authentic qualities.",
+            themes: ["Self-discovery", "Personal identity", "Authenticity", "Individual expression"]
+        },
+        {
+            person2Planet: "Sun",
+            person1House: 5,
+            interpretation: "Your partner brings creativity, romance, and joy into your life. This placement often indicates a passionate, fun-loving relationship with strong romantic chemistry.",
+            themes: ["Romance", "Creativity", "Joy", "Self-expression", "Children"]
+        },
+        {
+            person2Planet: "Sun",
+            person1House: 7,
+            interpretation: "Your partner is central to your relationship needs and partnership approach. This is a classic placement for committed relationships and marriage potential.",
+            themes: ["Partnership", "Marriage", "Commitment", "Balance", "Harmony"]
+        },
+        {
+            person2Planet: "Sun",
+            person1House: 10,
+            interpretation: "Your partner influences your career, public image, and life goals. They may help you achieve your ambitions or bring recognition to your professional life.",
+            themes: ["Career", "Public image", "Achievement", "Recognition", "Life goals"]
+        }
+    ],
+    "Moon": [
+        {
+            person2Planet: "Moon",
+            person1House: 4,
+            interpretation: "Your partner deeply affects your home life and emotional foundation. They may feel like family and create a strong sense of emotional security in your domestic environment.",
+            themes: ["Home", "Family", "Emotional security", "Nurturing", "Roots"]
+        },
+        {
+            person2Planet: "Moon",
+            person1House: 7,
+            interpretation: "Your partner fulfills your emotional needs in relationships. This placement indicates strong emotional compatibility and a deep understanding of each other's feelings.",
+            themes: ["Emotional compatibility", "Nurturing", "Understanding", "Partnership"]
+        },
+        {
+            person2Planet: "Moon",
+            person1House: 12,
+            interpretation: "Your partner connects with your subconscious and spiritual side. This can create a mystical, soul-level bond but may also bring hidden emotional patterns to light.",
+            themes: ["Soul connection", "Spirituality", "Subconscious", "Karma", "Hidden patterns"]
+        }
+    ],
+    "Venus": [
+        {
+            person2Planet: "Venus",
+            person1House: 2,
+            interpretation: "Your partner influences your values and material security. They may bring beauty and harmony to your financial life and help you appreciate what you have.",
+            themes: ["Values", "Material security", "Beauty", "Appreciation", "Self-worth"]
+        },
+        {
+            person2Planet: "Venus",
+            person1House: 5,
+            interpretation: "Your partner brings romance, beauty, and pleasure into your creative and romantic life. This placement often indicates strong romantic attraction and artistic collaboration.",
+            themes: ["Romance", "Beauty", "Pleasure", "Creativity", "Love"]
+        },
+        {
+            person2Planet: "Venus",
+            person1House: 7,
+            interpretation: "Your partner embodies your ideal of love and partnership. This placement indicates strong romantic compatibility and a natural harmony in your relationship.",
+            themes: ["Love", "Partnership", "Harmony", "Romance", "Beauty"]
+        }
+    ],
+    "Mars": [
+        {
+            person2Planet: "Mars",
+            person1House: 1,
+            interpretation: "Your partner energizes your personal identity and drive. They may inspire you to take action and be more assertive in expressing your authentic self.",
+            themes: ["Personal drive", "Action", "Assertiveness", "Self-expression", "Energy"]
+        },
+        {
+            person2Planet: "Mars",
+            person1House: 5,
+            interpretation: "Your partner brings passion and sexual energy to your romantic life. This placement often indicates strong physical attraction and active romantic pursuits.",
+            themes: ["Passion", "Sexual energy", "Romance", "Action", "Desire"]
+        },
+        {
+            person2Planet: "Mars",
+            person1House: 7,
+            interpretation: "Your partner's action style directly affects your relationships. They may bring energy and initiative to your partnerships, but could also create conflicts if not handled consciously.",
+            themes: ["Relationship dynamics", "Action", "Conflict", "Energy", "Initiative"]
+        }
+    ],
+    "Mercury": [
+        {
+            person2Planet: "Mercury",
+            person1House: 3,
+            interpretation: "Your partner influences your communication style and learning approach. They may stimulate your mind and bring new ideas and perspectives to your daily interactions.",
+            themes: ["Communication", "Learning", "Ideas", "Mental stimulation", "Daily interactions"]
+        },
+        {
+            person2Planet: "Mercury",
+            person1House: 6,
+            interpretation: "Your partner affects your work and health routines. They may bring new approaches to your daily tasks and help you think differently about your responsibilities.",
+            themes: ["Work", "Health", "Routines", "Daily tasks", "Mental organization"]
+        },
+        {
+            person2Planet: "Mercury",
+            person1House: 9,
+            interpretation: "Your partner influences your higher learning and spiritual beliefs. They may expand your horizons and bring new philosophical perspectives to your worldview.",
+            themes: ["Higher learning", "Philosophy", "Spirituality", "Travel", "Expansion"]
+        }
+    ],
+    "Jupiter": [
+        {
+            person2Planet: "Jupiter",
+            person1House: 5,
+            interpretation: "Your partner brings optimism and expansion to your creative and romantic life. They may inspire you to take risks and enjoy life more fully.",
+            themes: ["Optimism", "Expansion", "Joy", "Risk-taking", "Abundance"]
+        },
+        {
+            person2Planet: "Jupiter",
+            person1House: 9,
+            interpretation: "Your partner expands your spiritual and philosophical horizons. They may bring wisdom and new perspectives to your belief system and life philosophy.",
+            themes: ["Wisdom", "Philosophy", "Spirituality", "Higher learning", "Expansion"]
+        },
+        {
+            person2Planet: "Jupiter",
+            person1House: 12,
+            interpretation: "Your partner connects with your spiritual and subconscious side. They may bring healing and spiritual growth to your inner world.",
+            themes: ["Spirituality", "Healing", "Subconscious", "Inner growth", "Compassion"]
+        }
+    ],
+    "Saturn": [
+        {
+            person2Planet: "Saturn",
+            person1House: 4,
+            interpretation: "Your partner brings structure and responsibility to your home life. They may help you create a more stable foundation and deal with family responsibilities.",
+            themes: ["Structure", "Responsibility", "Home", "Family", "Stability"]
+        },
+        {
+            person2Planet: "Saturn",
+            person1House: 7,
+            interpretation: "Your partner brings commitment and seriousness to your relationships. They may help you build lasting partnerships and work through relationship challenges.",
+            themes: ["Commitment", "Seriousness", "Partnership", "Long-term", "Structure"]
+        },
+        {
+            person2Planet: "Saturn",
+            person1House: 10,
+            interpretation: "Your partner influences your career and public image. They may help you achieve your goals and bring discipline to your professional life.",
+            themes: ["Career", "Achievement", "Discipline", "Public image", "Goals"]
+        }
+    ],
+    "Uranus": [
+        {
+            person2Planet: "Uranus",
+            person1House: 5,
+            interpretation: "Your partner brings excitement and unpredictability to your creative and romantic life. They may inspire you to break free from conventional approaches.",
+            themes: ["Excitement", "Unpredictability", "Innovation", "Freedom", "Creativity"]
+        },
+        {
+            person2Planet: "Uranus",
+            person1House: 11,
+            interpretation: "Your partner influences your friendships and group activities. They may bring new social connections and revolutionary ideas to your network.",
+            themes: ["Friendships", "Groups", "Innovation", "Social change", "Networking"]
+        }
+    ],
+    "Neptune": [
+        {
+            person2Planet: "Neptune",
+            person1House: 7,
+            interpretation: "Your partner brings spiritual and idealistic qualities to your relationships. They may help you see the divine in your partnership and create a soul-level connection.",
+            themes: ["Spirituality", "Idealism", "Soul connection", "Divine love", "Compassion"]
+        },
+        {
+            person2Planet: "Neptune",
+            person1House: 12,
+            interpretation: "Your partner connects with your spiritual and subconscious side. They may bring healing and mystical experiences to your inner world.",
+            themes: ["Spirituality", "Healing", "Subconscious", "Mysticism", "Compassion"]
+        }
+    ],
+    "Pluto": [
+        {
+            person2Planet: "Pluto",
+            person1House: 8,
+            interpretation: "Your partner brings intense transformation to your shared resources and intimate life. They may help you face deep psychological issues and grow through crisis.",
+            themes: ["Transformation", "Intimacy", "Shared resources", "Psychological growth", "Crisis"]
+        },
+        {
+            person2Planet: "Pluto",
+            person1House: 12,
+            interpretation: "Your partner connects with your deepest subconscious patterns. They may help you heal old wounds and transform limiting beliefs.",
+            themes: ["Subconscious", "Healing", "Transformation", "Hidden patterns", "Psychological growth"]
+        }
+    ]
+};
+
+// Synastry planet in sign interpretations
+export const SYNASTRY_PLANET_IN_SIGN: Record<string, SynastryPlanetInSign[]> = {
+    "Sun": [
+        {
+            person2Planet: "Sun",
+            person1Sign: "Aries",
+            interpretation: "Your partner's identity is bold and direct, bringing energy and initiative to your relationship. They may inspire you to be more confident and take action in your life.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Taurus",
+            interpretation: "Your partner's identity is steady and reliable, bringing stability and practical support to your relationship. They help ground you and appreciate the simple pleasures of life.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Gemini",
+            interpretation: "Your partner's identity is curious and adaptable, bringing intellectual stimulation and variety to your relationship. They keep things interesting with their quick mind and communication skills.",
+            compatibility: "neutral"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Cancer",
+            interpretation: "Your partner's identity is nurturing and protective, bringing emotional depth and care to your relationship. They create a sense of home and family wherever they go.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Leo",
+            interpretation: "Your partner's identity is creative and expressive, bringing warmth and enthusiasm to your relationship. They inspire you to shine and express your authentic self.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Virgo",
+            interpretation: "Your partner's identity is analytical and service-oriented, bringing attention to detail and practical help to your relationship. They help you improve and refine your approach to life.",
+            compatibility: "neutral"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Libra",
+            interpretation: "Your partner's identity is diplomatic and relationship-focused, bringing harmony and balance to your connection. They naturally understand the art of partnership and cooperation.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Scorpio",
+            interpretation: "Your partner's identity is intense and transformative, bringing depth and passion to your relationship. They help you explore the deeper mysteries of life and love.",
+            compatibility: "challenging"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Sagittarius",
+            interpretation: "Your partner's identity is expansive and philosophical, bringing adventure and wisdom to your relationship. They inspire you to grow and explore new horizons.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Capricorn",
+            interpretation: "Your partner's identity is disciplined and ambitious, bringing structure and long-term planning to your relationship. They help you build a solid foundation for your future together.",
+            compatibility: "neutral"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Aquarius",
+            interpretation: "Your partner's identity is innovative and independent, bringing unique perspectives and humanitarian ideals to your relationship. They help you think outside the box and embrace change.",
+            compatibility: "challenging"
+        },
+        {
+            person2Planet: "Sun",
+            person1Sign: "Pisces",
+            interpretation: "Your partner's identity is intuitive and compassionate, bringing spiritual depth and empathy to your relationship. They help you connect with your dreams and higher purpose.",
+            compatibility: "harmonious"
+        }
+    ],
+    "Moon": [
+        {
+            person2Planet: "Moon",
+            person1Sign: "Aries",
+            interpretation: "Your partner's emotional nature is bold and direct, bringing passionate feelings and immediate emotional responses to your relationship. They may need to learn patience in emotional matters.",
+            compatibility: "challenging"
+        },
+        {
+            person2Planet: "Moon",
+            person1Sign: "Taurus",
+            interpretation: "Your partner's emotional nature is steady and loyal, bringing emotional security and sensual comfort to your relationship. They create a stable emotional foundation.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Moon",
+            person1Sign: "Cancer",
+            interpretation: "Your partner's emotional nature is deeply nurturing and protective, bringing strong emotional bonds and intuitive understanding to your relationship. This is a very harmonious placement.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Moon",
+            person1Sign: "Leo",
+            interpretation: "Your partner's emotional nature is warm and expressive, bringing dramatic feelings and generous emotional support to your relationship. They wear their heart on their sleeve.",
+            compatibility: "harmonious"
+        },
+        {
+            person2Planet: "Moon",
+            person1Sign: "Scorpio",
+            interpretation: "Your partner's emotional nature is intense and transformative, bringing deep emotional bonds and powerful psychic connection to your relationship. They feel emotions very deeply.",
+            compatibility: "challenging"
+        },
+        {
+            person2Planet: "Moon",
+            person1Sign: "Pisces",
+            interpretation: "Your partner's emotional nature is intuitive and compassionate, bringing spiritual empathy and dreamy emotional connection to your relationship. They have a natural psychic sensitivity.",
+            compatibility: "harmonious"
+        }
+    ]
+};
+
+// Synastry interpretation functions
+export function getSynastryAspectInterpretation(aspect: string, person1Planet: string, person2Planet: string): SynastryAspectInterpretation | null {
+    const key = `${person1Planet}_${person2Planet}_${aspect}`;
+    const reverseKey = `${person2Planet}_${person1Planet}_${aspect}`;
+    
+    return SYNASTRY_ASPECT_INTERPRETATIONS[key] || SYNASTRY_ASPECT_INTERPRETATIONS[reverseKey] || null;
+}
+
+export function getSynastryHouseOverlay(person2Planet: string, person1House: number): SynastryHouseOverlay | null {
+    const overlays = SYNASTRY_HOUSE_OVERLAYS[person2Planet];
+    if (!overlays) return null;
+    
+    return overlays.find(overlay => overlay.person1House === person1House) || null;
+}
+
+export function getSynastryPlanetInSign(person2Planet: string, person1Sign: string): SynastryPlanetInSign | null {
+    const placements = SYNASTRY_PLANET_IN_SIGN[person2Planet];
+    if (!placements) return null;
+    
+    return placements.find(placement => placement.person1Sign === person1Sign) || null;
+}
+
+export function getComprehensiveSynastryInterpretation(
+    person1Planet: string, 
+    person2Planet: string, 
+    aspect: string, 
+    person1House?: number, 
+    person1Sign?: string
+): string {
+    let interpretation = "";
+    
+    // Get aspect interpretation
+    const aspectInterpretation = getSynastryAspectInterpretation(aspect, person1Planet, person2Planet);
+    if (aspectInterpretation) {
+        interpretation += `**${person1Planet}-${person2Planet} ${aspect}:** ${aspectInterpretation.interpretation}\n\n`;
+    }
+    
+    // Get house overlay interpretation
+    if (person1House) {
+        const houseOverlay = getSynastryHouseOverlay(person2Planet, person1House);
+        if (houseOverlay) {
+            interpretation += `**${person2Planet} in your ${getOrdinalSuffix(person1House)} House:** ${houseOverlay.interpretation}\n\n`;
+        }
+    }
+    
+    // Get planet in sign interpretation
+    if (person1Sign) {
+        const planetInSign = getSynastryPlanetInSign(person2Planet, person1Sign);
+        if (planetInSign) {
+            interpretation += `**${person2Planet} in your ${person1Sign}:** ${planetInSign.interpretation}\n\n`;
+        }
+    }
+    
+    return interpretation || `The ${person1Planet}-${person2Planet} ${aspect} creates a dynamic interaction between your charts. This aspect influences how you relate to each other and the energy you bring to your relationship.`;
+}
+
+export function getSynastryCompatibilitySummary(aspects: SynastryAspectInterpretation[]): string {
+    const harmonious = aspects.filter(a => a.compatibility === 'harmonious').length;
+    const challenging = aspects.filter(a => a.compatibility === 'challenging').length;
+    const neutral = aspects.filter(a => a.compatibility === 'neutral').length;
+    
+    const total = aspects.length;
+    const harmonyPercentage = Math.round((harmonious / total) * 100);
+    
+    if (harmonyPercentage >= 70) {
+        return "Your synastry shows excellent compatibility with many harmonious aspects. This relationship has strong potential for long-term success and mutual growth.";
+    } else if (harmonyPercentage >= 50) {
+        return "Your synastry shows good compatibility with a balanced mix of harmonious and challenging aspects. This relationship offers opportunities for growth and learning.";
+    } else {
+        return "Your synastry shows challenging compatibility with many difficult aspects. This relationship will require conscious effort and understanding to work through differences.";
+    }
+} 
