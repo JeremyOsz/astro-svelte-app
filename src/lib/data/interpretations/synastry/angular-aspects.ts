@@ -1,0 +1,151 @@
+export const ANGULAR_ASPECT_INTERPRETATIONS = {
+    general: "Angular aspects create powerful connections between personal planets and sensitive points in the chart. These aspects represent how your core identity and life direction interact with your partner's chart structure.",
+    orb: "±8°",
+    nature: "Powerful, life-direction oriented",
+    planets: {
+        "Sun_Asc_Conjunction": {
+            aspect: "Conjunction",
+            person1Planet: "Sun",
+            person2Planet: "Asc",
+            interpretation: "Your core identity aligns with your partner's rising sign, creating instant recognition and natural compatibility. This creates a powerful first impression and shared approach to life.",
+            compatibility: "harmonious",
+            intensity: "strong",
+            romance: "Instant romantic recognition. Your identity aligns with your partner's rising sign, creating powerful first impressions and natural romantic compatibility.",
+            friendship: "Instant friendship recognition. Your identity aligns with your partner's rising sign, creating powerful first impressions and natural friendship compatibility.",
+            family: "Instant family recognition. Your identity aligns with your partner's rising sign, creating powerful first impressions and natural family compatibility.",
+            business: "Instant business recognition. Your identity aligns with your partner's rising sign, creating powerful first impressions and natural business compatibility."
+        },
+        "Sun_MC_Conjunction": {
+            aspect: "Conjunction",
+            person1Planet: "Sun",
+            person2Planet: "MC",
+            interpretation: "Your core identity aligns with your partner's career and life direction, creating shared goals and mutual support for each other's ambitions.",
+            compatibility: "harmonious",
+            intensity: "strong",
+            romance: "Shared life direction. Your identity aligns with your partner's career goals, creating mutual support for each other's ambitions in romantic relationships.",
+            friendship: "Shared life direction. Your identity aligns with your partner's career goals, creating mutual support for each other's ambitions in friendships.",
+            family: "Shared life direction. Your identity aligns with your partner's career goals, creating mutual support for each other's ambitions in family relationships.",
+            business: "Shared life direction. Your identity aligns with your partner's career goals, creating mutual support for each other's ambitions in business partnerships."
+        },
+        "Sun_Asc_Square": {
+            aspect: "Square",
+            person1Planet: "Sun",
+            person2Planet: "Asc",
+            interpretation: "Your core identity challenges your partner's rising sign, creating tension but also growth opportunities. This requires conscious effort to understand different approaches to life.",
+            compatibility: "challenging",
+            intensity: "moderate",
+            romance: "Challenging romantic recognition. Your identity challenges your partner's rising sign, creating tension but growth opportunities in romantic relationships.",
+            friendship: "Challenging friendship recognition. Your identity challenges your partner's rising sign, creating tension but growth opportunities in friendships.",
+            family: "Challenging family recognition. Your identity challenges your partner's rising sign, creating tension but growth opportunities in family relationships.",
+            business: "Challenging business recognition. Your identity challenges your partner's rising sign, creating tension but growth opportunities in business partnerships."
+        },
+        "Sun_MC_Square": {
+            aspect: "Square",
+            person1Planet: "Sun",
+            person2Planet: "MC",
+            interpretation: "Your core identity challenges your partner's career direction, creating tension but also growth opportunities. This requires conscious effort to support different life goals.",
+            compatibility: "challenging",
+            intensity: "moderate",
+            romance: "Challenging life direction. Your identity challenges your partner's career goals, creating tension but growth opportunities in romantic relationships.",
+            friendship: "Challenging life direction. Your identity challenges your partner's career goals, creating tension but growth opportunities in friendships.",
+            family: "Challenging life direction. Your identity challenges your partner's career goals, creating tension but growth opportunities in family relationships.",
+            business: "Challenging life direction. Your identity challenges your partner's career goals, creating tension but growth opportunities in business partnerships."
+        },
+        "Sun_Asc_Opposition": {
+            aspect: "Opposition",
+            person1Planet: "Sun",
+            person2Planet: "Asc",
+            interpretation: "Your core identity opposes your partner's rising sign, creating awareness and balance. This creates complementary dynamics that require conscious integration.",
+            compatibility: "neutral",
+            intensity: "moderate",
+            romance: "Balanced romantic recognition. Your identity opposes your partner's rising sign, creating awareness and balance in romantic relationships.",
+            friendship: "Balanced friendship recognition. Your identity opposes your partner's rising sign, creating awareness and balance in friendships.",
+            family: "Balanced family recognition. Your identity opposes your partner's rising sign, creating awareness and balance in family relationships.",
+            business: "Balanced business recognition. Your identity opposes your partner's rising sign, creating awareness and balance in business partnerships."
+        },
+        "Sun_MC_Opposition": {
+            aspect: "Opposition",
+            person1Planet: "Sun",
+            person2Planet: "MC",
+            interpretation: "Your core identity opposes your partner's career direction, creating awareness and balance. This creates complementary life goals that require conscious integration.",
+            compatibility: "neutral",
+            intensity: "moderate",
+            romance: "Balanced life direction. Your identity opposes your partner's career goals, creating awareness and balance in romantic relationships.",
+            friendship: "Balanced life direction. Your identity opposes your partner's career goals, creating awareness and balance in friendships.",
+            family: "Balanced life direction. Your identity opposes your partner's career goals, creating awareness and balance in family relationships.",
+            business: "Balanced life direction. Your identity opposes your partner's career goals, creating awareness and balance in business partnerships."
+        },
+        "Sun_Asc_Trine": {
+            aspect: "Trine",
+            person1Planet: "Sun",
+            person2Planet: "Asc",
+            interpretation: "Your core identity harmonizes with your partner's rising sign, creating natural understanding and supportive recognition. This creates effortless compatibility.",
+            compatibility: "harmonious",
+            intensity: "moderate",
+            romance: "Harmonious romantic recognition. Your identity harmonizes with your partner's rising sign, creating natural understanding in romantic relationships.",
+            friendship: "Harmonious friendship recognition. Your identity harmonizes with your partner's rising sign, creating natural understanding in friendships.",
+            family: "Harmonious family recognition. Your identity harmonizes with your partner's rising sign, creating natural understanding in family relationships.",
+            business: "Harmonious business recognition. Your identity harmonizes with your partner's rising sign, creating natural understanding in business partnerships."
+        },
+        "Sun_MC_Trine": {
+            aspect: "Trine",
+            person1Planet: "Sun",
+            person2Planet: "MC",
+            interpretation: "Your core identity harmonizes with your partner's career direction, creating natural understanding and supportive life goals. This creates effortless compatibility.",
+            compatibility: "harmonious",
+            intensity: "moderate",
+            romance: "Harmonious life direction. Your identity harmonizes with your partner's career goals, creating natural understanding in romantic relationships.",
+            friendship: "Harmonious life direction. Your identity harmonizes with your partner's career goals, creating natural understanding in friendships.",
+            family: "Harmonious life direction. Your identity harmonizes with your partner's career goals, creating natural understanding in family relationships.",
+            business: "Harmonious life direction. Your identity harmonizes with your partner's career goals, creating natural understanding in business partnerships."
+        },
+        "Sun_Asc_Sextile": {
+            aspect: "Sextile",
+            person1Planet: "Sun",
+            person2Planet: "Asc",
+            interpretation: "Your core identity creates easy rapport with your partner's rising sign, creating supportive recognition and natural opportunities for growth.",
+            compatibility: "harmonious",
+            intensity: "weak",
+            romance: "Easy romantic recognition. Your identity creates easy rapport with your partner's rising sign, creating supportive recognition in romantic relationships.",
+            friendship: "Easy friendship recognition. Your identity creates easy rapport with your partner's rising sign, creating supportive recognition in friendships.",
+            family: "Easy family recognition. Your identity creates easy rapport with your partner's rising sign, creating supportive recognition in family relationships.",
+            business: "Easy business recognition. Your identity creates easy rapport with your partner's rising sign, creating supportive recognition in business partnerships."
+        },
+        "Sun_MC_Sextile": {
+            aspect: "Sextile",
+            person1Planet: "Sun",
+            person2Planet: "MC",
+            interpretation: "Your core identity creates easy rapport with your partner's career direction, creating supportive life goals and natural opportunities for growth.",
+            compatibility: "harmonious",
+            intensity: "weak",
+            romance: "Easy life direction. Your identity creates easy rapport with your partner's career goals, creating supportive life direction in romantic relationships.",
+            friendship: "Easy life direction. Your identity creates easy rapport with your partner's career goals, creating supportive life direction in friendships.",
+            family: "Easy life direction. Your identity creates easy rapport with your partner's career goals, creating supportive life direction in family relationships.",
+            business: "Easy life direction. Your identity creates easy rapport with your partner's career goals, creating supportive life direction in business partnerships."
+        },
+        "MC_Asc_Sextile": {
+            aspect: "Sextile",
+            person1Planet: "MC",
+            person2Planet: "Asc",
+            interpretation: "Your career direction creates easy rapport with your partner's rising sign, creating supportive life structure and natural opportunities for growth.",
+            compatibility: "harmonious",
+            intensity: "weak",
+            romance: "Easy life structure. Your career direction creates easy rapport with your partner's rising sign, creating supportive life structure in romantic relationships.",
+            friendship: "Easy life structure. Your career direction creates easy rapport with your partner's rising sign, creating supportive life structure in friendships.",
+            family: "Easy life structure. Your career direction creates easy rapport with your partner's rising sign, creating supportive life structure in family relationships.",
+            business: "Easy life structure. Your career direction creates easy rapport with your partner's rising sign, creating supportive life structure in business partnerships."
+        },
+        "Asc_Part of Fortune_Sextile": {
+            aspect: "Sextile",
+            person1Planet: "Asc",
+            person2Planet: "Part of Fortune",
+            interpretation: "Your rising sign creates easy rapport with your partner's fortune point, creating supportive life opportunities and natural growth potential.",
+            compatibility: "harmonious",
+            intensity: "weak",
+            romance: "Easy fortune recognition. Your rising sign creates easy rapport with your partner's fortune point, creating supportive opportunities in romantic relationships.",
+            friendship: "Easy fortune recognition. Your rising sign creates easy rapport with your partner's fortune point, creating supportive opportunities in friendships.",
+            family: "Easy fortune recognition. Your rising sign creates easy rapport with your partner's fortune point, creating supportive opportunities in family relationships.",
+            business: "Easy fortune recognition. Your rising sign creates easy rapport with your partner's fortune point, creating supportive opportunities in business partnerships."
+        }
+    }
+}; 

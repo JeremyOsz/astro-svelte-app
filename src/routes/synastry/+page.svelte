@@ -93,6 +93,22 @@ MC,Gemini,12°00'`;
   let person2Chart: any = null;
   let isSubmitting = false;
 
+  // Categorize aspects into main, angular, and minor
+  $: mainAspects = synastryAspects.filter(aspect => {
+    const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+    return mainPlanets.includes(aspect.person1Planet) && mainPlanets.includes(aspect.person2Planet);
+  });
+
+  $: angularAspects = synastryAspects.filter(aspect => {
+    const angularPoints = ['Asc', 'MC', 'Part of Fortune'];
+    return angularPoints.includes(aspect.person1Planet) || angularPoints.includes(aspect.person2Planet);
+  });
+
+  $: minorAspects = synastryAspects.filter(aspect => {
+    const minorPoints = ['Chiron', 'Lilith', 'Node', 'Vertex', 'Fortune'];
+    return minorPoints.includes(aspect.person1Planet) || minorPoints.includes(aspect.person2Planet);
+  });
+
   function convertChartToCSV(chart: any): string {
     if (!chart || !chart.planets) return '';
     
@@ -230,14 +246,48 @@ MC,Gemini,12°00'`;
   }
 
   function handlePerson1ChartSelect(chart: any) {
+    console.log('Person 1 chart selected:', chart);
+    console.log('Chart data:', chart.chartData);
+    console.log('Birth data:', chart.birthData);
     selectedPerson1Chart = chart;
     person1Data = chart.chartData;
+    
+    // Fill in the form fields with the saved chart's birth data
+    person1Date = chart.birthData.date;
+    person1Time = chart.birthData.time;
+    person1CitySearch = chart.birthData.place;
+    selectedPerson1CityData = {
+      name: chart.birthData.place.split(',')[0].trim(),
+      fullLocation: chart.birthData.place,
+      lat: chart.birthData.latitude,
+      lng: chart.birthData.longitude,
+      country: chart.birthData.place.split(',').pop()?.trim() || '',
+      adminName: ''
+    };
+    
     showPerson1SavedCharts = false;
   }
 
   function handlePerson2ChartSelect(chart: any) {
+    console.log('Person 2 chart selected:', chart);
+    console.log('Chart data:', chart.chartData);
+    console.log('Birth data:', chart.birthData);
     selectedPerson2Chart = chart;
     person2Data = chart.chartData;
+    
+    // Fill in the form fields with the saved chart's birth data
+    person2Date = chart.birthData.date;
+    person2Time = chart.birthData.time;
+    person2CitySearch = chart.birthData.place;
+    selectedPerson2CityData = {
+      name: chart.birthData.place.split(',')[0].trim(),
+      fullLocation: chart.birthData.place,
+      lat: chart.birthData.latitude,
+      lng: chart.birthData.longitude,
+      country: chart.birthData.place.split(',').pop()?.trim() || '',
+      adminName: ''
+    };
+    
     showPerson2SavedCharts = false;
   }
 
@@ -279,14 +329,20 @@ MC,Gemini,12°00'`;
   }
 
   function validateForm() {
-    if (!person1Date || !person1Time || !selectedPerson1CityData) {
-      formError = 'Please complete Person 1\'s birth information';
+    // Check if Person 1 has either manual data or a saved chart
+    const person1Valid = (person1Date && person1Time && selectedPerson1CityData) || selectedPerson1Chart;
+    if (!person1Valid) {
+      formError = 'Please complete Person 1\'s birth information or select a saved chart';
       return false;
     }
-    if (!person2Date || !person2Time || !selectedPerson2CityData) {
-      formError = 'Please complete Person 2\'s birth information';
+    
+    // Check if Person 2 has either manual data or a saved chart
+    const person2Valid = (person2Date && person2Time && selectedPerson2CityData) || selectedPerson2Chart;
+    if (!person2Valid) {
+      formError = 'Please complete Person 2\'s birth information or select a saved chart';
       return false;
     }
+    
     formError = '';
     return true;
   }
@@ -461,7 +517,10 @@ MC,Gemini,12°00'`;
                
                {#if showPerson1SavedCharts}
                  <div class="border border-gray-200 rounded-md p-3 bg-gray-50">
-                   <SavedChartsList onChartSelect={handlePerson1ChartSelect} />
+                   <SavedChartsList onChartSelect={(chart) => {
+                     console.log('Person 1 chart selected from component:', chart);
+                     handlePerson1ChartSelect(chart);
+                   }} />
                  </div>
                {/if}
              </div>
@@ -521,8 +580,9 @@ MC,Gemini,12°00'`;
                  {/if}
                </div>
                
-               <!-- Hidden input for city data -->
+               <!-- Hidden inputs for form data -->
                <input type="hidden" name="person1CityData" value={selectedPerson1CityData ? JSON.stringify(selectedPerson1CityData) : ''} />
+               <input type="hidden" name="person1ChartData" value={selectedPerson1Chart ? JSON.stringify(selectedPerson1Chart) : ''} />
              </div>
            </div>
 
@@ -557,7 +617,10 @@ MC,Gemini,12°00'`;
                
                {#if showPerson2SavedCharts}
                  <div class="border border-gray-200 rounded-md p-3 bg-gray-50">
-                   <SavedChartsList onChartSelect={handlePerson2ChartSelect} />
+                   <SavedChartsList onChartSelect={(chart) => {
+                     console.log('Person 2 chart selected from component:', chart);
+                     handlePerson2ChartSelect(chart);
+                   }} />
                  </div>
                {/if}
              </div>
@@ -617,8 +680,9 @@ MC,Gemini,12°00'`;
                  {/if}
                </div>
                
-               <!-- Hidden input for city data -->
+               <!-- Hidden inputs for form data -->
                <input type="hidden" name="person2CityData" value={selectedPerson2CityData ? JSON.stringify(selectedPerson2CityData) : ''} />
+               <input type="hidden" name="person2ChartData" value={selectedPerson2Chart ? JSON.stringify(selectedPerson2Chart) : ''} />
              </div>
            </div>
         </div>
@@ -692,6 +756,9 @@ MC,Gemini,12°00'`;
       <Card.Content>
         <SynastryInterpretation 
           aspects={synastryAspects}
+          mainAspects={mainAspects}
+          angularAspects={angularAspects}
+          minorAspects={minorAspects}
           houseOverlays={synastryHouseOverlays}
           planetInSigns={synastryPlanetInSigns}
           relationshipType={relationshipType}

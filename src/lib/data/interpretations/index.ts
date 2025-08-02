@@ -29,7 +29,7 @@ export {
 export { ASPECT_INTERPRETATIONS } from './aspects';
 
 // Re-export synastry interpretations
-export { SYNASTRY_ASPECT_INTERPRETATIONS } from './synastry';
+export { SYNASTRY_ASPECT_INTERPRETATIONS } from './synastry/synastry';
 
 // Re-export planet interpretations
 export { PLANET_INTERPRETATIONS, PLANET_IN_SIGN_INTERPRETATIONS } from './planets';
@@ -48,7 +48,7 @@ export {
 
 // Import the data we need for utility functions
 import { ASPECT_INTERPRETATIONS } from './aspects';
-import { SYNASTRY_ASPECT_INTERPRETATIONS } from './synastry';
+import { SYNASTRY_ASPECT_INTERPRETATIONS } from './synastry/synastry';
 import { PLANET_IN_SIGN_INTERPRETATIONS } from './planets';
 
 // Utility functions for accessing interpretations
@@ -67,19 +67,52 @@ export function getSynastryAspectInterpretation(
     person2Planet: string, 
     relationshipType: 'romance' | 'friendship' | 'family' | 'business' = 'romance'
 ): any {
-    // Get the aspect data from the new structure
-    const aspectData = SYNASTRY_ASPECT_INTERPRETATIONS[aspect];
-    if (!aspectData) {
-        // If no aspect data found, return null to fall back to natal interpretation
-        return null;
-    }
-    
     // Construct the planet key
     const planetKey = `${person1Planet}_${person2Planet}`;
     const reversePlanetKey = `${person2Planet}_${person1Planet}`;
     
-    // Get the planet interpretation from the aspect data
-    const interpretation = aspectData.planets[planetKey] || aspectData.planets[reversePlanetKey];
+    // Check if this is an angular aspect (involves Asc, MC, Part of Fortune)
+    const isAngular = person1Planet === 'Asc' || person1Planet === 'MC' || person1Planet === 'Part of Fortune' ||
+                      person2Planet === 'Asc' || person2Planet === 'MC' || person2Planet === 'Part of Fortune';
+    
+    // Check if this is a minor aspect (involves Chiron, Lilith, etc.)
+    const isMinor = person1Planet === 'Chiron' || person1Planet === 'Lilith' || person1Planet === 'Node' ||
+                    person2Planet === 'Chiron' || person2Planet === 'Lilith' || person2Planet === 'Node';
+    
+    let aspectData;
+    let interpretation;
+    
+    // First try the specific aspect type
+    aspectData = (SYNASTRY_ASPECT_INTERPRETATIONS as any)[aspect];
+    if (aspectData) {
+        // Try with aspect suffix for angular aspects
+        const angularKey = `${planetKey}_${aspect}`;
+        const reverseAngularKey = `${reversePlanetKey}_${aspect}`;
+        interpretation = (aspectData.planets as any)[planetKey] || (aspectData.planets as any)[reversePlanetKey] ||
+                        (aspectData.planets as any)[angularKey] || (aspectData.planets as any)[reverseAngularKey];
+    }
+    
+    // If not found and it's an angular aspect, check Angular category
+    if (!interpretation && isAngular) {
+        aspectData = (SYNASTRY_ASPECT_INTERPRETATIONS as any)["Angular"];
+        if (aspectData) {
+            const angularKey = `${planetKey}_${aspect}`;
+            const reverseAngularKey = `${reversePlanetKey}_${aspect}`;
+            interpretation = (aspectData.planets as any)[planetKey] || (aspectData.planets as any)[reversePlanetKey] ||
+                            (aspectData.planets as any)[angularKey] || (aspectData.planets as any)[reverseAngularKey];
+        }
+    }
+    
+    // If not found and it's a minor aspect, check Minor category
+    if (!interpretation && isMinor) {
+        aspectData = (SYNASTRY_ASPECT_INTERPRETATIONS as any)["Minor"];
+        if (aspectData) {
+            const minorKey = `${planetKey}_${aspect}`;
+            const reverseMinorKey = `${reversePlanetKey}_${aspect}`;
+            interpretation = (aspectData.planets as any)[planetKey] || (aspectData.planets as any)[reversePlanetKey] ||
+                            (aspectData.planets as any)[minorKey] || (aspectData.planets as any)[reverseMinorKey];
+        }
+    }
     
     if (!interpretation) {
         // If no planet interpretation found, return null to fall back to natal interpretation

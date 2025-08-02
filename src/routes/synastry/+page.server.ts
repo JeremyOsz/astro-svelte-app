@@ -18,18 +18,32 @@ export const actions: Actions = {
       const person1Date = formData.get('person1Date') as string;
       const person1Time = formData.get('person1Time') as string;
       const person1CityDataStr = formData.get('person1CityData') as string;
+      const person1ChartDataStr = formData.get('person1ChartData') as string;
       
       const person2Date = formData.get('person2Date') as string;
       const person2Time = formData.get('person2Time') as string;
       const person2CityDataStr = formData.get('person2CityData') as string;
+      const person2ChartDataStr = formData.get('person2ChartData') as string;
       
       const relationshipType = formData.get('relationshipType') as string || 'romance';
       const houseSystem = formData.get('houseSystem') as string || 'whole_sign';
       
-      if (!person1Date || !person1Time || !person1CityDataStr || 
-          !person2Date || !person2Time || !person2CityDataStr) {
+      // Check if we have either manual data or saved charts for both people
+      const person1HasManualData = person1Date && person1Time && person1CityDataStr;
+      const person1HasSavedChart = person1ChartDataStr;
+      const person2HasManualData = person2Date && person2Time && person2CityDataStr;
+      const person2HasSavedChart = person2ChartDataStr;
+      
+      if (!person1HasManualData && !person1HasSavedChart) {
         return fail(400, {
-          error: 'Please fill in all required fields for both people',
+          error: 'Please complete Person 1\'s birth information or select a saved chart',
+          synastryData: null
+        });
+      }
+      
+      if (!person2HasManualData && !person2HasSavedChart) {
+        return fail(400, {
+          error: 'Please complete Person 2\'s birth information or select a saved chart',
           synastryData: null
         });
       }
@@ -61,9 +75,39 @@ export const actions: Actions = {
       const API_BASE_URL = 'https://immanuel-astro.onrender.com';
       const API_KEY = env.EPHEMERIS_API_KEY || '';
       
-      // Calculate birth charts for both people
-      const [person1Response, person2Response] = await Promise.all([
-        fetch(`${API_BASE_URL}/birth-chart`, {
+      // Handle Person 1 chart data
+      let person1Chart: any;
+      if (person1HasSavedChart) {
+        // Use saved chart data - need to convert CSV to API format
+        const person1ChartData = JSON.parse(person1ChartDataStr);
+        // For saved charts, we need to calculate the birth chart from the saved birth data
+        const person1CityData = JSON.parse(person1CityDataStr || '{}');
+        const person1Response = await fetch(`${API_BASE_URL}/birth-chart`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': API_KEY
+          },
+          body: JSON.stringify({
+            date: person1ChartData.birthData.date,
+            time: person1ChartData.birthData.time,
+            place: person1ChartData.birthData.place,
+            latitude: person1ChartData.birthData.latitude,
+            longitude: person1ChartData.birthData.longitude,
+            house_system: houseSystem
+          })
+        });
+        
+        if (!person1Response.ok) {
+          const errorText = await person1Response.text();
+          throw new Error(`Person 1 birth chart API request failed: ${person1Response.status} ${person1Response.statusText}`);
+        }
+        
+        person1Chart = await person1Response.json();
+      } else {
+        // Calculate new birth chart
+        const person1CityData = JSON.parse(person1CityDataStr);
+        const person1Response = await fetch(`${API_BASE_URL}/birth-chart`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -77,8 +121,49 @@ export const actions: Actions = {
             longitude: parseFloat(person1CityData.lng),
             house_system: houseSystem
           })
-        }),
-        fetch(`${API_BASE_URL}/birth-chart`, {
+        });
+        
+        if (!person1Response.ok) {
+          const errorText = await person1Response.text();
+          throw new Error(`Person 1 birth chart API request failed: ${person1Response.status} ${person1Response.statusText}`);
+        }
+        
+        person1Chart = await person1Response.json();
+      }
+      
+      // Handle Person 2 chart data
+      let person2Chart: any;
+      if (person2HasSavedChart) {
+        // Use saved chart data - need to convert CSV to API format
+        const person2ChartData = JSON.parse(person2ChartDataStr);
+        // For saved charts, we need to calculate the birth chart from the saved birth data
+        const person2CityData = JSON.parse(person2CityDataStr || '{}');
+        const person2Response = await fetch(`${API_BASE_URL}/birth-chart`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': API_KEY
+          },
+          body: JSON.stringify({
+            date: person2ChartData.birthData.date,
+            time: person2ChartData.birthData.time,
+            place: person2ChartData.birthData.place,
+            latitude: person2ChartData.birthData.latitude,
+            longitude: person2ChartData.birthData.longitude,
+            house_system: houseSystem
+          })
+        });
+        
+        if (!person2Response.ok) {
+          const errorText = await person2Response.text();
+          throw new Error(`Person 2 birth chart API request failed: ${person2Response.status} ${person2Response.statusText}`);
+        }
+        
+        person2Chart = await person2Response.json();
+      } else {
+        // Calculate new birth chart
+        const person2CityData = JSON.parse(person2CityDataStr);
+        const person2Response = await fetch(`${API_BASE_URL}/birth-chart`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -92,17 +177,15 @@ export const actions: Actions = {
             longitude: parseFloat(person2CityData.lng),
             house_system: houseSystem
           })
-        })
-      ]);
-      
-      if (!person1Response.ok || !person2Response.ok) {
-        const errorText1 = await person1Response.text();
-        const errorText2 = await person2Response.text();
-        throw new Error(`Birth chart API request failed: Person1(${person1Response.status}) Person2(${person2Response.status})`);
+        });
+        
+        if (!person2Response.ok) {
+          const errorText = await person2Response.text();
+          throw new Error(`Person 2 birth chart API request failed: ${person2Response.status} ${person2Response.statusText}`);
+        }
+        
+        person2Chart = await person2Response.json();
       }
-      
-      const person1Chart = await person1Response.json();
-      const person2Chart = await person2Response.json();
       
       // Calculate synastry aspects locally
       const synastryResult = calculateSynastryAspects(person1Chart, person2Chart);

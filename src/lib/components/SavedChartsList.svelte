@@ -108,7 +108,10 @@
             <Button
               variant="ghost"
               size="sm"
-              onclick={() => onChartSelect(chart)}
+              onclick={(e) => {
+                e.stopPropagation();
+                onChartSelect(chart);
+              }}
               title={isSelected ? "Currently viewing" : "View chart"}
               class="{isSelected ? (theme === 'dark' ? 'text-blue-300 bg-blue-600/30 hover:bg-blue-600/40' : 'text-blue-600 bg-blue-100 hover:bg-blue-200') : (theme === 'dark' ? 'text-slate-300 hover:text-white hover:bg-white/20' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-200')}"
             >
@@ -118,7 +121,10 @@
             <Button
               variant="ghost"
               size="sm"
-              onclick={() => handleShare(chart)}
+              onclick={(e) => {
+                e.stopPropagation();
+                handleShare(chart);
+              }}
               title="Share chart"
               class="{theme === 'dark' ? 'text-slate-300 hover:text-white hover:bg-white/20' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-200'}"
             >
@@ -129,7 +135,10 @@
               <Button
                 variant="ghost"
                 size="sm"
-                onclick={() => handleEdit(chart)}
+                onclick={(e) => {
+                  e.stopPropagation();
+                  handleEdit(chart);
+                }}
                 title="Edit name"
                 class="{theme === 'dark' ? 'text-slate-300 hover:text-white hover:bg-white/20' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-200'}"
               >
@@ -140,7 +149,10 @@
             <Button
               variant="ghost"
               size="sm"
-              onclick={() => handleDelete(chart.id)}
+              onclick={(e) => {
+                e.stopPropagation();
+                handleDelete(chart.id);
+              }}
               title="Delete chart"
               class="{theme === 'dark' ? 'text-red-400 hover:text-red-300 hover:bg-red-500/20' : 'text-red-600 hover:text-red-800 hover:bg-red-50'}"
             >

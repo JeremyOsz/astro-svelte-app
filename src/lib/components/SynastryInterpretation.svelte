@@ -17,6 +17,27 @@
     orb: number;
   }> = [];
 
+  export let mainAspects: Array<{
+    person1Planet: string;
+    person2Planet: string;
+    aspect: string;
+    orb: number;
+  }> = [];
+
+  export let angularAspects: Array<{
+    person1Planet: string;
+    person2Planet: string;
+    aspect: string;
+    orb: number;
+  }> = [];
+
+  export let minorAspects: Array<{
+    person1Planet: string;
+    person2Planet: string;
+    aspect: string;
+    orb: number;
+  }> = [];
+
   export let houseOverlays: Array<{
     person2Planet: string;
     person1House: number;
@@ -31,6 +52,54 @@
 
   // Process aspects to get interpretations
   $: synastryAspects = aspects.map(aspect => {
+    const interpretation = getSynastryAspectInterpretation(
+      aspect.aspect, 
+      aspect.person1Planet, 
+      aspect.person2Planet,
+      relationshipType
+    );
+    return {
+      ...aspect,
+      interpretation: interpretation?.interpretation || '',
+      compatibility: interpretation?.compatibility || 'neutral',
+      intensity: interpretation?.intensity || 'moderate'
+    };
+  });
+
+  // Process main aspects
+  $: synastryMainAspects = mainAspects.map(aspect => {
+    const interpretation = getSynastryAspectInterpretation(
+      aspect.aspect, 
+      aspect.person1Planet, 
+      aspect.person2Planet,
+      relationshipType
+    );
+    return {
+      ...aspect,
+      interpretation: interpretation?.interpretation || '',
+      compatibility: interpretation?.compatibility || 'neutral',
+      intensity: interpretation?.intensity || 'moderate'
+    };
+  });
+
+  // Process angular aspects
+  $: synastryAngularAspects = angularAspects.map(aspect => {
+    const interpretation = getSynastryAspectInterpretation(
+      aspect.aspect, 
+      aspect.person1Planet, 
+      aspect.person2Planet,
+      relationshipType
+    );
+    return {
+      ...aspect,
+      interpretation: interpretation?.interpretation || '',
+      compatibility: interpretation?.compatibility || 'neutral',
+      intensity: interpretation?.intensity || 'moderate'
+    };
+  });
+
+  // Process minor aspects
+  $: synastryMinorAspects = minorAspects.map(aspect => {
     const interpretation = getSynastryAspectInterpretation(
       aspect.aspect, 
       aspect.person1Planet, 
@@ -294,18 +363,104 @@
     </Card.Root>
   {/if}
 
-  <!-- All Aspects -->
-  {#if synastryAspects.length > 0}
+  <!-- Main Aspects -->
+  {#if synastryMainAspects.length > 0}
     <Card.Root>
       <Card.Header>
-        <Card.Title>All Synastry Aspects</Card.Title>
+        <Card.Title>Main Planetary Aspects</Card.Title>
         <Card.Description>
-          Complete list of aspects between your charts
+          Traditional planetary aspects between your charts
         </Card.Description>
       </Card.Header>
       <Card.Content>
         <div class="space-y-3">
-          {#each synastryAspects as aspect}
+          {#each synastryMainAspects as aspect}
+            <div class="p-3 border rounded-lg">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex-1">
+                  <div class="font-medium">
+                    {aspect.person1Planet}-{aspect.person2Planet} {aspect.aspect}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    Orb: {aspect.orb.toFixed(1)}°
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <Badge class={getCompatibilityColor(aspect.compatibility)}>
+                    {aspect.compatibility}
+                  </Badge>
+                  <Badge class={getIntensityColor(aspect.intensity)}>
+                    {aspect.intensity}
+                  </Badge>
+                </div>
+              </div>
+              {#if aspect.interpretation}
+                <p class="text-gray-700 text-sm leading-relaxed">{aspect.interpretation}</p>
+              {:else}
+                <p class="text-gray-500 italic text-sm">This aspect creates a dynamic interaction between your charts.</p>
+              {/if}
+            </div>
+          {/each}
+        </div>
+      </Card.Content>
+    </Card.Root>
+  {/if}
+
+  <!-- Angular Aspects -->
+  {#if synastryAngularAspects.length > 0}
+    <Card.Root>
+      <Card.Header>
+        <Card.Title>Angular Aspects</Card.Title>
+        <Card.Description>
+          Aspects involving sensitive points (Ascendant, Midheaven, Part of Fortune)
+        </Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <div class="space-y-3">
+          {#each synastryAngularAspects as aspect}
+            <div class="p-3 border rounded-lg">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex-1">
+                  <div class="font-medium">
+                    {aspect.person1Planet}-{aspect.person2Planet} {aspect.aspect}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    Orb: {aspect.orb.toFixed(1)}°
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <Badge class={getCompatibilityColor(aspect.compatibility)}>
+                    {aspect.compatibility}
+                  </Badge>
+                  <Badge class={getIntensityColor(aspect.intensity)}>
+                    {aspect.intensity}
+                  </Badge>
+                </div>
+              </div>
+              {#if aspect.interpretation}
+                <p class="text-gray-700 text-sm leading-relaxed">{aspect.interpretation}</p>
+              {:else}
+                <p class="text-gray-500 italic text-sm">This aspect creates a dynamic interaction between your charts.</p>
+              {/if}
+            </div>
+          {/each}
+        </div>
+      </Card.Content>
+    </Card.Root>
+  {/if}
+
+  <!-- Minor Aspects -->
+  {#if synastryMinorAspects.length > 0}
+    <Card.Root>
+      <Card.Header>
+        <Card.Title>Minor Aspects</Card.Title>
+        <Card.Description>
+          Aspects involving asteroids and sensitive points (Chiron, Lilith, Node, etc.)
+        </Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <div class="space-y-3">
+          {#each synastryMinorAspects as aspect}
             <div class="p-3 border rounded-lg">
               <div class="flex items-center justify-between mb-2">
                 <div class="flex-1">
