@@ -1,10 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Star, Sun, Moon, Zap } from 'lucide-svelte';
+  import { planetPositionsCache } from '$lib/services/planet-positions-cache';
 
   let planetPositions: any[] = [];
   let isLoading = true;
   let error: string | null = null;
+  let cacheStatus: { exists: boolean; valid: boolean; age: number | null } | null = null;
 
   const planetSymbols: Record<string, string> = {
     'Sun': '☉',
@@ -38,15 +40,27 @@
   };
 
   async function fetchPlanetPositions() {
+    // Get current date
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0];
+    const timeStr = now.toTimeString().split(' ')[0];
+    
     try {
       isLoading = true;
       error = null;
 
-      // Get current date
-      const now = new Date();
-      const dateStr = now.toISOString().split('T')[0];
-      const timeStr = now.toTimeString().split(' ')[0];
+      // Check cache first
+      cacheStatus = planetPositionsCache.getCacheStatus(dateStr, timeStr);
+      const cachedPositions = planetPositionsCache.get(dateStr, timeStr);
+      if (cachedPositions) {
+        console.log('Using cached planet positions');
+        planetPositions = cachedPositions;
+        isLoading = false;
+        return;
+      }
 
+      console.log('Cache miss, fetching fresh planet positions');
+      
       // Call the current positions API
       const response = await fetch('/api/current-positions', {
         method: 'POST',
@@ -123,6 +137,9 @@
             { name: 'Mars', symbol: '♂', sign: 'Sagittarius', degrees: 7, minutes: 36, retrograde: false, color: 'text-red-600' }
           ];
         }
+        
+        // Cache the successful result
+        planetPositionsCache.set(dateStr, planetPositions, 'api', timeStr);
       } else {
         console.log('No objects found in response');
         // Fallback data for testing
@@ -133,6 +150,9 @@
           { name: 'Venus', symbol: '♀', sign: 'Sagittarius', degrees: 4, minutes: 0, retrograde: false, color: 'text-pink-500' },
           { name: 'Mars', symbol: '♂', sign: 'Sagittarius', degrees: 7, minutes: 36, retrograde: false, color: 'text-red-600' }
         ];
+        
+        // Cache the fallback data as well
+        planetPositionsCache.set(dateStr, planetPositions, 'fallback', timeStr);
       }
     } catch (err) {
       console.error('Error fetching planet positions:', err);
@@ -146,6 +166,9 @@
         { name: 'Venus', symbol: '♀', sign: 'Sagittarius', degrees: 4, minutes: 0, retrograde: false, color: 'text-pink-500' },
         { name: 'Mars', symbol: '♂', sign: 'Sagittarius', degrees: 7, minutes: 36, retrograde: false, color: 'text-red-600' }
       ];
+      
+      // Cache the error fallback data as well
+      planetPositionsCache.set(dateStr, planetPositions, 'fallback', timeStr);
     } finally {
       isLoading = false;
     }
@@ -197,6 +220,15 @@
         <div class="text-center mt-3">
           <p class="text-xs text-gray-500">
             Positions update in real-time • Based on current ephemeris data
+            {#if cacheStatus}
+              <br>
+              <span class="text-xs text-purple-600">
+                {cacheStatus.exists && cacheStatus.valid ? '📦 Cached' : '🔄 Fresh data'}
+                {#if cacheStatus.age}
+                  • {Math.round(cacheStatus.age / 1000 / 60)}m ago
+                {/if}
+              </span>
+            {/if}
           </p>
         </div>
       {/if}

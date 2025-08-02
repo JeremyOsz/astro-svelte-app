@@ -279,6 +279,48 @@ describe('Component', () => {
 - Never hardcode planet meanings, aspect interpretations, or house descriptions in components
 - Use centralized interpretation functions and data structures
 
+### Branding & Tone Standards (Velvet Arcana)
+
+#### Brand Personality
+- **Sophisticated & Mysterious**: Premium, curated experience without being pretentious
+- **Elegant & Accessible**: Luxurious feel that remains approachable
+- **Dark Academia**: Scholarly, mystical aesthetic with modern sensibilities
+- **Mysterious**: Creates intrigue without being obvious about functionality
+
+#### Tone Guidelines
+- **Sophisticated Language**: Use "unlock," "reveal," "discover," "explore" rather than "calculate," "compute," "generate"
+- **Mystical References**: "Arcana," "grimoire," "celestial wisdom," "cosmic secrets"
+- **Premium Feel**: "Experience," "journey," "unveiled," "arcane tools"
+- **Avoid**: Technical jargon, overly casual language, forced humor
+
+#### Copy Examples
+- ✅ "Unlock the secrets of the cosmos"
+- ✅ "Your personal grimoire of celestial wisdom"
+- ✅ "The Arcana Unveiled"
+- ✅ "Ready to Unlock Your Arcana?"
+- ❌ "Calculate your birth chart" (too technical)
+- ❌ "Just have fun trying" (too casual)
+
+#### Section Naming Conventions
+- **Tools**: "Arcane Tools" instead of "Quick Actions"
+- **Features**: "The Velvet Arcana Experience" instead of "Why Choose..."
+- **Navigation**: "Begin" instead of "Get Started"
+- **CTAs**: "Begin Your Journey" instead of "Start Now"
+
+#### Visual Language
+- **Colors**: Deep purples, blacks, golds, rich gradients
+- **Typography**: Sophisticated, elegant fonts
+- **Imagery**: Mystical symbols, celestial elements, velvet textures
+- **Layout**: Clean, premium spacing with subtle mystical elements
+
+#### Content Structure
+- **Hero**: Welcoming and mysterious introduction
+- **Features**: Highlight sophistication and precision
+- **Sections**: Use mystical language ("Arcana," "Grimoire," "Celestial")
+- **CTAs**: Invite to "journey" or "unlock" rather than "start" or "begin"
+
+This branding creates a high-end, mysterious experience that feels like a premium occult bookstore meets modern app, maintaining accessibility while offering sophistication.
+
 ## 🚀 Deployment Standards
 
 ### Build Process

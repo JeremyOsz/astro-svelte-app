@@ -6,6 +6,7 @@
   import { Search, Sparkles, Star, Home, Users, Zap, BookOpen, Calendar, Moon, Sun, ArrowRight, Clock, TrendingUp } from 'lucide-svelte';
   import { cn } from '$lib/utils';
   import CurrentPlanetPositions from '$lib/components/CurrentPlanetPositions.svelte';
+  import CacheDebugPanel from '$lib/components/CacheDebugPanel.svelte';
   
   let currentTime = new Date();
   
@@ -83,8 +84,8 @@
 </script>
 
 <svelte:head>
-  <title>Chiron's Quest - Your Not-So-Serious Astrological Adventure</title>
-  <meta name="description" content="Embark on Chiron's Quest: birth charts, transits, and tarot wisdom with a wink. Discover your cosmic story (or just have a laugh)." />
+  <title>Velvet Arcana - Your Personal Grimoire of Celestial Wisdom</title>
+  <meta name="description" content="Unlock the secrets of the cosmos with Velvet Arcana. Birth charts, transits, and tarot wisdom in an elegant, mysterious interface." />
 </svelte:head>
 
 <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
@@ -94,23 +95,43 @@
       <div class="mb-6">
         <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
           <Sparkles class="w-4 h-4" />
-          Chiron's Quest
+          Velvet Arcana
         </div>
         <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-4">
           Welcome to
           <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Chiron's Quest
+            Velvet Arcana
           </span>
         </h1>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-          Calculate your birth chart with Swiss Ephemeris precision and discover your unique astrological blueprint. The stars might surprise you—or at least give you something fun to ponder.
+          Unlock the secrets of the cosmos with Swiss Ephemeris precision. Your personal grimoire of celestial wisdom awaits.
         </p>
       </div>
 
       <!-- Current Time and Planet Positions -->
-      <div class="mb-8">
+      <div class="grid grid-cols-1 gap-6 mb-8">
+        <!-- Current Time Display -->
+        <!-- <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+          <div class="flex items-center justify-center gap-4">
+            <Clock class="w-6 h-6 text-indigo-600" />
+            <div class="text-center">
+              <div class="text-2xl font-bold text-gray-900">
+                {currentTime.toLocaleTimeString()}
+              </div>
+              <div class="text-sm text-gray-600">
+                {currentTime.toLocaleDateString()}
+              </div>
+            </div>
+          </div>
+        </div> -->
+        
         <!-- Planet Positions -->
         <CurrentPlanetPositions />
+        
+        <!-- Cache Debug Panel (Development Only) -->
+        <div class="max-w-md mx-auto">
+          <CacheDebugPanel />
+        </div>
       </div>
     </div>
   </div>
@@ -119,7 +140,7 @@
   <div class="px-4 pb-8">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center lg:text-left">
-        Quick Actions
+        Arcane Tools
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {#each quickActions as action}
@@ -145,7 +166,7 @@
                 href={action.href}
                 class="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium text-sm group-hover:gap-1 transition-all"
               >
-                Get Started
+                Begin
                 <ArrowRight class="w-4 h-4 ml-1" />
               </a>
             </CardContent>
@@ -159,7 +180,7 @@
   <div class="px-4 py-8 bg-white/50">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">
-        Why Join Chiron's Quest?
+        The Velvet Arcana Experience
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {#each recentFeatures as feature}
@@ -184,7 +205,7 @@
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-8">
         <h2 class="text-3xl font-bold text-gray-900 mb-4">
-          Explore the Wisdom of Tarot
+          The Arcana Unveiled
         </h2>
         <p class="text-lg text-gray-600 max-w-2xl mx-auto">
           Discover the meanings and interpretations of all 78 tarot cards. Each card offers insight into love, career, health, and the journey of life.
@@ -227,10 +248,10 @@
           <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
             <h3 class="text-xl font-semibold text-gray-900 mb-4">How to Use</h3>
             <div class="space-y-3 text-sm text-gray-700">
-              <p>• <span class="font-medium">Search & Filter:</span> Find specific cards by name, keywords, or suit (or just click around, we won't judge)</p>
-              <p>• <span class="font-medium">Detailed Meanings:</span> Explore upright and reversed interpretations (for when you need extra drama)</p>
-              <p>• <span class="font-medium">Symbolic Wisdom:</span> Understand the deeper symbolism and astrological connections (or just enjoy the art)</p>
-              <p>• <span class="font-medium">Life Guidance:</span> Apply tarot wisdom to your personal journey (or your next snack decision)</p>
+              <p>• <span class="font-medium">Search & Filter:</span> Find specific cards by name, keywords, or suit</p>
+              <p>• <span class="font-medium">Detailed Meanings:</span> Explore upright and reversed interpretations</p>
+              <p>• <span class="font-medium">Symbolic Wisdom:</span> Understand the deeper symbolism and astrological connections</p>
+              <p>• <span class="font-medium">Life Guidance:</span> Apply tarot wisdom to your personal journey</p>
             </div>
           </div>
         </div>
@@ -277,14 +298,14 @@
     <div class="max-w-2xl mx-auto text-center">
       <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white">
         <h3 class="text-2xl font-bold mb-4">
-          Ready to Embark on Chiron's Quest?
+          Ready to Unlock Your Arcana?
         </h3>
         <p class="text-indigo-100 mb-6">
-          Calculate your birth chart with Swiss Ephemeris precision and discover your unique astrological blueprint. Or just see what the stars have to say about your snack choices—no judgment here.
+          Calculate your birth chart with Swiss Ephemeris precision and discover your unique astrological blueprint. The stars might surprise you—or at least give you something fun to ponder.
         </p>
         <Button size="lg" class="bg-white text-indigo-600 hover:bg-gray-100">
           <Star class="w-5 h-5 mr-2" />
-          Begin Your Quest
+          Begin Your Journey
         </Button>
       </div>
     </div>

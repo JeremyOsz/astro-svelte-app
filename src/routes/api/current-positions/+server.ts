@@ -2,9 +2,23 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { env } from '$env/dynamic/private';
 
+// Simple in-memory cache for server-side caching
+const serverCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const { date, time, latitude, longitude, house_system } = await request.json();
+    
+    // Create cache key
+    const cacheKey = `${date}_${time}_${latitude}_${longitude}_${house_system}`;
+    
+    // Check server cache first
+    const cached = serverCache.get(cacheKey);
+    if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION) {
+      console.log('Server cache hit for planet positions');
+      return json(cached.data);
+    }
     
     // Format the data for the external API
     const apiData = {
@@ -44,12 +58,21 @@ export const POST: RequestHandler = async ({ request }) => {
     console.log('API Response Status:', response.status);
     console.log('Raw API response:', JSON.stringify(chartResult, null, 2));
     
-    // Return the raw API response for planet positions
-    return json({
+    // Prepare response data
+    const responseData = {
       success: true,
       objects: chartResult.objects,
       native: chartResult.native
+    };
+    
+    // Cache the successful response
+    serverCache.set(cacheKey, {
+      data: responseData,
+      timestamp: Date.now()
     });
+    
+    // Return the raw API response for planet positions
+    return json(responseData);
     
   } catch (error) {
     console.error('Error fetching current positions:', error);
