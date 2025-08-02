@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { enhance } from '$app/forms';
   import { chartStore } from '$lib/stores/chart-store';
   import D3BiWheelChart from '$lib/chart/D3BiWheelChart.svelte';
   import ChartInstructions from '$lib/components/ChartInstructions.svelte';
@@ -81,62 +82,66 @@ Pluto,Capricorn,27°58',9
 ASC,Virgo,15°00'
 MC,Gemini,12°00'`;
 
-  import { parseChartCSV, calculateSynastryAspects, calculateHouseOverlays, testSynastryCalculations } from '$lib/utils/synastry-utils';
+
 
   // Reactive synastry data
   let synastryAspects: any[] = [];
   let synastryHouseOverlays: any[] = [];
   let synastryPlanetInSigns: any[] = [];
   let debugInfo: any = null;
+  let person1Chart: any = null;
+  let person2Chart: any = null;
+  let isSubmitting = false;
 
-  $: if (isChartReady && person1Data && person2Data) {
-    try {
-      const p1 = parseChartCSV(person1Data);
-      const p2 = parseChartCSV(person2Data);
-      
-      if (p1.length === 0 || p2.length === 0) {
-        console.error('Failed to parse chart data');
-        synastryAspects = [];
-        synastryHouseOverlays = [];
-        synastryPlanetInSigns = [];
-        debugInfo = { error: 'Failed to parse chart data', p1Length: p1.length, p2Length: p2.length };
-      } else {
-        synastryAspects = calculateSynastryAspects(p1, p2);
-        synastryHouseOverlays = calculateHouseOverlays(p1, p2);
-        
-        // Calculate planet in sign: Person 2's planets in Person 1's signs
-        // This should be Person 2's planets in Person 1's natal sign positions
-        const person2Planets = p2.filter(pl => !['ASC', 'MC', 'DSC', 'IC'].includes(pl.planet));
-        synastryPlanetInSigns = person2Planets.map(pl => {
-          // Find Person 1's corresponding planet to get their sign
-          const person1Planet = p1.find(p => p.planet === pl.planet);
-          if (person1Planet) {
-            return { person2Planet: pl.planet, person1Sign: person1Planet.sign };
-          }
-          return null;
-        }).filter(Boolean);
-        
-        debugInfo = {
-          p1Planets: p1.length,
-          p2Planets: p2.length,
-          aspectsFound: synastryAspects.length,
-          houseOverlaysFound: synastryHouseOverlays.length,
-          planetInSignsFound: synastryPlanetInSigns.length
-        };
-      }
-      
-    } catch (err) {
-      console.error('Error calculating synastry aspects', err);
-      error = 'Failed to calculate synastry aspects. Please check your chart data.';
-      synastryAspects = [];
-      synastryHouseOverlays = [];
-      synastryPlanetInSigns = [];
-      debugInfo = { error: err instanceof Error ? err.message : String(err) };
+  function convertChartToCSV(chart: any): string {
+    if (!chart || !chart.planets) return '';
+    
+    const lines: string[] = [];
+    
+    // Add houses line if available
+    if (chart.houses && chart.houses.length > 0) {
+      const houseAngles = chart.houses.map((house: any, index: number) => {
+        return house.longitude || (index * 30);
+      }).join(',');
+      lines.push(`#HOUSES: ${houseAngles}`);
     }
+    
+    // Add planets
+    chart.planets.forEach((planet: any) => {
+      const sign = planet.sign || 'Unknown';
+      const degree = Math.floor(planet.degree || 0);
+      const minute = Math.floor(((planet.degree || 0) % 1) * 60);
+      const house = planet.house || 1;
+      lines.push(`${planet.name},${sign},${degree}°${minute}',${house}`);
+    });
+    
+    // Add angles if available
+    if (chart.ascendant !== undefined) {
+      const ascDegree = Math.floor(chart.ascendant);
+      const ascMinute = Math.floor(((chart.ascendant % 1) * 60));
+      const ascSign = getSignFromLongitude(chart.ascendant);
+      lines.push(`ASC,${ascSign},${ascDegree}°${ascMinute}'`);
+    }
+    
+    if (chart.mc !== undefined) {
+      const mcDegree = Math.floor(chart.mc);
+      const mcMinute = Math.floor(((chart.mc % 1) * 60));
+      const mcSign = getSignFromLongitude(chart.mc);
+      lines.push(`MC,${mcSign},${mcDegree}°${mcMinute}'`);
+    }
+    
+    return lines.join('\n');
+  }
+
+  function getSignFromLongitude(longitude: number): string {
+    const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 
+                   'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+    const signIndex = Math.floor(longitude / 30);
+    return signs[signIndex % 12];
   }
 
   function runTest() {
-    testSynastryCalculations();
+    console.log('Test function removed - now using ephemeris API for synastry calculations');
   }
 
   onMount(async () => {
@@ -247,31 +252,30 @@ MC,Gemini,12°00'`;
   }
 
   function loadSampleData() {
-    person1Data = samplePerson1;
-    person2Data = samplePerson2;
-    generateSynastryChart();
-  }
+    // Set sample birth data instead of chart data
+    person1Date = '1990-01-01';
+    person1Time = '10:00';
+    person1CitySearch = 'London, United Kingdom';
+    selectedPerson1CityData = {
+      name: 'London',
+      fullLocation: 'London, United Kingdom',
+      lat: 51.5074,
+      lng: -0.1278,
+      country: 'United Kingdom',
+      adminName: 'England'
+    };
 
-  function generateSynastryChart() {
-    if (person1Data && person2Data) {
-      // Load person 1 data into the chart store (inner wheel)
-      chartStore.setChartData(person1Data);
-      // Person 2 data will be passed as transitData (outer wheel)
-      isChartReady = true;
-      error = null;
-      formError = '';
-    } else {
-      formError = 'Please select or enter birth chart data for both people';
-    }
-  }
-
-  function clearCharts() {
-    person1Data = '';
-    person2Data = '';
-    isChartReady = false;
-    chartStore.setChartData('');
-    error = null;
-    formError = '';
+    person2Date = '1992-06-15';
+    person2Time = '14:30';
+    person2CitySearch = 'New York, United States';
+    selectedPerson2CityData = {
+      name: 'New York',
+      fullLocation: 'New York, United States',
+      lat: 40.7128,
+      lng: -74.0060,
+      country: 'United States',
+      adminName: 'New York'
+    };
   }
 
   function validateForm() {
@@ -285,6 +289,15 @@ MC,Gemini,12°00'`;
     }
     formError = '';
     return true;
+  }
+
+  function clearCharts() {
+    person1Data = '';
+    person2Data = '';
+    isChartReady = false;
+    chartStore.setChartData('');
+    error = null;
+    formError = '';
   }
 </script>
 
@@ -326,16 +339,80 @@ MC,Gemini,12°00'`;
   <!-- Synastry Form -->
   <div class="mb-8">
     <Card.Root>
-             <Card.Header>
-         <Card.Title class="flex items-center gap-2">
-           <Users class="h-5 w-5" />
-           Birth Information
-         </Card.Title>
-         <Card.Description>
-           Enter birth details for both people to generate a synastry chart
-         </Card.Description>
-       </Card.Header>
-       <Card.Content class="space-y-6">
+      <Card.Header>
+        <Card.Title class="flex items-center gap-2">
+          <Users class="h-5 w-5" />
+          Birth Information
+        </Card.Title>
+        <Card.Description>
+          Enter birth details for both people to generate a synastry chart
+        </Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <form 
+          method="POST" 
+          action="?/calculate"
+          enctype="application/x-www-form-urlencoded"
+          on:submit={(e) => {
+            if (!validateForm()) {
+              e.preventDefault();
+              return false;
+            }
+          }}
+          use:enhance={() => {
+            return async ({ result, update }) => {
+              isSubmitting = true;
+              
+              try {
+                if (result.type === 'success') {
+                  // Form submitted successfully
+                                     if (result.data?.synastryData) {
+                     const synastryData = result.data.synastryData as any;
+                     
+                     person1Chart = synastryData.person1_chart;
+                     person2Chart = synastryData.person2_chart;
+                     synastryAspects = synastryData.aspects || [];
+                     synastryHouseOverlays = synastryData.house_overlays || [];
+                     synastryPlanetInSigns = synastryData.composite_points || [];
+                     
+                     // Convert chart data to CSV format for the D3 chart
+                     person1Data = synastryData.person1_chart_data;
+                     person2Data = synastryData.person2_chart_data;
+                    
+                    // Load person 1 data into the chart store (inner wheel)
+                    chartStore.setChartData(person1Data);
+                    
+                    isChartReady = true;
+                    error = null;
+                    formError = '';
+                    
+                    debugInfo = {
+                      p1Planets: person1Chart.planets?.length || 0,
+                      p2Planets: person2Chart.planets?.length || 0,
+                      aspectsFound: synastryAspects.length,
+                      houseOverlaysFound: synastryHouseOverlays.length,
+                      planetInSignsFound: synastryPlanetInSigns.length
+                    };
+                  }
+                  
+                  // Update the page
+                  await update();
+                } else if (result.type === 'failure') {
+                  // Form submission failed
+                  if (result.data?.error) {
+                    error = String(result.data.error);
+                  }
+                  
+                  // Update the page
+                  await update();
+                }
+              } finally {
+                isSubmitting = false;
+              }
+            };
+          }}
+          class="space-y-6"
+        >
          <!-- Relationship Type Selection -->
          <div class="space-y-3">
            <Label for="relationship-type">Relationship Type</Label>
@@ -399,8 +476,10 @@ MC,Gemini,12°00'`;
                  <Label for="person1-date">Birth Date</Label>
                  <Input
                    id="person1-date"
+                   name="person1Date"
                    type="date"
                    bind:value={person1Date}
+                   required
                    class="w-full"
                  />
                </div>
@@ -409,8 +488,10 @@ MC,Gemini,12°00'`;
                  <Label for="person1-time">Birth Time</Label>
                  <Input
                    id="person1-time"
+                   name="person1Time"
                    type="time"
                    bind:value={person1Time}
+                   required
                    class="w-full"
                  />
                </div>
@@ -429,6 +510,7 @@ MC,Gemini,12°00'`;
                    <div class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
                      {#each person1CityResults as city, index}
                        <button
+                         type="button"
                          class="w-full px-4 py-2 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                          on:click={() => selectPerson1City(city)}
                        >
@@ -438,6 +520,9 @@ MC,Gemini,12°00'`;
                    </div>
                  {/if}
                </div>
+               
+               <!-- Hidden input for city data -->
+               <input type="hidden" name="person1CityData" value={selectedPerson1CityData ? JSON.stringify(selectedPerson1CityData) : ''} />
              </div>
            </div>
 
@@ -487,8 +572,10 @@ MC,Gemini,12°00'`;
                  <Label for="person2-date">Birth Date</Label>
                  <Input
                    id="person2-date"
+                   name="person2Date"
                    type="date"
                    bind:value={person2Date}
+                   required
                    class="w-full"
                  />
                </div>
@@ -497,8 +584,10 @@ MC,Gemini,12°00'`;
                  <Label for="person2-time">Birth Time</Label>
                  <Input
                    id="person2-time"
+                   name="person2Time"
                    type="time"
                    bind:value={person2Time}
+                   required
                    class="w-full"
                  />
                </div>
@@ -517,6 +606,7 @@ MC,Gemini,12°00'`;
                    <div class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
                      {#each person2CityResults as city, index}
                        <button
+                         type="button"
                          class="w-full px-4 py-2 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                          on:click={() => selectPerson2City(city)}
                        >
@@ -526,18 +616,25 @@ MC,Gemini,12°00'`;
                    </div>
                  {/if}
                </div>
+               
+               <!-- Hidden input for city data -->
+               <input type="hidden" name="person2CityData" value={selectedPerson2CityData ? JSON.stringify(selectedPerson2CityData) : ''} />
              </div>
            </div>
         </div>
 
+        <!-- Hidden inputs for form settings -->
+        <input type="hidden" name="relationshipType" value={relationshipType} />
+        <input type="hidden" name="houseSystem" value="whole_sign" />
+
         <!-- Action Buttons -->
         <div class="flex flex-wrap gap-3 pt-4 border-t">
                      <button
+             type="submit"
              class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-             on:click={generateSynastryChart}
-             disabled={!person1Data || !person2Data}
+             disabled={isSubmitting}
            >
-             Generate Synastry Chart
+             {isSubmitting ? 'Calculating...' : 'Generate Synastry Chart'}
            </button>
           
           <button
@@ -555,12 +652,14 @@ MC,Gemini,12°00'`;
           </button>
           
           <button
+            type="button"
             class="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
             on:click={runTest}
           >
             Run Test
           </button>
         </div>
+        </form>
       </Card.Content>
     </Card.Root>
   </div>

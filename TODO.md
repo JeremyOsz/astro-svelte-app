@@ -55,6 +55,114 @@
 - Rituals and meditations
 - ~tarot layouts~
 
+# Perfect Partner Predictions (Synastry Enhancement)
+
+## Overview
+Extend the existing synastry system to generate predictions for ideal partner compatibility and what to look for in relationships.
+
+## Implementation Plan
+
+### Phase 1: Core Prediction Engine
+1. **Create Partner Prediction Service**
+   - File: `src/lib/services/partner-prediction.ts`
+   - Analyze single birth chart to identify ideal partner characteristics
+   - Calculate optimal planetary placements for compatibility
+   - Generate compatibility scoring algorithms
+
+2. **Add Prediction Types**
+   ```typescript
+   interface PartnerPrediction {
+     idealSunSigns: string[];
+     idealMoonSigns: string[];
+     idealVenusPlacements: string[];
+     idealMarsPlacements: string[];
+     compatibilityScore: number;
+     relationshipThemes: string[];
+     timingRecommendations: string[];
+     challengingAspects: string[];
+     harmoniousAspects: string[];
+   }
+   ```
+
+3. **Create Prediction Components**
+   - `src/lib/components/PartnerPrediction.svelte` - Main prediction display
+   - `src/lib/components/IdealPartnerProfile.svelte` - Visual partner profile
+   - `src/lib/components/CompatibilityScore.svelte` - Scoring display
+
+### Phase 2: Advanced Features
+4. **Compatibility Scoring System**
+   - Weighted scoring based on key aspects (Sun-Moon, Venus-Mars, etc.)
+   - Separate scores for emotional, intellectual, physical, spiritual compatibility
+   - Growth potential scoring using Saturn aspects and house overlays
+
+5. **Partner Search Recommendations**
+   - Generate "wishlist" of ideal partner characteristics
+   - Suggest what to look for in potential partners
+   - Provide timing recommendations for meeting compatible partners
+
+6. **Relationship Prediction Engine**
+   - Long-term compatibility using Saturn aspects and house overlays
+   - Communication patterns based on Mercury aspects
+   - Romantic chemistry using Venus-Mars aspects
+   - Shared life goals using Jupiter aspects and 9th/10th house overlays
+
+### Phase 3: User Interface
+7. **Add Prediction Route**
+   - `src/routes/partner-prediction/+page.svelte`
+   - Single chart input for generating ideal partner profile
+   - "What to Look For" recommendations
+   - Compatibility scoring interface
+
+8. **Enhance Synastry Page**
+   - Add "Generate Partner Prediction" button
+   - Show compatibility scores in existing synastry analysis
+   - Add relationship potential indicators
+
+### Phase 4: Data & Interpretations
+9. **Extend Interpretation Data**
+   - Add partner prediction interpretations to `src/lib/data/interpretations/`
+   - Create ideal aspect calculations based on astrological principles
+   - Add timing and compatibility recommendations
+
+10. **Create Prediction Algorithms**
+    - Ideal Sun-Moon combinations for emotional compatibility
+    - Optimal Venus-Mars placements for romantic chemistry
+    - Best house overlays for relationship stability
+    - Saturn aspects for long-term potential
+
+## Technical Implementation
+
+### Core Files to Create:
+- `src/lib/services/partner-prediction.ts` - Main prediction logic
+- `src/lib/components/PartnerPrediction.svelte` - UI component
+- `src/routes/partner-prediction/+page.svelte` - Prediction page
+- `src/lib/data/interpretations/partner-predictions.ts` - Prediction data
+
+### Key Algorithms:
+1. **Ideal Partner Calculation**: Analyze natal chart to find optimal partner placements
+2. **Compatibility Scoring**: Weight different aspects and house overlays
+3. **Timing Predictions**: Use transits and progressions for timing recommendations
+4. **Relationship Themes**: Identify key relationship dynamics and growth areas
+
+### Integration Points:
+- Extend existing synastry API (`src/routes/api/synastry/+server.ts`)
+- Add prediction endpoints to ephemeris API
+- Integrate with existing chart storage system
+- Use current aspect interpretation framework
+
+## User Experience Flow:
+1. User enters their birth chart
+2. System generates ideal partner profile
+3. Shows compatibility scores and recommendations
+4. Provides "what to look for" guidance
+5. Offers timing suggestions for meeting compatible partners
+
+## Success Metrics:
+- Accurate compatibility predictions based on astrological principles
+- User-friendly interface for understanding predictions
+- Integration with existing synastry functionality
+- Actionable recommendations for relationship building
+
 # Optimisations
 
 ## Cleanup
