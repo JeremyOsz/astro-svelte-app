@@ -55,8 +55,6 @@ export const POST: RequestHandler = async ({ request }) => {
   try {
     const { natalChart, date, location } = await request.json();
     
-    console.log('Received natal chart:', JSON.stringify(natalChart, null, 2));
-    
     if (!natalChart) {
       return json({ error: 'Missing required field: natalChart' }, { status: 400 });
     }

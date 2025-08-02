@@ -57,7 +57,6 @@
           };
         }
       } catch (error) {
-        console.log('Could not get current location:', error);
         // Set default location
         transitCitySearch = 'New York, United States';
         selectedTransitCityData = {

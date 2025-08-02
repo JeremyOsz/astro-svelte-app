@@ -60,12 +60,8 @@ function calculateHouseForPlanet(planetLongitude: number, houseCusps: number[]):
 // Convert transit data to CSV format for BiWheelChart
 export function convertTransitDataToCSV(transitData: any, natalChart?: any): string {
   if (!transitData) {
-    console.log('No transit data to convert');
     return '';
   }
-  
-  console.log('Converting transit data to CSV:', transitData);
-  console.log('Natal chart for house calculations:', natalChart);
   
   // Handle different possible response structures
   let planets: any[] = [];
@@ -77,18 +73,14 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
     planets = Object.values(transitData.objects).filter((obj: any) => 
       obj && typeof obj === 'object' && obj.name && obj.longitude !== undefined
     );
-    console.log('Extracted planets from objects structure:', planets.length);
   } else if (Array.isArray(transitData)) {
     // Handle case where transitData might be the planets array directly
     planets = transitData;
   } else {
-    console.error('Transit data structure:', transitData);
-    console.log('No planets found in transit data. Expected planets array or objects structure.');
     return '';
   }
   
   if (planets.length === 0) {
-    console.log('No planets found in transit data');
     return '';
   }
   
@@ -103,7 +95,6 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
     );
     const houseCuspsStr = houseCusps.join(',');
     lines.push(`#HOUSES:${houseCuspsStr}`);
-    console.log('Added natal house cusps for transit calculations:', houseCuspsStr);
   } else if (transitData.houses && transitData.houses.length > 0) {
     // Fallback to transit chart house cusps if natal not available
     houseCusps = transitData.houses.map((house: any) => 
@@ -111,7 +102,6 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
     );
     const houseCuspsStr = houseCusps.join(',');
     lines.push(`#HOUSES:${houseCuspsStr}`);
-    console.log('Added transit house cusps:', houseCuspsStr);
   }
   
   // Add ASC if available
@@ -121,12 +111,10 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
     const ascSignIndex = Math.floor(transitData.ascendant / 30);
     const ascSign = ZODIAC_DETAILED[ascSignIndex]?.name || 'Aries';
     lines.push(`ASC,${ascSign},${ascDegree}°${ascMinute.toString().padStart(2, '0')}',1`);
-    console.log('Added ASC line');
   }
   
   // Add planets
   planets.forEach((planet: any) => {
-    console.log('Processing planet:', planet);
     
     // Extract longitude - handle both direct values and nested objects
     let longitude: number;
@@ -179,11 +167,9 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
     
     const line = `${planetName},${sign},${degree}°${minute.toString().padStart(2, '0')}'${house}${retrograde}`;
     lines.push(line);
-    console.log('Added planet line:', line);
   });
   
   const result = lines.join('\n');
-  console.log('Final CSV result:', result);
   return result;
 }
 
@@ -193,8 +179,6 @@ export function parseNatalChart(selectedBirthChart: any, chartData: string): Nat
     throw new Error('Failed to load birth chart data');
   }
 
-  console.log('Chart data from store:', chartData);
-  
   const natalChart: NatalChart = {
     planets: [],
     houses: [],
@@ -207,7 +191,6 @@ export function parseNatalChart(selectedBirthChart: any, chartData: string): Nat
   
   // Parse the chart data string to extract planet positions
   const lines = chartData.split('\n');
-  console.log('Parsing chart lines:', lines);
   
   lines.forEach((line: string) => {
     const [name, sign, degree] = line.split(',');
@@ -233,8 +216,6 @@ export function parseNatalChart(selectedBirthChart: any, chartData: string): Nat
       }
     }
   });
-  
-  console.log('Parsed natal chart planets:', natalChart.planets);
 
   // Calculate ascendant and default houses using Whole Sign
   const asc = natalChart.planets.find((p: any) => p.name === 'ASC' || p.name === 'Asc');
@@ -280,7 +261,6 @@ export async function calculateTransits(params: TransitCalculationParams): Promi
     const transitDateTime = new Date(`${transitDate}T${transitTime}:00`);
     
     // Calculate transits using the transits API
-    console.log('ABOUT TO FETCH FROM /api/transits');
     const response = await fetch('/api/transits', {
       method: 'POST',
       headers: {
@@ -303,9 +283,7 @@ export async function calculateTransits(params: TransitCalculationParams): Promi
     }
 
     const currentTransits = await response.json();
-    console.log('Transit data received:', currentTransits);
     const transitChartData = convertTransitDataToCSV(currentTransits);
-    console.log('Converted CSV data:', transitChartData);
     
     return {
       natalChart,

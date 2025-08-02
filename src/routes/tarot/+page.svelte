@@ -32,7 +32,6 @@
     const matchesSuit = selectedSuit === 'all' || (selectedSuit === 'major' && !card.suit) || card.suit?.toLowerCase() === selectedSuit;
     return matchesSearch && matchesSuit;
   });
-  $: console.log('Search:', searchTerm, 'Results:', filteredCards.length);
 
   function selectCard(card: TarotCard) {
     selectedCard = card;

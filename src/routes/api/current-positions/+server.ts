@@ -16,7 +16,6 @@ export const POST: RequestHandler = async ({ request }) => {
     // Check server cache first
     const cached = serverCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION) {
-      console.log('Server cache hit for planet positions');
       return json(cached.data);
     }
     
@@ -29,8 +28,6 @@ export const POST: RequestHandler = async ({ request }) => {
       longitude: longitude || -0.1278,
       house_system: house_system || 'whole_sign'
     };
-    
-    console.log('Sending API request with data:', JSON.stringify(apiData, null, 2));
     
     // Call the external ephemeris API
     const API_BASE_URL = 'https://immanuel-astro.onrender.com';
@@ -54,9 +51,6 @@ export const POST: RequestHandler = async ({ request }) => {
     }
     
     const chartResult = await response.json();
-    
-    console.log('API Response Status:', response.status);
-    console.log('Raw API response:', JSON.stringify(chartResult, null, 2));
     
     // Prepare response data
     const responseData = {

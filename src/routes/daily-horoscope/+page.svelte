@@ -126,13 +126,11 @@
           error = null;
           
           return async ({ result }) => {
-            console.log('Enhance result:', result);
             loading = false;
             
             if (result.type === 'failure') {
               error = (result.data?.error as string) || 'An error occurred';
             } else if (result.type === 'success' && result.data) {
-              console.log('Success result data:', result.data);
               currentHoroscope = result.data.dailyHoroscope;
             }
           };

@@ -89,7 +89,6 @@
     const cityInput = document.getElementById(`${formPrefix}city-data`) as HTMLInputElement;
     if (cityInput) {
       cityInput.value = JSON.stringify(selectedCityData);
-      console.log('City selected:', selectedCityData);
     }
     
     // Removed timezone update
@@ -117,18 +116,13 @@
   
   // Handle form submission
   function handleSubmit(e: Event) {
-    console.log('Form submission started');
-    console.log('Form data:', { birthDate, birthTime, selectedCityData });
-    
     if (!validateForm()) {
-      console.log('Form validation failed:', formError);
       e.preventDefault();
       return false;
     }
     
     // Set loading state immediately when form is valid and about to submit
     chartStore.setLoading(true);
-    console.log('Form validation passed, proceeding with submission');
     return true;
   }
 </script>
@@ -141,29 +135,21 @@
     on:submit={handleSubmit}
     use:enhance={() => {
       return async ({ result, update }) => {
-        console.log('Enhance function called with result:', result);
         isSubmitting = true;
         
         try {
           if (result.type === 'success') {
             // Form submitted successfully
-            console.log('Form submitted successfully');
-            console.log('Result data:', result.data);
             
             // Update the chart store with the result data
             if (result.data?.chartData) {
-              console.log('Setting chart data:', result.data.chartData);
               chartStore.setChartData(String(result.data.chartData), result.data.birthData as any);
-            } else {
-              console.log('No chart data in result');
             }
             
             // Update the page
             await update();
           } else if (result.type === 'failure') {
             // Form submission failed
-            console.error('Form submission failed:', result);
-            console.error('Failure data:', result.data);
             
             // Set error in chart store
             if (result.data?.error) {

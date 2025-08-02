@@ -45,7 +45,6 @@
   });
 
   function handleChartSelect(chart: any) {
-    console.log('Client - selected chart:', chart);
     selectedBirthChart = chart;
     currentTransits = null;
     transitChartData = null;
@@ -124,13 +123,11 @@
         error = null;
         
         return async ({ result }) => {
-          console.log('Enhance result:', result);
           loading = false;
           
           if (result.type === 'failure') {
             error = (result.data?.error as string) || 'An error occurred';
           } else if (result.type === 'success' && result.data) {
-            console.log('Success result data:', result.data);
             natalChart = result.data.natalChart;
             currentTransits = result.data.currentTransits;
             transitChartData = result.data.transitChartData as string;

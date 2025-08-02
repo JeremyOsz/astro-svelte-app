@@ -29,12 +29,10 @@ class PlanetPositionsCache {
     const cached = this.cache.get(key);
     
     if (cached && this.isCacheValid(cached, useHourlyCache)) {
-      console.log(`Cache hit for planet positions on ${date}${time ? ` at ${time}` : ''}`);
       return cached.positions;
     }
     
     if (cached) {
-      console.log(`Cache expired for planet positions on ${date}${time ? ` at ${time}` : ''}`);
       this.cache.delete(key);
     }
     
@@ -51,7 +49,6 @@ class PlanetPositionsCache {
     };
     
     this.cache.set(key, cached);
-    console.log(`Cached planet positions for ${date}${time ? ` at ${time}` : ''} (source: ${source})`);
     
     // Clean up old entries
     this.cleanup();
@@ -67,22 +64,15 @@ class PlanetPositionsCache {
         cleanedCount++;
       }
     }
-    
-    if (cleanedCount > 0) {
-      console.log(`Cleaned up ${cleanedCount} expired cache entries`);
-    }
   }
 
   clear(): void {
     this.cache.clear();
-    console.log('Planet positions cache cleared');
   }
 
   invalidate(date: string, time?: string): void {
     const key = this.getCacheKey(date, time);
-    if (this.cache.delete(key)) {
-      console.log(`Invalidated cache for ${date}${time ? ` at ${time}` : ''}`);
-    }
+    this.cache.delete(key);
   }
 
   getCacheStats(): { size: number; keys: string[]; details: CachedPlanetPositions[] } {

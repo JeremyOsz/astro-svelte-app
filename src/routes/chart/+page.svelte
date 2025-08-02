@@ -91,20 +91,17 @@ MC,Leo,10°14'`;
 
   // Subscribe to the chart store
   $: ({ chartData: storeChartData, error, isLoading } = $chartStore);
-  console.log('Chart store updated:', { storeChartData, error, isLoading });
   
   // Update showChart based on chart data
   $: if (storeChartData && storeChartData.trim()) {
     showChart = true;
-    console.log('Chart data available, showing chart');
   } else {
     showChart = false;
-    console.log('No chart data, hiding chart');
   }
 
   // Show loading state when API calls are in progress
   $: if (isLoading) {
-    console.log('Chart is loading, showing loading state');
+    // Loading state active
   } else {
     loadingProgress = 0;
   }
@@ -371,7 +368,6 @@ MC,Leo,10°14'`;
                     class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
                     bind:value={textareaStore}
                     on:input={() => {
-                      console.log('Textarea input:', textareaStore);
                       // Only update store if the data is actually different to avoid loops
                       if (textareaStore.trim() && textareaStore !== $chartStore.chartData) {
                         chartStore.setChartData(textareaStore);

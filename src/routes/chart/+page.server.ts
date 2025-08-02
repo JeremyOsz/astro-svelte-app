@@ -13,30 +13,13 @@ export const actions: Actions = {
   calculate: async ({ request }) => {
     const formData = await request.formData();
     
-    // Debug: Log all form data
-    console.log('=== FORM DATA DEBUG ===');
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-    
     try {
       // Handle both prefixed and non-prefixed field names
       const birthDate = (formData.get('birthDate') || formData.get('mobile_birthDate') || formData.get('desktop_birthDate')) as string;
       const birthTime = (formData.get('birthTime') || formData.get('mobile_birthTime') || formData.get('desktop_birthTime')) as string;
       const cityDataStr = (formData.get('cityData') || formData.get('mobile_cityData') || formData.get('desktop_cityData')) as string;
       
-      console.log('=== EXTRACTED VALUES ===');
-      console.log('birthDate:', birthDate);
-      console.log('birthTime:', birthTime);
-      console.log('cityDataStr:', cityDataStr);
-      
       if (!birthDate || !birthTime || !cityDataStr) {
-        console.log('=== VALIDATION FAILED ===');
-        console.log('Missing fields:', {
-          birthDate: !birthDate,
-          birthTime: !birthTime,
-          cityDataStr: !cityDataStr
-        });
         return fail(400, {
           error: 'Please fill in all required fields',
           chartData: null
@@ -55,19 +38,9 @@ export const actions: Actions = {
         house_system: 'whole_sign'
       };
       
-      console.log('Sending API request with data:', JSON.stringify(apiData, null, 2));
-      
       // Call the external API
       const API_BASE_URL = 'https://immanuel-astro.onrender.com';
       const API_KEY = env.EPHEMERIS_API_KEY || '';
-      
-      // Debug logs for API configuration
-      console.log('=== API CONFIGURATION DEBUG ===');
-      console.log('API Base URL:', API_BASE_URL);
-      console.log('API Key present:', !!API_KEY);
-      console.log('API Key length:', API_KEY.length);
-      console.log('API Key preview:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
-      console.log('Full request URL:', `${API_BASE_URL}/birth-chart`);
       
       const response = await fetch(`${API_BASE_URL}/birth-chart`, {
         method: 'POST',
@@ -79,30 +52,11 @@ export const actions: Actions = {
       });
       
       if (!response.ok) {
-        console.error('=== API REQUEST FAILED ===');
-        console.error('Response status:', response.status);
-        console.error('Response status text:', response.statusText);
-        console.error('API Base URL:', API_BASE_URL);
-        console.error('API Key present:', !!API_KEY);
-        console.error('API Key length:', API_KEY.length);
-        console.error('API Key preview:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
-        
         const errorText = await response.text();
-        console.error('Response body:', errorText);
-        
         throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
       }
       
       const chartResult = await response.json();
-      
-      console.log('API Response Status:', response.status);
-      console.log('Raw API response:', JSON.stringify(chartResult, null, 2));
-      console.log('API response keys:', Object.keys(chartResult));
-      
-      if (chartResult.objects) {
-        console.log('Objects keys:', Object.keys(chartResult.objects));
-        console.log('First object example:', Object.values(chartResult.objects)[0]);
-      }
       
       // Transform the response to the expected format
       const chartData = transformChartData(chartResult);
@@ -196,19 +150,13 @@ function transformChartData(apiResponse: any): string {
   
   // Extract planets from the objects
   if (apiResponse.objects) {
-    console.log('Found objects, processing...');
     Object.entries(apiResponse.objects).forEach(([key, object]: [string, any]) => {
-      console.log('Processing object:', key, object);
-      console.log('Object keys:', Object.keys(object));
-      
       // Check if this is a planet or celestial object
       if (object.name && object.longitude && object.longitude.raw !== undefined) {
-        console.log('Valid object found:', object.name);
         let name = object.name;
         
         // Skip house cusps - they will be handled separately
         if (name.includes('House')) {
-          console.log('Skipping house cusp:', name);
           return;
         }
         
@@ -245,16 +193,8 @@ function transformChartData(apiResponse: any): string {
         }
         
         planetLines.push(line);
-        console.log('Added planet line:', line);
-      } else {
-        console.log('Skipping object - missing required fields:', {
-          hasName: !!object.name,
-          hasLongitude: !!(object.longitude && object.longitude.raw !== undefined)
-        });
       }
     });
-  } else {
-    console.log('No objects found in API response');
   }
   
   // Add ASC and MC if they exist in the response
@@ -270,7 +210,6 @@ function transformChartData(apiResponse: any): string {
     
     const ascLine = `ASC,${sign},${degrees}°${minutes.toString().padStart(2, '0')}'`;
     planetLines.push(ascLine);
-    console.log('Added ASC line:', ascLine);
   }
   
   if (apiResponse.native && apiResponse.native.mc) {
@@ -285,13 +224,9 @@ function transformChartData(apiResponse: any): string {
     
     const mcLine = `MC,${sign},${degrees}°${minutes.toString().padStart(2, '0')}'`;
     planetLines.push(mcLine);
-    console.log('Added MC line:', mcLine);
   }
   
   // Add house cusps line if we have them
-  console.log('=== HOUSE CUSPS SUMMARY ===');
-  console.log('House cusps found:', houseCusps.length);
-  console.log('House cusps:', houseCusps);
   
   if (houseCusps.length === 12) {
     const houseCuspsLine = `#HOUSES:${houseCusps.join(',')}`;

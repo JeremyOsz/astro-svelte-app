@@ -53,13 +53,10 @@
       cacheStatus = planetPositionsCache.getCacheStatus(dateStr, timeStr);
       const cachedPositions = planetPositionsCache.get(dateStr, timeStr);
       if (cachedPositions) {
-        console.log('Using cached planet positions');
         planetPositions = cachedPositions;
         isLoading = false;
         return;
       }
-
-      console.log('Cache miss, fetching fresh planet positions');
       
       // Call the current positions API
       const response = await fetch('/api/current-positions', {
@@ -82,11 +79,8 @@
 
       const data = await response.json();
       
-      console.log('API Response:', data);
-      
       // Transform the data to extract planet positions
       if (data.objects) {
-        console.log('Objects found:', Object.keys(data.objects));
         
         const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
         
@@ -94,9 +88,6 @@
         planetPositions = [];
         
         Object.entries(data.objects).forEach(([id, object]: [string, any]) => {
-          console.log(`Processing object ${id}:`, object);
-          console.log(`Object name: ${object.name}, has longitude: ${!!object.longitude}, is planet: ${planets.includes(object.name)}`);
-          
           // Check if this object has a name and longitude (indicating it's a planet)
           if (object.name && object.longitude && planets.includes(object.name)) {
             const longitude = object.longitude.raw;
@@ -119,16 +110,12 @@
               color: planetColors[object.name] || 'text-gray-600'
             };
             
-            console.log(`Processed ${object.name}:`, planetData);
             planetPositions.push(planetData);
           }
         });
         
-        console.log('Final planet positions:', planetPositions);
-        
         // If no planets found, use fallback data
         if (planetPositions.length === 0) {
-          console.log('No planets found in objects, using fallback data');
           planetPositions = [
             { name: 'Sun', symbol: '☉', sign: 'Capricorn', degrees: 15, minutes: 30, retrograde: false, color: 'text-yellow-500' },
             { name: 'Moon', symbol: '☽', sign: 'Aquarius', degrees: 8, minutes: 45, retrograde: false, color: 'text-slate-400' },
@@ -141,7 +128,6 @@
         // Cache the successful result
         planetPositionsCache.set(dateStr, planetPositions, 'api', timeStr);
       } else {
-        console.log('No objects found in response');
         // Fallback data for testing
         planetPositions = [
           { name: 'Sun', symbol: '☉', sign: 'Capricorn', degrees: 15, minutes: 30, retrograde: false, color: 'text-yellow-500' },

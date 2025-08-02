@@ -11,8 +11,6 @@ function parseNatalChart(selectedBirthChart: any, chartData: string): BirthChart
     throw new Error('Failed to load birth chart data');
   }
 
-  console.log('Chart data from store:', chartData);
-  
   const natalChart: BirthChart = {
     planets: [],
     houses: [],
@@ -25,7 +23,6 @@ function parseNatalChart(selectedBirthChart: any, chartData: string): BirthChart
   
   // Parse the chart data string to extract planet positions
   const lines = chartData.split('\n');
-  console.log('Parsing chart lines:', lines);
   
   lines.forEach((line: string) => {
     const [name, sign, degree] = line.split(',');
@@ -51,8 +48,6 @@ function parseNatalChart(selectedBirthChart: any, chartData: string): BirthChart
       }
     }
   });
-  
-  console.log('Parsed natal chart planets:', natalChart.planets);
 
   // Calculate ascendant and default houses using Whole Sign
   const asc = natalChart.planets.find((p: any) => p.name === 'ASC' || p.name === 'Asc');
@@ -76,7 +71,7 @@ export const actions = {
       const natalChartJson = formData.get('natalChart') as string;
       const date = formData.get('date') as string;
 
-      console.log('Server action - generating horoscope for date:', date);
+
 
       // Validation
       if (!natalChartJson || !date) {
