@@ -120,3 +120,13 @@ To verify tree shaking is working:
 3. Verify only used interpretation data is included
 
 The modular structure ensures that unused interpretation data is automatically excluded from your production bundle. 
+
+
+# Enhancements
+## aspects
+
+Sun aspects (ALL): Conjunction and Square
+Moon aspects (ALL): Conjunction and Square
+Mercury aspects (ALL): Conjunction and Square
+Venus aspects (ALL): Conjunction and Square
+Mars aspects (ALL): Conjunction and Square

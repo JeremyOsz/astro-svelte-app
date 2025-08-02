@@ -803,7 +803,7 @@ MC,Leo,10°14'`;
           <!-- Interpretations list -->
           <InterpretationList filter={interpretationFilter} />
         {:else}
-          <div class="absolute inset-0 flex items-center justify-center top-0 bottom-auto">
+          <div class="absolute inset-0 flex items-center justify-center top-5 bottom-auto">
             <div class="text-center p-8 max-w-md">
               <div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 border border-indigo-200 rounded-2xl p-8 shadow-lg mystical-glow">
                 <div class="mb-6">
