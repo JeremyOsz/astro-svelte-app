@@ -16,37 +16,78 @@ export interface SynastryAspect {
   orb: number;
 }
 
+export interface SynastryHouseOverlay {
+  person2Planet: string;
+  person1House: number;
+}
+
 /**
  * Parse the CSV chartData returned from Swiss Ephemeris (or stored) into structured PlanetData.
  * Expected line format: "Sun, Aries, 15°23', 11" (optional house)
  */
 export function parseChartCSV(chartData: string): PlanetData[] {
-  if (!chartData) return [];
+  if (!chartData || typeof chartData !== 'string') {
+    console.warn('Invalid chart data provided to parseChartCSV');
+    return [];
+  }
+  
   const planets: PlanetData[] = [];
   const lines = chartData.split('\n');
+  
   for (const line of lines) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith('#')) continue;
+    
     const parts = trimmed.split(',');
-    if (parts.length < 3) continue;
+    if (parts.length < 3) {
+      console.warn(`Skipping malformed line: ${trimmed}`);
+      continue;
+    }
 
     let planet = parts[0].trim();
     const sign = parts[1].trim();
     const degreeStr = parts[2].trim();
     const housePart = parts.length >= 4 ? parts[3].trim() : undefined;
 
-    // normalise angle names
+    // Normalize angle names
     if (planet === 'Asc') planet = 'ASC';
     if (planet === 'Mc') planet = 'MC';
     if (planet === 'Dsc') planet = 'DSC';
     if (planet === 'Ic') planet = 'IC';
 
-    const match = degreeStr.match(/(\d+)°(\d+)'/);
-    if (!match) continue;
-    const degree = parseInt(match[1]);
-    const minute = parseInt(match[2]);
+    // Parse degree string - handle multiple formats
+    let degree = 0;
+    let minute = 0;
+    
+    // Try different degree formats
+    const degreeMatch = degreeStr.match(/(\d+)°(\d+)'/);
+    if (degreeMatch) {
+      degree = parseInt(degreeMatch[1]);
+      minute = parseInt(degreeMatch[2]);
+    } else {
+      // Try format without minutes
+      const simpleMatch = degreeStr.match(/(\d+)°/);
+      if (simpleMatch) {
+        degree = parseInt(simpleMatch[1]);
+        minute = 0;
+      } else {
+        console.warn(`Could not parse degree string: ${degreeStr}`);
+        continue;
+      }
+    }
+    
+    // Validate degree and minute
+    if (isNaN(degree) || isNaN(minute) || degree < 0 || degree > 29 || minute < 0 || minute > 59) {
+      console.warn(`Invalid degree values: ${degree}°${minute}'`);
+      continue;
+    }
+
     const signIndex = ZODIAC_SIGNS.indexOf(sign as any);
-    if (signIndex === -1) continue;
+    if (signIndex === -1) {
+      console.warn(`Invalid sign: ${sign}`);
+      continue;
+    }
+    
     const absolute = signIndex * 30 + degree + minute / 60;
 
     const data: PlanetData = {
@@ -56,23 +97,49 @@ export function parseChartCSV(chartData: string): PlanetData[] {
       minute,
       angle: absolute
     };
+    
     if (housePart && !isNaN(parseInt(housePart))) {
-      data.house = parseInt(housePart);
+      const houseNum = parseInt(housePart);
+      if (houseNum >= 1 && houseNum <= 12) {
+        data.house = houseNum;
+      }
     }
+    
     planets.push(data);
   }
+  
+  if (planets.length === 0) {
+    console.warn('No valid planets found in chart data');
+  }
+  
   return planets;
 }
 
 export function calculateSynastryAspects(person1: PlanetData[], person2: PlanetData[]): SynastryAspect[] {
   const aspects: SynastryAspect[] = [];
+  
+  // Filter out angles and keep only planets
   const corePlanets1 = person1.filter(p => !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
   const corePlanets2 = person2.filter(p => !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
 
+  // Validate input data
+  if (corePlanets1.length === 0 || corePlanets2.length === 0) {
+    console.warn('No valid planets found for synastry calculation');
+    return [];
+  }
+
   for (const p1 of corePlanets1) {
     for (const p2 of corePlanets2) {
+      // Skip if either planet has invalid angle
+      if (typeof p1.angle !== 'number' || typeof p2.angle !== 'number' || 
+          isNaN(p1.angle) || isNaN(p2.angle)) {
+        continue;
+      }
+      
       const angleDiff = Math.abs(p1.angle - p2.angle);
       const minAngle = Math.min(angleDiff, 360 - angleDiff);
+      
+      // Check each aspect definition
       for (const [aspectName, def] of Object.entries(ASPECT_DEFINITIONS)) {
         const orb = Math.abs(minAngle - def.angle);
         if (orb <= def.orb) {
@@ -82,10 +149,100 @@ export function calculateSynastryAspects(person1: PlanetData[], person2: PlanetD
             aspect: aspectName,
             orb: parseFloat(orb.toFixed(2))
           });
-          break;
+          break; // Only count the closest aspect
         }
       }
     }
   }
+  
   return aspects;
+}
+
+/**
+ * Calculate which house Person 2's planets fall into in Person 1's chart
+ */
+export function calculateHouseOverlays(person1: PlanetData[], person2: PlanetData[]): SynastryHouseOverlay[] {
+  const overlays: SynastryHouseOverlay[] = [];
+  
+  // Get Person 1's ASC (1st house cusp)
+  const person1Asc = person1.find(p => p.planet === 'ASC');
+  if (!person1Asc) {
+    console.warn('Person 1 ASC not found for house overlay calculation');
+    return [];
+  }
+  
+  // Get Person 2's planets (excluding angles)
+  const person2Planets = person2.filter(p => !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
+  
+  for (const planet of person2Planets) {
+    // Calculate the house using whole sign system
+    // This is a simplified calculation - for more accuracy, we'd need to calculate all house cusps
+    const angleDiff = (planet.angle - person1Asc.angle + 360) % 360;
+    const house = Math.floor(angleDiff / 30) + 1;
+    
+    if (house >= 1 && house <= 12) {
+      overlays.push({
+        person2Planet: planet.planet,
+        person1House: house
+      });
+    }
+  }
+  
+  return overlays;
+}
+
+/**
+ * Test function to verify synastry calculations
+ */
+export function testSynastryCalculations(): void {
+  const testPerson1 = `Sun,Leo,10°30',1
+Moon,Cancer,5°12',12
+Mercury,Virgo,23°45',2
+Venus,Libra,15°20',3
+Mars,Scorpio,2°05',4
+Jupiter,Sagittarius,18°40',5
+Saturn,Capricorn,8°11',6
+Uranus,Aquarius,12°33',7
+Neptune,Pisces,25°50',8
+Pluto,Scorpio,28°10',4
+ASC,Virgo,15°00'
+MC,Gemini,12°00'`;
+
+  const testPerson2 = `Sun,Virgo,12°15',1
+Moon,Pisces,18°30',12
+Mercury,Libra,5°11',2
+Venus,Leo,20°25',3
+Mars,Leo,28°40',4
+Jupiter,Taurus,15°41',5
+Saturn,Pisces,3°05',6
+Uranus,Taurus,23°09',7
+Neptune,Pisces,26°50',8
+Pluto,Capricorn,27°58',9
+ASC,Virgo,15°00'
+MC,Gemini,12°00'`;
+
+  try {
+    const p1 = parseChartCSV(testPerson1);
+    const p2 = parseChartCSV(testPerson2);
+    
+    console.log('Person 1 planets:', p1.length);
+    console.log('Person 2 planets:', p2.length);
+    
+    const aspects = calculateSynastryAspects(p1, p2);
+    console.log('Synastry aspects found:', aspects.length);
+    
+    const houseOverlays = calculateHouseOverlays(p1, p2);
+    console.log('House overlays found:', houseOverlays.length);
+    
+    // Test specific aspects
+    const sunMoonAspects = aspects.filter(a => 
+      (a.person1Planet === 'Sun' && a.person2Planet === 'Moon') ||
+      (a.person1Planet === 'Moon' && a.person2Planet === 'Sun')
+    );
+    console.log('Sun-Moon aspects:', sunMoonAspects);
+    
+    return;
+  } catch (error) {
+    console.error('Test failed:', error);
+  }
 }

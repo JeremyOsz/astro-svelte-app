@@ -1,6 +1,6 @@
 import type { BirthChart, PlanetPosition, TransitAspect } from '$lib/types/types';
 import { SwissEphemerisService } from '$lib/astrology/swiss-ephemeris-service';
-import { getTransitInterpretation, getDetailedAspectInterpretation } from '$lib/data/interpretations';
+import { getTransitInterpretation, getDetailedAspectInterpretation } from '$lib/data/interpretations/index';
 import { getSignByDegree } from '$lib/data/astrological-data';
 
 export interface DailyHoroscope {

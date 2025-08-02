@@ -15,9 +15,9 @@
   // Core data
   let person1Data = '';
   let person2Data = '';
-  let relationshipType = 'romantic';
+  let relationshipType: 'romance' | 'friendship' | 'family' | 'business' = 'romance';
   let relationshipTypes = [
-    { value: 'romantic', label: 'Romantic', icon: '💕' },
+    { value: 'romance', label: 'Romantic', icon: '💕' },
     { value: 'friendship', label: 'Friendship', icon: '🤝' },
     { value: 'family', label: 'Family', icon: '👨‍👩‍👧‍👦' },
     { value: 'business', label: 'Business', icon: '💼' }
@@ -81,23 +81,62 @@ Pluto,Capricorn,27°58',9
 ASC,Virgo,15°00'
 MC,Gemini,12°00'`;
 
-  import { parseChartCSV, calculateSynastryAspects } from '$lib/utils/synastry-utils';
+  import { parseChartCSV, calculateSynastryAspects, calculateHouseOverlays, testSynastryCalculations } from '$lib/utils/synastry-utils';
 
   // Reactive synastry data
   let synastryAspects: any[] = [];
   let synastryHouseOverlays: any[] = [];
   let synastryPlanetInSigns: any[] = [];
+  let debugInfo: any = null;
 
   $: if (isChartReady && person1Data && person2Data) {
     try {
       const p1 = parseChartCSV(person1Data);
       const p2 = parseChartCSV(person2Data);
-      synastryAspects = calculateSynastryAspects(p1, p2);
-      synastryHouseOverlays = p2.filter(pl => pl.house).map(pl => ({ person2Planet: pl.planet, person1House: pl.house }));
-      synastryPlanetInSigns = p2.map(pl => ({ person2Planet: pl.planet, person1Sign: pl.sign }));
+      
+      if (p1.length === 0 || p2.length === 0) {
+        console.error('Failed to parse chart data');
+        synastryAspects = [];
+        synastryHouseOverlays = [];
+        synastryPlanetInSigns = [];
+        debugInfo = { error: 'Failed to parse chart data', p1Length: p1.length, p2Length: p2.length };
+      } else {
+        synastryAspects = calculateSynastryAspects(p1, p2);
+        synastryHouseOverlays = calculateHouseOverlays(p1, p2);
+        
+        // Calculate planet in sign: Person 2's planets in Person 1's signs
+        // This should be Person 2's planets in Person 1's natal sign positions
+        const person2Planets = p2.filter(pl => !['ASC', 'MC', 'DSC', 'IC'].includes(pl.planet));
+        synastryPlanetInSigns = person2Planets.map(pl => {
+          // Find Person 1's corresponding planet to get their sign
+          const person1Planet = p1.find(p => p.planet === pl.planet);
+          if (person1Planet) {
+            return { person2Planet: pl.planet, person1Sign: person1Planet.sign };
+          }
+          return null;
+        }).filter(Boolean);
+        
+        debugInfo = {
+          p1Planets: p1.length,
+          p2Planets: p2.length,
+          aspectsFound: synastryAspects.length,
+          houseOverlaysFound: synastryHouseOverlays.length,
+          planetInSignsFound: synastryPlanetInSigns.length
+        };
+      }
+      
     } catch (err) {
       console.error('Error calculating synastry aspects', err);
+      error = 'Failed to calculate synastry aspects. Please check your chart data.';
+      synastryAspects = [];
+      synastryHouseOverlays = [];
+      synastryPlanetInSigns = [];
+      debugInfo = { error: err instanceof Error ? err.message : String(err) };
     }
+  }
+
+  function runTest() {
+    testSynastryCalculations();
   }
 
   onMount(async () => {
@@ -305,7 +344,7 @@ MC,Gemini,12°00'`;
                <button
                  type="button"
                  class="flex flex-col items-center gap-2 p-3 border rounded-lg transition-colors {relationshipType === type.value ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-300 hover:border-gray-400'}"
-                 on:click={() => relationshipType = type.value}
+                 on:click={() => relationshipType = type.value as 'romance' | 'friendship' | 'family' | 'business'}
                >
                  <span class="text-2xl">{type.icon}</span>
                  <span class="text-sm font-medium">{type.label}</span>
@@ -514,6 +553,13 @@ MC,Gemini,12°00'`;
           >
             Clear Charts
           </button>
+          
+          <button
+            class="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+            on:click={runTest}
+          >
+            Run Test
+          </button>
         </div>
       </Card.Content>
     </Card.Root>
@@ -549,6 +595,7 @@ MC,Gemini,12°00'`;
           aspects={synastryAspects}
           houseOverlays={synastryHouseOverlays}
           planetInSigns={synastryPlanetInSigns}
+          relationshipType={relationshipType}
         />
       </Card.Content>
     </Card.Root>
@@ -562,6 +609,14 @@ MC,Gemini,12°00'`;
         </Card.Description>
       </Card.Header>
       <Card.Content>
+        <!-- Debug Information -->
+        {#if debugInfo && import.meta.env.DEV}
+          <div class="mb-6 p-4 bg-gray-100 rounded-lg">
+            <h4 class="font-semibold mb-2">Debug Info:</h4>
+            <pre class="text-xs">{JSON.stringify(debugInfo, null, 2)}</pre>
+          </div>
+        {/if}
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h3 class="font-semibold mb-3">Inner Wheel (Person 1)</h3>

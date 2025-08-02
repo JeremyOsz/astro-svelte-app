@@ -13,7 +13,7 @@
     PLANET_INTERPRETATIONS,
     ASPECT_INTERPRETATIONS,
     HOUSES
-  } from '../../data/interpretations';
+  } from '../../data/interpretations/index';
   import { 
     PLANET_CHARACTERISTICS, 
     SIGN_CHARACTERISTICS

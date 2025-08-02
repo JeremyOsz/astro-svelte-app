@@ -11,7 +11,7 @@
     ASPECT_INTERPRETATIONS, 
     HOUSES,
     getDetailedAspectInterpretation 
-  } from '$lib/data/interpretations';
+  } from '$lib/data/interpretations/index';
 
   interface PlanetData {
     planet: string;

@@ -8,7 +8,7 @@
     getSynastryPlanetInSign,
     getSynastryCompatibilitySummary,
     type SynastryAspectInterpretation 
-  } from '$lib/data/interpretations';
+  } from '$lib/data/interpretations/index';
 
   export let aspects: Array<{
     person1Planet: string;
@@ -27,12 +27,15 @@
     person1Sign: string;
   }> = [];
 
+  export let relationshipType: 'romance' | 'friendship' | 'family' | 'business' = 'romance';
+
   // Process aspects to get interpretations
   $: synastryAspects = aspects.map(aspect => {
     const interpretation = getSynastryAspectInterpretation(
       aspect.aspect, 
       aspect.person1Planet, 
-      aspect.person2Planet
+      aspect.person2Planet,
+      relationshipType
     );
     return {
       ...aspect,

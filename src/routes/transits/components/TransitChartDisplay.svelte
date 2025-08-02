@@ -28,7 +28,7 @@
     HOUSES,
     PLANET_IN_SIGN_INTERPRETATIONS,
     SIGN_IN_HOUSE_INTERPRETATIONS
-  } from '$lib/data/interpretations';
+  } from '$lib/data/interpretations/index';
   import { SIGN_CHARACTERISTICS } from '$lib/data/astrological-data';
 
   export let transitChartData: string;

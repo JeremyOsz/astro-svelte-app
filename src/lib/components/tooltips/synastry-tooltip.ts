@@ -4,7 +4,7 @@ import {
     getSynastryPlanetInSign,
     getComprehensiveSynastryInterpretation,
     type SynastryAspectInterpretation 
-} from '../../data/interpretations';
+} from '../../data/interpretations/index';
 
 export interface SynastryTooltipData {
     element: 'planet' | 'aspect' | 'house';

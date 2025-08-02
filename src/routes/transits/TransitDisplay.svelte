@@ -10,7 +10,7 @@
     getTransitPlanetInHouseMeaning,
     getTransitPlanetInSignMeaning,
     MAJOR_ASPECTS 
-  } from '$lib/data/interpretations';
+  } from '$lib/data/interpretations/index';
 
   export let natalChart: NatalChart;
   export let currentTransits: TransitChart;

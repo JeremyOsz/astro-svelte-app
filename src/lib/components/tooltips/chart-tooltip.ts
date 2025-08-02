@@ -9,7 +9,7 @@ import {
   PLANET_INTERPRETATIONS,
   ASPECT_INTERPRETATIONS,
   HOUSES
-} from '../../data/interpretations';
+} from '../../data/interpretations/index';
 
 let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>;
 let tooltipPinned = false;

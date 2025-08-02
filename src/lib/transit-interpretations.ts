@@ -3,8 +3,7 @@ export {
   getTransitInterpretation,
   getDetailedAspectInterpretation,
   MAJOR_ASPECTS,
-  PLANET_COMBINATIONS,
   ASPECT_INTERPRETATIONS,
   type TransitInterpretation,
   type AspectInterpretation
-} from './data/interpretations'; 
+} from './data/interpretations/index'; 
