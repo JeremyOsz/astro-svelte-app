@@ -21,6 +21,11 @@
       description: "View current planetary transits and their effects"
     },
     {
+      title: "Synastry",
+      href: "/synastry",
+      description: "Compare birth charts for relationship compatibility"
+    },
+    {
       title: "Interpretations",
       href: "/interpretations",
       description: "Meanings of planets, signs, houses, and aspects"
@@ -84,7 +89,7 @@
 </script>
 
 <div class="min-h-screen flex flex-col">
-  <header class="bg-gradient-to-tr from-indigo-500 to-purple-700 text-white shadow-md">
+  <header class="bg-gradient-to-tr from-indigo-500 to-purple-700 text-white shadow-md flex-shrink-0">
     <nav>
               <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:pr-20 flex justify-between items-center py-4 relative overflow-visible">
         <a href="/" class="text-xl font-bold hover:text-white/80 transition-colors cursor-pointer">Astro Chart</a>
@@ -171,6 +176,7 @@
                   <div class="space-y-2">
                     <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Birth Chart</a>
                     <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Transits</a>
+                    <a href="/synastry" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Synastry</a>
                     <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Interpretations</a>
                     <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Daily Horoscope</a>
                   </div>
@@ -192,7 +198,7 @@
     </nav>
   </header>
 
-     <main class="flex-1 w-full pb-20 lg:pb-0">
+     <main class="flex-1 w-full pb-20 lg:pb-0 min-h-0">
      <div class="container mx-auto max-w-none lg:px-0">
        <slot />
      </div>
@@ -214,10 +220,17 @@
    </nav>
 
    <!-- Desktop Footer -->
-   <footer class="bg-gray-100 py-4 text-center text-gray-500 border-t hidden lg:block">
+   <footer class="bg-gray-100 py-4 text-center text-gray-500 border-t hidden lg:block flex-shrink-0">
      <p>&copy; 2025 Astro Chart by Jeremy Osztreicher. Powered by Swiss Ephemeris and D3.js</p>
    </footer>
 </div><style>
+  /* Ensure full viewport height */
+  :global(html, body) {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
   /* Ensure navigation menu dropdowns stay within viewport */
   :global([data-radix-navigation-menu-viewport]) {
     position: absolute !important;

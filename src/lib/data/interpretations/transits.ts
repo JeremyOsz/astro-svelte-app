@@ -1,5 +1,6 @@
 // Transit interpretations and utility functions
 import type { TransitInterpretation } from './types';
+import { ASPECT_INTERPRETATIONS } from './aspects';
 
 // Transit interpretation data
 export const TRANSIT_INTERPRETATIONS: Record<string, TransitInterpretation> = {
@@ -21,7 +22,6 @@ function getOrdinalSuffix(num: number): string {
 // Get transit interpretation for a specific aspect and planet combination
 export function getTransitInterpretation(aspect: string, transitPlanet: string, natalPlanet: string): string {
     // Get detailed interpretation for specific planet combination
-    const { ASPECT_INTERPRETATIONS } = require('./aspects');
     const aspectData = ASPECT_INTERPRETATIONS[aspect];
     if (!aspectData) return '';
 

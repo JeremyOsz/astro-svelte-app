@@ -44,14 +44,7 @@ export {
   type SynastryTooltipData
 } from './synastry-tooltip';
 
-// Synastry chart tooltip exports
-export {
-  createSynastryChartTooltip,
-  handleSynastryMouseOver,
-  handleSynastryMouseOut,
-  handleSynastryClick,
-  unpinSynastryTooltip
-} from './synastry-chart-tooltip';
+// Synastry chart tooltip exports - removed as not currently used
 
 // Legacy exports for backward compatibility
 export * from './chart-tooltip';
