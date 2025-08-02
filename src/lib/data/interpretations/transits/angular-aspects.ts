@@ -1,0 +1,1 @@
+export const ANGULAR_ASPECT_INTERPRETATIONS = {}

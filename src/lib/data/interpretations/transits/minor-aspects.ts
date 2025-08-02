@@ -1,0 +1,1 @@
+export const MINOR_ASPECT_INTERPRETATIONS = {}

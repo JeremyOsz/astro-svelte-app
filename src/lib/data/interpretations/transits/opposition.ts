@@ -1,0 +1,1 @@
+export const OPPOSITION_INTERPRETATIONS = {}

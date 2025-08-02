@@ -1,0 +1,1 @@
+export const QUINCUNX_INTERPRETATIONS = {}
