@@ -1186,15 +1186,7 @@
           rotation = (displayAngle > 90 && displayAngle < 270) ? displayAngle - 90 : displayAngle + 90;
         }
 
-        group.append('line')
-          .attr('class', 'planet-notch')
-          .style('pointer-events', 'none')
-          .attr('x1', Math.cos(angleRad) * (isInner ? zodiacInnerRadius : getRadius('zodiacOuterRadius', false)))
-          .attr('y1', Math.sin(angleRad) * (isInner ? zodiacInnerRadius : getRadius('zodiacOuterRadius', false)))
-          .attr('x2', Math.cos(angleRad) * (isInner ? (planetRadius + (isMobile ? 10 : 20)) : (planetRadius - (isMobile ? 8 : 15))))
-          .attr('y2', Math.sin(angleRad) * (isInner ? (planetRadius + (isMobile ? 10 : 20)) : (planetRadius - (isMobile ? 8 : 15))))
-          .attr('stroke', '#000')
-          .attr('stroke-width', isMobile ? 0.8 : 1);
+        // Removed planet notch lines - they were causing positioning issues
 
         const labelGroup = group.append('g')
           .attr('class', 'planet-label-group')

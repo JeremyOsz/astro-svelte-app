@@ -9,7 +9,6 @@
     getEnhancedTransitInterpretation,
     getTransitPlanetInHouseMeaning,
     getTransitPlanetInSignMeaning,
-    MAJOR_ASPECTS 
   } from '$lib/data/interpretations/index';
 
   export let natalChart: NatalChart;
@@ -123,6 +122,7 @@
       transitHouse: number;
       transitSign: string;
       enhancedInterpretation: string;
+      aspectType: 'major' | 'minor' | 'angular';
     }> = [];
     const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
     
@@ -171,6 +171,14 @@
               transitSign
             );
             
+            // Determine aspect type
+            let aspectType: 'major' | 'minor' | 'angular' = 'major';
+            if (['SemiSextile', 'Quincunx', 'Quintile', 'BiQuintile', 'Septile'].includes(aspectName)) {
+              aspectType = 'minor';
+            } else if (transitHouse === 1 || transitHouse === 4 || transitHouse === 7 || transitHouse === 10) {
+              aspectType = 'angular';
+            }
+            
             aspects.push({
               transitPlanet: transitPlanet.name,
               aspect: aspectName,
@@ -183,7 +191,8 @@
               natalLongitude: natalLongitude,
               transitHouse: transitHouse,
               transitSign: transitSign,
-              enhancedInterpretation: enhancedInterpretation
+              enhancedInterpretation: enhancedInterpretation,
+              aspectType: aspectType
             });
             break;
           }
@@ -200,6 +209,21 @@
       }
       return a.orb - b.orb;
     });
+  }
+
+  function getMinorAspects() {
+    const allAspects = getMainPlanetAspects();
+    return allAspects.filter(aspect => aspect.aspectType === 'minor');
+  }
+
+  function getMajorAspects() {
+    const allAspects = getMainPlanetAspects();
+    return allAspects.filter(aspect => aspect.aspectType === 'major');
+  }
+
+  function getAngularAspects() {
+    const allAspects = getMainPlanetAspects();
+    return allAspects.filter(aspect => aspect.aspectType === 'angular');
   }
 
   function getAspectsToObjects() {
@@ -416,6 +440,9 @@
   }
 
   $: mainPlanetAspects = getMainPlanetAspects();
+  $: majorAspects = getMajorAspects();
+  $: minorAspects = getMinorAspects();
+  $: angularAspects = getAngularAspects();
   $: planetHouseData = getPlanetHouseData();
   $: aspectsToObjects = getAspectsToObjects();
 </script>
@@ -489,10 +516,31 @@
   <div class="mb-12">
     <h3 class="text-xl font-semibold mb-4 text-gray-900 border-b border-gray-200 pb-3">Transit Aspects</h3>
     
-    <!-- Main planet aspects -->
-    {#if mainPlanetAspects.length > 0}
+    <!-- Transit Summary -->
+    {#if mainPlanetAspects.length > 0 || aspectsToObjects.length > 0}
+      <div class="mb-6 p-4 bg-gradient-to-r from-emerald-50 to-blue-50 border border-emerald-200 rounded-lg">
+        <h4 class="font-semibold text-gray-900 mb-2">Active Transits Summary:</h4>
+        <div class="text-sm text-gray-700 space-y-1">
+          {#if majorAspects.length > 0}
+            <p><strong class="text-emerald-600">{majorAspects.length}</strong> major aspect{majorAspects.length !== 1 ? 's' : ''} active</p>
+          {/if}
+          {#if minorAspects.length > 0}
+            <p><strong class="text-blue-600">{minorAspects.length}</strong> minor aspect{minorAspects.length !== 1 ? 's' : ''} active</p>
+          {/if}
+          {#if angularAspects.length > 0}
+            <p><strong class="text-purple-600">{angularAspects.length}</strong> angular aspect{angularAspects.length !== 1 ? 's' : ''} active</p>
+          {/if}
+          {#if aspectsToObjects.length > 0}
+            <p><strong class="text-gray-600">{aspectsToObjects.length}</strong> aspect{aspectsToObjects.length !== 1 ? 's' : ''} to sensitive points</p>
+          {/if}
+        </div>
+      </div>
+    {/if}
+    
+    <!-- Major aspects -->
+    {#if majorAspects.length > 0}
       <div class="mb-8">
-        <h4 class="font-semibold text-gray-900 mb-3 text-base">Main Planet Aspects:</h4>
+        <h4 class="font-semibold text-gray-900 mb-3 text-base">Major Aspects:</h4>
         <div class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-6">
           <div class="grid grid-cols-4 p-3 bg-gray-50 font-semibold text-gray-700 border-b-2 border-gray-200">
             <span>Transit Planet</span>
@@ -501,7 +549,7 @@
             <span>Orb*</span>
           </div>
           <div class="p-3 bg-gray-100 text-xs text-gray-600 border-b border-gray-200">* &lt; 3°</div>
-          {#each mainPlanetAspects as aspect}
+          {#each majorAspects as aspect}
             <div class="grid grid-cols-4 p-3 border-b border-gray-100 hover:bg-gray-50 items-center">
               <span class="font-medium text-gray-700">
                 {aspect.transitSymbol} {aspect.transitPlanet}
@@ -519,10 +567,10 @@
           {/each}
         </div>
         
-        <!-- Enhanced Interpretations -->
+        <!-- Detailed Major Aspect Interpretations -->
         <div class="mt-6">
-          <h4 class="font-semibold text-gray-900 mb-3 text-base">Detailed Interpretations:</h4>
-          {#each mainPlanetAspects as aspect}
+          <h4 class="font-semibold text-gray-900 mb-3 text-base">Major Aspect Interpretations:</h4>
+          {#each majorAspects as aspect}
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
               <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700">
                 <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
@@ -531,6 +579,107 @@
               </div>
               <div class="text-sm leading-relaxed text-gray-700">
                 {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-600">$1</strong>')}
+              </div>
+            </div>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <!-- Minor aspects -->
+    {#if minorAspects.length > 0}
+      <div class="mb-8">
+        <h4 class="font-semibold text-gray-900 mb-3 text-base">Minor Aspects:</h4>
+        <div class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-6">
+          <div class="grid grid-cols-4 p-3 bg-gray-50 font-semibold text-gray-700 border-b-2 border-gray-200">
+            <span>Transit Planet</span>
+            <span>Aspect</span>
+            <span>Birth Planet</span>
+            <span>Orb</span>
+          </div>
+          {#each minorAspects as aspect}
+            <div class="grid grid-cols-4 p-3 border-b border-gray-100 hover:bg-gray-50 items-center">
+              <span class="font-medium text-gray-700">
+                {aspect.transitSymbol} {aspect.transitPlanet}
+              </span>
+              <span class="text-blue-600 font-medium">
+                {aspect.aspectSymbol} {aspect.aspect}
+              </span>
+              <span class="font-medium text-gray-700">
+                {aspect.birthSymbol} {aspect.birthPlanet}
+              </span>
+              <span class="font-mono text-gray-600 text-sm">
+                {formatOrb(aspect.orb, aspect.transitLongitude, aspect.natalLongitude)}
+              </span>
+            </div>
+          {/each}
+        </div>
+        
+        <!-- Detailed Minor Aspect Interpretations -->
+        <div class="mt-6">
+          <h4 class="font-semibold text-gray-900 mb-3 text-base">Minor Aspect Interpretations:</h4>
+          {#each minorAspects as aspect}
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700">
+                <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
+                <span class="font-['Noto_Sans_Symbols'] text-xl text-blue-600">{aspect.aspectSymbol}</span>
+                <span>{aspect.birthSymbol} {aspect.birthPlanet}</span>
+              </div>
+              <div class="text-sm leading-relaxed text-gray-700">
+                {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-600">$1</strong>')}
+              </div>
+            </div>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <!-- Angular aspects -->
+    {#if angularAspects.length > 0}
+      <div class="mb-8">
+        <h4 class="font-semibold text-gray-900 mb-3 text-base">Angular Aspects:</h4>
+        <div class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-6">
+          <div class="grid grid-cols-5 p-3 bg-gray-50 font-semibold text-gray-700 border-b-2 border-gray-200">
+            <span>Transit Planet</span>
+            <span>Aspect</span>
+            <span>Birth Planet</span>
+            <span>House</span>
+            <span>Orb</span>
+          </div>
+          {#each angularAspects as aspect}
+            <div class="grid grid-cols-5 p-3 border-b border-gray-100 hover:bg-gray-50 items-center">
+              <span class="font-medium text-gray-700">
+                {aspect.transitSymbol} {aspect.transitPlanet}
+              </span>
+              <span class="text-purple-600 font-medium">
+                {aspect.aspectSymbol} {aspect.aspect}
+              </span>
+              <span class="font-medium text-gray-700">
+                {aspect.birthSymbol} {aspect.birthPlanet}
+              </span>
+              <span class="font-medium text-purple-600">
+                H{aspect.transitHouse}
+              </span>
+              <span class="font-mono text-gray-600 text-sm">
+                {formatOrb(aspect.orb, aspect.transitLongitude, aspect.natalLongitude)}
+              </span>
+            </div>
+          {/each}
+        </div>
+        
+        <!-- Detailed Angular Aspect Interpretations -->
+        <div class="mt-6">
+          <h4 class="font-semibold text-gray-900 mb-3 text-base">Angular Aspect Interpretations:</h4>
+          {#each angularAspects as aspect}
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
+              <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700">
+                <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
+                <span class="font-['Noto_Sans_Symbols'] text-xl text-purple-600">{aspect.aspectSymbol}</span>
+                <span>{aspect.birthSymbol} {aspect.birthPlanet}</span>
+                <span class="text-purple-600">(House {aspect.transitHouse})</span>
+              </div>
+              <div class="text-sm leading-relaxed text-gray-700">
+                {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-purple-600">$1</strong>')}
               </div>
             </div>
           {/each}
@@ -567,9 +716,9 @@
           {/each}
         </div>
         
-        <!-- Enhanced Object Interpretations -->
+        <!-- Detailed Object Interpretations -->
         <div class="mt-6">
-          <h4 class="font-semibold text-gray-900 mb-3 text-base">Detailed Object Interpretations:</h4>
+          <h4 class="font-semibold text-gray-900 mb-3 text-base">Object Interpretations:</h4>
           {#each aspectsToObjects as aspect}
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
               <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700">

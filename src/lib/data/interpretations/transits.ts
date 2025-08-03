@@ -2,11 +2,27 @@
 import type { TransitInterpretation } from './types';
 import { ASPECT_INTERPRETATIONS } from './aspects';
 
-// Transit interpretation data
-export const TRANSIT_INTERPRETATIONS: Record<string, TransitInterpretation> = {
-    // This can be expanded with specific transit interpretations
-    // For now, we'll use the utility functions to generate interpretations
-};
+// Import the new detailed transit interpretations
+import { CONJUNCTION_INTERPRETATIONS } from './transits/conjunction';
+import { OPPOSITION_INTERPRETATIONS } from './transits/opposition';
+import { TRINE_INTERPRETATIONS } from './transits/trine';
+import { SQUARE_INTERPRETATIONS } from './transits/square';
+import { SEXTILE_INTERPRETATIONS } from './transits/sextile';
+import { QUINCUNX_INTERPRETATIONS } from './transits/quincunx';
+import { ANGULAR_ASPECT_INTERPRETATIONS } from './transits/angular-aspects';
+import { MINOR_ASPECT_INTERPRETATIONS } from './transits/minor-aspects';
+
+// Transit interpretation data organized by aspect type
+export const TRANSIT_INTERPRETATIONS: Record<string, Record<string, string>> = {
+    "Conjunction": CONJUNCTION_INTERPRETATIONS,
+    "Opposition": OPPOSITION_INTERPRETATIONS,
+    "Trine": TRINE_INTERPRETATIONS,
+    "Square": SQUARE_INTERPRETATIONS,
+    "Sextile": SEXTILE_INTERPRETATIONS,
+    "Quincunx": QUINCUNX_INTERPRETATIONS,
+    "Angular": ANGULAR_ASPECT_INTERPRETATIONS,
+    "Minor": MINOR_ASPECT_INTERPRETATIONS
+} as const;
 
 // Utility function to get ordinal suffix
 function getOrdinalSuffix(num: number): string {
@@ -21,15 +37,25 @@ function getOrdinalSuffix(num: number): string {
 
 // Get transit interpretation for a specific aspect and planet combination
 export function getTransitInterpretation(aspect: string, transitPlanet: string, natalPlanet: string): string {
-    // Get detailed interpretation for specific planet combination
-    const aspectData = ASPECT_INTERPRETATIONS[aspect];
-    if (!aspectData) return '';
+    // First try to get detailed interpretation from the new transit data
+    const aspectData = TRANSIT_INTERPRETATIONS[aspect];
+    if (aspectData) {
+        const planetKey = `${transitPlanet}_${natalPlanet}`;
+        const interpretation = aspectData[planetKey];
+        if (interpretation) {
+            return interpretation;
+        }
+    }
+
+    // Fall back to the original aspect interpretations
+    const originalAspectData = ASPECT_INTERPRETATIONS[aspect];
+    if (!originalAspectData) return '';
 
     // Try both possible planet key combinations
     const planetKey1 = `${transitPlanet}_${natalPlanet}`;
     const planetKey2 = `${natalPlanet}_${transitPlanet}`;
     
-    const interpretation = aspectData.planets[planetKey1] || aspectData.planets[planetKey2];
+    const interpretation = originalAspectData.planets[planetKey1] || originalAspectData.planets[planetKey2];
 
     if (interpretation) {
         return interpretation;
@@ -52,7 +78,37 @@ export function getTransitInterpretation(aspect: string, transitPlanet: string, 
     const transitPlanetMeaning = planetMeanings[transitPlanet as keyof typeof planetMeanings] || 'transit planet';
     const natalPlanetMeaning = planetMeanings[natalPlanet as keyof typeof planetMeanings] || 'natal planet';
 
-    return `The ${transitPlanet} ${aspect.toLowerCase()} your ${natalPlanet} brings ${aspectData.general.toLowerCase()} This affects your ${transitPlanetMeaning} in relation to your ${natalPlanetMeaning}.`;
+    return `The ${transitPlanet} ${aspect.toLowerCase()} your ${natalPlanet} brings ${originalAspectData.general.toLowerCase()} This affects your ${transitPlanetMeaning} in relation to your ${natalPlanetMeaning}.`;
+}
+
+// Get enhanced transit interpretation with house and sign information
+export function getEnhancedTransitInterpretation(
+    aspect: string, 
+    transitPlanet: string, 
+    natalPlanet: string, 
+    transitHouse?: number, 
+    transitSign?: string
+): string {
+    let interpretation = getTransitInterpretation(aspect, transitPlanet, natalPlanet);
+
+    // Add angular aspect interpretation if applicable
+    if (transitHouse && (transitHouse === 1 || transitHouse === 4 || transitHouse === 7 || transitHouse === 10)) {
+        const angularKey = `${transitPlanet}_${transitHouse}${transitHouse === 1 ? 'st' : transitHouse === 4 ? 'th' : transitHouse === 7 ? 'th' : 'th'}_House`;
+        const angularData = (ANGULAR_ASPECT_INTERPRETATIONS as Record<string, string>)[angularKey];
+        if (angularData) {
+            interpretation += `\n\n${angularData}`;
+        }
+    }
+
+    if (transitHouse) {
+        interpretation += `\n\n${getTransitPlanetInHouseMeaning(transitPlanet, transitHouse, transitSign)}`;
+    }
+
+    if (transitSign) {
+        interpretation += `\n\n${getTransitPlanetInSignMeaning(transitPlanet, transitSign)}`;
+    }
+
+    return interpretation;
 }
 
 // Get transit planet in house meaning
@@ -150,23 +206,28 @@ export function getTransitPlanetInSignMeaning(transitPlanet: string, sign: strin
     return `The ${transitPlanet} in ${sign} affects ${planetMeaning} ${signMeaning}.`;
 }
 
-// Get enhanced transit interpretation with house and sign information
-export function getEnhancedTransitInterpretation(
-    aspect: string, 
-    transitPlanet: string, 
-    natalPlanet: string, 
-    transitHouse?: number, 
-    transitSign?: string
-): string {
-    let interpretation = getTransitInterpretation(aspect, transitPlanet, natalPlanet);
-
-    if (transitHouse) {
-        interpretation += `\n\n${getTransitPlanetInHouseMeaning(transitPlanet, transitHouse, transitSign)}`;
+// Get minor aspect interpretation
+export function getMinorAspectInterpretation(aspect: string, transitPlanet: string, natalPlanet: string): string {
+    const minorKey = `${transitPlanet}_${natalPlanet}_${aspect}`;
+    const interpretation = (MINOR_ASPECT_INTERPRETATIONS as Record<string, string>)[minorKey];
+    
+    if (interpretation) {
+        return interpretation;
     }
+    
+    // Fallback for minor aspects not in the detailed data
+    return `A subtle transit that creates gentle harmony between your ${transitPlanet} and ${natalPlanet}. This transit brings small but meaningful developments in your awareness and growth.`;
+}
 
-    if (transitSign) {
-        interpretation += `\n\n${getTransitPlanetInSignMeaning(transitPlanet, transitSign)}`;
+// Get angular aspect interpretation
+export function getAngularAspectInterpretation(transitPlanet: string, houseNumber: number): string {
+    const angularKey = `${transitPlanet}_${houseNumber}${houseNumber === 1 ? 'st' : houseNumber === 2 ? 'nd' : houseNumber === 3 ? 'rd' : 'th'}_House`;
+    const interpretation = (ANGULAR_ASPECT_INTERPRETATIONS as Record<string, string>)[angularKey];
+    
+    if (interpretation) {
+        return interpretation;
     }
-
-    return interpretation;
+    
+    // Fallback for angular aspects not in the detailed data
+    return `A transit that brings your ${transitPlanet} into harmony with your ${houseNumber}${getOrdinalSuffix(houseNumber)} house. This transit often brings developments in this area of your life.`;
 } 

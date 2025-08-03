@@ -1048,15 +1048,7 @@
         const labelY = Math.sin(angleRad) * labelRadius;
         const rotation = (displayAngle > 90 && displayAngle < 270) ? displayAngle + 90 : displayAngle - 90;
 
-        group.append('line')
-          .attr('class', 'planet-notch')
-          .style('pointer-events', 'none')
-          .attr('x1', Math.cos(angleRad) * zodiacInnerRadius)
-          .attr('y1', Math.sin(angleRad) * zodiacInnerRadius)
-          .attr('x2', Math.cos(angleRad) * (planetRingRadius + (isMobile ? 10 : 20)))
-          .attr('y2', Math.sin(angleRad) * (planetRingRadius + (isMobile ? 10 : 20)))
-          .attr('stroke', '#000')
-          .attr('stroke-width', isMobile ? 0.8 : 1);
+        // Removed planet notch lines - they were causing positioning issues
 
         const labelGroup = group.append('g')
           .attr('class', 'planet-label-group')

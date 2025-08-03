@@ -43,7 +43,9 @@ export {
     getTransitInterpretation,
     getTransitPlanetInHouseMeaning,
     getTransitPlanetInSignMeaning,
-    getEnhancedTransitInterpretation
+    getEnhancedTransitInterpretation,
+    getMinorAspectInterpretation,
+    getAngularAspectInterpretation
 } from './transits';
 
 // Import the data we need for utility functions

@@ -71,8 +71,9 @@
   <!-- Page Header -->
   <div class="text-center mb-8">
     <h1 class="text-4xl font-bold text-gray-900 mb-4">Planetary Transits</h1>
-    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-      See how current planetary positions interact with your natal chart to understand their influence on your life.
+    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+      See how current planetary positions interact with your natal chart to understand their influence on your life. 
+      Get detailed interpretations for major aspects, minor aspects, and angular house transits with enhanced analysis.
     </p>
   </div>
 
