@@ -134,27 +134,19 @@
 
   function updateInterpretations() {
     const { chartData } = get(chartStore);
-    console.log('InterpretationList: updateInterpretations called with chartData:', chartData?.substring(0, 100));
     if (!chartData || !chartData.trim()) {
       planetInterpretations = [];
       aspectInterpretations = [];
       signInterpretations = [];
-      console.log('InterpretationList: No chart data, clearing interpretations');
       return;
     }
 
     const { planets, aspects, houseCusps } = parseChartData(chartData.trim());
-    console.log('InterpretationList: Parsed data:', { planets: planets.length, aspects: aspects.length, houseCusps: houseCusps.length });
 
     planetInterpretations = planets.map(p => getEnhancedPlanetInterpretation(p));
     aspectInterpretations = aspects.map(a => getEnhancedAspectInterpretation(a));
     signInterpretations = houseCusps.map(({ sign, house }) => getEnhancedSignInterpretation(sign, house));
     
-    console.log('InterpretationList: Generated interpretations:', { 
-      planets: planetInterpretations.length, 
-      aspects: aspectInterpretations.length, 
-      signs: signInterpretations.length 
-    });
   }
 
   function getEnhancedPlanetInterpretation(planetData: PlanetData): EnhancedPlanetInterpretation {
