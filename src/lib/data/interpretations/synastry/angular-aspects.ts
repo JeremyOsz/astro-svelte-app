@@ -79,25 +79,25 @@ export const ANGULAR_ASPECT_INTERPRETATIONS = {
             aspect: "Trine",
             person1Planet: "Sun",
             person2Planet: "Asc",
-            interpretation: "Your core identity harmonizes with your partner's rising sign, creating natural understanding and supportive recognition. This creates effortless compatibility.",
+            interpretation: "Your core identity flows harmoniously with your partner's rising sign, creating natural understanding and effortless recognition. This creates a sense of instant familiarity and compatibility.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Harmonious romantic recognition. Your identity harmonizes with your partner's rising sign, creating natural understanding in romantic relationships.",
-            friendship: "Harmonious friendship recognition. Your identity harmonizes with your partner's rising sign, creating natural understanding in friendships.",
-            family: "Harmonious family recognition. Your identity harmonizes with your partner's rising sign, creating natural understanding in family relationships.",
-            business: "Harmonious business recognition. Your identity harmonizes with your partner's rising sign, creating natural understanding in business partnerships."
+            romance: "Natural romantic connection. Your identity flows harmoniously with your partner's rising sign, creating instant romantic recognition and effortless compatibility.",
+            friendship: "Natural friendship connection. Your identity flows harmoniously with your partner's rising sign, creating instant friendship recognition and effortless compatibility.",
+            family: "Natural family connection. Your identity flows harmoniously with your partner's rising sign, creating instant family recognition and effortless compatibility.",
+            business: "Natural business connection. Your identity flows harmoniously with your partner's rising sign, creating instant business recognition and effortless compatibility."
         },
         "Sun_MC_Trine": {
             aspect: "Trine",
             person1Planet: "Sun",
             person2Planet: "MC",
-            interpretation: "Your core identity harmonizes with your partner's career direction, creating natural understanding and supportive life goals. This creates effortless compatibility.",
+            interpretation: "Your core identity flows harmoniously with your partner's career direction, creating natural understanding and supportive life goals. This creates effortless alignment in life purpose.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Harmonious life direction. Your identity harmonizes with your partner's career goals, creating natural understanding in romantic relationships.",
-            friendship: "Harmonious life direction. Your identity harmonizes with your partner's career goals, creating natural understanding in friendships.",
-            family: "Harmonious life direction. Your identity harmonizes with your partner's career goals, creating natural understanding in family relationships.",
-            business: "Harmonious life direction. Your identity harmonizes with your partner's career goals, creating natural understanding in business partnerships."
+            romance: "Natural life direction alignment. Your identity flows harmoniously with your partner's career goals, creating effortless support for each other's ambitions in romantic relationships.",
+            friendship: "Natural life direction alignment. Your identity flows harmoniously with your partner's career goals, creating effortless support for each other's ambitions in friendships.",
+            family: "Natural life direction alignment. Your identity flows harmoniously with your partner's career goals, creating effortless support for each other's ambitions in family relationships.",
+            business: "Natural life direction alignment. Your identity flows harmoniously with your partner's career goals, creating effortless support for each other's ambitions in business partnerships."
         },
         "Sun_Asc_Sextile": {
             aspect: "Sextile",

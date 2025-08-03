@@ -185,6 +185,18 @@ Extend the existing synastry system to generate predictions for ideal partner co
 - Implement proper error boundaries for chart rendering
 - Add retry logic for API calls
 
+### Critical Performance Bottlenecks
+- **Remove excessive console.log statements** - Hundreds of console.log statements throughout D3Chart.svelte and other components create significant performance overhead
+- **Fix D3 chart re-rendering issues** - Chart is completely redrawn on every data change instead of updating existing elements
+- **Implement proper D3 update patterns** - Use D3's enter/update/exit pattern instead of full SVG recreation
+- **Add debouncing to ResizeObserver** - Container resizes trigger immediate chart recreation without debouncing
+- **Optimize store subscriptions** - Multiple reactive statements trigger unnecessary chart recreations
+- **Fix memory leaks in D3 components** - ResizeObserver and D3 event listeners not properly cleaned up
+- **Use Web Workers for heavy calculations** - Large string parsing and aspect calculations block the main thread
+- **Implement lazy loading for interpretation data** - Large interpretation files loaded synchronously on every chart load
+- **Optimize interpretation data structure** - Current structure with massive text content causes bundle size issues
+- **Add proper cache invalidation** - Server-side cache has no size limits, client-side cache lacks proper invalidation strategy
+
 ## Code Quality
 - Enable stricter TypeScript options (noUnusedLocals, noUnusedParameters, exactOptionalPropertyTypes)
 - Extract chart utilities into separate files

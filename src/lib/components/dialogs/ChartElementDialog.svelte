@@ -741,7 +741,7 @@
 
             {#if interpretation.enhancedInterpretation}
               <div class="border rounded-lg p-4 bg-orange-50 border-orange-200">
-                <h3 class="font-semibold text-orange-800 mb-3">Enhanced Transit Interpretation</h3>
+                <h3 class="font-semibold text-orange-800 mb-3">Transit Interpretation</h3>
                 <div class="text-gray-700 leading-relaxed">
                   {@html interpretation.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-orange-600">$1</strong>')}
                 </div>
