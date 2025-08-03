@@ -10,10 +10,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "A powerful soul connection. Your core identities resonate deeply, creating instant recognition and understanding. You share similar life purposes and approaches to self-expression. This aspect often indicates a strong karmic bond and mutual admiration.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Soulmate potential. You have instant recognition and deep understanding of each other's core identity. This creates a powerful romantic connection with shared life purposes.",
-                friendship: "Soul friendship. You have instant recognition and deep understanding of each other's core identity. This creates a powerful friendship with shared life purposes.",
-                family: "Strong family bond. You have instant recognition and deep understanding of each other's core identity. This creates a powerful family connection with shared values.",
-                business: "Perfect business partnership. You have instant recognition and deep understanding of each other's core identity. This creates a powerful business connection with shared goals."
+                romance: "Soulmate potential with instant recognition. You feel like you've known each other forever, creating an intense romantic bond with shared life purposes and mutual admiration.",
+                friendship: "Deep soul friendship with instant understanding. You naturally support each other's personal growth and share similar values and life directions.",
+                family: "Strong family bond with shared identity. You naturally understand each other's core values and life purposes, creating a supportive family dynamic.",
+                business: "Natural business partnership with shared vision. You work together seamlessly with aligned goals and complementary leadership styles."
             },
             "Sun_Moon": {
                 aspect: "Conjunction",
@@ -22,10 +22,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect identity and emotional alignment. Your core identity and emotional nature merge into one powerful force. This creates natural emotional understanding and nurturing leadership.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic emotional alignment. Your identity and emotions merge, creating natural emotional understanding and nurturing leadership in romantic relationships.",
-                friendship: "Perfect friendship emotional alignment. Your identity and emotions merge, creating natural emotional understanding and nurturing leadership in friendships.",
-                family: "Perfect family emotional alignment. Your identity and emotions merge, creating natural emotional understanding and nurturing leadership in family relationships.",
-                business: "Perfect business emotional alignment. Your identity and emotions merge, creating natural emotional understanding and nurturing leadership in business partnerships."
+                romance: "Deep soul connection with instant emotional recognition. You feel like you've known each other forever, creating an intense romantic bond with natural emotional understanding.",
+                friendship: "Natural emotional understanding and support. You intuitively know how to comfort and encourage each other, creating a nurturing friendship dynamic.",
+                family: "Strong emotional bonds and mutual care. You naturally nurture and protect each other's well-being, creating a supportive family environment.",
+                business: "Effective emotional intelligence in collaboration. You understand each other's motivations and can work together harmoniously with natural leadership."
             },
             "Sun_Mercury": {
                 aspect: "Conjunction",
@@ -34,10 +34,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect mental and identity alignment. Your core identity and communication style merge into one powerful force. This creates natural authority in communication and clear self-expression.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic communication. Your identity and communication styles merge, creating natural authority and clear self-expression in romantic relationships.",
-                friendship: "Perfect friendship communication. Your identity and communication styles merge, creating natural authority and clear self-expression in friendships.",
-                family: "Perfect family communication. Your identity and communication styles merge, creating natural authority and clear self-expression in family relationships.",
-                business: "Perfect business communication. Your identity and communication styles merge, creating natural authority and clear self-expression in business partnerships."
+                romance: "Natural authority and clear communication in love. You express your feelings openly and understand each other's thoughts and desires effortlessly.",
+                friendship: "Easy communication and mental rapport. You can talk for hours and always understand each other's perspectives and ideas.",
+                family: "Clear communication and shared understanding. You naturally express your thoughts and feelings, creating open and honest family dynamics.",
+                business: "Effective communication and leadership synergy. You present ideas clearly and work together with natural authority and mutual understanding."
             },
             "Sun_Venus": {
                 aspect: "Conjunction",
@@ -46,10 +46,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect identity and love alignment. Your core identity and love nature merge into one powerful force. This creates natural charm and romantic leadership.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic love alignment. Your identity and love nature merge, creating natural charm and romantic leadership in romantic relationships.",
-                friendship: "Perfect friendship love alignment. Your identity and love nature merge, creating natural charm and romantic leadership in friendships.",
-                family: "Perfect family love alignment. Your identity and love nature merge, creating natural charm and romantic leadership in family relationships.",
-                business: "Perfect business love alignment. Your identity and love nature merge, creating natural charm and romantic leadership in business partnerships."
+                romance: "Natural charm and romantic chemistry. You're drawn to each other's beauty and grace, creating an instant romantic attraction and mutual appreciation.",
+                friendship: "Natural charm and mutual appreciation. You appreciate each other's style and grace, creating a friendship based on mutual admiration and shared aesthetics.",
+                family: "Natural love and care in family bonds. You naturally show affection and care for each other, creating a loving and supportive family environment.",
+                business: "Natural charm and diplomatic skills. You work together with grace and mutual respect, creating harmonious business relationships and partnerships."
             },
             "Sun_Mars": {
                 aspect: "Conjunction",
@@ -58,10 +58,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect identity and action alignment. Your core identity and warrior energy merge into one powerful force. This creates natural leadership through courage and determination.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic action alignment. Your identity and warrior energy merge, creating natural leadership through courage in romantic relationships.",
-                friendship: "Perfect friendship action alignment. Your identity and warrior energy merge, creating natural leadership through courage in friendships.",
-                family: "Perfect family action alignment. Your identity and warrior energy merge, creating natural leadership through courage in family relationships.",
-                business: "Perfect business action alignment. Your identity and warrior energy merge, creating natural leadership through courage in business partnerships."
+                romance: "Passionate and dynamic romantic energy. You're drawn to each other's strength and courage, creating an exciting and adventurous romantic connection.",
+                friendship: "Dynamic friendship with shared courage. You inspire each other to be brave and take action, supporting each other's goals and ambitions.",
+                family: "Strong family bonds with shared determination. You protect and support each other with courage and strength, creating a resilient family unit.",
+                business: "Dynamic leadership and action-oriented partnership. You work together with energy and determination, achieving goals through shared courage and drive."
             },
             "Sun_Jupiter": {
                 aspect: "Conjunction",
@@ -70,10 +70,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect identity and wisdom alignment. Your core identity and wisdom nature merge into one powerful force. This creates natural leadership through optimism and generosity.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic wisdom alignment. Your identity and wisdom merge, creating natural leadership through optimism in romantic relationships.",
-                friendship: "Perfect friendship wisdom alignment. Your identity and wisdom merge, creating natural leadership through optimism in friendships.",
-                family: "Perfect family wisdom alignment. Your identity and wisdom merge, creating natural leadership through optimism in family relationships.",
-                business: "Perfect business wisdom alignment. Your identity and wisdom merge, creating natural leadership through optimism in business partnerships."
+                romance: "Optimistic and expansive romantic connection. You inspire each other to grow and expand, creating a relationship filled with joy, adventure, and mutual encouragement.",
+                friendship: "Optimistic friendship with shared growth. You encourage each other's dreams and aspirations, creating a friendship that expands your horizons and brings joy.",
+                family: "Optimistic family bonds with shared wisdom. You teach and learn from each other, creating a family environment that encourages growth and positive thinking.",
+                business: "Optimistic leadership and growth-oriented partnership. You work together with enthusiasm and wisdom, creating opportunities for expansion and success."
             },
             "Sun_Saturn": {
                 aspect: "Conjunction",
@@ -82,10 +82,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect identity and discipline alignment! Your core identity and discipline nature merge into one powerful force. This creates natural leadership through responsibility and mastery.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic discipline alignment! Your identity and discipline merge, creating natural leadership through responsibility in romantic relationships.",
-                friendship: "Perfect friendship discipline alignment! Your identity and discipline merge, creating natural leadership through responsibility in friendships.",
-                family: "Perfect family discipline alignment! Your identity and discipline merge, creating natural leadership through responsibility in family relationships.",
-                business: "Perfect business discipline alignment! Your identity and discipline merge, creating natural leadership through responsibility in business partnerships."
+                romance: "Serious and committed romantic connection. You build a strong foundation together, creating a relationship based on mutual respect, responsibility, and long-term commitment.",
+                friendship: "Reliable and trustworthy friendship. You can count on each other through thick and thin, creating a friendship built on mutual respect and shared values.",
+                family: "Strong family bonds with shared responsibility. You work together to create stability and security, building a family foundation based on mutual respect and duty.",
+                business: "Reliable and disciplined business partnership. You work together with focus and determination, creating successful ventures through shared responsibility and expertise."
             },
             "Sun_Uranus": {
                 aspect: "Conjunction",
@@ -94,10 +94,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Revolutionary identity connection! Your core identity and innovative nature merge into one powerful force. This creates natural leadership through originality and independence.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Revolutionary romantic identity! Your identity and innovation merge, creating natural leadership through originality in romantic relationships.",
-                friendship: "Revolutionary friendship identity! Your identity and innovation merge, creating natural leadership through originality in friendships.",
-                family: "Revolutionary family identity! Your identity and innovation merge, creating natural leadership through originality in family relationships.",
-                business: "Revolutionary business identity! Your identity and innovation merge, creating natural leadership through originality in business partnerships."
+                romance: "Electric and unconventional romantic connection. You're drawn to each other's uniqueness and independence, creating an exciting and unpredictable romantic dynamic.",
+                friendship: "Innovative and independent friendship. You inspire each other to think outside the box and embrace your individuality, creating a friendship that celebrates uniqueness.",
+                family: "Progressive and independent family bonds. You encourage each other's individuality and unconventional paths, creating a family that values freedom and innovation.",
+                business: "Innovative and original business partnership. You work together with creativity and independence, breaking new ground and creating unique solutions."
             },
             "Sun_Neptune": {
                 aspect: "Conjunction",
@@ -106,10 +106,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Spiritual identity connection! Your core identity and spiritual nature merge into one powerful force. This creates natural leadership through compassion and idealism.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Spiritual romantic identity! Your identity and spirituality merge, creating natural leadership through compassion in romantic relationships.",
-                friendship: "Spiritual friendship identity! Your identity and spirituality merge, creating natural leadership through compassion in friendships.",
-                family: "Spiritual family identity! Your identity and spirituality merge, creating natural leadership through compassion in family relationships.",
-                business: "Spiritual business identity! Your identity and spirituality merge, creating natural leadership through compassion in business partnerships."
+                romance: "Spiritual and idealistic romantic connection. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary.",
+                friendship: "Spiritual and compassionate friendship. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared ideals.",
+                family: "Spiritual and compassionate family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul.",
+                business: "Spiritual and idealistic business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals."
             },
             "Sun_Pluto": {
                 aspect: "Conjunction",
@@ -118,10 +118,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Transformative identity connection. Your core identity and transformative power merge into one powerful force. This creates natural leadership through intensity and psychological insight.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Transformative romantic identity. Your identity and transformation merge, creating natural leadership through intensity in romantic relationships.",
-                friendship: "Transformative friendship identity. Your identity and transformation merge, creating natural leadership through intensity in friendships.",
-                family: "Transformative family identity. Your identity and transformation merge, creating natural leadership through intensity in family relationships.",
-                business: "Transformative business identity. Your identity and transformation merge, creating natural leadership through intensity in business partnerships."
+                romance: "Intense and transformative romantic connection. You have a powerful psychological bond that leads to deep personal transformation and profound understanding of each other.",
+                friendship: "Deep and transformative friendship. You help each other grow through intense psychological insights and shared experiences of personal transformation.",
+                family: "Intense and transformative family bonds. You share a deep psychological connection that leads to profound personal growth and mutual understanding.",
+                business: "Intense and transformative business partnership. You work together with psychological insight and determination, creating powerful transformations in your field."
             },
             "Moon_Moon": {
                 aspect: "Conjunction",
@@ -130,10 +130,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect emotional alignment. Your emotional natures merge into one powerful force. This creates natural emotional understanding and deep nurturing connection.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic emotional alignment. Your emotional natures merge, creating natural emotional understanding and deep nurturing connection in romantic relationships.",
-                friendship: "Perfect friendship emotional alignment. Your emotional natures merge, creating natural emotional understanding and deep nurturing connection in friendships.",
-                family: "Perfect family emotional alignment. Your emotional natures merge, creating natural emotional understanding and deep nurturing connection in family relationships.",
-                business: "Perfect business emotional alignment. Your emotional natures merge, creating natural emotional understanding and deep nurturing connection in business partnerships."
+                romance: "Deep emotional soul connection. You feel each other's emotions instinctively, creating an intimate romantic bond with profound emotional understanding.",
+                friendship: "Intuitive emotional understanding. You naturally understand each other's feelings and moods, creating a friendship with deep emotional support and comfort.",
+                family: "Deep emotional family bonds. You share the same emotional rhythms and needs, creating a family environment of mutual care and emotional security.",
+                business: "Intuitive emotional intelligence in collaboration. You understand each other's emotional needs and can work together with natural empathy and support."
             },
             "Moon_Mercury": {
                 aspect: "Conjunction",
@@ -142,10 +142,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect emotional and communication alignment. Your emotional nature and communication style merge into one powerful force. This creates natural emotional communication and intuitive thinking.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic emotional communication. Your emotions and communication merge, creating natural emotional communication in romantic relationships.",
-                friendship: "Perfect friendship emotional communication. Your emotions and communication merge, creating natural emotional communication in friendships.",
-                family: "Perfect family emotional communication. Your emotions and communication merge, creating natural emotional communication in family relationships.",
-                business: "Perfect business emotional communication. Your emotions and communication merge, creating natural emotional communication in business partnerships."
+                romance: "Intuitive emotional communication in love. You express your feelings naturally and understand each other's emotional needs through conversation.",
+                friendship: "Natural emotional communication and support. You can talk about your feelings easily and provide emotional support through understanding conversation.",
+                family: "Open emotional communication in family. You naturally express your feelings and understand each other's emotional needs through honest communication.",
+                business: "Emotional intelligence in business communication. You understand each other's emotional needs and can communicate effectively with empathy and clarity."
             },
             "Moon_Saturn": {
                 aspect: "Conjunction",
@@ -154,10 +154,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect emotional and discipline alignment. Your emotional nature and discipline merge into one powerful force. This creates natural emotional stability and responsible nurturing.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic emotional discipline. Your emotions and discipline merge, creating natural emotional stability in romantic relationships.",
-                friendship: "Perfect friendship emotional discipline. Your emotions and discipline merge, creating natural emotional stability in friendships.",
-                family: "Perfect family emotional discipline. Your emotions and discipline merge, creating natural emotional stability in family relationships.",
-                business: "Perfect business emotional discipline. Your emotions and discipline merge, creating natural emotional stability in business partnerships."
+                romance: "Stable and committed emotional connection. You build emotional security together, creating a relationship based on trust, responsibility, and emotional maturity.",
+                friendship: "Reliable emotional support and stability. You provide each other with steady emotional support and can count on each other during difficult times.",
+                family: "Stable and responsible family bonds. You create emotional security and stability in your family, building a foundation of trust and mutual care.",
+                business: "Stable and responsible business collaboration. You work together with emotional maturity and reliability, creating a stable and trustworthy partnership."
             },
             "Moon_Neptune": {
                 aspect: "Conjunction",
@@ -166,10 +166,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Spiritual emotional connection. Your emotional nature and spiritual nature merge into one powerful force. This creates natural leadership through compassionate emotional expression.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Spiritual romantic emotion. Your emotions and spirituality merge, creating natural leadership through compassionate emotional expression in romantic relationships.",
-                friendship: "Spiritual friendship emotion. Your emotions and spirituality merge, creating natural leadership through compassionate emotional expression in friendships.",
-                family: "Spiritual family emotion. Your emotions and spirituality merge, creating natural leadership through compassionate emotional expression in family relationships.",
-                business: "Spiritual business emotion. Your emotions and spirituality merge, creating natural leadership through compassionate emotional expression in business partnerships."
+                romance: "Spiritual and compassionate romantic connection. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary.",
+                friendship: "Spiritual and compassionate friendship. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared ideals.",
+                family: "Spiritual and compassionate family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul.",
+                business: "Spiritual and idealistic business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals."
             },
             "Moon_Pluto": {
                 aspect: "Conjunction",
@@ -178,10 +178,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Transformative emotional connection. Your emotional nature and transformative power merge into one powerful force. This creates natural leadership through intense emotional expression.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Transformative romantic emotion. Your emotions and transformation merge, creating natural leadership through intense emotional expression in romantic relationships.",
-                friendship: "Transformative friendship emotion. Your emotions and transformation merge, creating natural leadership through intense emotional expression in friendships.",
-                family: "Transformative family emotion. Your emotions and transformation merge, creating natural leadership through intense emotional expression in family relationships.",
-                business: "Transformative business emotion. Your emotions and transformation merge, creating natural leadership through intense emotional expression in business partnerships."
+                romance: "Intense and transformative emotional connection. You have a powerful psychological bond that leads to deep emotional transformation and profound understanding of each other's inner world.",
+                friendship: "Deep and transformative emotional friendship. You help each other grow through intense emotional insights and shared experiences of emotional transformation.",
+                family: "Intense and transformative family bonds. You share a deep emotional connection that leads to profound emotional growth and mutual understanding.",
+                business: "Intense and transformative business collaboration. You work together with emotional insight and determination, creating powerful emotional transformations in your field."
             },
             "Mercury_Mercury": {
                 aspect: "Conjunction",
@@ -190,10 +190,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect communication alignment. Your communication styles merge into one powerful force. This creates natural mental rapport and shared thinking patterns.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic communication alignment. Your communication styles merge, creating natural mental rapport in romantic relationships.",
-                friendship: "Perfect friendship communication alignment. Your communication styles merge, creating natural mental rapport in friendships.",
-                family: "Perfect family communication alignment. Your communication styles merge, creating natural mental rapport in family relationships.",
-                business: "Perfect business communication alignment. Your communication styles merge, creating natural mental rapport in business partnerships."
+                romance: "Natural mental rapport and communication in love. You can talk for hours and always understand each other's thoughts, creating an intellectually stimulating romantic connection.",
+                friendship: "Easy communication and mental connection. You share similar thinking patterns and can discuss anything, creating a friendship with natural mental rapport.",
+                family: "Clear communication and shared understanding. You naturally express your thoughts and ideas, creating open and honest family communication.",
+                business: "Effective communication and mental synergy. You work together with natural understanding and can collaborate on ideas with ease and clarity."
             },
             "Mercury_Mars": {
                 aspect: "Conjunction",
@@ -202,10 +202,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect communication and action alignment. Your communication style and warrior energy merge into one powerful force. This creates natural leadership through dynamic communication.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic action communication. Your communication and warrior energy merge, creating natural leadership through dynamic communication in romantic relationships.",
-                friendship: "Perfect friendship action communication. Your communication and warrior energy merge, creating natural leadership through dynamic communication in friendships.",
-                family: "Perfect family action communication. Your communication and warrior energy merge, creating natural leadership through dynamic communication in family relationships.",
-                business: "Perfect business action communication. Your communication and warrior energy merge, creating natural leadership through dynamic communication in business partnerships."
+                romance: "Dynamic communication and passionate expression in love. You express your feelings with energy and enthusiasm, creating an exciting and intellectually stimulating romantic connection.",
+                friendship: "Energetic communication and shared enthusiasm. You inspire each other with dynamic ideas and can motivate each other through passionate conversation.",
+                family: "Dynamic communication and shared energy. You express your thoughts with enthusiasm and can motivate each other through clear and energetic communication.",
+                business: "Dynamic communication and action-oriented collaboration. You work together with energy and enthusiasm, communicating ideas clearly and taking action decisively."
             },
             "Mercury_Jupiter": {
                 aspect: "Conjunction",
@@ -214,10 +214,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect communication and wisdom alignment. Your communication style and wisdom merge into one powerful force. This creates natural leadership through optimistic communication.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic wisdom communication. Your communication and wisdom merge, creating natural leadership through optimistic communication in romantic relationships.",
-                friendship: "Perfect friendship wisdom communication. Your communication and wisdom merge, creating natural leadership through optimistic communication in friendships.",
-                family: "Perfect family wisdom communication. Your communication and wisdom merge, creating natural leadership through optimistic communication in family relationships.",
-                business: "Perfect business wisdom communication. Your communication and wisdom merge, creating natural leadership through optimistic communication in business partnerships."
+                romance: "Optimistic and expansive communication in love. You inspire each other with big ideas and positive thinking, creating a romantic relationship filled with intellectual growth and optimism.",
+                friendship: "Optimistic communication and shared wisdom. You encourage each other's ideas and dreams, creating a friendship that expands your horizons through positive conversation.",
+                family: "Optimistic communication and shared growth. You teach and learn from each other, creating a family environment that encourages intellectual expansion and positive thinking.",
+                business: "Optimistic communication and growth-oriented collaboration. You work together with enthusiasm and wisdom, creating opportunities for expansion and success through positive communication."
             },
             "Mercury_Saturn": {
                 aspect: "Conjunction",
@@ -226,10 +226,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect communication and discipline alignment. Your communication style and discipline merge into one powerful force. This creates natural leadership through responsible communication.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic discipline communication. Your communication and discipline merge, creating natural leadership through responsible communication in romantic relationships.",
-                friendship: "Perfect friendship discipline communication. Your communication and discipline merge, creating natural leadership through responsible communication in friendships.",
-                family: "Perfect family discipline communication. Your communication and discipline merge, creating natural leadership through responsible communication in family relationships.",
-                business: "Perfect business discipline communication. Your communication and discipline merge, creating natural leadership through responsible communication in business partnerships."
+                romance: "Serious and committed communication in love. You build trust through honest and responsible communication, creating a relationship based on mutual respect and clear understanding.",
+                friendship: "Reliable and trustworthy communication. You can count on each other for honest and responsible communication, creating a friendship built on mutual respect and clear understanding.",
+                family: "Serious and responsible family communication. You work together to create clear and honest communication, building a family foundation based on mutual respect and understanding.",
+                business: "Reliable and disciplined business communication. You work together with focus and responsibility, creating successful ventures through clear and honest communication."
             },
             "Mercury_Uranus": {
                 aspect: "Conjunction",
@@ -238,10 +238,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Revolutionary communication connection. Your communication style and innovative nature merge into one powerful force. This creates natural leadership through original thinking and revolutionary communication.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Revolutionary romantic communication. Your communication and innovation merge, creating natural leadership through original thinking in romantic relationships.",
-                friendship: "Revolutionary friendship communication. Your communication and innovation merge, creating natural leadership through original thinking in friendships.",
-                family: "Revolutionary family communication. Your communication and innovation merge, creating natural leadership through original thinking in family relationships.",
-                business: "Revolutionary business communication. Your communication and innovation merge, creating natural leadership through original thinking in business partnerships."
+                romance: "Electric and unconventional communication in love. You inspire each other with original ideas and unconventional thinking, creating an exciting and intellectually stimulating romantic connection.",
+                friendship: "Innovative and independent communication. You inspire each other to think outside the box and embrace unconventional ideas, creating a friendship that celebrates originality.",
+                family: "Progressive and independent family communication. You encourage each other's unique perspectives and unconventional thinking, creating a family that values innovation and freedom.",
+                business: "Innovative and original business communication. You work together with creativity and independence, breaking new ground and creating unique solutions through original thinking."
             },
             "Mercury_Neptune": {
                 aspect: "Conjunction",
@@ -250,10 +250,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Spiritual communication connection. Your communication style and spiritual nature merge into one powerful force. This creates natural leadership through compassionate communication and intuitive thinking.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Spiritual romantic communication. Your communication and spirituality merge, creating natural leadership through compassionate communication in romantic relationships.",
-                friendship: "Spiritual friendship communication. Your communication and spirituality merge, creating natural leadership through compassionate communication in friendships.",
-                family: "Spiritual family communication. Your communication and spirituality merge, creating natural leadership through compassionate communication in family relationships.",
-                business: "Spiritual business communication. Your communication and spirituality merge, creating natural leadership through compassionate communication in business partnerships."
+                romance: "Spiritual and intuitive communication in love. You share a deep spiritual understanding and communicate with compassion and empathy, creating a romantic connection that transcends words.",
+                friendship: "Spiritual and compassionate communication. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassionate and intuitive communication.",
+                family: "Spiritual and compassionate family communication. You share a deep spiritual connection and communicate with empathy and understanding, creating a family environment that nurtures the soul.",
+                business: "Spiritual and idealistic business communication. You work together with compassion and vision, creating business ventures that serve higher purposes through intuitive communication."
             },
             "Mercury_Pluto": {
                 aspect: "Conjunction",
@@ -262,10 +262,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Transformative communication connection. Your communication style and transformative power merge into one powerful force. This creates natural leadership through psychological insight and penetrating communication.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Transformative romantic communication. Your communication and transformation merge, creating natural leadership through psychological insight in romantic relationships.",
-                friendship: "Transformative friendship communication. Your communication and transformation merge, creating natural leadership through psychological insight in friendships.",
-                family: "Transformative family communication. Your communication and transformation merge, creating natural leadership through psychological insight in family relationships.",
-                business: "Transformative business communication. Your communication and transformation merge, creating natural leadership through psychological insight in business partnerships."
+                romance: "Intense and transformative communication in love. You have deep psychological insights into each other and communicate with penetrating understanding, creating a powerful romantic connection.",
+                friendship: "Deep and transformative communication. You help each other grow through intense psychological insights and penetrating conversations that lead to personal transformation.",
+                family: "Intense and transformative family communication. You share a deep psychological connection and communicate with penetrating insight, leading to profound personal growth and mutual understanding.",
+                business: "Intense and transformative business communication. You work together with psychological insight and determination, creating powerful transformations in your field through penetrating communication."
             },
             "Venus_Venus": {
                 aspect: "Conjunction",
@@ -274,10 +274,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect love and values alignment. Your love natures merge into one powerful force. This creates natural charm and romantic harmony.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic love alignment. Your love natures merge, creating natural charm and romantic harmony in romantic relationships.",
-                friendship: "Perfect friendship love alignment. Your love natures merge, creating natural charm and romantic harmony in friendships.",
-                family: "Perfect family love alignment. Your love natures merge, creating natural charm and romantic harmony in family relationships.",
-                business: "Perfect business love alignment. Your love natures merge, creating natural charm and romantic harmony in business partnerships."
+                romance: "Natural charm and romantic chemistry. You're drawn to each other's beauty and grace, creating an instant romantic attraction and mutual appreciation.",
+                friendship: "Natural charm and mutual appreciation. You appreciate each other's style and grace, creating a friendship based on mutual admiration and shared aesthetics.",
+                family: "Natural love and care in family bonds. You naturally show affection and care for each other, creating a loving and supportive family environment.",
+                business: "Natural charm and diplomatic skills. You work together with grace and mutual respect, creating harmonious business relationships and partnerships."
             },
             "Venus_Mars": {
                 aspect: "Conjunction",
@@ -286,10 +286,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect love and action alignment. Your love nature and warrior energy merge into one powerful force. This creates natural leadership through passionate love.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic action love. Your love and warrior energy merge, creating natural leadership through passionate love in romantic relationships.",
-                friendship: "Perfect friendship action love. Your love and warrior energy merge, creating natural leadership through passionate love in friendships.",
-                family: "Perfect family action love. Your love and warrior energy merge, creating natural leadership through passionate love in family relationships.",
-                business: "Perfect business action love. Your love and warrior energy merge, creating natural leadership through passionate love in business partnerships."
+                romance: "Passionate and dynamic romantic connection. You're drawn to each other's beauty and strength, creating an exciting and passionate romantic relationship with natural chemistry.",
+                friendship: "Dynamic friendship with shared passion. You inspire each other with enthusiasm and can motivate each other through shared interests and activities.",
+                family: "Passionate and caring family bonds. You protect and care for each other with love and strength, creating a family environment of mutual support and affection.",
+                business: "Passionate and dynamic business partnership. You work together with enthusiasm and charm, creating successful ventures through shared passion and determination."
             },
             "Venus_Jupiter": {
                 aspect: "Conjunction",
@@ -298,10 +298,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect love and wisdom alignment. Your love nature and wisdom merge into one powerful force. This creates natural generosity and optimistic love.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic wisdom love. Your love and wisdom merge, creating natural generosity in romantic relationships.",
-                friendship: "Perfect friendship wisdom love. Your love and wisdom merge, creating natural generosity in friendships.",
-                family: "Perfect family wisdom love. Your love and wisdom merge, creating natural generosity in family relationships.",
-                business: "Perfect business wisdom love. Your love and wisdom merge, creating natural generosity in business partnerships."
+                romance: "Optimistic and generous romantic connection. You inspire each other with love and wisdom, creating a romantic relationship filled with joy, generosity, and mutual appreciation.",
+                friendship: "Optimistic and generous friendship. You appreciate each other's wisdom and grace, creating a friendship that expands your horizons and brings joy through shared values.",
+                family: "Optimistic and generous family bonds. You share wisdom and love, creating a family environment that encourages growth, generosity, and positive values.",
+                business: "Optimistic and generous business partnership. You work together with charm and wisdom, creating opportunities for expansion and success through shared values and generosity."
             },
             "Venus_Saturn": {
                 aspect: "Conjunction",
@@ -310,10 +310,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect love and discipline alignment. Your love nature and discipline merge into one powerful force. This creates natural leadership through responsible love.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic discipline love. Your love and discipline merge, creating natural leadership through responsible love in romantic relationships.",
-                friendship: "Perfect friendship discipline love. Your love and discipline merge, creating natural leadership through responsible love in friendships.",
-                family: "Perfect family discipline love. Your love and discipline merge, creating natural leadership through responsible love in family relationships.",
-                business: "Perfect business discipline love. Your love and discipline merge, creating natural leadership through responsible love in business partnerships."
+                romance: "Serious and committed romantic connection. You build a strong foundation of love and respect, creating a relationship based on mutual commitment and long-term values.",
+                friendship: "Reliable and trustworthy friendship. You can count on each other for love and support, creating a friendship built on mutual respect and shared values.",
+                family: "Serious and responsible family bonds. You work together to create stability and love in your family, building a foundation based on mutual respect and care.",
+                business: "Reliable and disciplined business partnership. You work together with charm and responsibility, creating successful ventures through shared values and commitment."
             },
             "Venus_Uranus": {
                 aspect: "Conjunction",
@@ -322,10 +322,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Revolutionary love connection. Your love nature and innovative nature merge into one powerful force. This creates natural leadership through original love expression.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Revolutionary romantic love. Your love and innovation merge, creating natural leadership through original love expression in romantic relationships.",
-                friendship: "Revolutionary friendship love. Your love and innovation merge, creating natural leadership through original love expression in friendships.",
-                family: "Revolutionary family love. Your love and innovation merge, creating natural leadership through original love expression in family relationships.",
-                business: "Revolutionary business love. Your love and innovation merge, creating natural leadership through original love expression in business partnerships."
+                romance: "Electric and unconventional romantic connection. You're drawn to each other's uniqueness and independence, creating an exciting and unpredictable romantic dynamic with original expression.",
+                friendship: "Innovative and independent friendship. You appreciate each other's unique style and unconventional approach to love and beauty, creating a friendship that celebrates individuality.",
+                family: "Progressive and independent family bonds. You encourage each other's unique expressions of love and beauty, creating a family that values freedom and unconventional approaches.",
+                business: "Innovative and original business partnership. You work together with creativity and charm, breaking new ground and creating unique solutions with original approaches to relationships."
             },
             "Venus_Neptune": {
                 aspect: "Conjunction",
@@ -334,10 +334,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Spiritual love connection. Your love nature and spiritual nature merge into one powerful force. This creates natural leadership through compassionate love.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Spiritual romantic love. Your love and spirituality merge, creating natural leadership through compassionate love in romantic relationships.",
-                friendship: "Spiritual friendship love. Your love and spirituality merge, creating natural leadership through compassionate love in friendships.",
-                family: "Spiritual family love. Your love and spirituality merge, creating natural leadership through compassionate love in family relationships.",
-                business: "Spiritual business love. Your love and spirituality merge, creating natural leadership through compassionate love in business partnerships."
+                romance: "Spiritual and idealistic romantic connection. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary.",
+                friendship: "Spiritual and compassionate friendship. You share a deep understanding of the spiritual aspects of love and beauty, creating a friendship based on compassion and shared ideals.",
+                family: "Spiritual and compassionate family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul through love.",
+                business: "Spiritual and idealistic business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals through love."
             },
             "Venus_Pluto": {
                 aspect: "Conjunction",
@@ -346,10 +346,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Transformative love connection. Your love nature and transformative power merge into one powerful force. This creates natural leadership through intense love.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Transformative romantic love. Your love and transformation merge, creating natural leadership through intense love in romantic relationships.",
-                friendship: "Transformative friendship love. Your love and transformation merge, creating natural leadership through intense love in friendships.",
-                family: "Transformative family love. Your love and transformation merge, creating natural leadership through intense love in family relationships.",
-                business: "Transformative business love. Your love and transformation merge, creating natural leadership through intense love in business partnerships."
+                romance: "Intense and transformative romantic connection. You have a powerful psychological bond that leads to deep personal transformation through love and profound understanding of each other.",
+                friendship: "Deep and transformative friendship. You help each other grow through intense psychological insights and shared experiences of personal transformation through love.",
+                family: "Intense and transformative family bonds. You share a deep psychological connection that leads to profound personal growth and mutual understanding through love.",
+                business: "Intense and transformative business partnership. You work together with psychological insight and determination, creating powerful transformations in your field through shared values."
             },
             "Mars_Mars": {
                 aspect: "Conjunction",
@@ -358,10 +358,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect action and drive alignment. Your warrior energies merge into one powerful force. This creates natural leadership through courage and determination.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic action alignment. Your warrior energies merge, creating natural leadership through courage in romantic relationships.",
-                friendship: "Perfect friendship action alignment. Your warrior energies merge, creating natural leadership through courage in friendships.",
-                family: "Perfect family action alignment. Your warrior energies merge, creating natural leadership through courage in family relationships.",
-                business: "Perfect business action alignment. Your warrior energies merge, creating natural leadership through courage in business partnerships."
+                romance: "Passionate and dynamic romantic energy. You're drawn to each other's strength and courage, creating an exciting and adventurous romantic connection with shared drive.",
+                friendship: "Dynamic friendship with shared courage. You inspire each other to be brave and take action, supporting each other's goals and ambitions with mutual enthusiasm.",
+                family: "Strong family bonds with shared determination. You protect and support each other with courage and strength, creating a resilient family unit with shared drive.",
+                business: "Dynamic leadership and action-oriented partnership. You work together with energy and determination, achieving goals through shared courage and drive."
             },
             "Mars_Saturn": {
                 aspect: "Conjunction",
@@ -370,10 +370,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect action and discipline alignment. Your warrior energy and discipline merge into one powerful force. This creates natural leadership through responsible achievement.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic discipline action. Your warrior energy and discipline merge, creating natural leadership through responsible achievement in romantic relationships.",
-                friendship: "Perfect friendship discipline action. Your warrior energy and discipline merge, creating natural leadership through responsible achievement in friendships.",
-                family: "Perfect family discipline action. Your warrior energy and discipline merge, creating natural leadership through responsible achievement in family relationships.",
-                business: "Perfect business discipline action. Your warrior energy and discipline merge, creating natural leadership through responsible achievement in business partnerships."
+                romance: "Serious and committed romantic energy. You build a strong foundation together with determination and responsibility, creating a relationship based on mutual respect and long-term commitment.",
+                friendship: "Reliable and trustworthy friendship with shared drive. You can count on each other through thick and thin, creating a friendship built on mutual respect and shared determination.",
+                family: "Strong family bonds with shared responsibility. You work together to create stability and security, building a family foundation based on mutual respect and duty.",
+                business: "Reliable and disciplined business partnership. You work together with focus and determination, creating successful ventures through shared responsibility and expertise."
             },
             "Mars_Pluto": {
                 aspect: "Conjunction",
@@ -382,10 +382,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Transformative action connection. Your warrior energy and transformative power merge into one powerful force. This creates natural leadership through psychological intensity and penetrating action.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Transformative romantic action. Your warrior energy and transformation merge, creating natural leadership through psychological intensity in romantic relationships.",
-                friendship: "Transformative friendship action. Your warrior energy and transformation merge, creating natural leadership through psychological intensity in friendships.",
-                family: "Transformative family action. Your warrior energy and transformation merge, creating natural leadership through psychological intensity in family relationships.",
-                business: "Transformative business action. Your warrior energy and transformation merge, creating natural leadership through psychological intensity in business partnerships."
+                romance: "Intense and transformative romantic energy. You have a powerful psychological bond that leads to deep personal transformation through passionate action and profound understanding.",
+                friendship: "Deep and transformative friendship with shared drive. You help each other grow through intense psychological insights and shared experiences of personal transformation through action.",
+                family: "Intense and transformative family bonds. You share a deep psychological connection that leads to profound personal growth and mutual understanding through shared determination.",
+                business: "Intense and transformative business partnership. You work together with psychological insight and determination, creating powerful transformations in your field through penetrating action."
             },
             "Mars_Jupiter": {
                 aspect: "Conjunction",
@@ -394,10 +394,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect action and wisdom alignment. Your warrior energy and wisdom merge into one powerful force. This creates natural leadership through optimistic action.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic wisdom action. Your warrior energy and wisdom merge, creating natural leadership through optimistic action in romantic relationships.",
-                friendship: "Perfect friendship wisdom action. Your warrior energy and wisdom merge, creating natural leadership through optimistic action in friendships.",
-                family: "Perfect family wisdom action. Your warrior energy and wisdom merge, creating natural leadership through optimistic action in family relationships.",
-                business: "Perfect business wisdom action. Your warrior energy and wisdom merge, creating natural leadership through optimistic action in business partnerships."
+                romance: "Optimistic and expansive romantic energy. You inspire each other to grow and expand, creating a relationship filled with joy, adventure, and mutual encouragement through action.",
+                friendship: "Optimistic friendship with shared drive and wisdom. You encourage each other's dreams and aspirations, creating a friendship that expands your horizons and brings joy through shared action.",
+                family: "Optimistic family bonds with shared wisdom and drive. You teach and learn from each other, creating a family environment that encourages growth and positive thinking through action.",
+                business: "Optimistic leadership and growth-oriented partnership. You work together with enthusiasm and wisdom, creating opportunities for expansion and success through shared action."
             },
             "Mars_Neptune": {
                 aspect: "Conjunction",
@@ -406,10 +406,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Spiritual action connection. Your warrior energy and spiritual nature merge into one powerful force. This creates natural leadership through compassionate action.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Spiritual romantic action. Your warrior energy and spirituality merge, creating natural leadership through compassionate action in romantic relationships.",
-                friendship: "Spiritual friendship action. Your warrior energy and spirituality merge, creating natural leadership through compassionate action in friendships.",
-                family: "Spiritual family action. Your warrior energy and spirituality merge, creating natural leadership through compassionate action in family relationships.",
-                business: "Spiritual business action. Your warrior energy and spirituality merge, creating natural leadership through compassionate action in business partnerships."
+                romance: "Spiritual and idealistic romantic energy. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary through compassionate action.",
+                friendship: "Spiritual and compassionate friendship with shared drive. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared ideals through action.",
+                family: "Spiritual and compassionate family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul through compassionate action.",
+                business: "Spiritual and idealistic business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals through compassionate action."
             },
             "Jupiter_Moon": {
                 aspect: "Conjunction",
@@ -418,10 +418,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect wisdom and emotional alignment. Your wisdom and emotional nature merge into one powerful force. This creates natural leadership through optimistic nurturing.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic emotional wisdom. Your wisdom and emotions merge, creating natural leadership through optimistic nurturing in romantic relationships.",
-                friendship: "Perfect friendship emotional wisdom. Your wisdom and emotions merge, creating natural leadership through optimistic nurturing in friendships.",
-                family: "Perfect family emotional wisdom. Your wisdom and emotions merge, creating natural leadership through optimistic nurturing in family relationships.",
-                business: "Perfect business emotional wisdom. Your wisdom and emotions merge, creating natural leadership through optimistic nurturing in business partnerships."
+                romance: "Optimistic and nurturing romantic connection. You inspire each other to grow emotionally and intellectually, creating a relationship filled with joy, wisdom, and mutual emotional support.",
+                friendship: "Optimistic and nurturing friendship. You encourage each other's emotional growth and wisdom, creating a friendship that expands your horizons and brings joy through emotional support.",
+                family: "Optimistic and nurturing family bonds. You teach and learn from each other emotionally and intellectually, creating a family environment that encourages growth and positive emotional expression.",
+                business: "Optimistic and nurturing business partnership. You work together with enthusiasm and emotional intelligence, creating opportunities for expansion and success through mutual support."
             },
             "Jupiter_Saturn": {
                 aspect: "Conjunction",
@@ -430,10 +430,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect wisdom and discipline alignment. Your wisdom and discipline merge into one powerful force. This creates natural leadership through responsible wisdom.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic discipline wisdom. Your wisdom and discipline merge, creating natural leadership through responsible wisdom in romantic relationships.",
-                friendship: "Perfect friendship discipline wisdom. Your wisdom and discipline merge, creating natural leadership through responsible wisdom in friendships.",
-                family: "Perfect family discipline wisdom. Your wisdom and discipline merge, creating natural leadership through responsible wisdom in family relationships.",
-                business: "Perfect business discipline wisdom. Your wisdom and discipline merge, creating natural leadership through responsible wisdom in business partnerships."
+                romance: "Serious and committed romantic wisdom. You build a strong foundation together with wisdom and responsibility, creating a relationship based on mutual respect and long-term growth.",
+                friendship: "Reliable and trustworthy friendship with shared wisdom. You can count on each other through thick and thin, creating a friendship built on mutual respect and shared wisdom.",
+                family: "Serious and responsible family bonds with shared wisdom. You work together to create stability and growth, building a family foundation based on mutual respect and wisdom.",
+                business: "Reliable and disciplined business partnership with wisdom. You work together with focus and wisdom, creating successful ventures through shared responsibility and expertise."
             },
             "Jupiter_Uranus": {
                 aspect: "Conjunction",
@@ -442,10 +442,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Revolutionary wisdom connection. Your wisdom and innovative nature merge into one powerful force. This creates natural leadership through original wisdom.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Revolutionary romantic wisdom. Your wisdom and innovation merge, creating natural leadership through original wisdom in romantic relationships.",
-                friendship: "Revolutionary friendship wisdom. Your wisdom and innovation merge, creating natural leadership through original wisdom in friendships.",
-                family: "Revolutionary family wisdom. Your wisdom and innovation merge, creating natural leadership through original wisdom in family relationships.",
-                business: "Revolutionary business wisdom. Your wisdom and innovation merge, creating natural leadership through original wisdom in business partnerships."
+                romance: "Electric and unconventional romantic wisdom. You inspire each other with original ideas and unconventional wisdom, creating an exciting and intellectually stimulating romantic connection.",
+                friendship: "Innovative and independent friendship with shared wisdom. You inspire each other to think outside the box and embrace unconventional wisdom, creating a friendship that celebrates originality.",
+                family: "Progressive and independent family bonds with shared wisdom. You encourage each other's unique perspectives and unconventional wisdom, creating a family that values innovation and freedom.",
+                business: "Innovative and original business partnership with wisdom. You work together with creativity and wisdom, breaking new ground and creating unique solutions through original thinking."
             },
             "Jupiter_Neptune": {
                 aspect: "Conjunction",
@@ -454,10 +454,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Spiritual wisdom connection. Your wisdom and spiritual nature merge into one powerful force. This creates natural leadership through compassionate wisdom.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Spiritual romantic wisdom. Your wisdom and spirituality merge, creating natural leadership through compassionate wisdom in romantic relationships.",
-                friendship: "Spiritual friendship wisdom. Your wisdom and spirituality merge, creating natural leadership through compassionate wisdom in friendships.",
-                family: "Spiritual family wisdom. Your wisdom and spirituality merge, creating natural leadership through compassionate wisdom in family relationships.",
-                business: "Spiritual business wisdom. Your wisdom and spirituality merge, creating natural leadership through compassionate wisdom in business partnerships."
+                romance: "Spiritual and idealistic romantic wisdom. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary through compassionate wisdom.",
+                friendship: "Spiritual and compassionate friendship with shared wisdom. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared ideals through wisdom.",
+                family: "Spiritual and compassionate family bonds with shared wisdom. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul through compassionate wisdom.",
+                business: "Spiritual and idealistic business partnership with wisdom. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals through compassionate wisdom."
             },
             "Jupiter_Pluto": {
                 aspect: "Conjunction",
@@ -466,10 +466,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Transformative wisdom connection. Your wisdom and transformative power merge into one powerful force. This creates natural leadership through intense wisdom.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Transformative romantic wisdom. Your wisdom and transformation merge, creating natural leadership through intense wisdom in romantic relationships.",
-                friendship: "Transformative friendship wisdom. Your wisdom and transformation merge, creating natural leadership through intense wisdom in friendships.",
-                family: "Transformative family wisdom. Your wisdom and transformation merge, creating natural leadership through intense wisdom in family relationships.",
-                business: "Transformative business wisdom. Your wisdom and transformation merge, creating natural leadership through intense wisdom in business partnerships."
+                romance: "Intense and transformative romantic wisdom. You have a powerful psychological bond that leads to deep personal transformation and profound understanding through wisdom.",
+                friendship: "Deep and transformative friendship with shared wisdom. You help each other grow through intense psychological insights and shared experiences of personal transformation through wisdom.",
+                family: "Intense and transformative family bonds with shared wisdom. You share a deep psychological connection that leads to profound personal growth and mutual understanding through wisdom.",
+                business: "Intense and transformative business partnership with wisdom. You work together with psychological insight and determination, creating powerful transformations in your field through wisdom."
             },
             "Saturn_Uranus": {
                 aspect: "Conjunction",
@@ -478,10 +478,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Revolutionary discipline connection. Your discipline and innovative nature merge into one powerful force. This creates natural leadership through original discipline.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Revolutionary romantic discipline. Your discipline and innovation merge, creating natural leadership through original discipline in romantic relationships.",
-                friendship: "Revolutionary friendship discipline. Your discipline and innovation merge, creating natural leadership through original discipline in friendships.",
-                family: "Revolutionary family discipline. Your discipline and innovation merge, creating natural leadership through original discipline in family relationships.",
-                business: "Revolutionary business discipline. Your discipline and innovation merge, creating natural leadership through original discipline in business partnerships."
+                romance: "Electric and unconventional romantic discipline. You build a strong foundation together with original thinking and responsibility, creating an exciting and committed romantic connection.",
+                friendship: "Innovative and independent friendship with shared discipline. You inspire each other to think outside the box while maintaining responsibility, creating a friendship that celebrates originality.",
+                family: "Progressive and independent family bonds with shared discipline. You encourage each other's unique perspectives while building stability, creating a family that values innovation and responsibility.",
+                business: "Innovative and original business partnership with discipline. You work together with creativity and responsibility, breaking new ground and creating unique solutions through disciplined innovation."
             },
             "Saturn_Neptune": {
                 aspect: "Conjunction",
@@ -490,10 +490,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Spiritual discipline connection. Your discipline and spiritual nature merge into one powerful force. This creates natural leadership through compassionate discipline.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Spiritual romantic discipline. Your discipline and spirituality merge, creating natural leadership through compassionate discipline in romantic relationships.",
-                friendship: "Spiritual friendship discipline. Your discipline and spirituality merge, creating natural leadership through compassionate discipline in friendships.",
-                family: "Spiritual family discipline. Your discipline and spirituality merge, creating natural leadership through compassionate discipline in family relationships.",
-                business: "Spiritual business discipline. Your discipline and spirituality merge, creating natural leadership through compassionate discipline in business partnerships."
+                romance: "Spiritual and idealistic romantic discipline. You build a strong foundation together with spiritual values and responsibility, creating a romantic relationship that transcends the ordinary.",
+                friendship: "Spiritual and compassionate friendship with shared discipline. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and responsibility.",
+                family: "Spiritual and compassionate family bonds with shared discipline. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul through responsibility.",
+                business: "Spiritual and idealistic business partnership with discipline. You work together with compassion and responsibility, creating business ventures that serve higher purposes and ideals."
             },
             "Saturn_Pluto": {
                 aspect: "Conjunction",
@@ -502,10 +502,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Transformative discipline connection. Your discipline and transformative power merge into one powerful force. This creates natural leadership through intense discipline.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Transformative romantic discipline. Your discipline and transformation merge, creating natural leadership through intense discipline in romantic relationships.",
-                friendship: "Transformative friendship discipline. Your discipline and transformation merge, creating natural leadership through intense discipline in friendships.",
-                family: "Transformative family discipline. Your discipline and transformation merge, creating natural leadership through intense discipline in family relationships.",
-                business: "Transformative business discipline. Your discipline and transformation merge, creating natural leadership through intense discipline in business partnerships."
+                romance: "Intense and transformative romantic discipline. You have a powerful psychological bond that leads to deep personal transformation through committed discipline and profound understanding.",
+                friendship: "Deep and transformative friendship with shared discipline. You help each other grow through intense psychological insights and shared experiences of personal transformation through responsibility.",
+                family: "Intense and transformative family bonds with shared discipline. You share a deep psychological connection that leads to profound personal growth and mutual understanding through responsibility.",
+                business: "Intense and transformative business partnership with discipline. You work together with psychological insight and determination, creating powerful transformations in your field through disciplined action."
             },
             "Uranus_Pluto": {
                 aspect: "Conjunction",
@@ -514,10 +514,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Revolutionary transformation connection. Your innovative nature and transformative power merge into one powerful force. This creates natural leadership through revolutionary transformation.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Revolutionary romantic transformation. Your innovation and transformation merge, creating natural leadership through revolutionary transformation in romantic relationships.",
-                friendship: "Revolutionary friendship transformation. Your innovation and transformation merge, creating natural leadership through revolutionary transformation in friendships.",
-                family: "Revolutionary family transformation. Your innovation and transformation merge, creating natural leadership through revolutionary transformation in family relationships.",
-                business: "Revolutionary business transformation. Your innovation and transformation merge, creating natural leadership through revolutionary transformation in business partnerships."
+                romance: "Electric and unconventional romantic transformation. You have a powerful psychological bond that leads to revolutionary personal transformation and profound understanding through innovation.",
+                friendship: "Deep and transformative friendship with shared innovation. You help each other grow through intense psychological insights and revolutionary experiences of personal transformation.",
+                family: "Intense and transformative family bonds with shared innovation. You share a deep psychological connection that leads to revolutionary personal growth and mutual understanding.",
+                business: "Intense and transformative business partnership with innovation. You work together with psychological insight and determination, creating revolutionary transformations in your field."
             },
             "Neptune_Moon": {
                 aspect: "Conjunction",
@@ -526,10 +526,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect spiritual and emotional alignment. Your spiritual nature and emotional nature merge into one powerful force. This creates natural leadership through compassionate nurturing.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic spiritual emotion. Your spirituality and emotions merge, creating natural leadership through compassionate nurturing in romantic relationships.",
-                friendship: "Perfect friendship spiritual emotion. Your spirituality and emotions merge, creating natural leadership through compassionate nurturing in friendships.",
-                family: "Perfect family spiritual emotion. Your spirituality and emotions merge, creating natural leadership through compassionate nurturing in family relationships.",
-                business: "Perfect business spiritual emotion. Your spirituality and emotions merge, creating natural leadership through compassionate nurturing in business partnerships."
+                romance: "Spiritual and idealistic romantic emotion. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary through emotional connection.",
+                friendship: "Spiritual and compassionate friendship. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared emotional ideals.",
+                family: "Spiritual and compassionate family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul through emotional support.",
+                business: "Spiritual and idealistic business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals through emotional intelligence."
             },
             "Neptune_Mars": {
                 aspect: "Conjunction",
@@ -538,10 +538,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect spiritual and action alignment. Your spiritual nature and warrior energy merge into one powerful force. This creates natural leadership through compassionate action.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic spiritual action. Your spirituality and warrior energy merge, creating natural leadership through compassionate action in romantic relationships.",
-                friendship: "Perfect friendship spiritual action. Your spirituality and warrior energy merge, creating natural leadership through compassionate action in friendships.",
-                family: "Perfect family spiritual action. Your spirituality and warrior energy merge, creating natural leadership through compassionate action in family relationships.",
-                business: "Perfect business spiritual action. Your spirituality and warrior energy merge, creating natural leadership through compassionate action in business partnerships."
+                romance: "Spiritual and idealistic romantic energy. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary through passionate action.",
+                friendship: "Spiritual and compassionate friendship with shared drive. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared ideals through action.",
+                family: "Spiritual and compassionate family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul through compassionate action.",
+                business: "Spiritual and idealistic business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals through compassionate action."
             },
             "Neptune_Uranus": {
                 aspect: "Conjunction",
@@ -550,10 +550,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect spiritual and innovation alignment. Your spiritual nature and innovative nature merge into one powerful force. This creates natural leadership through revolutionary spirituality.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic spiritual innovation. Your spirituality and innovation merge, creating natural leadership through revolutionary spirituality in romantic relationships.",
-                friendship: "Perfect friendship spiritual innovation. Your spirituality and innovation merge, creating natural leadership through revolutionary spirituality in friendships.",
-                family: "Perfect family spiritual innovation. Your spirituality and innovation merge, creating natural leadership through revolutionary spirituality in family relationships.",
-                business: "Perfect business spiritual innovation. Your spirituality and innovation merge, creating natural leadership through revolutionary spirituality in business partnerships."
+                romance: "Electric and unconventional spiritual romantic connection. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary through innovation.",
+                friendship: "Innovative and independent spiritual friendship. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared ideals through innovation.",
+                family: "Progressive and independent spiritual family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul through innovation.",
+                business: "Innovative and original spiritual business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals through innovation."
             },
             "Neptune_Neptune": {
                 aspect: "Conjunction",
@@ -562,10 +562,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect spiritual alignment. Your spiritual natures merge into one powerful force. This creates natural leadership through compassion and idealism.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic spiritual alignment. Your spiritual natures merge, creating natural leadership through compassion in romantic relationships.",
-                friendship: "Perfect friendship spiritual alignment. Your spiritual natures merge, creating natural leadership through compassion in friendships.",
-                family: "Perfect family spiritual alignment. Your spiritual natures merge, creating natural leadership through compassion in family relationships.",
-                business: "Perfect business spiritual alignment. Your spiritual natures merge, creating natural leadership through compassion in business partnerships."
+                romance: "Spiritual and idealistic romantic connection. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary.",
+                friendship: "Spiritual and compassionate friendship. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared ideals.",
+                family: "Spiritual and compassionate family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul.",
+                business: "Spiritual and idealistic business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals."
             },
             "Neptune_Pluto": {
                 aspect: "Conjunction",
@@ -574,10 +574,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect spiritual and transformation alignment. Your spiritual nature and transformative power merge into one powerful force. This creates natural leadership through spiritual transformation.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic spiritual transformation. Your spirituality and transformation merge, creating natural leadership through spiritual transformation in romantic relationships.",
-                friendship: "Perfect friendship spiritual transformation. Your spirituality and transformation merge, creating natural leadership through spiritual transformation in friendships.",
-                family: "Perfect family spiritual transformation. Your spirituality and transformation merge, creating natural leadership through spiritual transformation in family relationships.",
-                business: "Perfect business spiritual transformation. Your spirituality and transformation merge, creating natural leadership through spiritual transformation in business partnerships."
+                romance: "Intense and transformative spiritual romantic connection. You have a powerful psychological bond that leads to deep spiritual transformation and profound understanding.",
+                friendship: "Deep and transformative spiritual friendship. You help each other grow through intense spiritual insights and shared experiences of spiritual transformation.",
+                family: "Intense and transformative spiritual family bonds. You share a deep spiritual connection that leads to profound spiritual growth and mutual understanding.",
+                business: "Intense and transformative spiritual business partnership. You work together with spiritual insight and determination, creating powerful spiritual transformations in your field."
             },
             "Pluto_Pluto": {
                 aspect: "Conjunction",
@@ -586,10 +586,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect transformation alignment. Your transformative powers merge into one powerful force. This creates natural leadership through psychological insight and intense transformation.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic transformation alignment. Your transformative powers merge, creating natural leadership through psychological insight in romantic relationships.",
-                friendship: "Perfect friendship transformation alignment. Your transformative powers merge, creating natural leadership through psychological insight in friendships.",
-                family: "Perfect family transformation alignment. Your transformative powers merge, creating natural leadership through psychological insight in family relationships.",
-                business: "Perfect business transformation alignment. Your transformative powers merge, creating natural leadership through psychological insight in business partnerships."
+                romance: "Intense and transformative romantic connection. You have a powerful psychological bond that leads to deep personal transformation and profound understanding of each other.",
+                friendship: "Deep and transformative friendship. You help each other grow through intense psychological insights and shared experiences of personal transformation.",
+                family: "Intense and transformative family bonds. You share a deep psychological connection that leads to profound personal growth and mutual understanding.",
+                business: "Intense and transformative business partnership. You work together with psychological insight and determination, creating powerful transformations in your field."
             },
             "Mercury_Venus": {
                 aspect: "Conjunction",
@@ -598,10 +598,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect communication and love alignment. Your communication style and love nature merge into one powerful force. This creates natural leadership through romantic communication.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic communication love. Your communication and love merge, creating natural leadership through romantic communication in romantic relationships.",
-                friendship: "Perfect friendship communication love. Your communication and love merge, creating natural leadership through romantic communication in friendships.",
-                family: "Perfect family communication love. Your communication and love merge, creating natural leadership through romantic communication in family relationships.",
-                business: "Perfect business communication love. Your communication and love merge, creating natural leadership through romantic communication in business partnerships."
+                romance: "Natural charm and romantic communication in love. You express your feelings with grace and charm, creating an intellectually stimulating and romantic connection.",
+                friendship: "Natural charm and mutual appreciation in communication. You appreciate each other's style and communicate with grace, creating a friendship based on mutual admiration.",
+                family: "Natural love and care in family communication. You naturally express your thoughts and feelings with love, creating a loving and supportive family environment.",
+                business: "Natural charm and diplomatic skills in communication. You work together with grace and mutual respect, creating harmonious business relationships through charming communication."
             },
             "Venus_Mercury": {
                 aspect: "Conjunction",
@@ -610,10 +610,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect love and communication alignment. Your love nature and communication style merge into one powerful force. This creates natural leadership through loving communication.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic love communication. Your love and communication merge, creating natural leadership through loving communication in romantic relationships.",
-                friendship: "Perfect friendship love communication. Your love and communication merge, creating natural leadership through loving communication in friendships.",
-                family: "Perfect family love communication. Your love and communication merge, creating natural leadership through loving communication in family relationships.",
-                business: "Perfect business love communication. Your love and communication merge, creating natural leadership through loving communication in business partnerships."
+                romance: "Natural charm and loving communication in romance. You express your feelings with grace and charm, creating an intellectually stimulating and romantic connection.",
+                friendship: "Natural charm and mutual appreciation in communication. You appreciate each other's style and communicate with grace, creating a friendship based on mutual admiration.",
+                family: "Natural love and care in family communication. You naturally express your thoughts and feelings with love, creating a loving and supportive family environment.",
+                business: "Natural charm and diplomatic skills in communication. You work together with grace and mutual respect, creating harmonious business relationships through loving communication."
             },
             "Moon_Mars": {
                 aspect: "Conjunction",
@@ -622,10 +622,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect emotional and action alignment. Your emotional nature and warrior energy merge into one powerful force. This creates natural leadership through emotional drive.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic emotional action. Your emotions and warrior energy merge, creating natural leadership through emotional drive in romantic relationships.",
-                friendship: "Perfect friendship emotional action. Your emotions and warrior energy merge, creating natural leadership through emotional drive in friendships.",
-                family: "Perfect family emotional action. Your emotions and warrior energy merge, creating natural leadership through emotional drive in family relationships.",
-                business: "Perfect business emotional action. Your emotions and warrior energy merge, creating natural leadership through emotional drive in business partnerships."
+                romance: "Passionate and dynamic emotional connection in love. You express your emotions with energy and enthusiasm, creating an exciting and emotionally stimulating romantic connection.",
+                friendship: "Dynamic friendship with shared emotional drive. You inspire each other with emotional energy and can motivate each other through passionate emotional support.",
+                family: "Dynamic family bonds with shared emotional energy. You express your emotions with enthusiasm and can motivate each other through clear and energetic emotional expression.",
+                business: "Dynamic emotional intelligence in business collaboration. You work together with emotional energy and enthusiasm, achieving goals through shared emotional drive and determination."
             },
             "Moon_Venus": {
                 aspect: "Conjunction",
@@ -634,10 +634,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect emotional and love alignment. Your emotional nature and love nature merge into one powerful force. This creates natural leadership through emotional love.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic emotional love. Your emotions and love merge, creating natural leadership through emotional love in romantic relationships.",
-                friendship: "Perfect friendship emotional love. Your emotions and love merge, creating natural leadership through emotional love in friendships.",
-                family: "Perfect family emotional love. Your emotions and love merge, creating natural leadership through emotional love in family relationships.",
-                business: "Perfect business emotional love. Your emotions and love merge, creating natural leadership through emotional love in business partnerships."
+                romance: "Natural charm and emotional love in romance. You express your emotions with grace and charm, creating an emotionally stimulating and romantic connection.",
+                friendship: "Natural charm and mutual appreciation in emotional support. You appreciate each other's emotional style and provide support with grace, creating a friendship based on mutual admiration.",
+                family: "Natural love and care in family emotional bonds. You naturally express your emotions with love, creating a loving and supportive family environment.",
+                business: "Natural charm and diplomatic skills in emotional intelligence. You work together with grace and mutual respect, creating harmonious business relationships through emotional charm."
             },
             "Moon_Jupiter": {
                 aspect: "Conjunction",
@@ -646,10 +646,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect emotional and wisdom alignment. Your emotional nature and wisdom merge into one powerful force. This creates natural leadership through optimistic nurturing.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic emotional wisdom. Your emotions and wisdom merge, creating natural leadership through optimistic nurturing in romantic relationships.",
-                friendship: "Perfect friendship emotional wisdom. Your emotions and wisdom merge, creating natural leadership through optimistic nurturing in friendships.",
-                family: "Perfect family emotional wisdom. Your emotions and wisdom merge, creating natural leadership through optimistic nurturing in family relationships.",
-                business: "Perfect business emotional wisdom. Your emotions and wisdom merge, creating natural leadership through optimistic nurturing in business partnerships."
+                romance: "Optimistic and nurturing romantic emotional connection. You inspire each other to grow emotionally and intellectually, creating a relationship filled with joy, wisdom, and mutual emotional support.",
+                friendship: "Optimistic and nurturing friendship with emotional wisdom. You encourage each other's emotional growth and wisdom, creating a friendship that expands your horizons and brings joy through emotional support.",
+                family: "Optimistic and nurturing family bonds with emotional wisdom. You teach and learn from each other emotionally and intellectually, creating a family environment that encourages growth and positive emotional expression.",
+                business: "Optimistic and nurturing business partnership with emotional intelligence. You work together with enthusiasm and emotional intelligence, creating opportunities for expansion and success through mutual emotional support."
             },
             "Moon_Uranus": {
                 aspect: "Conjunction",
@@ -658,10 +658,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Revolutionary emotional connection. Your emotional nature and innovative nature merge into one powerful force. This creates natural leadership through original emotional expression.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Revolutionary romantic emotion. Your emotions and innovation merge, creating natural leadership through original emotional expression in romantic relationships.",
-                friendship: "Revolutionary friendship emotion. Your emotions and innovation merge, creating natural leadership through original emotional expression in friendships.",
-                family: "Revolutionary family emotion. Your emotions and innovation merge, creating natural leadership through original emotional expression in family relationships.",
-                business: "Revolutionary business emotion. Your emotions and innovation merge, creating natural leadership through original emotional expression in business partnerships."
+                romance: "Electric and unconventional emotional romantic connection. You inspire each other with original emotional expression and unconventional thinking, creating an exciting and emotionally stimulating romantic connection.",
+                friendship: "Innovative and independent emotional friendship. You inspire each other to think outside the box and embrace unconventional emotional expression, creating a friendship that celebrates emotional originality.",
+                family: "Progressive and independent emotional family bonds. You encourage each other's unique emotional perspectives and unconventional emotional expression, creating a family that values emotional innovation and freedom.",
+                business: "Innovative and original emotional business partnership. You work together with emotional creativity and independence, breaking new ground and creating unique emotional solutions."
             },
             "Mars_Uranus": {
                 aspect: "Conjunction",
@@ -670,10 +670,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Revolutionary action connection. Your warrior energy and innovative nature merge into one powerful force. This creates natural leadership through revolutionary action.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Revolutionary romantic action. Your warrior energy and innovation merge, creating natural leadership through revolutionary action in romantic relationships.",
-                friendship: "Revolutionary friendship action. Your warrior energy and innovation merge, creating natural leadership through revolutionary action in friendships.",
-                family: "Revolutionary family action. Your warrior energy and innovation merge, creating natural leadership through revolutionary action in family relationships.",
-                business: "Revolutionary business action. Your warrior energy and innovation merge, creating natural leadership through revolutionary action in business partnerships."
+                romance: "Electric and unconventional romantic energy. You inspire each other with original ideas and unconventional action, creating an exciting and adventurous romantic connection.",
+                friendship: "Innovative and independent friendship with shared drive. You inspire each other to think outside the box and embrace unconventional action, creating a friendship that celebrates originality.",
+                family: "Progressive and independent family bonds with shared drive. You encourage each other's unique perspectives and unconventional action, creating a family that values innovation and freedom.",
+                business: "Innovative and original business partnership with drive. You work together with creativity and independence, breaking new ground and creating unique solutions through revolutionary action."
             },
             "Jupiter_Jupiter": {
                 aspect: "Conjunction",
@@ -682,10 +682,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect wisdom alignment. Your wisdom natures merge into one powerful force. This creates natural leadership through optimism and generosity.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic wisdom alignment. Your wisdom natures merge, creating natural leadership through optimism in romantic relationships.",
-                friendship: "Perfect friendship wisdom alignment. Your wisdom natures merge, creating natural leadership through optimism in friendships.",
-                family: "Perfect family wisdom alignment. Your wisdom natures merge, creating natural leadership through optimism in family relationships.",
-                business: "Perfect business wisdom alignment. Your wisdom natures merge, creating natural leadership through optimism in business partnerships."
+                romance: "Optimistic and expansive romantic wisdom. You inspire each other with wisdom and optimism, creating a romantic relationship filled with joy, generosity, and mutual intellectual growth.",
+                friendship: "Optimistic and generous friendship with shared wisdom. You encourage each other's wisdom and optimism, creating a friendship that expands your horizons and brings joy through shared wisdom.",
+                family: "Optimistic and generous family bonds with shared wisdom. You teach and learn from each other, creating a family environment that encourages growth, generosity, and positive wisdom.",
+                business: "Optimistic and generous business partnership with wisdom. You work together with enthusiasm and wisdom, creating opportunities for expansion and success through shared wisdom and generosity."
             },
             "Saturn_Saturn": {
                 aspect: "Conjunction",
@@ -694,10 +694,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect discipline alignment. Your discipline natures merge into one powerful force. This creates natural leadership through responsibility and mastery.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic discipline alignment. Your discipline natures merge, creating natural leadership through responsibility in romantic relationships.",
-                friendship: "Perfect friendship discipline alignment. Your discipline natures merge, creating natural leadership through responsibility in friendships.",
-                family: "Perfect family discipline alignment. Your discipline natures merge, creating natural leadership through responsibility in family relationships.",
-                business: "Perfect business discipline alignment. Your discipline natures merge, creating natural leadership through responsibility in business partnerships."
+                romance: "Serious and committed romantic discipline. You build a strong foundation together with responsibility and discipline, creating a relationship based on mutual respect and long-term commitment.",
+                friendship: "Reliable and trustworthy friendship with shared discipline. You can count on each other through thick and thin, creating a friendship built on mutual respect and shared responsibility.",
+                family: "Serious and responsible family bonds with shared discipline. You work together to create stability and security, building a family foundation based on mutual respect and duty.",
+                business: "Reliable and disciplined business partnership. You work together with focus and responsibility, creating successful ventures through shared responsibility and expertise."
             },
             "Uranus_Uranus": {
                 aspect: "Conjunction",
@@ -706,10 +706,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect innovation alignment. Your innovative natures merge into one powerful force. This creates natural leadership through originality and independence.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic innovation alignment. Your innovative natures merge, creating natural leadership through originality in romantic relationships.",
-                friendship: "Perfect friendship innovation alignment. Your innovative natures merge, creating natural leadership through originality in friendships.",
-                family: "Perfect family innovation alignment. Your innovative natures merge, creating natural leadership through originality in family relationships.",
-                business: "Perfect business innovation alignment. Your innovative natures merge, creating natural leadership through originality in business partnerships."
+                romance: "Electric and unconventional romantic innovation. You inspire each other with original ideas and unconventional thinking, creating an exciting and intellectually stimulating romantic connection.",
+                friendship: "Innovative and independent friendship. You inspire each other to think outside the box and embrace unconventional ideas, creating a friendship that celebrates originality.",
+                family: "Progressive and independent family bonds. You encourage each other's unique perspectives and unconventional thinking, creating a family that values innovation and freedom.",
+                business: "Innovative and original business partnership. You work together with creativity and independence, breaking new ground and creating unique solutions through original thinking."
             },
             "Uranus_Neptune": {
                 aspect: "Conjunction",
@@ -718,10 +718,10 @@ export const CONJUNCTION_INTERPRETATIONS = {
                 interpretation: "Perfect spiritual innovation alignment. Your innovative nature and spiritual nature merge into one powerful force. This creates natural leadership through revolutionary spirituality.",
                 compatibility: "harmonious",
                 intensity: "strong",
-                romance: "Perfect romantic spiritual innovation. Your innovation and spirituality merge, creating natural leadership through revolutionary spirituality in romantic relationships.",
-                friendship: "Perfect friendship spiritual innovation. Your innovation and spirituality merge, creating natural leadership through revolutionary spirituality in friendships.",
-                family: "Perfect family spiritual innovation. Your innovation and spirituality merge, creating natural leadership through revolutionary spirituality in family relationships.",
-                business: "Perfect business spiritual innovation. Your innovation and spirituality merge, creating natural leadership through revolutionary spirituality in business partnerships."
+                romance: "Electric and unconventional spiritual romantic connection. You share a deep spiritual bond and idealistic vision of love, creating a romantic relationship that transcends the ordinary through innovation.",
+                friendship: "Innovative and independent spiritual friendship. You share a deep understanding of the spiritual aspects of life, creating a friendship based on compassion and shared ideals through innovation.",
+                family: "Progressive and independent spiritual family bonds. You share a deep spiritual connection and idealistic values, creating a family environment that nurtures the soul through innovation.",
+                business: "Innovative and original spiritual business partnership. You work together with compassion and vision, creating business ventures that serve higher purposes and ideals through innovation."
             }
         }
     }
