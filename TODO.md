@@ -30,6 +30,12 @@
     2. Natal planet is and represents
     3. What the aspect represents
     4. What the interraction represents
+- **Update transits functionality to use new comprehensive transit interpretations**
+  - Integrate the new detailed transit interpretations from `src/lib/data/interpretations/transits/`
+  - Update transit display to show detailed interpretations for each aspect type
+  - Add transit interpretation tooltips or expandable sections
+  - Include angular aspects and minor aspects in transit analysis
+  - Enhance transit descriptions to clearly explain what each transit represents
 
 # Layout & UI Improvements
 - ~Add proper container padding to pages after layout changes~
