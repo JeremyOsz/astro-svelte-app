@@ -57,15 +57,12 @@ export const POST: RequestHandler = async ({ request }) => {
     
     const chartResult = await response.json();
     
-    // Prepare response data
+    // Return all the data from the external API, not just a subset
     const responseData = {
-      ascendant: chartResult.ascendant,
-      mc: chartResult.mc,
-      houses: chartResult.houses,
-      planets: chartResult.planets,
-      latitude: chartResult.latitude,
-      longitude: chartResult.longitude,
-      date: chartResult.date
+      ...chartResult,
+      latitude: chartResult.latitude || latitude,
+      longitude: chartResult.longitude || longitude,
+      date: chartResult.date || date
     };
     
     // Cache the successful response
