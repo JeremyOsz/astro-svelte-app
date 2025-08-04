@@ -3,102 +3,102 @@ export const TRINE_INTERPRETATIONS = {
     orb: "120° ±8°",
     nature: "Harmonious, natural flow and understanding",
     planets: {
-        "Sun_Sun": {
-            aspect: "Trine",
-            person1Planet: "Sun",
-            person2Planet: "Sun",
-            interpretation: "Natural harmony between your core identities. You understand each other's essence effortlessly and support each other's personal growth. This creates a comfortable, supportive relationship with mutual respect.",
-            compatibility: "harmonious",
-            intensity: "moderate",
-            romance: "Natural romantic harmony. You understand each other's essence effortlessly and support each other's growth. This creates comfortable, supportive romantic relationships.",
-            friendship: "Natural friendship harmony. You understand each other's essence effortlessly and support each other's growth. This creates comfortable, supportive friendships.",
-            family: "Natural family harmony. You understand each other's essence effortlessly and support each other's growth. This creates comfortable, supportive family relationships.",
-            business: "Natural business harmony. You understand each other's essence effortlessly and support each other's growth. This creates comfortable, supportive business partnerships."
-        },
-        "Sun_Moon": {
-            aspect: "Trine",
-            person1Planet: "Sun",
-            person2Planet: "Moon",
-            interpretation: "Natural identity and emotional harmony! Your core identity and emotional nature work together beautifully. This creates effortless emotional understanding and nurturing support.",
-            compatibility: "harmonious",
-            intensity: "moderate",
-            romance: "Natural romantic emotional harmony! Your identity and emotions work together beautifully, creating effortless emotional understanding in romantic relationships.",
-            friendship: "Natural friendship emotional harmony! Your identity and emotions work together beautifully, creating effortless emotional understanding in friendships.",
-            family: "Natural family emotional harmony! Your identity and emotions work together beautifully, creating effortless emotional understanding in family relationships.",
-            business: "Natural business emotional harmony! Your identity and emotions work together beautifully, creating effortless emotional understanding in business partnerships."
-        },
-        "Sun_Mercury": {
-            aspect: "Trine",
-            person1Planet: "Sun",
-            person2Planet: "Mercury",
-            interpretation: "Natural identity and communication harmony! Your core identity and communication style work together beautifully. This creates effortless self-expression and clear communication.",
-            compatibility: "harmonious",
-            intensity: "moderate",
-            romance: "Natural romantic communication harmony! Your identity and communication styles work together beautifully, creating effortless self-expression in romance.",
-            friendship: "Natural friendship communication harmony! Your identity and communication styles work together beautifully, creating effortless self-expression in friendship.",
-            family: "Natural family communication harmony! Your identity and communication styles work together beautifully, creating effortless self-expression in family relationships.",
-            business: "Natural business communication harmony! Your identity and communication styles work together beautifully, creating effortless self-expression in business partnerships."
-        },
-        "Sun_Venus": {
-            aspect: "Trine",
-            person1Planet: "Sun",
-            person2Planet: "Venus",
-            interpretation: "Natural identity and love harmony! Your core identity and love nature work together beautifully. This creates effortless charm and romantic understanding.",
-            compatibility: "harmonious",
-            intensity: "moderate",
-            romance: "Natural romantic love harmony! Your identity and love nature work together beautifully, creating effortless charm and romantic understanding in romantic relationships.",
-            friendship: "Natural friendship love harmony! Your identity and love nature work together beautifully, creating effortless charm and romantic understanding in friendships.",
-            family: "Natural family love harmony! Your identity and love nature work together beautifully, creating effortless charm and romantic understanding in family relationships.",
-            business: "Natural business love harmony! Your identity and love nature work together beautifully, creating effortless charm and romantic understanding in business partnerships."
-        },
-        "Sun_Mars": {
-            aspect: "Trine",
-            person1Planet: "Sun",
-            person2Planet: "Mars",
-            interpretation: "Natural identity and action harmony! Your core identity and warrior energy work together beautifully. This creates effortless leadership through courage and determination.",
-            compatibility: "harmonious",
-            intensity: "moderate",
-            romance: "Natural romantic action harmony! Your identity and warrior energy work together beautifully, creating effortless leadership through courage in romantic relationships.",
-            friendship: "Natural friendship action harmony! Your identity and warrior energy work together beautifully, creating effortless leadership through courage in friendships.",
-            family: "Natural family action harmony! Your identity and warrior energy work together beautifully, creating effortless leadership through courage in family relationships.",
-            business: "Natural business action harmony! Your identity and warrior energy work together beautifully, creating effortless leadership through courage in business partnerships."
-        },
-        "Sun_Jupiter": {
-            aspect: "Trine",
-            person1Planet: "Sun",
-            person2Planet: "Jupiter",
-            interpretation: "Natural identity and wisdom harmony! Your core identity and wisdom nature work together beautifully. This creates effortless leadership through optimism and generosity.",
-            compatibility: "harmonious",
-            intensity: "moderate",
-            romance: "Natural romantic wisdom harmony! Your identity and wisdom work together beautifully, creating effortless leadership through optimism in romantic relationships.",
-            friendship: "Natural friendship wisdom harmony! Your identity and wisdom work together beautifully, creating effortless leadership through optimism in friendships.",
-            family: "Natural family wisdom harmony! Your identity and wisdom work together beautifully, creating effortless leadership through optimism in family relationships.",
-            business: "Natural business wisdom harmony! Your identity and wisdom work together beautifully, creating effortless leadership through optimism in business partnerships."
-        },
-        "Sun_Saturn": {
-            aspect: "Trine",
-            person1Planet: "Sun",
-            person2Planet: "Saturn",
-            interpretation: "Natural identity and discipline harmony! Your core identity and discipline nature work together beautifully. This creates effortless leadership through responsibility and mastery.",
-            compatibility: "harmonious",
-            intensity: "moderate",
-            romance: "Natural romantic discipline harmony! Your identity and discipline work together beautifully, creating effortless leadership through responsibility in romantic relationships.",
-            friendship: "Natural friendship discipline harmony! Your identity and discipline work together beautifully, creating effortless leadership through responsibility in friendships.",
-            family: "Natural family discipline harmony! Your identity and discipline work together beautifully, creating effortless leadership through responsibility in family relationships.",
-            business: "Natural business discipline harmony! Your identity and discipline work together beautifully, creating effortless leadership through responsibility in business partnerships."
-        },
-        "Sun_Uranus": {
-            aspect: "Trine",
-            person1Planet: "Sun",
-            person2Planet: "Uranus",
-            interpretation: "Natural identity and innovation harmony! Your core identity and innovative nature work together beautifully. This creates effortless leadership through originality and independence.",
-            compatibility: "harmonious",
-            intensity: "moderate",
-            romance: "Natural romantic innovation harmony! Your identity and innovation work together beautifully, creating effortless leadership through originality in romantic relationships.",
-            friendship: "Natural friendship innovation harmony! Your identity and innovation work together beautifully, creating effortless leadership through originality in friendships.",
-            family: "Natural family innovation harmony! Your identity and innovation work together beautifully, creating effortless leadership through originality in family relationships.",
-            business: "Natural business innovation harmony! Your identity and innovation work together beautifully, creating effortless leadership through originality in business partnerships."
-        },
+                    "Sun_Sun": {
+                aspect: "Trine",
+                person1Planet: "Sun",
+                person2Planet: "Sun",
+                interpretation: "Natural harmony between your core identities. You understand each other's essence effortlessly and support each other's personal growth. This creates a comfortable, supportive relationship with mutual respect.",
+                compatibility: "harmonious",
+                intensity: "moderate",
+                romance: "Comfortable and supportive romantic connection. You understand each other's core identity naturally, creating a relationship built on mutual respect and effortless understanding.",
+                friendship: "Easy and supportive friendship. You naturally understand each other's essence and support each other's growth, creating a comfortable and reliable friendship.",
+                family: "Comfortable and supportive family bonds. You understand each other's core values naturally, creating a family environment of mutual respect and effortless support.",
+                business: "Comfortable and supportive business partnership. You work together with natural understanding and mutual respect, creating a harmonious and productive collaboration."
+            },
+                    "Sun_Moon": {
+                aspect: "Trine",
+                person1Planet: "Sun",
+                person2Planet: "Moon",
+                interpretation: "Natural identity and emotional harmony! Your core identity and emotional nature work together beautifully. This creates effortless emotional understanding and nurturing support.",
+                compatibility: "harmonious",
+                intensity: "moderate",
+                romance: "Comfortable emotional understanding in love. You naturally understand each other's feelings and needs, creating a romantic relationship with effortless emotional support.",
+                friendship: "Easy emotional understanding and support. You naturally comfort and encourage each other, creating a friendship with effortless emotional rapport.",
+                family: "Comfortable emotional bonds and mutual care. You naturally nurture and support each other's emotional well-being, creating a family environment of effortless care.",
+                business: "Comfortable emotional intelligence in collaboration. You understand each other's emotional needs naturally, creating a harmonious working relationship with mutual support."
+            },
+                    "Sun_Mercury": {
+                aspect: "Trine",
+                person1Planet: "Sun",
+                person2Planet: "Mercury",
+                interpretation: "Natural identity and communication harmony! Your core identity and communication style work together beautifully. This creates effortless self-expression and clear communication.",
+                compatibility: "harmonious",
+                intensity: "moderate",
+                romance: "Comfortable communication and self-expression in love. You express your thoughts and feelings naturally, creating a romantic relationship with effortless understanding.",
+                friendship: "Easy communication and mental rapport. You can talk about anything comfortably, creating a friendship with natural understanding and clear expression.",
+                family: "Comfortable communication and shared understanding. You express your thoughts and feelings naturally, creating a family environment of open and honest communication.",
+                business: "Comfortable communication and mental synergy. You work together with natural understanding and clear expression, creating a harmonious and productive partnership."
+            },
+                    "Sun_Venus": {
+                aspect: "Trine",
+                person1Planet: "Sun",
+                person2Planet: "Venus",
+                interpretation: "Natural identity and love harmony! Your core identity and love nature work together beautifully. This creates effortless charm and romantic understanding.",
+                compatibility: "harmonious",
+                intensity: "moderate",
+                romance: "Comfortable charm and romantic understanding in love. You appreciate each other's beauty and grace naturally, creating a romantic relationship with effortless attraction.",
+                friendship: "Easy charm and mutual appreciation. You appreciate each other's style and grace naturally, creating a friendship based on mutual admiration and shared aesthetics.",
+                family: "Comfortable love and care in family bonds. You show affection and care for each other naturally, creating a loving and supportive family environment.",
+                business: "Comfortable charm and diplomatic skills. You work together with grace and mutual respect naturally, creating harmonious business relationships and partnerships."
+            },
+                    "Sun_Mars": {
+                aspect: "Trine",
+                person1Planet: "Sun",
+                person2Planet: "Mars",
+                interpretation: "Natural identity and action harmony! Your core identity and warrior energy work together beautifully. This creates effortless leadership through courage and determination.",
+                compatibility: "harmonious",
+                intensity: "moderate",
+                romance: "Comfortable passion and shared drive in love. You inspire each other's strength and courage naturally, creating a romantic relationship with effortless energy and determination.",
+                friendship: "Easy friendship with shared courage. You inspire each other to be brave and take action naturally, supporting each other's goals and ambitions with mutual enthusiasm.",
+                family: "Comfortable family bonds with shared determination. You protect and support each other with courage and strength naturally, creating a resilient family unit with shared drive.",
+                business: "Comfortable leadership and action-oriented partnership. You work together with energy and determination naturally, achieving goals through shared courage and drive."
+            },
+                    "Sun_Jupiter": {
+                aspect: "Trine",
+                person1Planet: "Sun",
+                person2Planet: "Jupiter",
+                interpretation: "Natural identity and wisdom harmony! Your core identity and wisdom nature work together beautifully. This creates effortless leadership through optimism and generosity.",
+                compatibility: "harmonious",
+                intensity: "moderate",
+                romance: "Comfortable optimism and shared growth in love. You inspire each other to grow and expand naturally, creating a romantic relationship filled with joy, adventure, and mutual encouragement.",
+                friendship: "Easy friendship with shared wisdom and optimism. You encourage each other's dreams and aspirations naturally, creating a friendship that expands your horizons and brings joy.",
+                family: "Comfortable family bonds with shared wisdom. You teach and learn from each other naturally, creating a family environment that encourages growth and positive thinking.",
+                business: "Comfortable leadership and growth-oriented partnership. You work together with enthusiasm and wisdom naturally, creating opportunities for expansion and success."
+            },
+                    "Sun_Saturn": {
+                aspect: "Trine",
+                person1Planet: "Sun",
+                person2Planet: "Saturn",
+                interpretation: "Natural identity and discipline harmony! Your core identity and discipline nature work together beautifully. This creates effortless leadership through responsibility and mastery.",
+                compatibility: "harmonious",
+                intensity: "moderate",
+                romance: "Comfortable commitment and shared responsibility in love. You build a strong foundation together naturally, creating a relationship based on mutual respect and long-term commitment.",
+                friendship: "Easy friendship with shared discipline. You can count on each other naturally, creating a friendship built on mutual respect and shared responsibility.",
+                family: "Comfortable family bonds with shared responsibility. You work together to create stability naturally, building a family foundation based on mutual respect and duty.",
+                business: "Comfortable and disciplined business partnership. You work together with focus and responsibility naturally, creating successful ventures through shared expertise."
+            },
+                    "Sun_Uranus": {
+                aspect: "Trine",
+                person1Planet: "Sun",
+                person2Planet: "Uranus",
+                interpretation: "Natural identity and innovation harmony! Your core identity and innovative nature work together beautifully. This creates effortless leadership through originality and independence.",
+                compatibility: "harmonious",
+                intensity: "moderate",
+                romance: "Comfortable unconventional connection in love. You appreciate each other's uniqueness and independence naturally, creating an exciting and intellectually stimulating romantic connection.",
+                friendship: "Easy friendship with shared innovation. You inspire each other to think outside the box naturally, creating a friendship that celebrates individuality and originality.",
+                family: "Comfortable family bonds with shared independence. You encourage each other's individuality naturally, creating a family that values freedom and innovation.",
+                business: "Comfortable and original business partnership. You work together with creativity and independence naturally, breaking new ground and creating unique solutions."
+            },
         "Sun_Neptune": {
             aspect: "Trine",
             person1Planet: "Sun",
@@ -106,10 +106,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural identity and spirituality harmony! Your core identity and spiritual nature work together beautifully. This creates effortless leadership through compassion and idealism.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spirituality harmony! Your identity and spirituality work together beautifully, creating effortless leadership through compassion in romantic relationships.",
-            friendship: "Natural friendship spirituality harmony! Your identity and spirituality work together beautifully, creating effortless leadership through compassion in friendships.",
-            family: "Natural family spirituality harmony! Your identity and spirituality work together beautifully, creating effortless leadership through compassion in family relationships.",
-            business: "Natural business spirituality harmony! Your identity and spirituality work together beautifully, creating effortless leadership through compassion in business partnerships."
+            romance: "Comfortable spiritual connection in love. You share a deep spiritual bond naturally, creating a romantic relationship that transcends the ordinary through compassion and idealism.",
+            friendship: "Easy spiritual friendship. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and shared ideals.",
+            family: "Comfortable spiritual family bonds. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through compassion.",
+            business: "Comfortable spiritual business partnership. You work together with compassion and vision naturally, creating business ventures that serve higher purposes and ideals."
         },
         "Sun_Pluto": {
             aspect: "Trine",
@@ -118,10 +118,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural identity and transformation harmony! Your core identity and transformative power work together beautifully. This creates effortless leadership through intensity and psychological insight.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation harmony! Your identity and transformation work together beautifully, creating effortless leadership through intensity in romantic relationships.",
-            friendship: "Natural friendship transformation harmony! Your identity and transformation work together beautifully, creating effortless leadership through intensity in friendships.",
-            family: "Natural family transformation harmony! Your identity and transformation work together beautifully, creating effortless leadership through intensity in family relationships.",
-            business: "Natural business transformation harmony! Your identity and transformation work together beautifully, creating effortless leadership through intensity in business partnerships."
+            romance: "Comfortable psychological insight in love. You have deep understanding of each other naturally, creating a romantic relationship with profound psychological connection.",
+            friendship: "Easy psychological understanding. You help each other grow through insights naturally, creating a friendship with deep psychological rapport and transformation.",
+            family: "Comfortable psychological family bonds. You share deep understanding naturally, creating a family environment of profound psychological growth and mutual insight.",
+            business: "Comfortable psychological business partnership. You work together with insight and determination naturally, creating powerful transformations in your field."
         },
         "Moon_Saturn": {
             aspect: "Trine",
@@ -130,10 +130,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional and discipline harmony. Your emotional nature and discipline work together beautifully. This creates effortless emotional stability and responsible nurturing.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural emotional discipline harmony. Your emotions and discipline work together beautifully, creating effortless emotional stability in romantic relationships.",
-            friendship: "Natural emotional discipline harmony. Your emotions and discipline work together beautifully, creating effortless emotional stability in friendships.",
-            family: "Natural emotional discipline harmony. Your emotions and discipline work together beautifully, creating effortless emotional stability in family relationships.",
-            business: "Natural emotional discipline harmony. Your emotions and discipline work together beautifully, creating effortless emotional stability in business partnerships."
+            romance: "Comfortable emotional stability in love. You build emotional security together naturally, creating a relationship based on trust and emotional maturity.",
+            friendship: "Easy emotional support and stability. You provide steady emotional support naturally, creating a friendship with emotional reliability and trust.",
+            family: "Comfortable emotional family bonds. You create emotional security naturally, building a family environment of trust and emotional stability.",
+            business: "Comfortable emotional business collaboration. You work together with emotional maturity naturally, creating a stable and trustworthy partnership."
         },
         "Mercury_Uranus": {
             aspect: "Trine",
@@ -142,10 +142,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural communication and innovation harmony. Your communication style and innovative nature work together beautifully. This creates effortless original thinking and revolutionary communication.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic innovation communication. Your communication and innovation work together beautifully, creating effortless original thinking in romantic relationships.",
-            friendship: "Natural friendship innovation communication. Your communication and innovation work together beautifully, creating effortless original thinking in friendships.",
-            family: "Natural family innovation communication. Your communication and innovation work together beautifully, creating effortless original thinking in family relationships.",
-            business: "Natural business innovation communication. Your communication and innovation work together beautifully, creating effortless original thinking in business partnerships."
+            romance: "Comfortable unconventional communication in love. You inspire each other with original ideas naturally, creating an intellectually stimulating romantic connection.",
+            friendship: "Easy friendship with shared innovation. You inspire each other to think outside the box naturally, creating a friendship that celebrates originality and unconventional ideas.",
+            family: "Comfortable family bonds with shared innovation. You encourage each other's unique perspectives naturally, creating a family that values freedom and innovation.",
+            business: "Comfortable and original business communication. You work together with creativity and independence naturally, breaking new ground and creating unique solutions."
         },
         "Mercury_Pluto": {
             aspect: "Trine",
@@ -154,10 +154,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural communication and transformation harmony. Your communication style and transformative power work together beautifully. This creates effortless psychological insight and penetrating communication.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation communication. Your communication and transformation work together beautifully, creating effortless psychological insight in romantic relationships.",
-            friendship: "Natural friendship transformation communication. Your communication and transformation work together beautifully, creating effortless psychological insight in friendships.",
-            family: "Natural family transformation communication. Your communication and transformation work together beautifully, creating effortless psychological insight in family relationships.",
-            business: "Natural business transformation communication. Your communication and transformation work together beautifully, creating effortless psychological insight in business partnerships."
+            romance: "Comfortable psychological communication in love. You have deep insights into each other naturally, creating a romantic relationship with profound understanding.",
+            friendship: "Easy psychological understanding and communication. You help each other grow through insights naturally, creating a friendship with deep psychological rapport.",
+            family: "Comfortable psychological family communication. You share deep understanding naturally, creating a family environment of profound psychological growth.",
+            business: "Comfortable psychological business communication. You work together with insight and determination naturally, creating powerful transformations in your field."
         },
         "Venus_Venus": {
             aspect: "Trine",
@@ -166,10 +166,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural love and values harmony. Your love natures work together beautifully. This creates effortless romantic harmony and shared values.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic love harmony. Your love natures work together beautifully, creating effortless romantic harmony in romantic relationships.",
-            friendship: "Natural friendship love harmony. Your love natures work together beautifully, creating effortless romantic harmony in friendships.",
-            family: "Natural family love harmony. Your love natures work together beautifully, creating effortless romantic harmony in family relationships.",
-            business: "Natural business love harmony. Your love natures work together beautifully, creating effortless romantic harmony in business partnerships."
+            romance: "Comfortable charm and romantic harmony in love. You appreciate each other's beauty and grace naturally, creating a romantic relationship with effortless attraction.",
+            friendship: "Easy charm and mutual appreciation. You appreciate each other's style and grace naturally, creating a friendship based on mutual admiration and shared aesthetics.",
+            family: "Comfortable love and care in family bonds. You show affection and care for each other naturally, creating a loving and supportive family environment.",
+            business: "Comfortable charm and diplomatic skills. You work together with grace and mutual respect naturally, creating harmonious business relationships and partnerships."
         },
         "Venus_Jupiter": {
             aspect: "Trine",
@@ -178,10 +178,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural love and wisdom harmony. Your love nature and wisdom work together beautifully. This creates effortless generosity and optimistic love.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic wisdom love. Your love and wisdom work together beautifully, creating effortless generosity in romantic relationships.",
-            friendship: "Natural friendship wisdom love. Your love and wisdom work together beautifully, creating effortless generosity in friendships.",
-            family: "Natural family wisdom love. Your love and wisdom work together beautifully, creating effortless generosity in family relationships.",
-            business: "Natural business wisdom love. Your love and wisdom work together beautifully, creating effortless generosity in business partnerships."
+            romance: "Comfortable optimism and generous love. You inspire each other with love and wisdom naturally, creating a romantic relationship filled with joy and mutual appreciation.",
+            friendship: "Easy friendship with shared wisdom and charm. You appreciate each other's wisdom and grace naturally, creating a friendship that expands your horizons and brings joy.",
+            family: "Comfortable family bonds with shared wisdom and love. You share wisdom and love naturally, creating a family environment that encourages growth and positive values.",
+            business: "Comfortable charm and wisdom in business. You work together with charm and wisdom naturally, creating opportunities for expansion and success through shared values."
         },
         "Mars_Mars": {
             aspect: "Trine",
@@ -190,10 +190,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural action and drive harmony. Your warrior energies work together beautifully. This creates effortless collaborative action and shared goals.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic action harmony. Your warrior energies work together beautifully, creating effortless collaborative action in romantic relationships.",
-            friendship: "Natural friendship action harmony. Your warrior energies work together beautifully, creating effortless collaborative action in friendships.",
-            family: "Natural family action harmony. Your warrior energies work together beautifully, creating effortless collaborative action in family relationships.",
-            business: "Natural business action harmony. Your warrior energies work together beautifully, creating effortless collaborative action in business partnerships."
+            romance: "Comfortable passion and shared drive in love. You inspire each other's strength and courage naturally, creating a romantic relationship with effortless energy and determination.",
+            friendship: "Easy friendship with shared courage and drive. You inspire each other to be brave and take action naturally, supporting each other's goals and ambitions with mutual enthusiasm.",
+            family: "Comfortable family bonds with shared determination. You protect and support each other with courage and strength naturally, creating a resilient family unit with shared drive.",
+            business: "Comfortable leadership and action-oriented partnership. You work together with energy and determination naturally, achieving goals through shared courage and drive."
         },
         "Mars_Saturn": {
             aspect: "Trine",
@@ -202,10 +202,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural action and discipline harmony. Your warrior energy and discipline work together beautifully. This creates effortless disciplined action and responsible achievement.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic discipline action. Your warrior energy and discipline work together beautifully, creating effortless disciplined action in romantic relationships.",
-            friendship: "Natural friendship discipline action. Your warrior energy and discipline work together beautifully, creating effortless disciplined action in friendships.",
-            family: "Natural family discipline action. Your warrior energy and discipline work together beautifully, creating effortless disciplined action in family relationships.",
-            business: "Natural business discipline action. Your warrior energy and discipline work together beautifully, creating effortless disciplined action in business partnerships."
+            romance: "Comfortable commitment and shared responsibility in love. You build a strong foundation together naturally, creating a relationship based on mutual respect and long-term commitment.",
+            friendship: "Easy friendship with shared discipline and drive. You can count on each other naturally, creating a friendship built on mutual respect and shared responsibility.",
+            family: "Comfortable family bonds with shared responsibility. You work together to create stability naturally, building a family foundation based on mutual respect and duty.",
+            business: "Comfortable and disciplined business partnership. You work together with focus and responsibility naturally, creating successful ventures through shared expertise."
         },
         "Mars_Pluto": {
             aspect: "Trine",
@@ -214,10 +214,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural action and transformation harmony. Your warrior energy and transformative power work together beautifully. This creates effortless psychological intensity and penetrating action.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation action. Your warrior energy and transformation work together beautifully, creating effortless psychological intensity in romantic relationships.",
-            friendship: "Natural friendship transformation action. Your warrior energy and transformation work together beautifully, creating effortless psychological intensity in friendships.",
-            family: "Natural family transformation action. Your warrior energy and transformation work together beautifully, creating effortless psychological intensity in family relationships.",
-            business: "Natural business transformation action. Your warrior energy and transformation work together beautifully, creating effortless psychological intensity in business partnerships."
+            romance: "Comfortable psychological intensity in love. You have deep insights into each other naturally, creating a romantic relationship with profound understanding and transformation.",
+            friendship: "Easy psychological understanding and shared drive. You help each other grow through insights naturally, creating a friendship with deep psychological rapport and transformation.",
+            family: "Comfortable psychological family bonds. You share deep understanding naturally, creating a family environment of profound psychological growth and mutual insight.",
+            business: "Comfortable psychological business partnership. You work together with insight and determination naturally, creating powerful transformations in your field."
         },
         "Jupiter_Moon": {
             aspect: "Trine",
@@ -226,10 +226,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural wisdom and emotional harmony. Your wisdom and emotional nature work together beautifully. This creates effortless optimistic nurturing.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional wisdom. Your wisdom and emotions work together beautifully, creating effortless optimistic nurturing in romantic relationships.",
-            friendship: "Natural friendship emotional wisdom. Your wisdom and emotions work together beautifully, creating effortless optimistic nurturing in friendships.",
-            family: "Natural family emotional wisdom. Your wisdom and emotions work together beautifully, creating effortless optimistic nurturing in family relationships.",
-            business: "Natural business emotional wisdom. Your wisdom and emotions work together beautifully, creating effortless optimistic nurturing in business partnerships."
+            romance: "Comfortable optimism and emotional growth in love. You inspire each other to grow emotionally and intellectually naturally, creating a romantic relationship filled with joy and mutual support.",
+            friendship: "Easy emotional support and shared wisdom. You encourage each other's emotional growth and wisdom naturally, creating a friendship that expands your horizons and brings joy.",
+            family: "Comfortable family bonds with shared wisdom and emotion. You teach and learn from each other emotionally and intellectually naturally, creating a family environment that encourages growth.",
+            business: "Comfortable emotional intelligence and wisdom in business. You work together with enthusiasm and emotional intelligence naturally, creating opportunities for expansion and success."
         },
         "Pluto_Neptune": {
             aspect: "Trine",
@@ -238,10 +238,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural transformation and spiritual harmony. Your transformative power and spiritual nature work together beautifully. This creates effortless psychological insight and spiritual transformation.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spiritual transformation. Your transformation and spirituality work together beautifully, creating effortless psychological insight in romantic relationships.",
-            friendship: "Natural friendship spiritual transformation. Your transformation and spirituality work together beautifully, creating effortless psychological insight in friendships.",
-            family: "Natural family spiritual transformation. Your transformation and spirituality work together beautifully, creating effortless psychological insight in family relationships.",
-            business: "Natural business spiritual transformation. Your transformation and spirituality work together beautifully, creating effortless psychological insight in business partnerships."
+            romance: "Comfortable spiritual transformation in love. You share a deep spiritual bond naturally, creating a romantic relationship that transcends the ordinary through profound transformation.",
+            friendship: "Easy spiritual friendship with transformation. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and spiritual growth.",
+            family: "Comfortable spiritual family bonds with transformation. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through transformation.",
+            business: "Comfortable spiritual business partnership with transformation. You work together with compassion and vision naturally, creating business ventures that serve higher purposes."
         },
         "Moon_Moon": {
             aspect: "Trine",
@@ -250,10 +250,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional harmony. Your emotional natures work together beautifully. This creates effortless emotional understanding and deep nurturing connection.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional harmony. Your emotional natures work together beautifully, creating effortless emotional understanding in romantic relationships.",
-            friendship: "Natural friendship emotional harmony. Your emotional natures work together beautifully, creating effortless emotional understanding in friendships.",
-            family: "Natural family emotional harmony. Your emotional natures work together beautifully, creating effortless emotional understanding in family relationships.",
-            business: "Natural business emotional harmony. Your emotional natures work together beautifully, creating effortless emotional understanding in business partnerships."
+            romance: "Comfortable emotional understanding in love. You feel each other's emotions naturally, creating an intimate romantic bond with profound emotional understanding.",
+            friendship: "Easy emotional understanding and support. You naturally understand each other's feelings and moods, creating a friendship with deep emotional support and comfort.",
+            family: "Comfortable emotional family bonds. You share the same emotional rhythms naturally, creating a family environment of mutual care and emotional security.",
+            business: "Comfortable emotional intelligence in collaboration. You understand each other's emotional needs naturally, creating a harmonious working relationship with mutual support."
         },
         "Mercury_Mercury": {
             aspect: "Trine",
@@ -262,10 +262,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural communication harmony. Your communication styles work together beautifully. This creates effortless mental rapport and shared thinking patterns.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic communication harmony. Your communication styles work together beautifully, creating effortless mental rapport in romantic relationships.",
-            friendship: "Natural friendship communication harmony. Your communication styles work together beautifully, creating effortless mental rapport in friendships.",
-            family: "Natural family communication harmony. Your communication styles work together beautifully, creating effortless mental rapport in family relationships.",
-            business: "Natural business communication harmony. Your communication styles work together beautifully, creating effortless mental rapport in business partnerships."
+            romance: "Comfortable communication and mental rapport in love. You can talk about anything naturally, creating an intellectually stimulating romantic connection with effortless understanding.",
+            friendship: "Easy communication and mental connection. You share similar thinking patterns naturally, creating a friendship with natural mental rapport and clear expression.",
+            family: "Comfortable communication and shared understanding. You express your thoughts and ideas naturally, creating a family environment of open and honest communication.",
+            business: "Comfortable communication and mental synergy. You work together with natural understanding naturally, creating a harmonious and productive partnership."
         },
         "Mercury_Venus": {
             aspect: "Trine",
@@ -274,10 +274,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural communication and love harmony. Your communication style and love nature work together beautifully. This creates effortless charm in communication and romantic expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic love communication. Your communication and love work together beautifully, creating effortless charm in romantic relationships.",
-            friendship: "Natural friendship love communication. Your communication and love work together beautifully, creating effortless charm in friendships.",
-            family: "Natural family love communication. Your communication and love work together beautifully, creating effortless charm in family relationships.",
-            business: "Natural business love communication. Your communication and love work together beautifully, creating effortless charm in business partnerships."
+            romance: "Comfortable charm and romantic communication in love. You express your feelings with grace naturally, creating an intellectually stimulating and romantic connection.",
+            friendship: "Easy charm and mutual appreciation in communication. You appreciate each other's style and communicate with grace naturally, creating a friendship based on mutual admiration.",
+            family: "Comfortable love and care in family communication. You naturally express your thoughts and feelings with love, creating a loving and supportive family environment.",
+            business: "Comfortable charm and diplomatic skills in communication. You work together with grace and mutual respect naturally, creating harmonious business relationships through charming communication."
         },
         "Mercury_Mars": {
             aspect: "Trine",
@@ -286,10 +286,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural communication and action harmony. Your communication style and warrior energy work together beautifully. This creates effortless dynamic communication.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic action communication. Your communication and warrior energy work together beautifully, creating effortless dynamic communication in romantic relationships.",
-            friendship: "Natural friendship action communication. Your communication and warrior energy work together beautifully, creating effortless dynamic communication in friendships.",
-            family: "Natural family action communication. Your communication and warrior energy work together beautifully, creating effortless dynamic communication in family relationships.",
-            business: "Natural business action communication. Your communication and warrior energy work together beautifully, creating effortless dynamic communication in business partnerships."
+            romance: "Comfortable dynamic communication in love. You express your feelings with energy naturally, creating an exciting and intellectually stimulating romantic connection.",
+            friendship: "Easy energetic communication and shared enthusiasm. You inspire each other with dynamic ideas naturally, creating a friendship with passionate conversation and motivation.",
+            family: "Comfortable dynamic communication and shared energy. You express your thoughts with enthusiasm naturally, creating a family environment of clear and energetic communication.",
+            business: "Comfortable dynamic communication and action-oriented collaboration. You work together with energy and enthusiasm naturally, achieving goals through clear and decisive communication."
         },
         "Mercury_Jupiter": {
             aspect: "Trine",
@@ -298,10 +298,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural communication and wisdom harmony. Your communication style and wisdom work together beautifully. This creates effortless optimistic communication.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic wisdom communication. Your communication and wisdom work together beautifully, creating effortless optimistic communication in romantic relationships.",
-            friendship: "Natural friendship wisdom communication. Your communication and wisdom work together beautifully, creating effortless optimistic communication in friendships.",
-            family: "Natural family wisdom communication. Your communication and wisdom work together beautifully, creating effortless optimistic communication in family relationships.",
-            business: "Natural business wisdom communication. Your communication and wisdom work together beautifully, creating effortless optimistic communication in business partnerships."
+            romance: "Comfortable optimistic communication in love. You inspire each other with big ideas naturally, creating a romantic relationship filled with intellectual growth and optimism.",
+            friendship: "Easy optimistic communication and shared wisdom. You encourage each other's ideas and dreams naturally, creating a friendship that expands your horizons through positive conversation.",
+            family: "Comfortable optimistic communication and shared growth. You teach and learn from each other naturally, creating a family environment that encourages intellectual expansion and positive thinking.",
+            business: "Comfortable optimistic communication and growth-oriented collaboration. You work together with enthusiasm and wisdom naturally, creating opportunities for expansion and success."
         },
         "Mercury_Saturn": {
             aspect: "Trine",
@@ -310,10 +310,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural communication and discipline harmony. Your communication style and discipline work together beautifully. This creates effortless responsible communication.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic discipline communication. Your communication and discipline work together beautifully, creating effortless responsible communication in romantic relationships.",
-            friendship: "Natural friendship discipline communication. Your communication and discipline work together beautifully, creating effortless responsible communication in friendships.",
-            family: "Natural family discipline communication. Your communication and discipline work together beautifully, creating effortless responsible communication in family relationships.",
-            business: "Natural business discipline communication. Your communication and discipline work together beautifully, creating effortless responsible communication in business partnerships."
+            romance: "Comfortable responsible communication in love. You build trust through honest communication naturally, creating a relationship based on mutual respect and clear understanding.",
+            friendship: "Easy reliable communication and trust. You can count on each other for honest communication naturally, creating a friendship built on mutual respect and clear understanding.",
+            family: "Comfortable responsible family communication. You work together to create clear communication naturally, building a family foundation based on mutual respect and understanding.",
+            business: "Comfortable and disciplined business communication. You work together with focus and responsibility naturally, creating successful ventures through clear and honest communication."
         },
         "Venus_Mercury": {
             aspect: "Trine",
@@ -322,10 +322,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural love and communication harmony. Your love nature and communication style work together beautifully. This creates effortless charm in communication and romantic expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic love communication. Your love and communication work together beautifully, creating effortless charm in romantic relationships.",
-            friendship: "Natural friendship love communication. Your love and communication work together beautifully, creating effortless charm in friendships.",
-            family: "Natural family love communication. Your love and communication work together beautifully, creating effortless charm in family relationships.",
-            business: "Natural business love communication. Your love and communication work together beautifully, creating effortless charm in business partnerships."
+            romance: "Comfortable charm and loving communication in romance. You express your feelings with grace naturally, creating an intellectually stimulating and romantic connection.",
+            friendship: "Easy charm and mutual appreciation in communication. You appreciate each other's style and communicate with grace naturally, creating a friendship based on mutual admiration.",
+            family: "Comfortable love and care in family communication. You naturally express your thoughts and feelings with love, creating a loving and supportive family environment.",
+            business: "Comfortable charm and diplomatic skills in communication. You work together with grace and mutual respect naturally, creating harmonious business relationships through loving communication."
         },
         "Venus_Mars": {
             aspect: "Trine",
@@ -334,10 +334,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural love and action harmony. Your love nature and warrior energy work together beautifully. This creates effortless passionate expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic action love. Your love and warrior energy work together beautifully, creating effortless passionate expression in romantic relationships.",
-            friendship: "Natural friendship action love. Your love and warrior energy work together beautifully, creating effortless passionate expression in friendships.",
-            family: "Natural family action love. Your love and warrior energy work together beautifully, creating effortless passionate expression in family relationships.",
-            business: "Natural business action love. Your love and warrior energy work together beautifully, creating effortless passionate expression in business partnerships."
+            romance: "Comfortable passion and romantic energy in love. You're drawn to each other's beauty and strength naturally, creating an exciting and passionate romantic connection.",
+            friendship: "Easy friendship with shared passion and charm. You inspire each other with enthusiasm naturally, creating a friendship with mutual admiration and shared interests.",
+            family: "Comfortable passion and caring family bonds. You protect and care for each other with love and strength naturally, creating a family environment of mutual support and affection.",
+            business: "Comfortable passion and dynamic business partnership. You work together with enthusiasm and charm naturally, creating successful ventures through shared passion and determination."
         },
         "Venus_Saturn": {
             aspect: "Trine",
@@ -346,10 +346,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural love and discipline harmony. Your love nature and discipline work together beautifully. This creates effortless responsible love.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic discipline love. Your love and discipline work together beautifully, creating effortless responsible love in romantic relationships.",
-            friendship: "Natural friendship discipline love. Your love and discipline work together beautifully, creating effortless responsible love in friendships.",
-            family: "Natural family discipline love. Your love and discipline work together beautifully, creating effortless responsible love in family relationships.",
-            business: "Natural business discipline love. Your love and discipline work together beautifully, creating effortless responsible love in business partnerships."
+            romance: "Comfortable commitment and responsible love. You build a strong foundation together naturally, creating a relationship based on mutual respect and long-term values.",
+            friendship: "Easy friendship with shared responsibility and charm. You can count on each other naturally, creating a friendship built on mutual respect and shared values.",
+            family: "Comfortable family bonds with shared responsibility and love. You work together to create stability naturally, building a family foundation based on mutual respect and care.",
+            business: "Comfortable and disciplined business partnership with charm. You work together with focus and responsibility naturally, creating successful ventures through shared values and commitment."
         },
         "Venus_Uranus": {
             aspect: "Trine",
@@ -358,10 +358,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural love and innovation harmony. Your love nature and innovative nature work together beautifully. This creates effortless original love expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic innovation love. Your love and innovation work together beautifully, creating effortless original love expression in romantic relationships.",
-            friendship: "Natural friendship innovation love. Your love and innovation work together beautifully, creating effortless original love expression in friendships.",
-            family: "Natural family innovation love. Your love and innovation work together beautifully, creating effortless original love expression in family relationships.",
-            business: "Natural business innovation love. Your love and innovation work together beautifully, creating effortless original love expression in business partnerships."
+            romance: "Comfortable unconventional charm in love. You appreciate each other's uniqueness and independence naturally, creating an exciting and unpredictable romantic connection.",
+            friendship: "Easy friendship with shared innovation and charm. You appreciate each other's unique style naturally, creating a friendship that celebrates individuality and originality.",
+            family: "Comfortable family bonds with shared independence and love. You encourage each other's unique expressions naturally, creating a family that values freedom and unconventional approaches.",
+            business: "Comfortable and original business partnership with charm. You work together with creativity and charm naturally, breaking new ground and creating unique solutions."
         },
         "Venus_Neptune": {
             aspect: "Trine",
@@ -370,10 +370,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural love and spirituality harmony. Your love nature and spiritual nature work together beautifully. This creates effortless compassionate love.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spirituality love. Your love and spirituality work together beautifully, creating effortless compassionate love in romantic relationships.",
-            friendship: "Natural friendship spirituality love. Your love and spirituality work together beautifully, creating effortless compassionate love in friendships.",
-            family: "Natural family spirituality love. Your love and spirituality work together beautifully, creating effortless compassionate love in family relationships.",
-            business: "Natural business spirituality love. Your love and spirituality work together beautifully, creating effortless compassionate love in business partnerships."
+            romance: "Comfortable spiritual connection and idealistic love. You share a deep spiritual bond naturally, creating a romantic relationship that transcends the ordinary through compassion and idealism.",
+            friendship: "Easy spiritual friendship with shared charm. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and shared ideals.",
+            family: "Comfortable spiritual family bonds with shared love. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through love and compassion.",
+            business: "Comfortable spiritual business partnership with charm. You work together with compassion and vision naturally, creating business ventures that serve higher purposes and ideals."
         },
         "Venus_Pluto": {
             aspect: "Trine",
@@ -382,10 +382,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural love and transformation harmony. Your love nature and transformative power work together beautifully. This creates effortless intense love.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation love. Your love and transformation work together beautifully, creating effortless intense love in romantic relationships.",
-            friendship: "Natural friendship transformation love. Your love and transformation work together beautifully, creating effortless intense love in friendships.",
-            family: "Natural family transformation love. Your love and transformation work together beautifully, creating effortless intense love in family relationships.",
-            business: "Natural business transformation love. Your love and transformation work together beautifully, creating effortless intense love in business partnerships."
+            romance: "Comfortable psychological insight and intense love. You have deep insights into each other naturally, creating a romantic relationship with profound understanding and transformation.",
+            friendship: "Easy psychological understanding and shared charm. You help each other grow through insights naturally, creating a friendship with deep psychological rapport and transformation.",
+            family: "Comfortable psychological family bonds with shared love. You share deep understanding naturally, creating a family environment of profound psychological growth and mutual insight.",
+            business: "Comfortable psychological business partnership with charm. You work together with insight and determination naturally, creating powerful transformations in your field."
         },
         "Mars_Jupiter": {
             aspect: "Trine",
@@ -394,10 +394,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural action and wisdom harmony. Your warrior energy and wisdom work together beautifully. This creates effortless optimistic action.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic wisdom action. Your warrior energy and wisdom work together beautifully, creating effortless optimistic action in romantic relationships.",
-            friendship: "Natural friendship wisdom action. Your warrior energy and wisdom work together beautifully, creating effortless optimistic action in friendships.",
-            family: "Natural family wisdom action. Your warrior energy and wisdom work together beautifully, creating effortless optimistic action in family relationships.",
-            business: "Natural business wisdom action. Your warrior energy and wisdom work together beautifully, creating effortless optimistic action in business partnerships."
+            romance: "Comfortable optimism and shared drive in love. You inspire each other to grow and expand naturally, creating a romantic relationship filled with joy, adventure, and mutual encouragement.",
+            friendship: "Easy friendship with shared wisdom and drive. You encourage each other's dreams and aspirations naturally, creating a friendship that expands your horizons and brings joy through shared action.",
+            family: "Comfortable family bonds with shared wisdom and drive. You teach and learn from each other naturally, creating a family environment that encourages growth and positive thinking through action.",
+            business: "Comfortable leadership and growth-oriented partnership. You work together with enthusiasm and wisdom naturally, creating opportunities for expansion and success through shared action."
         },
         "Mars_Neptune": {
             aspect: "Trine",
@@ -406,10 +406,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural action and spirituality harmony. Your warrior energy and spiritual nature work together beautifully. This creates effortless compassionate action.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spirituality action. Your warrior energy and spirituality work together beautifully, creating effortless compassionate action in romantic relationships.",
-            friendship: "Natural friendship spirituality action. Your warrior energy and spirituality work together beautifully, creating effortless compassionate action in friendships.",
-            family: "Natural family spirituality action. Your warrior energy and spirituality work together beautifully, creating effortless compassionate action in family relationships.",
-            business: "Natural business spirituality action. Your warrior energy and spirituality work together beautifully, creating effortless compassionate action in business partnerships."
+            romance: "Comfortable spiritual connection and passionate action in love. You share a deep spiritual bond naturally, creating a romantic relationship that transcends the ordinary through compassionate action.",
+            friendship: "Easy spiritual friendship with shared drive. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and shared ideals through action.",
+            family: "Comfortable spiritual family bonds with shared drive. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through compassionate action.",
+            business: "Comfortable spiritual business partnership with drive. You work together with compassion and vision naturally, creating business ventures that serve higher purposes and ideals."
         },
         "Jupiter_Saturn": {
             aspect: "Trine",
@@ -418,10 +418,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural wisdom and discipline harmony. Your wisdom and discipline work together beautifully. This creates effortless responsible wisdom.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic discipline wisdom. Your wisdom and discipline work together beautifully, creating effortless responsible wisdom in romantic relationships.",
-            friendship: "Natural friendship discipline wisdom. Your wisdom and discipline work together beautifully, creating effortless responsible wisdom in friendships.",
-            family: "Natural family discipline wisdom. Your wisdom and discipline work together beautifully, creating effortless responsible wisdom in family relationships.",
-            business: "Natural business discipline wisdom. Your wisdom and discipline work together beautifully, creating effortless responsible wisdom in business partnerships."
+            romance: "Comfortable commitment and responsible wisdom in love. You build a strong foundation together naturally, creating a relationship based on mutual respect and long-term growth.",
+            friendship: "Easy friendship with shared wisdom and responsibility. You can count on each other naturally, creating a friendship built on mutual respect and shared wisdom.",
+            family: "Comfortable family bonds with shared wisdom and responsibility. You work together to create stability and growth naturally, building a family foundation based on mutual respect and wisdom.",
+            business: "Comfortable and disciplined business partnership with wisdom. You work together with focus and wisdom naturally, creating successful ventures through shared responsibility and expertise."
         },
         "Jupiter_Uranus": {
             aspect: "Trine",
@@ -430,10 +430,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural wisdom and innovation harmony. Your wisdom and innovative nature work together beautifully. This creates effortless original wisdom.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic innovation wisdom. Your wisdom and innovation work together beautifully, creating effortless original wisdom in romantic relationships.",
-            friendship: "Natural friendship innovation wisdom. Your wisdom and innovation work together beautifully, creating effortless original wisdom in friendships.",
-            family: "Natural family innovation wisdom. Your wisdom and innovation work together beautifully, creating effortless original wisdom in family relationships.",
-            business: "Natural business innovation wisdom. Your wisdom and innovation work together beautifully, creating effortless original wisdom in business partnerships."
+            romance: "Comfortable unconventional wisdom and growth in love. You inspire each other with original ideas naturally, creating an exciting and intellectually stimulating romantic connection.",
+            friendship: "Easy friendship with shared innovation and wisdom. You inspire each other to think outside the box naturally, creating a friendship that celebrates originality and wisdom.",
+            family: "Comfortable family bonds with shared innovation and wisdom. You encourage each other's unique perspectives naturally, creating a family that values freedom and innovation.",
+            business: "Comfortable and original business partnership with wisdom. You work together with creativity and wisdom naturally, breaking new ground and creating unique solutions."
         },
         "Jupiter_Neptune": {
             aspect: "Trine",
@@ -442,10 +442,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural wisdom and spirituality harmony. Your wisdom and spiritual nature work together beautifully. This creates effortless compassionate wisdom.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spirituality wisdom. Your wisdom and spirituality work together beautifully, creating effortless compassionate wisdom in romantic relationships.",
-            friendship: "Natural friendship spirituality wisdom. Your wisdom and spirituality work together beautifully, creating effortless compassionate wisdom in friendships.",
-            family: "Natural family spirituality wisdom. Your wisdom and spirituality work together beautifully, creating effortless compassionate wisdom in family relationships.",
-            business: "Natural business spirituality wisdom. Your wisdom and spirituality work together beautifully, creating effortless compassionate wisdom in business partnerships."
+            romance: "Comfortable spiritual wisdom and idealistic growth in love. You share a deep spiritual bond naturally, creating a romantic relationship that transcends the ordinary through compassionate wisdom.",
+            friendship: "Easy spiritual friendship with shared wisdom. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and shared ideals through wisdom.",
+            family: "Comfortable spiritual family bonds with shared wisdom. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through compassionate wisdom.",
+            business: "Comfortable spiritual business partnership with wisdom. You work together with compassion and vision naturally, creating business ventures that serve higher purposes and ideals."
         },
         "Jupiter_Pluto": {
             aspect: "Trine",
@@ -454,10 +454,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural wisdom and transformation harmony. Your wisdom and transformative power work together beautifully. This creates effortless intense wisdom.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation wisdom. Your wisdom and transformation work together beautifully, creating effortless intense wisdom in romantic relationships.",
-            friendship: "Natural friendship transformation wisdom. Your wisdom and transformation work together beautifully, creating effortless intense wisdom in friendships.",
-            family: "Natural family transformation wisdom. Your wisdom and transformation work together beautifully, creating effortless intense wisdom in family relationships.",
-            business: "Natural business transformation wisdom. Your wisdom and transformation work together beautifully, creating effortless intense wisdom in business partnerships."
+            romance: "Comfortable psychological insight and wise growth in love. You have deep insights into each other naturally, creating a romantic relationship with profound understanding and transformation.",
+            friendship: "Easy psychological understanding and shared wisdom. You help each other grow through insights naturally, creating a friendship with deep psychological rapport and transformation.",
+            family: "Comfortable psychological family bonds with shared wisdom. You share deep understanding naturally, creating a family environment of profound psychological growth and mutual insight.",
+            business: "Comfortable psychological business partnership with wisdom. You work together with insight and determination naturally, creating powerful transformations in your field."
         },
         "Saturn_Uranus": {
             aspect: "Trine",
@@ -466,10 +466,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural discipline and innovation harmony. Your discipline and innovative nature work together beautifully. This creates effortless original discipline.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic innovation discipline. Your discipline and innovation work together beautifully, creating effortless original discipline in romantic relationships.",
-            friendship: "Natural friendship innovation discipline. Your discipline and innovation work together beautifully, creating effortless original discipline in friendships.",
-            family: "Natural family innovation discipline. Your discipline and innovation work together beautifully, creating effortless original discipline in family relationships.",
-            business: "Natural business innovation discipline. Your discipline and innovation work together beautifully, creating effortless original discipline in business partnerships."
+            romance: "Comfortable unconventional commitment in love. You build a strong foundation together naturally, creating an exciting and committed romantic connection.",
+            friendship: "Easy friendship with shared innovation and responsibility. You inspire each other to think outside the box naturally, creating a friendship that celebrates originality and responsibility.",
+            family: "Comfortable family bonds with shared innovation and responsibility. You encourage each other's unique perspectives naturally, creating a family that values freedom and responsibility.",
+            business: "Comfortable and original business partnership with discipline. You work together with creativity and responsibility naturally, breaking new ground and creating unique solutions."
         },
         "Saturn_Neptune": {
             aspect: "Trine",
@@ -478,10 +478,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural discipline and spirituality harmony. Your discipline and spiritual nature work together beautifully. This creates effortless compassionate discipline.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spirituality discipline. Your discipline and spirituality work together beautifully, creating effortless compassionate discipline in romantic relationships.",
-            friendship: "Natural friendship spirituality discipline. Your discipline and spirituality work together beautifully, creating effortless compassionate discipline in friendships.",
-            family: "Natural family spirituality discipline. Your discipline and spirituality work together beautifully, creating effortless compassionate discipline in family relationships.",
-            business: "Natural business spirituality discipline. Your discipline and spirituality work together beautifully, creating effortless compassionate discipline in business partnerships."
+            romance: "Comfortable spiritual commitment in love. You build a strong foundation together naturally, creating a romantic relationship that transcends the ordinary through responsibility.",
+            friendship: "Easy spiritual friendship with shared responsibility. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and responsibility.",
+            family: "Comfortable spiritual family bonds with shared responsibility. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through responsibility.",
+            business: "Comfortable spiritual business partnership with discipline. You work together with compassion and responsibility naturally, creating business ventures that serve higher purposes and ideals."
         },
         "Saturn_Pluto": {
             aspect: "Trine",
@@ -490,10 +490,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural discipline and transformation harmony. Your discipline and transformative power work together beautifully. This creates effortless intense discipline.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation discipline. Your discipline and transformation work together beautifully, creating effortless intense discipline in romantic relationships.",
-            friendship: "Natural friendship transformation discipline. Your discipline and transformation work together beautifully, creating effortless intense discipline in friendships.",
-            family: "Natural family transformation discipline. Your discipline and transformation work together beautifully, creating effortless intense discipline in family relationships.",
-            business: "Natural business transformation discipline. Your discipline and transformation work together beautifully, creating effortless intense discipline in business partnerships."
+            romance: "Comfortable psychological insight and committed discipline in love. You have deep insights into each other naturally, creating a romantic relationship with profound understanding and transformation.",
+            friendship: "Easy psychological understanding and shared responsibility. You help each other grow through insights naturally, creating a friendship with deep psychological rapport and transformation.",
+            family: "Comfortable psychological family bonds with shared responsibility. You share deep understanding naturally, creating a family environment of profound psychological growth and mutual insight.",
+            business: "Comfortable psychological business partnership with discipline. You work together with insight and determination naturally, creating powerful transformations in your field."
         },
         "Uranus_Neptune": {
             aspect: "Trine",
@@ -502,10 +502,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural innovation and spirituality harmony. Your innovative nature and spiritual nature work together beautifully. This creates effortless revolutionary spirituality.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spirituality innovation. Your innovation and spirituality work together beautifully, creating effortless revolutionary spirituality in romantic relationships.",
-            friendship: "Natural friendship spirituality innovation. Your innovation and spirituality work together beautifully, creating effortless revolutionary spirituality in friendships.",
-            family: "Natural family spirituality innovation. Your innovation and spirituality work together beautifully, creating effortless revolutionary spirituality in family relationships.",
-            business: "Natural business spirituality innovation. Your innovation and spirituality work together beautifully, creating effortless revolutionary spirituality in business partnerships."
+            romance: "Comfortable unconventional spiritual connection in love. You share a deep spiritual bond naturally, creating a romantic relationship that transcends the ordinary through innovation.",
+            friendship: "Easy spiritual friendship with shared innovation. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and shared ideals through innovation.",
+            family: "Comfortable spiritual family bonds with shared innovation. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through innovation.",
+            business: "Comfortable spiritual business partnership with innovation. You work together with compassion and vision naturally, creating business ventures that serve higher purposes and ideals."
         },
         "Uranus_Pluto": {
             aspect: "Trine",
@@ -514,10 +514,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural innovation and transformation harmony. Your innovative nature and transformative power work together beautifully. This creates effortless revolutionary transformation.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation innovation. Your innovation and transformation work together beautifully, creating effortless revolutionary transformation in romantic relationships.",
-            friendship: "Natural friendship transformation innovation. Your innovation and transformation work together beautifully, creating effortless revolutionary transformation in friendships.",
-            family: "Natural family transformation innovation. Your innovation and transformation work together beautifully, creating effortless revolutionary transformation in family relationships.",
-            business: "Natural business transformation innovation. Your innovation and transformation work together beautifully, creating effortless revolutionary transformation in business partnerships."
+            romance: "Comfortable unconventional psychological transformation in love. You have deep insights into each other naturally, creating a romantic relationship with profound understanding and revolutionary transformation.",
+            friendship: "Easy psychological understanding and shared innovation. You help each other grow through insights naturally, creating a friendship with deep psychological rapport and revolutionary transformation.",
+            family: "Comfortable psychological family bonds with shared innovation. You share deep understanding naturally, creating a family environment of profound psychological growth and revolutionary transformation.",
+            business: "Comfortable psychological business partnership with innovation. You work together with insight and determination naturally, creating revolutionary transformations in your field."
         },
         "Neptune_Pluto": {
             aspect: "Trine",
@@ -526,10 +526,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural spirituality and transformation harmony. Your spiritual nature and transformative power work together beautifully. This creates effortless spiritual transformation.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation spirituality. Your spirituality and transformation work together beautifully, creating effortless spiritual transformation in romantic relationships.",
-            friendship: "Natural friendship transformation spirituality. Your spirituality and transformation work together beautifully, creating effortless spiritual transformation in friendships.",
-            family: "Natural family transformation spirituality. Your spirituality and transformation work together beautifully, creating effortless spiritual transformation in family relationships.",
-            business: "Natural business transformation spirituality. Your spirituality and transformation work together beautifully, creating effortless spiritual transformation in business partnerships."
+            romance: "Comfortable spiritual transformation in love. You share a deep spiritual bond naturally, creating a romantic relationship that transcends the ordinary through profound transformation.",
+            friendship: "Easy spiritual friendship with transformation. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and spiritual growth.",
+            family: "Comfortable spiritual family bonds with transformation. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through transformation.",
+            business: "Comfortable spiritual business partnership with transformation. You work together with compassion and vision naturally, creating business ventures that serve higher purposes."
         },
         "Moon_Venus": {
             aspect: "Trine",
@@ -538,10 +538,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional and love harmony. Your emotional nature and love nature work together beautifully. This creates effortless emotional romance and nurturing love.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional love. Your emotions and love work together beautifully, creating effortless emotional romance in romantic relationships.",
-            friendship: "Natural friendship emotional love. Your emotions and love work together beautifully, creating effortless emotional romance in friendships.",
-            family: "Natural family emotional love. Your emotions and love work together beautifully, creating effortless emotional romance in family relationships.",
-            business: "Natural business emotional love. Your emotions and love work together beautifully, creating effortless emotional romance in business partnerships."
+            romance: "Comfortable emotional romance and nurturing love. You understand each other's feelings and needs naturally, creating a romantic relationship with deep emotional connection and care.",
+            friendship: "Easy emotional support and shared charm. You naturally understand each other's feelings and moods, creating a friendship with deep emotional support and mutual care.",
+            family: "Comfortable emotional family bonds with shared love. You share the same emotional rhythms naturally, creating a family environment of mutual care and emotional security.",
+            business: "Comfortable emotional intelligence and charm in collaboration. You understand each other's emotional needs naturally, creating a harmonious working relationship with mutual support."
         },
         "Moon_Mercury": {
             aspect: "Trine",
@@ -550,10 +550,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional and communication harmony. Your emotional nature and communication style work together beautifully. This creates effortless emotional communication.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional communication. Your emotions and communication work together beautifully, creating effortless emotional communication in romantic relationships.",
-            friendship: "Natural friendship emotional communication. Your emotions and communication work together beautifully, creating effortless emotional communication in friendships.",
-            family: "Natural family emotional communication. Your emotions and communication work together beautifully, creating effortless emotional communication in family relationships.",
-            business: "Natural business emotional communication. Your emotions and communication work together beautifully, creating effortless emotional communication in business partnerships."
+            romance: "Comfortable emotional communication and mental rapport in love. You can talk about your feelings naturally, creating an intellectually stimulating romantic connection with emotional understanding.",
+            friendship: "Easy emotional communication and mental connection. You share similar emotional thinking patterns naturally, creating a friendship with natural mental rapport and emotional expression.",
+            family: "Comfortable emotional communication and shared understanding. You express your thoughts and feelings naturally, creating a family environment of open and honest emotional communication.",
+            business: "Comfortable emotional communication and mental synergy. You work together with natural understanding naturally, creating a harmonious and productive partnership."
         },
         "Moon_Mars": {
             aspect: "Trine",
@@ -562,10 +562,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional and action harmony. Your emotional nature and warrior energy work together beautifully. This creates effortless emotional action.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional action. Your emotions and warrior energy work together beautifully, creating effortless emotional action in romantic relationships.",
-            friendship: "Natural friendship emotional action. Your emotions and warrior energy work together beautifully, creating effortless emotional action in friendships.",
-            family: "Natural family emotional action. Your emotions and warrior energy work together beautifully, creating effortless emotional action in family relationships.",
-            business: "Natural business emotional action. Your emotions and warrior energy work together beautifully, creating effortless emotional action in business partnerships."
+            romance: "Comfortable emotional passion and shared drive in love. You understand each other's feelings and needs naturally, creating an exciting and emotionally connected romantic relationship.",
+            friendship: "Easy emotional support and shared enthusiasm. You naturally understand each other's feelings and moods, creating a friendship with deep emotional support and shared energy.",
+            family: "Comfortable emotional family bonds with shared drive. You share the same emotional rhythms naturally, creating a family environment of mutual care and emotional security.",
+            business: "Comfortable emotional intelligence and drive in collaboration. You understand each other's emotional needs naturally, creating a harmonious working relationship with mutual support."
         },
         "Moon_Jupiter": {
             aspect: "Trine",
@@ -574,10 +574,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional and wisdom harmony. Your emotional nature and wisdom work together beautifully. This creates effortless optimistic nurturing.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional wisdom. Your emotions and wisdom work together beautifully, creating effortless optimistic nurturing in romantic relationships.",
-            friendship: "Natural friendship emotional wisdom. Your emotions and wisdom work together beautifully, creating effortless optimistic nurturing in friendships.",
-            family: "Natural family emotional wisdom. Your emotions and wisdom work together beautifully, creating effortless optimistic nurturing in family relationships.",
-            business: "Natural business emotional wisdom. Your emotions and wisdom work together beautifully, creating effortless optimistic nurturing in business partnerships."
+            romance: "Comfortable emotional optimism and shared wisdom in love. You understand each other's feelings and needs naturally, creating a romantic relationship with deep emotional connection and growth.",
+            friendship: "Easy emotional support and shared wisdom. You naturally understand each other's feelings and moods, creating a friendship with deep emotional support and mutual growth.",
+            family: "Comfortable emotional family bonds with shared wisdom. You share the same emotional rhythms naturally, creating a family environment of mutual care and emotional growth.",
+            business: "Comfortable emotional intelligence and wisdom in collaboration. You understand each other's emotional needs naturally, creating a harmonious working relationship with mutual growth."
         },
         "Moon_Uranus": {
             aspect: "Trine",
@@ -586,10 +586,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional and innovation harmony. Your emotional nature and innovative nature work together beautifully. This creates effortless original emotional expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional innovation. Your emotions and innovation work together beautifully, creating effortless original emotional expression in romantic relationships.",
-            friendship: "Natural friendship emotional innovation. Your emotions and innovation work together beautifully, creating effortless original emotional expression in friendships.",
-            family: "Natural family emotional innovation. Your emotions and innovation work together beautifully, creating effortless original emotional expression in family relationships.",
-            business: "Natural business emotional innovation. Your emotions and innovation work together beautifully, creating effortless original emotional expression in business partnerships."
+            romance: "Comfortable unconventional emotional connection in love. You understand each other's feelings and needs naturally, creating an exciting and emotionally connected romantic relationship.",
+            friendship: "Easy emotional support and shared innovation. You naturally understand each other's feelings and moods, creating a friendship with deep emotional support and originality.",
+            family: "Comfortable emotional family bonds with shared innovation. You share the same emotional rhythms naturally, creating a family environment of mutual care and emotional freedom.",
+            business: "Comfortable emotional intelligence and innovation in collaboration. You understand each other's emotional needs naturally, creating a harmonious working relationship with mutual innovation."
         },
         "Moon_Neptune": {
             aspect: "Trine",
@@ -598,10 +598,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional and spiritual harmony. Your emotional nature and spiritual nature work together beautifully. This creates effortless compassionate nurturing.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional spirituality. Your emotions and spirituality work together beautifully, creating effortless compassionate nurturing in romantic relationships.",
-            friendship: "Natural friendship emotional spirituality. Your emotions and spirituality work together beautifully, creating effortless compassionate nurturing in friendships.",
-            family: "Natural family emotional spirituality. Your emotions and spirituality work together beautifully, creating effortless compassionate nurturing in family relationships.",
-            business: "Natural business emotional spirituality. Your emotions and spirituality work together beautifully, creating effortless compassionate nurturing in business partnerships."
+            romance: "Comfortable spiritual emotional connection in love. You understand each other's feelings and needs naturally, creating a romantic relationship that transcends the ordinary through compassion.",
+            friendship: "Easy spiritual emotional friendship. You naturally understand each other's feelings and moods, creating a friendship with deep emotional support and spiritual compassion.",
+            family: "Comfortable spiritual emotional family bonds. You share the same emotional rhythms naturally, creating a family environment of mutual care and spiritual nurturing.",
+            business: "Comfortable spiritual emotional intelligence in collaboration. You understand each other's emotional needs naturally, creating a harmonious working relationship with spiritual compassion."
         },
         "Moon_Pluto": {
             aspect: "Trine",
@@ -610,10 +610,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural emotional and transformation harmony. Your emotional nature and transformative power work together beautifully. This creates effortless psychological insight.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic emotional transformation. Your emotions and transformation work together beautifully, creating effortless psychological insight in romantic relationships.",
-            friendship: "Natural friendship emotional transformation. Your emotions and transformation work together beautifully, creating effortless psychological insight in friendships.",
-            family: "Natural family emotional transformation. Your emotions and transformation work together beautifully, creating effortless psychological insight in family relationships.",
-            business: "Natural business emotional transformation. Your emotions and transformation work together beautifully, creating effortless psychological insight in business partnerships."
+            romance: "Comfortable psychological emotional insight in love. You understand each other's feelings and needs naturally, creating a romantic relationship with profound emotional understanding and transformation.",
+            friendship: "Easy psychological emotional understanding. You naturally understand each other's feelings and moods, creating a friendship with deep emotional support and psychological insight.",
+            family: "Comfortable psychological emotional family bonds. You share the same emotional rhythms naturally, creating a family environment of mutual care and psychological growth.",
+            business: "Comfortable psychological emotional intelligence in collaboration. You understand each other's emotional needs naturally, creating a harmonious working relationship with psychological insight."
         },
         "Mercury_Neptune": {
             aspect: "Trine",
@@ -622,10 +622,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural communication and spiritual harmony. Your communication style and spiritual nature work together beautifully. This creates effortless spiritual communication.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spiritual communication. Your communication and spirituality work together beautifully, creating effortless spiritual communication in romantic relationships.",
-            friendship: "Natural friendship spiritual communication. Your communication and spirituality work together beautifully, creating effortless spiritual communication in friendships.",
-            family: "Natural family spiritual communication. Your communication and spirituality work together beautifully, creating effortless spiritual communication in family relationships.",
-            business: "Natural business spiritual communication. Your communication and spirituality work together beautifully, creating effortless spiritual communication in business partnerships."
+            romance: "Comfortable spiritual communication and mental rapport in love. You can talk about spiritual matters naturally, creating an intellectually stimulating romantic connection with spiritual understanding.",
+            friendship: "Easy spiritual communication and mental connection. You share similar spiritual thinking patterns naturally, creating a friendship with natural mental rapport and spiritual expression.",
+            family: "Comfortable spiritual communication and shared understanding. You express your thoughts and spiritual ideas naturally, creating a family environment of open and honest spiritual communication.",
+            business: "Comfortable spiritual communication and mental synergy. You work together with natural understanding naturally, creating a harmonious and productive spiritual partnership."
         },
         "Mars_Uranus": {
             aspect: "Trine",
@@ -634,10 +634,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural action and innovation harmony. Your warrior energy and innovative nature work together beautifully. This creates effortless revolutionary action.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic action innovation. Your warrior energy and innovation work together beautifully, creating effortless revolutionary action in romantic relationships.",
-            friendship: "Natural friendship action innovation. Your warrior energy and innovation work together beautifully, creating effortless revolutionary action in friendships.",
-            family: "Natural family action innovation. Your warrior energy and innovation work together beautifully, creating effortless revolutionary action in family relationships.",
-            business: "Natural business action innovation. Your warrior energy and innovation work together beautifully, creating effortless revolutionary action in business partnerships."
+            romance: "Comfortable unconventional passion and revolutionary action in love. You're drawn to each other's unique energy naturally, creating an exciting and unpredictable romantic connection.",
+            friendship: "Easy friendship with shared innovation and drive. You inspire each other with unconventional ideas naturally, creating a friendship that celebrates originality and shared energy.",
+            family: "Comfortable family bonds with shared innovation and drive. You encourage each other's unique expressions naturally, creating a family environment of mutual support and freedom.",
+            business: "Comfortable and original business partnership with drive. You work together with creativity and energy naturally, breaking new ground and creating revolutionary solutions."
         },
         "Jupiter_Jupiter": {
             aspect: "Trine",
@@ -646,10 +646,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural wisdom harmony. Your wisdom natures work together beautifully. This creates effortless optimistic expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic wisdom harmony. Your wisdom natures work together beautifully, creating effortless optimistic expression in romantic relationships.",
-            friendship: "Natural friendship wisdom harmony. Your wisdom natures work together beautifully, creating effortless optimistic expression in friendships.",
-            family: "Natural family wisdom harmony. Your wisdom natures work together beautifully, creating effortless optimistic expression in family relationships.",
-            business: "Natural business wisdom harmony. Your wisdom natures work together beautifully, creating effortless optimistic expression in business partnerships."
+            romance: "Comfortable shared wisdom and optimistic growth in love. You inspire each other to expand and grow naturally, creating a romantic relationship filled with joy, adventure, and mutual encouragement.",
+            friendship: "Easy friendship with shared wisdom and optimism. You encourage each other's dreams and aspirations naturally, creating a friendship that expands your horizons and brings joy through shared wisdom.",
+            family: "Comfortable family bonds with shared wisdom and optimism. You teach and learn from each other naturally, creating a family environment that encourages growth and positive thinking through shared wisdom.",
+            business: "Comfortable leadership and growth-oriented partnership with shared wisdom. You work together with enthusiasm and wisdom naturally, creating opportunities for expansion and success through shared expertise."
         },
         "Saturn_Saturn": {
             aspect: "Trine",
@@ -658,10 +658,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural discipline harmony. Your discipline natures work together beautifully. This creates effortless responsible expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic discipline harmony. Your discipline natures work together beautifully, creating effortless responsible expression in romantic relationships.",
-            friendship: "Natural friendship discipline harmony. Your discipline natures work together beautifully, creating effortless responsible expression in friendships.",
-            family: "Natural family discipline harmony. Your discipline natures work together beautifully, creating effortless responsible expression in family relationships.",
-            business: "Natural business discipline harmony. Your discipline natures work together beautifully, creating effortless responsible expression in business partnerships."
+            romance: "Comfortable shared commitment and responsible love. You build a strong foundation together naturally, creating a relationship based on mutual respect and long-term values.",
+            friendship: "Easy friendship with shared responsibility and discipline. You can count on each other naturally, creating a friendship built on mutual respect and shared responsibility.",
+            family: "Comfortable family bonds with shared responsibility and discipline. You work together to create stability naturally, building a family foundation based on mutual respect and shared responsibility.",
+            business: "Comfortable and disciplined business partnership with shared responsibility. You work together with focus and responsibility naturally, creating successful ventures through shared expertise and commitment."
         },
         "Uranus_Uranus": {
             aspect: "Trine",
@@ -670,10 +670,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural innovation harmony. Your innovative natures work together beautifully. This creates effortless original expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic innovation harmony. Your innovative natures work together beautifully, creating effortless original expression in romantic relationships.",
-            friendship: "Natural friendship innovation harmony. Your innovative natures work together beautifully, creating effortless original expression in friendships.",
-            family: "Natural family innovation harmony. Your innovative natures work together beautifully, creating effortless original expression in family relationships.",
-            business: "Natural business innovation harmony. Your innovative natures work together beautifully, creating effortless original expression in business partnerships."
+            romance: "Comfortable unconventional connection and original expression in love. You appreciate each other's uniqueness and independence naturally, creating an exciting and unpredictable romantic connection.",
+            friendship: "Easy friendship with shared innovation and originality. You appreciate each other's unique style naturally, creating a friendship that celebrates individuality and originality.",
+            family: "Comfortable family bonds with shared independence and innovation. You encourage each other's unique expressions naturally, creating a family that values freedom and unconventional approaches.",
+            business: "Comfortable and original business partnership with shared innovation. You work together with creativity and originality naturally, breaking new ground and creating unique solutions."
         },
 
         "Neptune_Neptune": {
@@ -683,10 +683,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural spiritual harmony. Your spiritual natures work together beautifully. This creates effortless compassionate expression.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic spiritual harmony. Your spiritual natures work together beautifully, creating effortless compassionate expression in romantic relationships.",
-            friendship: "Natural friendship spiritual harmony. Your spiritual natures work together beautifully, creating effortless compassionate expression in friendships.",
-            family: "Natural family spiritual harmony. Your spiritual natures work together beautifully, creating effortless compassionate expression in family relationships.",
-            business: "Natural business spiritual harmony. Your spiritual natures work together beautifully, creating effortless compassionate expression in business partnerships."
+            romance: "Comfortable spiritual connection and compassionate love. You share a deep spiritual bond naturally, creating a romantic relationship that transcends the ordinary through shared compassion.",
+            friendship: "Easy spiritual friendship with shared compassion. You share a deep understanding of spiritual aspects naturally, creating a friendship based on compassion and shared ideals.",
+            family: "Comfortable spiritual family bonds with shared compassion. You share a deep spiritual connection naturally, creating a family environment that nurtures the soul through shared compassion.",
+            business: "Comfortable spiritual business partnership with shared compassion. You work together with compassion and vision naturally, creating business ventures that serve higher purposes and ideals."
         },
         "Pluto_Pluto": {
             aspect: "Trine",
@@ -695,10 +695,10 @@ export const TRINE_INTERPRETATIONS = {
             interpretation: "Natural transformation harmony. Your transformative powers work together beautifully. This creates effortless psychological insight.",
             compatibility: "harmonious",
             intensity: "moderate",
-            romance: "Natural romantic transformation harmony. Your transformative powers work together beautifully, creating effortless psychological insight in romantic relationships.",
-            friendship: "Natural friendship transformation harmony. Your transformative powers work together beautifully, creating effortless psychological insight in friendships.",
-            family: "Natural family transformation harmony. Your transformative powers work together beautifully, creating effortless psychological insight in family relationships.",
-            business: "Natural business transformation harmony. Your transformative powers work together beautifully, creating effortless psychological insight in business partnerships."
+            romance: "Comfortable psychological insight and shared transformation in love. You have deep insights into each other naturally, creating a romantic relationship with profound understanding and shared transformation.",
+            friendship: "Easy psychological understanding and shared transformation. You help each other grow through insights naturally, creating a friendship with deep psychological rapport and shared transformation.",
+            family: "Comfortable psychological family bonds with shared transformation. You share deep understanding naturally, creating a family environment of profound psychological growth and shared transformation.",
+            business: "Comfortable psychological business partnership with shared transformation. You work together with insight and determination naturally, creating powerful transformations in your field."
         }
     }
 }

@@ -1,0 +1,127 @@
+# Astro Chart Project - Cursor Rules
+
+## Project Overview
+This is a SvelteKit 2.0 astrology application with TypeScript, featuring birth chart calculations, planetary transits, interactive D3.js visualizations, and modern UI components. The project uses Swiss Ephemeris API for astronomical calculations.
+
+## Technology Stack
+- Framework: SvelteKit 2.0 with TypeScript and Svelte 5
+- Styling: Tailwind CSS with shadcn/ui components
+- State Management: Svelte stores (writable, derived)
+- Visualizations: D3.js for interactive charts
+- Astronomical Calculations: External Swiss Ephemeris API service
+- Package Manager: pnpm
+- Testing: Vitest with jsdom
+
+## Critical Data Organization Rules
+- ALL interpretations and astrological data MUST be centralized in `src/lib/data/` folder
+- Never hardcode astrological meanings, interpretations, or data in components
+- All interpretation functions MUST be in `src/lib/data/interpretations.ts`
+- All planet meanings, aspect descriptions, house meanings MUST be centralized
+- Components should ONLY import from `@data/` for astrological content
+- Never hardcode astrological meanings in components
+
+## TypeScript Patterns
+- Use interfaces for object shapes
+- Use const assertions for readonly data
+- Use strict mode
+- Define interfaces for all data structures
+- Use proper type annotations
+- Avoid `any` type when possible
+
+## Component Patterns
+- Use TypeScript for all components
+- Use proper prop typing with $props()
+- Use reactive statements with $:
+- Include proper accessibility attributes
+- Use shadcn/ui components with proper imports
+- Use the cn utility for conditional classes
+
+## Store Patterns
+- Define state interfaces
+- Create stores with methods
+- Use derived stores for computed values
+- Include version tracking for reactivity
+
+## Service Patterns
+- Use external Swiss Ephemeris API service
+- Implement proper error handling
+- Use try-catch blocks for async operations
+- Provide meaningful error messages
+- Log errors for debugging
+
+## API Route Patterns
+- Use proper RequestHandler typing
+- Implement validation
+- Use proper error responses
+- Include proper status codes
+
+## File Naming Conventions
+- Use kebab-case for file names
+- Use PascalCase for component names
+- Use camelCase for functions and variables
+- Use UPPER_SNAKE_CASE for constants
+
+## Import Organization
+1. External libraries
+2. Internal types
+3. Internal utilities
+4. Internal components
+
+## Branding & Tone Standards (Velvet Arcana)
+- Use sophisticated language: "unlock," "reveal," "discover," "explore"
+- Use mystical references: "Arcana," "grimoire," "celestial wisdom," "cosmic secrets"
+- Avoid technical jargon, overly casual language, forced humor
+- Focus on curiosity and shared journey
+- Use mystical/spiritual tone rather than technical language
+
+## Environment Variables
+- EPHEMERIS_API_URL for Swiss Ephemeris API
+- EPHEMERIS_API_KEY for API authentication
+
+## Testing Patterns
+- Use Vitest with jsdom
+- Use @testing-library/svelte for component testing
+- Implement proper test structure with describe/it blocks
+
+## Performance Considerations
+- Use Svelte's reactive statements efficiently
+- Implement proper loading states
+- Optimize chart rendering with D3.js
+- Cache API responses when appropriate
+
+## Accessibility Standards
+- Use semantic HTML elements
+- Include ARIA labels and roles
+- Provide loading states and error handling
+- Ensure keyboard navigation support
+
+## Chart Visualization Standards
+- Use D3.js for interactive charts
+- Implement tooltips with consistent styling
+- Support both desktop and mobile interactions
+- Use astrological color coding for planets and signs
+
+## Error Handling
+- Use try-catch blocks for async operations
+- Provide meaningful error messages
+- Log errors for debugging
+- Graceful degradation for API failures
+
+## Component Architecture
+- Keep components focused and single-purpose
+- Use composition over inheritance
+- Implement proper prop validation
+- Use Svelte's reactive features effectively
+
+## SvelteKit Best Practices
+- Use proper route structure
+- Implement server-side rendering where appropriate
+- Handle loading and error states
+- Use SvelteKit's built-in features (forms, actions, etc.)
+
+## Astrological Domain Standards
+- Use Swiss Ephemeris API for all astronomical calculations
+- Support multiple house systems (Whole Sign default, Placidus option)
+- Handle retrograde planets
+- Calculate aspects with proper orbs
+- Use centralized interpretation functions and data structures 
