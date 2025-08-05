@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import type { TarotLayout } from '../../data/tarot-layouts';
+  import { debounce } from '../../utils/index';
 
   export let layout: TarotLayout;
   export let width = 600;
@@ -31,10 +32,14 @@
   onMount(() => {
     renderLayout();
     
-    // Add resize observer for responsive behavior
+    // Add resize observer for responsive behavior with debouncing
     if (containerElement) {
-      const resizeObserver = new ResizeObserver(() => {
+      const debouncedRenderLayout = debounce(() => {
         renderLayout();
+      }, 250); // 250ms debounce for resize events
+      
+      const resizeObserver = new ResizeObserver(() => {
+        debouncedRenderLayout();
       });
       resizeObserver.observe(containerElement);
       

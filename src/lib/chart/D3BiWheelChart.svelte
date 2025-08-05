@@ -10,6 +10,7 @@
   } from '../components/tooltips/brief-tooltip';
   import ChartElementDialog from '../components/dialogs/ChartElementDialog.svelte';
   import { chartStore } from '../stores/chart-store';
+  import { debounce } from '../utils/index';
 
   // Props (removed chartData prop since we'll use the store directly)
   export let showDegreeMarkers: boolean = true;
@@ -210,14 +211,18 @@
     detectDeviceType();
     createBriefTooltip();
     
-    // Set up resize observer for responsive chart
+    // Set up resize observer for responsive chart with debouncing
     if (chartContainer) {
+      const debouncedCreateChart = debounce(() => {
+        if (currentChartData) {
+          createChart();
+        }
+      }, 250); // 250ms debounce for resize events
+      
       resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
-          // Force chart recreation when container size changes
-          if (currentChartData) {
-            createChart();
-          }
+          // Force chart recreation when container size changes (debounced)
+          debouncedCreateChart();
         }
       });
       resizeObserver.observe(chartContainer);
