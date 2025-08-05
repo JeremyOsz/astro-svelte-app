@@ -45,6 +45,7 @@
   let chartStoreUnsubscribe: () => void;
   let currentChartData: string | null = null;
   let currentVersion = 0;
+  let storeUpdateTimeout: NodeJS.Timeout;
 
   // Types
   interface PlanetData {
@@ -135,9 +136,15 @@
     return dimensions;
   });
 
-  // Update CSS custom property when chart dimensions change
+  // Update CSS custom property when chart dimensions change (debounced)
+  let dimensionUpdateTimeout: NodeJS.Timeout;
   $: if (chartContainer && $chartDimensions) {
-    chartContainer.style.setProperty('--chart-size', `${$chartDimensions.chartSize}px`);
+    if (dimensionUpdateTimeout) {
+      clearTimeout(dimensionUpdateTimeout);
+    }
+    dimensionUpdateTimeout = setTimeout(() => {
+      chartContainer.style.setProperty('--chart-size', `${$chartDimensions.chartSize}px`);
+    }, 50);
   }
 
   // Resize observer for responsive chart
@@ -228,41 +235,64 @@
       resizeObserver.observe(chartContainer);
     }
     
-    // Manual subscription to chart store
+    // Manual subscription to chart store with debouncing
     chartStoreUnsubscribe = chartStore.subscribe((state) => {
       const { chartData, error, isLoading, version } = state;
       
       // Only process if we have new data and container is ready
       if (chartData && version > currentVersion && chartContainer) {
-        currentChartData = chartData;
-        currentVersion = version;
-        
-        if (chartData.trim()) {
-          parseChartData(chartData, 'chart');
-        } else {
-          // Clear the chart if no data
-          d3.select(chartContainer).html('');
+        // Clear any pending update
+        if (storeUpdateTimeout) {
+          clearTimeout(storeUpdateTimeout);
         }
+        
+        // Debounce store updates to prevent excessive chart recreations
+        storeUpdateTimeout = setTimeout(() => {
+          currentChartData = chartData;
+          currentVersion = version;
+          
+          if (chartData.trim()) {
+            parseChartData(chartData, 'chart');
+          } else {
+            // Clear the chart if no data
+            d3.select(chartContainer).html('');
+          }
+        }, 100); // 100ms debounce for store updates
       }
     });
   });
 
-  // --- Reactively parse transit data when provided ---
+  // --- Reactively parse transit data when provided (optimized) ---
   let lastTransitHash: string | null = null;
+  let transitUpdateTimeout: NodeJS.Timeout;
   $: if (transitData && chartContainer) {
     const currentHash = transitData;
     if (currentHash !== lastTransitHash && transitData.trim()) {
       lastTransitHash = currentHash;
-      parseChartData(transitData, 'transit');
+      
+      if (transitUpdateTimeout) {
+        clearTimeout(transitUpdateTimeout);
+      }
+      
+      transitUpdateTimeout = setTimeout(() => {
+        parseChartData(transitData, 'transit');
+      }, 100); // 100ms debounce for transit data updates
     }
   }
 
-  // When container is bound, ensure natal data parsed if we previously skipped due to timing
+  // When container is bound, ensure natal data parsed if we previously skipped due to timing (optimized)
+  let containerInitTimeout: NodeJS.Timeout;
   $: if (chartContainer && !chartStateDataInitialized()) {
     const storeData = get(chartStore).chartData;
     if (storeData) {
-      currentChartData = storeData;
-      parseChartData(storeData, 'chart');
+      if (containerInitTimeout) {
+        clearTimeout(containerInitTimeout);
+      }
+      
+      containerInitTimeout = setTimeout(() => {
+        currentChartData = storeData;
+        parseChartData(storeData, 'chart');
+      }, 50); // 50ms debounce for container initialization
     }
   }
 
@@ -271,15 +301,38 @@
     return Array.isArray(data) && data.length > 0;
   }
 
-  // Reactive statement to trigger chart redraw when either state changes
-  $: if (get(chartState).data.length > 0 || get(transitState).data.length > 0) {
-    if (chartContainer) {
-      createChart();
+  // Reactive statement to trigger chart redraw when either state changes (optimized)
+  let chartRedrawTimeout: NodeJS.Timeout;
+  let lastChartDataLength = 0;
+  let lastTransitDataLength = 0;
+  
+  $: {
+    const currentChartDataLength = get(chartState).data.length;
+    const currentTransitDataLength = get(transitState).data.length;
+    
+    // Only trigger redraw if data lengths actually changed
+    if ((currentChartDataLength > 0 || currentTransitDataLength > 0) && 
+        (currentChartDataLength !== lastChartDataLength || currentTransitDataLength !== lastTransitDataLength)) {
+      
+      lastChartDataLength = currentChartDataLength;
+      lastTransitDataLength = currentTransitDataLength;
+      
+      if (chartRedrawTimeout) {
+        clearTimeout(chartRedrawTimeout);
+      }
+      
+      chartRedrawTimeout = setTimeout(() => {
+        if (chartContainer) {
+          createChart();
+        }
+      }, 100); // 100ms debounce for chart redraws
     }
   }
 
-  // Debug chart container binding
-  $: if (chartContainer) {
+  // Debug chart container binding (optimized to prevent unnecessary re-observing)
+  let lastContainer: HTMLDivElement | null = null;
+  $: if (chartContainer && chartContainer !== lastContainer) {
+    lastContainer = chartContainer;
     // Re-observe if container changes
     if (resizeObserver) {
       resizeObserver.disconnect();
@@ -295,18 +348,64 @@
     if (resizeObserver) {
       resizeObserver.disconnect();
     }
+    // Clear any pending timeouts
+    if (dimensionUpdateTimeout) {
+      clearTimeout(dimensionUpdateTimeout);
+    }
+    if (transitUpdateTimeout) {
+      clearTimeout(transitUpdateTimeout);
+    }
+    if (containerInitTimeout) {
+      clearTimeout(containerInitTimeout);
+    }
+    if (chartRedrawTimeout) {
+      clearTimeout(chartRedrawTimeout);
+    }
+    if (settingsUpdateTimeout) {
+      clearTimeout(settingsUpdateTimeout);
+    }
+    if (storeUpdateTimeout) {
+      clearTimeout(storeUpdateTimeout);
+    }
   });
 
-  $: if (showDegreeMarkers !== undefined || showExtendedPlanets !== undefined || 
-         showAspectLines !== undefined || showPlanetLabels !== undefined) {
-    chartSettings.update(settings => ({
-      ...settings,
+  // Optimized settings update with debouncing to prevent excessive chart recreations
+  let settingsUpdateTimeout: NodeJS.Timeout;
+  let lastSettings = {
+    showDegreeMarkers,
+    showExtendedPlanets,
+    showAspectLines,
+    showPlanetLabels
+  };
+  
+  $: {
+    const currentSettings = {
       showDegreeMarkers,
       showExtendedPlanets,
       showAspectLines,
       showPlanetLabels
-    }));
-    createChart();
+    };
+    
+    // Only update if settings actually changed
+    if (JSON.stringify(currentSettings) !== JSON.stringify(lastSettings)) {
+      lastSettings = currentSettings;
+      
+      if (settingsUpdateTimeout) {
+        clearTimeout(settingsUpdateTimeout);
+      }
+      
+      settingsUpdateTimeout = setTimeout(() => {
+        chartSettings.update(settings => ({
+          ...settings,
+          ...currentSettings
+        }));
+        
+        // Only recreate chart if we have data and container
+        if (currentChartData && chartContainer) {
+          createChart();
+        }
+      }, 100); // 100ms debounce for settings changes
+    }
   }
 
   // NOTE: The zoomLevel prop is removed to allow d3.zoom to manage its own state, preventing conflicts.

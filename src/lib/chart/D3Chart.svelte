@@ -126,9 +126,15 @@
     return dimensions;
   });
 
-  // Update CSS custom property when chart dimensions change
+  // Update CSS custom property when chart dimensions change (debounced)
+  let dimensionUpdateTimeout: NodeJS.Timeout;
   $: if (chartContainer && $chartDimensions) {
-    chartContainer.style.setProperty('--chart-size', `${$chartDimensions.chartSize}px`);
+    if (dimensionUpdateTimeout) {
+      clearTimeout(dimensionUpdateTimeout);
+    }
+    dimensionUpdateTimeout = setTimeout(() => {
+      chartContainer.style.setProperty('--chart-size', `${$chartDimensions.chartSize}px`);
+    }, 50);
   }
 
   // Resize observer for responsive chart
@@ -207,8 +213,10 @@
     });
   });
 
-  // Debug chart container binding
-  $: if (chartContainer) {
+  // Debug chart container binding (optimized to prevent unnecessary re-observing)
+  let lastContainer: HTMLDivElement | null = null;
+  $: if (chartContainer && chartContainer !== lastContainer) {
+    lastContainer = chartContainer;
     // Re-observe if container changes
     if (resizeObserver) {
       resizeObserver.disconnect();
@@ -224,18 +232,52 @@
     if (resizeObserver) {
       resizeObserver.disconnect();
     }
+    // Clear any pending timeouts
+    if (dimensionUpdateTimeout) {
+      clearTimeout(dimensionUpdateTimeout);
+    }
+    if (settingsUpdateTimeout) {
+      clearTimeout(settingsUpdateTimeout);
+    }
   });
 
-  $: if (showDegreeMarkers !== undefined || showExtendedPlanets !== undefined || 
-         showAspectLines !== undefined || showPlanetLabels !== undefined) {
-    chartSettings.update(settings => ({
-      ...settings,
+  // Optimized settings update with debouncing to prevent excessive chart recreations
+  let settingsUpdateTimeout: NodeJS.Timeout;
+  let lastSettings = {
+    showDegreeMarkers,
+    showExtendedPlanets,
+    showAspectLines,
+    showPlanetLabels
+  };
+  
+  $: {
+    const currentSettings = {
       showDegreeMarkers,
       showExtendedPlanets,
       showAspectLines,
       showPlanetLabels
-    }));
-    createChart();
+    };
+    
+    // Only update if settings actually changed
+    if (JSON.stringify(currentSettings) !== JSON.stringify(lastSettings)) {
+      lastSettings = currentSettings;
+      
+      if (settingsUpdateTimeout) {
+        clearTimeout(settingsUpdateTimeout);
+      }
+      
+      settingsUpdateTimeout = setTimeout(() => {
+        chartSettings.update(settings => ({
+          ...settings,
+          ...currentSettings
+        }));
+        
+        // Only recreate chart if we have data and container
+        if (currentChartData && chartContainer) {
+          createChart();
+        }
+      }, 100); // 100ms debounce for settings changes
+    }
   }
 
   // NOTE: The zoomLevel prop is removed to allow d3.zoom to manage its own state, preventing conflicts.
