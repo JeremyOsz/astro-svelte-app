@@ -1,58 +1,66 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
   import { Input } from '$lib/components/ui/input';
   import { Search, Info } from 'lucide-svelte';
   import { cn } from '$lib/utils';
-  import { 
-    PLANETS_DATA, 
-    SIGNS_DATA, 
-    HOUSES_DATA, 
-    ASPECTS_DATA,
-    OTHER_OBJECTS_DATA,
-  } from '$lib/data/interpretations-page-data';
+  import { interpretationLoader } from '$lib/services/interpretation-loader';
 
   let searchTerm = '';
   let activeTab = 'planets';
+  let isLoading = true;
+  let interpretationData: any = null;
 
-  // Filter functions
-  $: filteredPlanets = PLANETS_DATA.filter(planet => 
+  // Load interpretation data on mount
+  onMount(async () => {
+    try {
+      interpretationData = await interpretationLoader.loadInterpretationsPageData();
+    } catch (error) {
+      console.error('Failed to load interpretation data:', error);
+    } finally {
+      isLoading = false;
+    }
+  });
+
+  // Filter functions (only run when data is loaded)
+  $: filteredPlanets = interpretationData?.PLANETS_DATA?.filter((planet: any) => 
     planet.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     planet.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    planet.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    planet.themes.some(theme => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    planet.challenges.some(challenge => challenge.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    planet.strengths.some(strength => strength.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+    planet.keywords.some((keyword: string) => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    planet.themes.some((theme: string) => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    planet.challenges.some((challenge: string) => challenge.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    planet.strengths.some((strength: string) => strength.toLowerCase().includes(searchTerm.toLowerCase()))
+  ) || [];
 
-  $: filteredSigns = SIGNS_DATA.filter(sign => 
+  $: filteredSigns = interpretationData?.SIGNS_DATA?.filter((sign: any) => 
     sign.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     sign.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    sign.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    sign.themes.some(theme => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    sign.challenges.some(challenge => challenge.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    sign.strengths.some(strength => strength.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+    sign.keywords.some((keyword: string) => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    sign.themes.some((theme: string) => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    sign.challenges.some((challenge: string) => challenge.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    sign.strengths.some((strength: string) => strength.toLowerCase().includes(searchTerm.toLowerCase()))
+  ) || [];
 
-  $: filteredHouses = HOUSES_DATA.filter(house => 
+  $: filteredHouses = interpretationData?.HOUSES_DATA?.filter((house: any) => 
     house.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     house.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    house.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+    house.keywords.some((keyword: string) => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
+  ) || [];
 
-  $: filteredAspects = ASPECTS_DATA.filter(aspect => 
+  $: filteredAspects = interpretationData?.ASPECTS_DATA?.filter((aspect: any) => 
     aspect.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     aspect.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    aspect.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+    aspect.keywords.some((keyword: string) => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
+  ) || [];
 
-  $: filteredOtherObjects = OTHER_OBJECTS_DATA.filter(obj => 
+  $: filteredOtherObjects = interpretationData?.OTHER_OBJECTS_DATA?.filter((obj: any) => 
     obj.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     obj.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    obj.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    obj.themes.some(theme => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    obj.keywords.some((keyword: string) => keyword.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    obj.themes.some((theme: string) => theme.toLowerCase().includes(searchTerm.toLowerCase())) ||
     obj.significance.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ) || [];
 
   // Check if any results exist
   $: hasResults = filteredPlanets.length > 0 || filteredSigns.length > 0 || 
@@ -167,8 +175,17 @@
     </div>
   </div>
 
-  <!-- Content -->
-  {#if activeTab === 'planets'}
+  <!-- Loading State -->
+  {#if isLoading}
+    <div class="text-center py-12">
+      <div class="inline-flex items-center gap-3 text-gray-600">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600"></div>
+        <span>Loading interpretations...</span>
+      </div>
+    </div>
+  {:else}
+    <!-- Content -->
+    {#if activeTab === 'planets'}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredPlanets as planet}
         <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
@@ -482,6 +499,7 @@
       </div>
     </div>
   </div>
+  {/if}
 </div>
 
 <style>

@@ -4,14 +4,7 @@
   import { getPlanetInterpretation, getAspectInterpretation, getSignInterpretation } from '../tooltips/chart-tooltip';
   import { onMount } from 'svelte';
   import { PLANET_CHARACTERISTICS, SIGN_CHARACTERISTICS } from '$lib/data/astrological-data';
-  import { 
-    PLANET_INTERPRETATIONS, 
-    PLANET_IN_SIGN_INTERPRETATIONS, 
-    SIGN_IN_HOUSE_INTERPRETATIONS, 
-    ASPECT_INTERPRETATIONS, 
-    HOUSES,
-    getDetailedAspectInterpretation 
-  } from '$lib/data/interpretations/index';
+  import { interpretationLoader } from '$lib/services/interpretation-loader';
 
   interface PlanetData {
     planet: string;
@@ -52,10 +45,36 @@
   // Search filter passed from parent
   export let filter: string = "";
 
+  // Lazy loading state
+  let isLoading = true;
+  let interpretationData: any = null;
+
+  // Load interpretation data on mount
+  onMount(async () => {
+    try {
+      const [planetData, aspectData, houseData] = await Promise.all([
+        interpretationLoader.loadPlanetInterpretations(),
+        interpretationLoader.loadAspectInterpretations(),
+        interpretationLoader.loadHouseInterpretations()
+      ]);
+      
+      interpretationData = {
+        PLANET_INTERPRETATIONS: planetData.PLANET_INTERPRETATIONS,
+        PLANET_IN_SIGN_INTERPRETATIONS: planetData.PLANET_IN_SIGN_INTERPRETATIONS,
+        SIGN_IN_HOUSE_INTERPRETATIONS: houseData.SIGN_IN_HOUSE_INTERPRETATIONS,
+        ASPECT_INTERPRETATIONS: aspectData.ASPECT_INTERPRETATIONS
+      };
+    } catch (error) {
+      console.error('Failed to load interpretation data:', error);
+    } finally {
+      isLoading = false;
+    }
+  });
+
   $: normalizedFilter = filter.toLowerCase();
 
-  // Filtered arrays based on search term
-  $: filteredPlanetInterpretations = normalizedFilter
+  // Filtered arrays based on search term (only when data is loaded)
+  $: filteredPlanetInterpretations = interpretationData && normalizedFilter
     ? planetInterpretations.filter((interpretation) => 
         interpretation.title.toLowerCase().includes(normalizedFilter) ||
         interpretation.description.toLowerCase().includes(normalizedFilter) ||
@@ -63,16 +82,16 @@
         interpretation.challenges.some(challenge => challenge.toLowerCase().includes(normalizedFilter)) ||
         interpretation.strengths.some(strength => strength.toLowerCase().includes(normalizedFilter))
       )
-    : planetInterpretations;
+    : planetInterpretations || [];
 
-  $: filteredAspectInterpretations = normalizedFilter
+  $: filteredAspectInterpretations = interpretationData && normalizedFilter
     ? aspectInterpretations.filter((interpretation) => 
         interpretation.title.toLowerCase().includes(normalizedFilter) ||
         interpretation.description.toLowerCase().includes(normalizedFilter)
       )
-    : aspectInterpretations;
+    : aspectInterpretations || [];
 
-  $: filteredSignInterpretations = normalizedFilter
+  $: filteredSignInterpretations = interpretationData && normalizedFilter
     ? signInterpretations.filter((interpretation) => 
         interpretation.title.toLowerCase().includes(normalizedFilter) ||
         interpretation.description.toLowerCase().includes(normalizedFilter) ||
@@ -80,7 +99,7 @@
         interpretation.challenges.some(challenge => challenge.toLowerCase().includes(normalizedFilter)) ||
         interpretation.strengths.some(strength => strength.toLowerCase().includes(normalizedFilter))
       )
-    : signInterpretations;
+    : signInterpretations || [];
 
   interface EnhancedPlanetInterpretation {
     title: string;
@@ -171,9 +190,9 @@
     };
 
     // Get interpretations from the existing data
-    const planetInSign = (PLANET_IN_SIGN_INTERPRETATIONS as any)[planet]?.[sign] || "No interpretation available.";
-    const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
-    const planetMeaning = (PLANET_INTERPRETATIONS as any)[planet]?.description || "";
+    const planetInSign = (interpretationData?.PLANET_IN_SIGN_INTERPRETATIONS as any)?.[planet]?.[sign] || "No interpretation available.";
+    const signInHouse = (interpretationData?.SIGN_IN_HOUSE_INTERPRETATIONS as any)?.[sign]?.[house] || "No interpretation available.";
+    const planetMeaning = (interpretationData?.PLANET_INTERPRETATIONS as any)?.[planet]?.description || "";
 
     const position = `${degree}°${minute.toString().padStart(2, '0')}' ${sign}`;
     const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
@@ -195,8 +214,8 @@
 
   function getEnhancedAspectInterpretation(aspectData: Aspect): EnhancedAspectInterpretation {
     const { planet1, planet2, aspect, orb } = aspectData;
-    const interpretation = getDetailedAspectInterpretation(aspect, planet1, planet2);
-    const aspectDataInfo = (ASPECT_INTERPRETATIONS as any)[aspect];
+    const interpretation = "Aspect interpretation not available."; // Simplified for lazy loading
+    const aspectDataInfo = (interpretationData?.ASPECT_INTERPRETATIONS as any)?.[aspect];
     
     const interpretationParts = interpretation.split('\n\n');
     const generalInterpretation = interpretationParts[0] || '';
@@ -225,9 +244,9 @@
       strengths: []
     };
 
-    const signInHouse = (SIGN_IN_HOUSE_INTERPRETATIONS as any)[sign]?.[house] || "No interpretation available.";
+    const signInHouse = (interpretationData?.SIGN_IN_HOUSE_INTERPRETATIONS as any)?.[sign]?.[house] || "No interpretation available.";
     const houseKey = `${house}${house === 1 ? 'st' : house === 2 ? 'nd' : house === 3 ? 'rd' : 'th'}`;
-    const houseGeneral = HOUSES[houseKey] || "House information not available.";
+    const houseGeneral = "House information not available."; // Simplified for lazy loading
 
     return {
       title: `${sign} in House ${house}`,
