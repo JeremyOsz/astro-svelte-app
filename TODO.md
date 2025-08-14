@@ -18,24 +18,14 @@
 - ~make scroll not impact with the chart~
 - allow lat/lon input instead of birthplace optionaly 
 - set default in database
-- Make aspect toltips better
+- ~Make aspect toltips better~
+- birth chart summary
 
 
 # Making transits better
-- Transit planets in house meaning
-- Transit planets in sign meaning
-- Descriptions for transit planets should be what they mean in time - not in natal chart
-- Clearly say what:
-    1. Transit planet is and represents
-    2. Natal planet is and represents
-    3. What the aspect represents
-    4. What the interraction represents
-- **Update transits functionality to use new comprehensive transit interpretations**
-  - Integrate the new detailed transit interpretations from `src/lib/data/interpretations/transits/`
-  - Update transit display to show detailed interpretations for each aspect type
-  - Add transit interpretation tooltips or expandable sections
-  - Include angular aspects and minor aspects in transit analysis
-  - Enhance transit descriptions to clearly explain what each transit represents
+- Transit planets in house meaning - currently says things too related to birth sign
+- say what time frame they fall omn
+
 
 # Layout & UI Improvements
 - ~Add proper container padding to pages after layout changes~
