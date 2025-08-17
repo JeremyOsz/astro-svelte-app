@@ -163,6 +163,83 @@ function createChartStore() {
       }
     },
     
+    // Generate chart from birth data (for auto-generation from shared URL)
+    generateChartFromBirthData: async (birthData: BirthData) => {
+      update(state => ({ ...state, isLoading: true, error: null }));
+      try {
+        // Prepare city data in the format expected by the server
+        const cityData = {
+          name: birthData.place.split(',')[0],
+          fullLocation: birthData.place,
+          lat: birthData.latitude,
+          lng: birthData.longitude,
+          country: '',
+          adminName: ''
+        };
+        const formData = new FormData();
+        formData.set('birthDate', birthData.date);
+        formData.set('birthTime', birthData.time);
+        formData.set('cityData', JSON.stringify(cityData));
+        // POST to the server endpoint
+        const response = await fetch('/chart?/calculate', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await response.json();
+        console.log('[generateChartFromBirthData] API result:', result);
+        let chartData: string | undefined, birthDataResult: BirthData | undefined;
+        // Handle SvelteKit action response (dehydrated array) or plain object
+        if (result.data) {
+          if (typeof result.data === 'string') {
+            // Try to parse as JSON
+            try {
+              const arr = JSON.parse(result.data);
+              // SvelteKit dehydrated array: [fieldMap, chartData, birthData, ...]
+              // Find chartData (string with newlines) and birthData (object with date/time/place/lat/lng)
+              // Heuristic: chartData is a string with newlines, birthData is an object with date/time
+              for (const item of arr) {
+                if (typeof item === 'string' && item.includes('\n')) chartData = item;
+                if (typeof item === 'object' && item && item.date && item.time) birthDataResult = item;
+              }
+            } catch (e) {
+              console.error('[generateChartFromBirthData] Failed to parse dehydrated array:', e);
+            }
+          } else if (typeof result.data === 'object') {
+            // Plain object
+            chartData = result.data.chartData;
+            birthDataResult = result.data.birthData;
+          }
+        }
+        if (chartData) {
+          console.log('[generateChartFromBirthData] Setting chartData:', chartData);
+          update(state => ({
+            ...state,
+            chartData,
+            birthData: birthDataResult || birthData,
+            isLoading: false,
+            error: null,
+            version: state.version + 1
+          }));
+        } else {
+          console.error('[generateChartFromBirthData] No chartData in result:', result);
+          update(state => ({
+            ...state,
+            isLoading: false,
+            error: result.error || 'Failed to generate chart',
+            version: state.version + 1
+          }));
+        }
+      } catch (error) {
+        console.error('[generateChartFromBirthData] Exception:', error);
+        update(state => ({
+          ...state,
+          isLoading: false,
+          error: error instanceof Error ? error.message : 'Failed to generate chart',
+          version: state.version + 1
+        }));
+      }
+    },
+    
     // Existing methods...
     setChartData: (chartData: string, birthData?: BirthData) => {
       update(state => ({

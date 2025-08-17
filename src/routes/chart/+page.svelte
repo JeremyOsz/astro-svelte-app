@@ -78,9 +78,10 @@ MC,Leo,10°14'`;
 
   // Store for manual chart data input - make it reactive to chart store
   let textareaStore = '';
+  let userHasInteractedWithTextarea = false;
   
   // Update textarea when chart store changes (but only if it's different to avoid loops)
-  $: if ($chartStore.chartData && $chartStore.chartData !== textareaStore) {
+  $: if ($chartStore.chartData && $chartStore.chartData !== textareaStore && !userHasInteractedWithTextarea) {
     textareaStore = $chartStore.chartData;
   }
 
@@ -151,10 +152,13 @@ MC,Leo,10°14'`;
     }
 
     // Try to load chart from URL parameters
-    chartStore.loadFromURL().then(loadedFromURL => {
+    chartStore.loadFromURL().then(async loadedFromURL => {
       if (loadedFromURL) {
-        // If loaded from URL, switch to saved charts tab
         activeTab = 'saved';
+        // Auto-generate chart if birthData is present and no chartData
+        if (!$chartStore.chartData && $chartStore.birthData) {
+          await chartStore.generateChartFromBirthData($chartStore.birthData);
+        }
       }
     }).catch(error => {
       console.error('Failed to load from URL:', error);
@@ -368,10 +372,10 @@ MC,Leo,10°14'`;
                     class="w-full h-32 font-mono text-xs border border-gray-300 rounded-md p-2 resize-y"
                     bind:value={textareaStore}
                     on:input={() => {
-                      // Only update store if the data is actually different to avoid loops
+                      userHasInteractedWithTextarea = true;
                       if (textareaStore.trim() && textareaStore !== $chartStore.chartData) {
                         chartStore.setChartData(textareaStore);
-                      } else if (!textareaStore.trim() && $chartStore.chartData) {
+                      } else if (!textareaStore.trim() && $chartStore.chartData && userHasInteractedWithTextarea) {
                         chartStore.clear();
                       }
                     }}
