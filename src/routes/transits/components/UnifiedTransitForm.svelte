@@ -86,7 +86,7 @@
     
     if (transitCitySearch.length > 1) {
       transitSearchTimeout = setTimeout(() => {
-        transitCityResults = searchCities(transitCitySearch, 8);
+        transitCityResults = searchCities(transitCitySearch, 1000);
         showTransitCityDropdown = transitCityResults.length > 0;
       }, 300);
     } else {

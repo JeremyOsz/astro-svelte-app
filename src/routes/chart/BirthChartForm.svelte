@@ -36,7 +36,7 @@
     if (citySearch.length > 1) {
       // Debounce search to avoid too many searches while typing
       searchTimeout = setTimeout(() => {
-        cityResults = searchCities(citySearch, 8);
+        cityResults = searchCities(citySearch, 1000);
         showCityDropdown = cityResults.length > 0;
       }, 300);
     } else {

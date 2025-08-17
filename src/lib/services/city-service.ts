@@ -84,18 +84,28 @@ export function searchCities(query: string, limit: number = 10): CitySearchResul
   }
 
   const normalizedQuery = query.toLowerCase().trim();
-  
-  const results: CitySearchResult[] = cities
-    .filter((city: City) => 
-      city.name.toLowerCase().includes(normalizedQuery)
-    )
-    .slice(0, limit)
+
+  // Sort by similarity: exact > prefix > substring > alpha
+  const scored = cities
+    .filter((city: City) => city.name.toLowerCase().includes(normalizedQuery))
     .map((city: City) => {
+      const name = city.name.toLowerCase();
+      let score = 3;
+      if (name === normalizedQuery) score = 0; // exact match
+      else if (name.startsWith(normalizedQuery)) score = 1; // prefix match
+      else if (name.includes(normalizedQuery)) score = 2; // substring match
+      return { city, score };
+    })
+    .sort((a, b) => {
+      if (a.score !== b.score) return a.score - b.score;
+      return a.city.name.localeCompare(b.city.name);
+    })
+    .slice(0, limit)
+    .map(({ city }) => {
       const adminName = getAdminName(city.country, city.admin1);
       const countryName = getCountryName(city.country);
       const displayName = adminName ? `${city.name}, ${adminName}, ${countryName}` : `${city.name}, ${countryName}`;
       const fullLocation = adminName ? `${city.name}, ${adminName}, ${countryName}` : `${city.name}, ${countryName}`;
-      
       return {
         ...city,
         displayName,
@@ -105,9 +115,9 @@ export function searchCities(query: string, limit: number = 10): CitySearchResul
     });
 
   // Cache the results
-  searchCache.set(cacheKey, results);
-  
-  return results;
+  searchCache.set(cacheKey, scored);
+
+  return scored;
 }
 
 /**

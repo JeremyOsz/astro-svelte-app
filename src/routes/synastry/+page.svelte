@@ -201,7 +201,7 @@ MC,Gemini,12°00'`;
     
     if (person1CitySearch.length > 1) {
       person1SearchTimeout = setTimeout(() => {
-        person1CityResults = searchCities(person1CitySearch, 8);
+        person1CityResults = searchCities(person1CitySearch, 1000);
         showPerson1CityDropdown = person1CityResults.length > 0;
       }, 300);
     } else {
@@ -219,7 +219,7 @@ MC,Gemini,12°00'`;
     
     if (person2CitySearch.length > 1) {
       person2SearchTimeout = setTimeout(() => {
-        person2CityResults = searchCities(person2CitySearch, 8);
+        person2CityResults = searchCities(person2CitySearch, 1000);
         showPerson2CityDropdown = person2CityResults.length > 0;
       }, 300);
     } else {
