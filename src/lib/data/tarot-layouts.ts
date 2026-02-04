@@ -5,6 +5,7 @@ import {
   generateCareerPathSVG, 
   generateSpiritualJourneySVG 
 } from '$lib/utils/tarot-svg-generator';
+import { ALL_TAROT_CARDS, type TarotCard } from '$lib/data/tarot-data';
 
 export interface TarotLayout {
   id: string;
@@ -28,6 +29,42 @@ export interface LayoutPosition {
   y: number;
   width: number;
   height: number;
+}
+
+export interface DrawnCard {
+  position: LayoutPosition;
+  card: TarotCard;
+  reversed: boolean;
+}
+
+/**
+ * Fisher–Yates shuffle (mutates array).
+ */
+function shuffleArray<T>(array: T[]): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+/**
+ * Draw cards for a given spread. Shuffles the full deck and assigns cards to positions.
+ * Each card has a 50% chance of being reversed.
+ */
+export function drawCardsForSpread(
+  layout: TarotLayout,
+  options?: { allowReversed?: boolean }
+): DrawnCard[] {
+  const allowReversed = options?.allowReversed !== false;
+  const shuffled = shuffleArray(ALL_TAROT_CARDS);
+  const positions = [...layout.positions].sort((a, b) => a.number - b.number);
+  return positions.map((position, index) => {
+    const card = shuffled[index];
+    const reversed = allowReversed && Math.random() < 0.5;
+    return { position, card, reversed };
+  });
 }
 
 export const TAROT_LAYOUTS: TarotLayout[] = [
