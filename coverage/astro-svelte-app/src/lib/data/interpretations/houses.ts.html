@@ -1,0 +1,601 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for astro-svelte-app/src/lib/data/interpretations/houses.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../index.html">All files</a> / <a href="index.html">astro-svelte-app/src/lib/data/interpretations</a> houses.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/170</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/170</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Sign in house interpretations
+import type { SignInHouseInterpretations } from './types';
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const SIGN_IN_HOUSE_INTERPRETATIONS: SignInHouseInterpretations = {</span>
+<span class="cstat-no" title="statement not covered" >    "Aries": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as bold, direct, and energetic. You approach life with initiative and courage.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You pursue material security with drive and assertiveness. You value independence in finances.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate quickly and directly. You are eager to learn and share ideas.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You are protective of your home and family, and may take the lead in domestic matters.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with passion and spontaneity.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with energy and initiative.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek dynamic, independent partners and value excitement in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You face transformation and shared resources with courage and directness.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are adventurous in travel, philosophy, and higher learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals assertively and seek leadership roles.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a pioneering force in groups and friendships.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You confront your subconscious and hidden matters with bravery and initiative."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Taurus": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as steady, reliable, and sensual. You value comfort and stability.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security and value possessions. You are patient in financial matters.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate in a calm, deliberate manner and value practical knowledge.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create a comfortable, secure home and value family traditions.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance in a loyal, sensual way.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health with consistency and practicality.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek stable, long-term partnerships and value loyalty in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with patience and caution.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You value practical philosophy and seek comfort in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals steadily and value security in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a dependable friend and value stability in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find comfort in solitude and value inner peace and security."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Gemini": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as curious, adaptable, and communicative. You approach life with versatility and wit.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security through multiple sources and value intellectual assets.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You are an engaging communicator and enjoy learning and sharing ideas.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "Your home life is lively and filled with conversation and movement.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance playfully and enjoy variety in leisure.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with flexibility and mental engagement.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek stimulating, communicative partners and value intellectual connection.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with curiosity and adaptability.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are interested in diverse philosophies and enjoy travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with adaptability and value communication in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a sociable friend and enjoy networking in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You process your subconscious through thought and communication, and may need mental solitude."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Cancer": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as nurturing, sensitive, and protective. You approach life with intuition and care.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security for emotional comfort and value sentimental possessions.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate with empathy and intuition, and value emotional connections.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create a nurturing, protective home and value family bonds.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with sensitivity and care.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with nurturing and intuition.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek caring, emotionally supportive partners and value security in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with sensitivity and caution.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are emotionally invested in beliefs and seek comfort in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with care and value a nurturing public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a supportive friend and value emotional bonds in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find comfort in solitude and process emotions privately."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Leo": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as confident, expressive, and charismatic. You approach life with enthusiasm and creativity.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security with pride and generosity, and value luxury.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate dramatically and enjoy being the center of attention.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create a warm, vibrant home and value family pride.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with flair and passion.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with enthusiasm and leadership.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek loyal, expressive partners and value romance in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with courage and pride.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are passionate about beliefs and seek adventure in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with ambition and seek recognition in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a generous friend and enjoy leadership in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find strength in solitude and process your inner world with creativity."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Virgo": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as analytical, practical, and detail-oriented. You approach life with discernment and service.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security through careful planning and value practicality.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate precisely and value useful information.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create an organized, efficient home and value routines.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with thoughtfulness and attention to detail.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with diligence and care.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek reliable, helpful partners and value service in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with caution and analysis.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are practical in beliefs and seek knowledge in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with precision and value service in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a helpful friend and value order in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find peace in solitude and process your inner world analytically."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Libra": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as diplomatic, charming, and fair-minded. You approach life seeking balance and harmony.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security through partnerships and value beauty and balance.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate gracefully and value harmonious relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create a beautiful, peaceful home and value cooperation in family.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with charm and a sense of fairness.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with balance and diplomacy.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek harmonious, equal partnerships and value cooperation in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with fairness and negotiation.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are interested in balanced philosophies and seek harmony in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with diplomacy and value a refined public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a diplomatic friend and value harmony in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find balance in solitude and process your inner world through relationships."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Scorpio": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as intense, passionate, and magnetic. You approach life with depth and determination.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security through transformation and value shared resources.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate with intensity and seek deep understanding in conversations.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create a private, intense home environment and value emotional security.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with passion and emotional depth.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with intensity and transformation.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek deep, transformative partnerships and value emotional honesty.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with power and intensity.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are passionate about beliefs and seek truth in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with power and seek influence in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are an intense friend and value deep bonds in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find power in solitude and process your inner world with intensity."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Sagittarius": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as optimistic, adventurous, and philosophical. You approach life with enthusiasm and wisdom.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security through expansion and value freedom in finances.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate optimistically and enjoy sharing knowledge and ideas.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create an open, adventurous home and value freedom in family.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with enthusiasm and adventure.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with optimism and expansion.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek adventurous, philosophical partners and value freedom in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with optimism and wisdom.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are passionate about beliefs and seek adventure in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with optimism and seek recognition in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are an enthusiastic friend and value freedom in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find wisdom in solitude and process your inner world with optimism."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Capricorn": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as disciplined, ambitious, and responsible. You approach life with structure and determination.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security through hard work and value long-term financial planning.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate seriously and value practical knowledge and structure.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create a structured, traditional home and value family responsibility.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with discipline and commitment.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with discipline and responsibility.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek reliable, ambitious partners and value commitment in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with discipline and caution.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are practical in beliefs and seek structure in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with ambition and value authority in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a reliable friend and value structure in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find discipline in solitude and process your inner world with responsibility."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Aquarius": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as innovative, independent, and humanitarian. You approach life with originality and vision.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security through innovation and value intellectual assets.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate originally and value intellectual stimulation and new ideas.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create an unconventional, innovative home and value independence in family.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with originality and independence.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with innovation and independence.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek independent, intellectual partners and value freedom in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with innovation and independence.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are original in beliefs and seek innovation in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with innovation and value originality in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are an original friend and value independence in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find innovation in solitude and process your inner world with independence."</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    "Pisces": {</span>
+<span class="cstat-no" title="statement not covered" >        "1": "You present yourself as compassionate, intuitive, and artistic. You approach life with empathy and imagination.",</span>
+<span class="cstat-no" title="statement not covered" >        "2": "You seek material security through intuition and value spiritual assets.",</span>
+<span class="cstat-no" title="statement not covered" >        "3": "You communicate with empathy and imagination, and value spiritual connections.",</span>
+<span class="cstat-no" title="statement not covered" >        "4": "You create a dreamy, spiritual home and value emotional bonds in family.",</span>
+<span class="cstat-no" title="statement not covered" >        "5": "You express creativity and romance with compassion and imagination.",</span>
+<span class="cstat-no" title="statement not covered" >        "6": "You approach work and health routines with compassion and intuition.",</span>
+<span class="cstat-no" title="statement not covered" >        "7": "You seek compassionate, spiritual partners and value empathy in relationships.",</span>
+<span class="cstat-no" title="statement not covered" >        "8": "You approach transformation and shared resources with compassion and intuition.",</span>
+<span class="cstat-no" title="statement not covered" >        "9": "You are spiritual in beliefs and seek transcendence in travel and learning.",</span>
+<span class="cstat-no" title="statement not covered" >        "10": "You pursue career goals with compassion and value spirituality in your public image.",</span>
+<span class="cstat-no" title="statement not covered" >        "11": "You are a compassionate friend and value spiritual bonds in groups.",</span>
+<span class="cstat-no" title="statement not covered" >        "12": "You find transcendence in solitude and process your inner world with compassion."</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >}; </span></pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-10T22:40:14.652Z
+            </div>
+        <script src="../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../sorter.js"></script>
+        <script src="../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

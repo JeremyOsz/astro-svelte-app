@@ -1,53 +1,63 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { env } from '$env/dynamic/private';
+import { getEphemerisConfig } from '$lib/server/ephemeris';
+import { fetchWithRetry } from '$lib/server/http';
+import { BoundedTTLCache } from '$lib/server/bounded-cache';
 
-// Simple in-memory cache for server-side caching
-const serverCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+const serverCache = new BoundedTTLCache<any>(500, 60 * 60 * 1000);
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value);
+}
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const { date, time, latitude, longitude, house_system } = await request.json();
+
+    if (!date || Number.isNaN(new Date(date).getTime())) {
+      return json({ error: 'Invalid or missing date' }, { status: 400 });
+    }
+    if (latitude !== undefined && !isFiniteNumber(latitude)) {
+      return json({ error: 'Invalid latitude' }, { status: 400 });
+    }
+    if (longitude !== undefined && !isFiniteNumber(longitude)) {
+      return json({ error: 'Invalid longitude' }, { status: 400 });
+    }
     
     // Create cache key
     const cacheKey = `${date}_${time}_${latitude}_${longitude}_${house_system}`;
     
     // Check server cache first
     const cached = serverCache.get(cacheKey);
-    if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION) {
-      return json(cached.data);
+    if (cached) {
+      return json(cached);
     }
     
     // Format the data for the external API
     const apiData = {
       date: date,
       time: time,
-      place: "London, UK", // Default place name
-      latitude: latitude || 51.5074, // London coordinates
-      longitude: longitude || -0.1278,
+      place: 'Current Location',
+      latitude: isFiniteNumber(latitude) ? latitude : 51.5074,
+      longitude: isFiniteNumber(longitude) ? longitude : -0.1278,
       house_system: house_system || 'whole_sign'
     };
     
     // Call the external ephemeris API
-    const API_BASE_URL = 'https://immanuel-astro.onrender.com';
-    const API_KEY = env.EPHEMERIS_API_KEY || '';
+    const { baseUrl, apiKey } = getEphemerisConfig();
     
-    const response = await fetch(`${API_BASE_URL}/birth-chart`, {
+    const response = await fetchWithRetry(`${baseUrl}/birth-chart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Key': API_KEY
+        'X-API-Key': apiKey
       },
       body: JSON.stringify(apiData)
-    });
+    }, { timeoutMs: 12_000, retries: 1 });
     
     if (!response.ok) {
       console.error('API request failed:', response.status, response.statusText);
-      const errorText = await response.text();
-      console.error('Response body:', errorText);
-      
-      throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
     }
     
     const chartResult = await response.json();
@@ -60,10 +70,7 @@ export const POST: RequestHandler = async ({ request }) => {
     };
     
     // Cache the successful response
-    serverCache.set(cacheKey, {
-      data: responseData,
-      timestamp: Date.now()
-    });
+    serverCache.set(cacheKey, responseData);
     
     // Return the raw API response for planet positions
     return json(responseData);
@@ -71,8 +78,7 @@ export const POST: RequestHandler = async ({ request }) => {
   } catch (error) {
     console.error('Error fetching current positions:', error);
     return json({ 
-      error: 'Failed to fetch current planet positions',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      error: 'Failed to fetch current planet positions'
     }, { status: 500 });
   }
 }; 

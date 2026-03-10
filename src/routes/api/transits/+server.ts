@@ -10,6 +10,12 @@ export const POST: RequestHandler = async ({ request }) => {
     if (!natalChart || !transitDate) {
       return json({ error: 'Missing required fields: natalChart, transitDate' }, { status: 400 });
     }
+    if (!natalChart.date || Number.isNaN(new Date(natalChart.date).getTime())) {
+      return json({ error: 'Invalid natal chart date' }, { status: 400 });
+    }
+    if (Number.isNaN(new Date(transitDate).getTime())) {
+      return json({ error: 'Invalid transit date' }, { status: 400 });
+    }
     
     // Ensure natalChart.date is a Date object
     const processedNatalChart = {

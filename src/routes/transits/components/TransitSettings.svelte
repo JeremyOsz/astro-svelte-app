@@ -13,7 +13,6 @@
   export let transitCitySearch: string;
   export let selectedTransitCityData: any;
   export let loading: boolean;
-  export let onCalculate: (() => void) | undefined = undefined;
   export let onClear: () => void;
   export let hasResults: boolean;
 
@@ -36,26 +35,16 @@
         });
         
         const { latitude, longitude } = position.coords;
-        const response = await fetch(
-          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-        );
-        
-        if (response.ok) {
-          const data = await response.json();
-          const cityName = data.city || data.locality || 'Unknown City';
-          const countryName = data.countryName || '';
-          const fullLocation = `${cityName}, ${countryName}`;
-          
-          transitCitySearch = fullLocation;
-          selectedTransitCityData = {
-            name: cityName,
-            fullLocation: fullLocation,
-            lat: latitude,
-            lng: longitude,
-            country: countryName,
-            adminName: data.principalSubdivision || ''
-          };
-        }
+        const coordLabel = `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
+        transitCitySearch = `Current Location (${coordLabel})`;
+        selectedTransitCityData = {
+          name: 'Current Location',
+          fullLocation: `Current Location (${coordLabel})`,
+          lat: latitude,
+          lng: longitude,
+          country: '',
+          adminName: ''
+        };
       } catch (error) {
         // Set default location
         transitCitySearch = 'New York, United States';
@@ -79,8 +68,8 @@
     }
     
     if (transitCitySearch.length > 1) {
-      transitSearchTimeout = setTimeout(() => {
-        transitCityResults = searchCities(transitCitySearch, 1000);
+      transitSearchTimeout = setTimeout(async () => {
+        transitCityResults = await searchCities(transitCitySearch, 20);
         showTransitCityDropdown = transitCityResults.length > 0;
       }, 300);
     } else {

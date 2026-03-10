@@ -124,14 +124,3 @@
     <div class="absolute bottom-1/4 right-1/3 w-1 h-1 bg-green-300 rounded-full animate-ping opacity-30"></div>
   </div>
 </div>
-
-<style>
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-</style> 

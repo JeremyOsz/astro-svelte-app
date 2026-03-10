@@ -126,8 +126,7 @@ export const POST: RequestHandler = async ({ request }) => {
   } catch (error) {
     console.error('Error generating daily horoscope:', error);
     return json({ 
-      error: 'Failed to generate daily horoscope',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      error: 'Failed to generate daily horoscope'
     }, { status: 500 });
   }
-}; 
+};

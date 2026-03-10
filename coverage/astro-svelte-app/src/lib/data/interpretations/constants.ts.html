@@ -1,0 +1,352 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for astro-svelte-app/src/lib/data/interpretations/constants.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../index.html">All files</a> / <a href="index.html">astro-svelte-app/src/lib/data/interpretations</a> constants.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/75</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/75</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Basic astrological constants
+&nbsp;
+// Major aspects and their general meanings
+<span class="cstat-no" title="statement not covered" >export const MAJOR_ASPECTS: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >    'Conjunction': 'A time of new beginnings and direct manifestation of the planets\' energies.',</span>
+<span class="cstat-no" title="statement not covered" >    'Opposition': 'A period of tension and awareness of polarities, requiring balance and integration.',</span>
+<span class="cstat-no" title="statement not covered" >    'Trine': 'A harmonious flow of energy, bringing ease and natural development.',</span>
+<span class="cstat-no" title="statement not covered" >    'Square': 'A challenging aspect that creates tension and requires action or change.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sextile': 'An opportunity for growth and positive development through conscious effort.',</span>
+<span class="cstat-no" title="statement not covered" >    'Quincunx': 'An aspect requiring adjustment and integration of seemingly incompatible energies.'</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const ELEMENTS: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >    "Fire": "Fire is the element of passion, energy, and creativity. It is associated with the Sun, Mars, and the first three signs of the zodiac: Aries, Leo, and Sagittarius. Fire energy is dynamic, intense, and often associated with leadership and action.",</span>
+<span class="cstat-no" title="statement not covered" >    "Earth": "Earth is the element of stability, practicality, and grounding. It is associated with the Sun, Venus, and the last three signs of the zodiac: Capricorn, Taurus, and Virgo. Earth energy is practical, reliable, and often associated with responsibility and structure.",</span>
+<span class="cstat-no" title="statement not covered" >    "Air": "Air is the element of communication, intellect, and flexibility. It is associated with the Sun, Mercury, and the middle three signs of the zodiac: Gemini, Libra, and Aquarius. Air energy is intellectual, adaptable, and often associated with communication and ideas.",</span>
+<span class="cstat-no" title="statement not covered" >    "Water": "Water is the element of emotion, intuition, and creativity. It is associated with the Sun, Moon, and the last three signs of the zodiac: Cancer, Scorpio, and Pisces. Water energy is emotional, intuitive, and often associated with creativity and sensitivity."</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const HOUSES: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >    "1st": "Self, personality, appearance, first impressions, how you present yourself to the world",</span>
+<span class="cstat-no" title="statement not covered" >    "2nd": "Money, possessions, values, self-worth, material security, what you value",</span>
+<span class="cstat-no" title="statement not covered" >    "3rd": "Communication, siblings, short trips, learning, local environment, early education",</span>
+<span class="cstat-no" title="statement not covered" >    "4th": "Home, family, roots, mother, emotional foundation, private life",</span>
+<span class="cstat-no" title="statement not covered" >    "5th": "Creativity, romance, children, fun, self-expression, hobbies, entertainment",</span>
+<span class="cstat-no" title="statement not covered" >    "6th": "Work, health, daily routines, service to others, pets, employees",</span>
+<span class="cstat-no" title="statement not covered" >    "7th": "Partnerships, marriage, close relationships, open enemies, contracts",</span>
+<span class="cstat-no" title="statement not covered" >    "8th": "Shared resources, transformation, death, rebirth, other people's money, sexuality",</span>
+<span class="cstat-no" title="statement not covered" >    "9th": "Higher education, philosophy, religion, long-distance travel, publishing, legal matters",</span>
+<span class="cstat-no" title="statement not covered" >    "10th": "Career, public image, reputation, authority figures, father, life goals",</span>
+<span class="cstat-no" title="statement not covered" >    "11th": "Friends, groups, social causes, hopes and dreams, humanitarian interests",</span>
+<span class="cstat-no" title="statement not covered" >    "12th": "Spirituality, subconscious, hidden things, karma, isolation, service to others"</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+// Specific planet combinations and their meanings for transits
+<span class="cstat-no" title="statement not covered" >export const PLANET_COMBINATIONS: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Moon': 'Aspects between Sun and Moon highlight the relationship between conscious and unconscious, ego and emotions.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Mercury': 'Mental clarity and communication are emphasized, especially regarding self-expression.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Venus': 'Relationships, values, and self-worth come into focus.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Mars': 'Energy, initiative, and personal drive are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Jupiter': 'Expansion, growth, and optimism are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Saturn': 'Structure, responsibility, and limitations are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Uranus': 'Sudden changes, innovation, and individuality are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Neptune': 'Intuition, creativity, and spiritual awareness are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Sun-Pluto': 'Transformation, power, and deep psychological processes are emphasized.',</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    'Moon-Mercury': 'Emotional communication and intuitive thinking are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Moon-Venus': 'Emotional relationships and values are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Moon-Mars': 'Emotional drive and assertiveness come into focus.',</span>
+<span class="cstat-no" title="statement not covered" >    'Moon-Jupiter': 'Emotional growth and optimism are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Moon-Saturn': 'Emotional maturity and responsibility are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Moon-Uranus': 'Emotional changes and breakthroughs are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Moon-Neptune': 'Emotional sensitivity and spiritual awareness are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Moon-Pluto': 'Emotional transformation and deep psychological processes are highlighted.',</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    'Mercury-Venus': 'Communication in relationships and artistic expression are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mercury-Mars': 'Mental energy and assertive communication are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mercury-Jupiter': 'Expansive thinking and learning opportunities are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mercury-Saturn': 'Practical thinking and structured communication are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mercury-Uranus': 'Innovative thinking and sudden insights are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mercury-Neptune': 'Intuitive thinking and creative communication are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mercury-Pluto': 'Deep psychological insights and transformative communication are emphasized.',</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    'Venus-Mars': 'Passion, relationships, and creative energy are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Venus-Jupiter': 'Expansion in relationships and abundance are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Venus-Saturn': 'Commitment and responsibility in relationships are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Venus-Uranus': 'Sudden changes in relationships and freedom are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Venus-Neptune': 'Romantic idealism and spiritual love are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Venus-Pluto': 'Intense relationships and transformation through love are emphasized.',</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    'Mars-Jupiter': 'Expansive action and growth through initiative are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mars-Saturn': 'Disciplined action and responsibility are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mars-Uranus': 'Sudden action and unexpected changes are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mars-Neptune': 'Intuitive action and spiritual energy are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Mars-Pluto': 'Transformative action and power dynamics are highlighted.',</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    'Jupiter-Saturn': 'Balance between expansion and limitation is emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Jupiter-Uranus': 'Sudden growth and unexpected opportunities are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Jupiter-Neptune': 'Spiritual growth and idealistic expansion are emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Jupiter-Pluto': 'Transformative growth and power expansion are highlighted.',</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    'Saturn-Uranus': 'Balance between tradition and innovation is emphasized.',</span>
+<span class="cstat-no" title="statement not covered" >    'Saturn-Neptune': 'Structure in spiritual matters and practical idealism are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Saturn-Pluto': 'Transformative structure and power through responsibility are emphasized.',</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    'Uranus-Neptune': 'Innovation in spiritual matters and collective change are highlighted.',</span>
+<span class="cstat-no" title="statement not covered" >    'Uranus-Pluto': 'Revolutionary transformation and collective power are emphasized.',</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    'Neptune-Pluto': 'Spiritual transformation and collective evolution are emphasized.'</span>
+<span class="cstat-no" title="statement not covered" >}; </span></pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-10T22:40:14.652Z
+            </div>
+        <script src="../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../sorter.js"></script>
+        <script src="../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

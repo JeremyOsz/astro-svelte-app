@@ -80,7 +80,15 @@
         {@const isSelected = $chartStore.currentChartId === chart.id}
         <div 
           class="flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer {isSelected ? (theme === 'dark' ? 'bg-blue-600/20 border-blue-500/50' : 'bg-blue-50 border-blue-200') : (theme === 'dark' ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-50 hover:bg-gray-100')} border {isSelected ? 'border-2' : 'border-transparent'}"
+          role="button"
+          tabindex="0"
           onclick={() => onChartSelect(chart)}
+          onkeydown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onChartSelect(chart);
+            }
+          }}
         >
           <div class="flex-1 min-w-0">
             {#if editingChartId === chart.id}
@@ -104,7 +112,7 @@
             {/if}
           </div>
           
-          <div class="flex gap-1 ml-2" onclick={(e) => e.stopPropagation()}>
+          <div class="flex gap-1 ml-2">
             <Button
               variant="ghost"
               size="sm"

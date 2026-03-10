@@ -59,7 +59,7 @@ describe('/api/birth-chart', () => {
         planets: mockChartData.planets,
         latitude: mockChartData.latitude,
         longitude: mockChartData.longitude,
-        date: mockChartData.date,
+        date: mockChartData.date.toISOString(),
       });
       expect(mockFetch).toHaveBeenCalledWith(
         'https://immanuel-astro.onrender.com/birth-chart',
@@ -130,22 +130,7 @@ describe('/api/birth-chart', () => {
       expect(mockFetch).not.toHaveBeenCalled();
     });
 
-    it('should handle null latitude (validation passes)', async () => {
-      const mockChartData = {
-        ascendant: 180,
-        mc: 270,
-        houses: [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
-        planets: [],
-        date: new Date('1990-01-01T12:00:00Z'),
-        latitude: 40.7128,
-        longitude: -74.0060,
-      };
-
-      mockFetch.mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve(mockChartData),
-      });
-
+    it('should return 400 when latitude is null', async () => {
       const invalidData = { ...mockBirthDataMinimal, latitude: null };
 
       const request = new Request('http://localhost:5173/api/birth-chart', {
@@ -158,26 +143,12 @@ describe('/api/birth-chart', () => {
       const response = await POST(event);
       const data = await response.json();
 
-      expect(response.status).toBe(200);
-      expect(mockFetch).toHaveBeenCalled();
+      expect(response.status).toBe(400);
+      expect(data.error).toBe('Missing required fields: date, latitude, longitude');
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
-    it('should handle null longitude (validation passes)', async () => {
-      const mockChartData = {
-        ascendant: 180,
-        mc: 270,
-        houses: [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
-        planets: [],
-        date: new Date('1990-01-01T12:00:00Z'),
-        latitude: 40.7128,
-        longitude: -74.0060,
-      };
-
-      mockFetch.mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve(mockChartData),
-      });
-
+    it('should return 400 when longitude is null', async () => {
       const invalidData = { ...mockBirthDataMinimal, longitude: null };
 
       const request = new Request('http://localhost:5173/api/birth-chart', {
@@ -190,8 +161,9 @@ describe('/api/birth-chart', () => {
       const response = await POST(event);
       const data = await response.json();
 
-      expect(response.status).toBe(200);
-      expect(mockFetch).toHaveBeenCalled();
+      expect(response.status).toBe(400);
+      expect(data.error).toBe('Missing required fields: date, latitude, longitude');
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('should return 500 error when external API fails', async () => {
@@ -248,22 +220,7 @@ describe('/api/birth-chart', () => {
       expect(mockFetch).not.toHaveBeenCalled();
     });
 
-    it('should handle invalid date format', async () => {
-      const mockChartData = {
-        ascendant: 180,
-        mc: 270,
-        houses: [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
-        planets: [],
-        date: new Date('invalid-date'),
-        latitude: 40.7128,
-        longitude: -74.0060,
-      };
-
-      mockFetch.mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve(mockChartData),
-      });
-
+    it('should return 400 for invalid date format', async () => {
       const invalidData = { ...mockBirthDataMinimal, date: 'invalid-date' };
 
       const request = new Request('http://localhost:5173/api/birth-chart', {
@@ -276,17 +233,9 @@ describe('/api/birth-chart', () => {
       const response = await POST(event);
       const data = await response.json();
 
-      expect(response.status).toBe(200);
-      expect(mockFetch).toHaveBeenCalledWith(
-        'https://immanuel-astro.onrender.com/birth-chart',
-        expect.objectContaining({
-          method: 'POST',
-          headers: expect.objectContaining({
-            'Content-Type': 'application/json',
-          }),
-          body: expect.stringContaining('invalid-date'),
-        })
-      );
+      expect(response.status).toBe(400);
+      expect(data.error).toBe('Invalid date format');
+      expect(mockFetch).not.toHaveBeenCalled();
     });
   });
 }); 

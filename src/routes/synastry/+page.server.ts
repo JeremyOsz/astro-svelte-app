@@ -1,6 +1,7 @@
 import type { PageServerLoad, Actions } from './$types';
 import { fail } from '@sveltejs/kit';
-import { env } from '$env/dynamic/private';
+import { getEphemerisConfig } from '$lib/server/ephemeris';
+import { fetchWithRetry } from '$lib/server/http';
 
 export const load: PageServerLoad = async () => {
   return {
@@ -48,143 +49,83 @@ export const actions: Actions = {
         });
       }
       
-      const person1CityData = JSON.parse(person1CityDataStr);
-      const person2CityData = JSON.parse(person2CityDataStr);
-      
-      // Format the data for the external API
-      const apiData = {
-        person1: {
-          date: person1Date,
-          time: person1Time,
-          place: person1CityData.fullLocation,
-          latitude: parseFloat(person1CityData.lat),
-          longitude: parseFloat(person1CityData.lng)
-        },
-        person2: {
-          date: person2Date,
-          time: person2Time,
-          place: person2CityData.fullLocation,
-          latitude: parseFloat(person2CityData.lat),
-          longitude: parseFloat(person2CityData.lng)
-        },
-        house_system: houseSystem,
-        relationship_type: relationshipType
+      const { baseUrl, apiKey } = getEphemerisConfig();
+
+      const fetchBirthChart = async (payload: {
+        date: string;
+        time: string;
+        place: string;
+        latitude: number;
+        longitude: number;
+      }) => {
+        if (Number.isNaN(new Date(payload.date).getTime())) {
+          throw new Error('Invalid date format for synastry input');
+        }
+        if (!Number.isFinite(payload.latitude) || !Number.isFinite(payload.longitude)) {
+          throw new Error('Invalid coordinates for synastry input');
+        }
+
+        const response = await fetchWithRetry(`${baseUrl}/birth-chart`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': apiKey
+          },
+          body: JSON.stringify({
+            ...payload,
+            house_system: houseSystem
+          })
+        }, { timeoutMs: 12_000, retries: 1 });
+
+        if (!response.ok) {
+          throw new Error(`Birth chart API request failed: ${response.status} ${response.statusText}`);
+        }
+
+        return response.json();
       };
-      
-      // Call the external API for both birth charts
-      const API_BASE_URL = 'https://immanuel-astro.onrender.com';
-      const API_KEY = env.EPHEMERIS_API_KEY || '';
       
       // Handle Person 1 chart data
       let person1Chart: any;
       if (person1HasSavedChart) {
-        // Use saved chart data - need to convert CSV to API format
         const person1ChartData = JSON.parse(person1ChartDataStr);
-        // For saved charts, we need to calculate the birth chart from the saved birth data
-        const person1CityData = JSON.parse(person1CityDataStr || '{}');
-        const person1Response = await fetch(`${API_BASE_URL}/birth-chart`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-Key': API_KEY
-          },
-          body: JSON.stringify({
-            date: person1ChartData.birthData.date,
-            time: person1ChartData.birthData.time,
-            place: person1ChartData.birthData.place,
-            latitude: person1ChartData.birthData.latitude,
-            longitude: person1ChartData.birthData.longitude,
-            house_system: houseSystem
-          })
+        person1Chart = await fetchBirthChart({
+          date: person1ChartData.birthData.date,
+          time: person1ChartData.birthData.time,
+          place: person1ChartData.birthData.place,
+          latitude: Number(person1ChartData.birthData.latitude),
+          longitude: Number(person1ChartData.birthData.longitude)
         });
-        
-        if (!person1Response.ok) {
-          const errorText = await person1Response.text();
-          throw new Error(`Person 1 birth chart API request failed: ${person1Response.status} ${person1Response.statusText}`);
-        }
-        
-        person1Chart = await person1Response.json();
       } else {
-        // Calculate new birth chart
         const person1CityData = JSON.parse(person1CityDataStr);
-        const person1Response = await fetch(`${API_BASE_URL}/birth-chart`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-Key': API_KEY
-          },
-          body: JSON.stringify({
-            date: person1Date,
-            time: person1Time,
-            place: person1CityData.fullLocation,
-            latitude: parseFloat(person1CityData.lat),
-            longitude: parseFloat(person1CityData.lng),
-            house_system: houseSystem
-          })
+        person1Chart = await fetchBirthChart({
+          date: person1Date,
+          time: person1Time,
+          place: person1CityData.fullLocation,
+          latitude: Number.parseFloat(String(person1CityData.lat)),
+          longitude: Number.parseFloat(String(person1CityData.lng))
         });
-        
-        if (!person1Response.ok) {
-          const errorText = await person1Response.text();
-          throw new Error(`Person 1 birth chart API request failed: ${person1Response.status} ${person1Response.statusText}`);
-        }
-        
-        person1Chart = await person1Response.json();
       }
       
       // Handle Person 2 chart data
       let person2Chart: any;
       if (person2HasSavedChart) {
-        // Use saved chart data - need to convert CSV to API format
         const person2ChartData = JSON.parse(person2ChartDataStr);
-        // For saved charts, we need to calculate the birth chart from the saved birth data
-        const person2CityData = JSON.parse(person2CityDataStr || '{}');
-        const person2Response = await fetch(`${API_BASE_URL}/birth-chart`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-Key': API_KEY
-          },
-          body: JSON.stringify({
-            date: person2ChartData.birthData.date,
-            time: person2ChartData.birthData.time,
-            place: person2ChartData.birthData.place,
-            latitude: person2ChartData.birthData.latitude,
-            longitude: person2ChartData.birthData.longitude,
-            house_system: houseSystem
-          })
+        person2Chart = await fetchBirthChart({
+          date: person2ChartData.birthData.date,
+          time: person2ChartData.birthData.time,
+          place: person2ChartData.birthData.place,
+          latitude: Number(person2ChartData.birthData.latitude),
+          longitude: Number(person2ChartData.birthData.longitude)
         });
-        
-        if (!person2Response.ok) {
-          const errorText = await person2Response.text();
-          throw new Error(`Person 2 birth chart API request failed: ${person2Response.status} ${person2Response.statusText}`);
-        }
-        
-        person2Chart = await person2Response.json();
       } else {
-        // Calculate new birth chart
         const person2CityData = JSON.parse(person2CityDataStr);
-        const person2Response = await fetch(`${API_BASE_URL}/birth-chart`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-Key': API_KEY
-          },
-          body: JSON.stringify({
-            date: person2Date,
-            time: person2Time,
-            place: person2CityData.fullLocation,
-            latitude: parseFloat(person2CityData.lat),
-            longitude: parseFloat(person2CityData.lng),
-            house_system: houseSystem
-          })
+        person2Chart = await fetchBirthChart({
+          date: person2Date,
+          time: person2Time,
+          place: person2CityData.fullLocation,
+          latitude: Number.parseFloat(String(person2CityData.lat)),
+          longitude: Number.parseFloat(String(person2CityData.lng))
         });
-        
-        if (!person2Response.ok) {
-          const errorText = await person2Response.text();
-          throw new Error(`Person 2 birth chart API request failed: ${person2Response.status} ${person2Response.statusText}`);
-        }
-        
-        person2Chart = await person2Response.json();
       }
       
       // Calculate synastry aspects locally
@@ -213,21 +154,10 @@ export const actions: Actions = {
       };
       
     } catch (error) {
-      console.error('=== SYNASTRY CALCULATION ERROR ===');
-      console.error('Error details:', error);
-      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
-      console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
-      
-      // Log API configuration on error
-      const API_BASE_URL = 'https://immanuel-astro.onrender.com';
-      const API_KEY = env.EPHEMERIS_API_KEY || '';
-      console.error('API Base URL:', API_BASE_URL);
-      console.error('API Key present:', !!API_KEY);
-      console.error('API Key length:', API_KEY.length);
-      console.error('API Key preview:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
+      console.error('Synastry calculation failed:', error);
       
       return fail(500, {
-        error: error instanceof Error ? error.message : 'An error occurred while calculating the synastry',
+        error: 'An error occurred while calculating the synastry',
         synastryData: null
       });
     }

@@ -148,11 +148,9 @@ export function convertTransitDataToCSV(transitData: any, natalChart?: any): str
     let houseNumber = 1;
     if (longitude !== 0 && houseCusps.length > 0) {
       houseNumber = calculateHouseForPlanet(longitude, houseCusps);
-      console.log(`Calculated house for ${planet.name} at ${longitude}°: House ${houseNumber}`);
     } else if (planet.house && planet.house.number) {
       // Use existing house data if available
       houseNumber = planet.house.number;
-      console.log(`Using existing house data for ${planet.name}: House ${houseNumber}`);
     }
     
     // Check for retrograde movement

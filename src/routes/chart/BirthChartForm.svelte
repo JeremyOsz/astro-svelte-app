@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
-  import { searchCities, getCountryName, type CitySearchResult } from '$lib/services/city-service';
+  import { searchCities, type CitySearchResult } from '$lib/services/city-service';
   import { chartStore } from '$lib/stores/chart-store';
  
   // Props to differentiate mobile vs desktop forms
@@ -35,8 +35,8 @@
     
     if (citySearch.length > 1) {
       // Debounce search to avoid too many searches while typing
-      searchTimeout = setTimeout(() => {
-        cityResults = searchCities(citySearch, 1000);
+      searchTimeout = setTimeout(async () => {
+        cityResults = await searchCities(citySearch, 20);
         showCityDropdown = cityResults.length > 0;
       }, 300);
     } else {

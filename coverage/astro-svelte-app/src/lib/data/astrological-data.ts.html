@@ -1,0 +1,1162 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for astro-svelte-app/src/lib/data/astrological-data.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">astro-svelte-app/src/lib/data</a> astrological-data.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/318</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/318</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Consolidated astrological data
+// This file contains all the astrological constants, symbols, and reference data
+&nbsp;
+// Core zodiac data
+<span class="cstat-no" title="statement not covered" >export const ZODIAC_SIGNS = [</span>
+<span class="cstat-no" title="statement not covered" >  'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',</span>
+<span class="cstat-no" title="statement not covered" >  'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'</span>
+<span class="cstat-no" title="statement not covered" >] as const;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const ZODIAC_SYMBOLS: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >  'Aries': '♈', 'Taurus': '♉', 'Gemini': '♊', 'Cancer': '♋', </span>
+<span class="cstat-no" title="statement not covered" >  'Leo': '♌', 'Virgo': '♍', 'Libra': '♎', 'Scorpio': '♏', </span>
+<span class="cstat-no" title="statement not covered" >  'Sagittarius': '♐', 'Capricorn': '♑', 'Aquarius': '♒', 'Pisces': '♓'</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const ZODIAC_COLORS: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >  'Aries': '#e53935',      // Fire - Red</span>
+<span class="cstat-no" title="statement not covered" >  'Taurus': '#43a047',     // Earth - Green</span>
+<span class="cstat-no" title="statement not covered" >  'Gemini': '#fbc02d',     // Air - Yellow</span>
+<span class="cstat-no" title="statement not covered" >  'Cancer': '#039be5',     // Water - Blue</span>
+<span class="cstat-no" title="statement not covered" >  'Leo': '#e53935',        // Fire - Red</span>
+<span class="cstat-no" title="statement not covered" >  'Virgo': '#43a047',      // Earth - Green</span>
+<span class="cstat-no" title="statement not covered" >  'Libra': '#fbc02d',      // Air - Yellow</span>
+<span class="cstat-no" title="statement not covered" >  'Scorpio': '#039be5',    // Water - Blue</span>
+<span class="cstat-no" title="statement not covered" >  'Sagittarius': '#e53935',// Fire - Red</span>
+<span class="cstat-no" title="statement not covered" >  'Capricorn': '#43a047',  // Earth - Green</span>
+<span class="cstat-no" title="statement not covered" >  'Aquarius': '#fbc02d',   // Air - Yellow</span>
+<span class="cstat-no" title="statement not covered" >  'Pisces': '#039be5'      // Water - Blue</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+// Enhanced zodiac data with elements, qualities, and rulers
+<span class="cstat-no" title="statement not covered" >export const ZODIAC_DETAILED = [</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Aries', element: 'Fire', quality: 'Cardinal', ruler: 'Mars', symbol: '♈', startDegree: 0, endDegree: 30 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Taurus', element: 'Earth', quality: 'Fixed', ruler: 'Venus', symbol: '♉', startDegree: 30, endDegree: 60 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Gemini', element: 'Air', quality: 'Mutable', ruler: 'Mercury', symbol: '♊', startDegree: 60, endDegree: 90 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Cancer', element: 'Water', quality: 'Cardinal', ruler: 'Moon', symbol: '♋', startDegree: 90, endDegree: 120 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Leo', element: 'Fire', quality: 'Fixed', ruler: 'Sun', symbol: '♌', startDegree: 120, endDegree: 150 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Virgo', element: 'Earth', quality: 'Mutable', ruler: 'Mercury', symbol: '♍', startDegree: 150, endDegree: 180 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Libra', element: 'Air', quality: 'Cardinal', ruler: 'Venus', symbol: '♎', startDegree: 180, endDegree: 210 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Scorpio', element: 'Water', quality: 'Fixed', ruler: 'Pluto', symbol: '♏', startDegree: 210, endDegree: 240 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Sagittarius', element: 'Fire', quality: 'Mutable', ruler: 'Jupiter', symbol: '♐', startDegree: 240, endDegree: 270 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Capricorn', element: 'Earth', quality: 'Cardinal', ruler: 'Saturn', symbol: '♑', startDegree: 270, endDegree: 300 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Aquarius', element: 'Air', quality: 'Fixed', ruler: 'Uranus', symbol: '♒', startDegree: 300, endDegree: 330 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Pisces', element: 'Water', quality: 'Mutable', ruler: 'Neptune', symbol: '♓', startDegree: 330, endDegree: 360 }</span>
+<span class="cstat-no" title="statement not covered" >] as const;</span>
+&nbsp;
+// Planet data
+<span class="cstat-no" title="statement not covered" >export const PLANET_SYMBOLS: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >  'Sun': '☉', 'Moon': '☽', 'Mercury': '☿', 'Venus': '♀', 'Mars': '♂', </span>
+<span class="cstat-no" title="statement not covered" >  'Jupiter': '♃', 'Saturn': '♄', 'Uranus': '♅', 'Neptune': '♆', 'Pluto': '♇', </span>
+<span class="cstat-no" title="statement not covered" >  'Node': '☊', 'S.Node': '☋', 'Lilith': '⚸', 'Chiron': '⚷', 'Fortune': '⨁', 'Vertex': 'Vx', </span>
+<span class="cstat-no" title="statement not covered" >  'ASC': 'Asc', 'MC': 'MC', 'DSC': 'Dsc', 'IC': 'IC'</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const EXTENDED_PLANET_NAMES = ['Chiron', 'Lilith', 'Node', 'Fortune', 'Vertex'];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const CORE_ASPECT_BODIES = [</span>
+<span class="cstat-no" title="statement not covered" >  'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', </span>
+<span class="cstat-no" title="statement not covered" >  'Saturn', 'Uranus', 'Neptune', 'Pluto', 'ASC'</span>
+<span class="cstat-no" title="statement not covered" >];</span>
+&nbsp;
+// Transit planet colors
+<span class="cstat-no" title="statement not covered" >export const TRANSIT_COLORS: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >  'Sun': '#ff6b35',</span>
+<span class="cstat-no" title="statement not covered" >  'Moon': '#4a90e2', </span>
+<span class="cstat-no" title="statement not covered" >  'Mercury': '#8bc34a',</span>
+<span class="cstat-no" title="statement not covered" >  'Venus': '#ffc107',</span>
+<span class="cstat-no" title="statement not covered" >  'Mars': '#f44336',</span>
+<span class="cstat-no" title="statement not covered" >  'Jupiter': '#9c27b0',</span>
+<span class="cstat-no" title="statement not covered" >  'Saturn': '#607d8b',</span>
+<span class="cstat-no" title="statement not covered" >  'Uranus': '#00bcd4',</span>
+<span class="cstat-no" title="statement not covered" >  'Neptune': '#3f51b5',</span>
+<span class="cstat-no" title="statement not covered" >  'Pluto': '#795548',</span>
+<span class="cstat-no" title="statement not covered" >  'Node': '#ff9800',</span>
+<span class="cstat-no" title="statement not covered" >  'Chiron': '#e91e63',</span>
+<span class="cstat-no" title="statement not covered" >  'Lilith': '#9e9e9e',</span>
+<span class="cstat-no" title="statement not covered" >  'Fortune': '#4caf50',</span>
+<span class="cstat-no" title="statement not covered" >  'Vertex': '#673ab7'</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+// Aspect symbols
+<span class="cstat-no" title="statement not covered" >export const ASPECT_SYMBOLS: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >  'Conjunction': '☌',</span>
+<span class="cstat-no" title="statement not covered" >  'Opposition': '☍',</span>
+<span class="cstat-no" title="statement not covered" >  'Square': '□',</span>
+<span class="cstat-no" title="statement not covered" >  'Trine': '△',</span>
+<span class="cstat-no" title="statement not covered" >  'Sextile': '⚹',</span>
+<span class="cstat-no" title="statement not covered" >  'Quincunx': '⚻'</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+// Aspect definitions
+<span class="cstat-no" title="statement not covered" >export const ASPECT_DEFINITIONS = {</span>
+<span class="cstat-no" title="statement not covered" >  'Conjunction': { angle: 0, orb: 8, color: '#228B22', weight: 2.5, style: 'solid' },</span>
+<span class="cstat-no" title="statement not covered" >  'Opposition': { angle: 180, orb: 8, color: '#FF0000', weight: 2.5, style: 'solid' },</span>
+<span class="cstat-no" title="statement not covered" >  'Square': { angle: 90, orb: 8, color: '#FF0000', weight: 2.5, style: 'solid' },</span>
+<span class="cstat-no" title="statement not covered" >  'Trine': { angle: 120, orb: 8, color: '#0000FF', weight: 2, style: 'solid' },</span>
+<span class="cstat-no" title="statement not covered" >  'Sextile': { angle: 60, orb: 6, color: '#0000FF', weight: 2, style: 'dotted' },</span>
+<span class="cstat-no" title="statement not covered" >  'Quincunx': { angle: 150, orb: 3, color: '#B8860B', weight: 1.5, style: 'dashed' }</span>
+<span class="cstat-no" title="statement not covered" >} as const;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const PLANETS = {</span>
+<span class="cstat-no" title="statement not covered" >  SUN: 0,</span>
+<span class="cstat-no" title="statement not covered" >  MOON: 1,</span>
+<span class="cstat-no" title="statement not covered" >  MERCURY: 2,</span>
+<span class="cstat-no" title="statement not covered" >  VENUS: 3,</span>
+<span class="cstat-no" title="statement not covered" >  MARS: 4,</span>
+<span class="cstat-no" title="statement not covered" >  JUPITER: 5,</span>
+<span class="cstat-no" title="statement not covered" >  SATURN: 6,</span>
+<span class="cstat-no" title="statement not covered" >  URANUS: 7,</span>
+<span class="cstat-no" title="statement not covered" >  NEPTUNE: 8,</span>
+<span class="cstat-no" title="statement not covered" >  PLUTO: 9</span>
+<span class="cstat-no" title="statement not covered" >} as const;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const ASPECTS = [</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Conjunction', angle: 0, orb: 8 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Opposition', angle: 180, orb: 8 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Trine', angle: 120, orb: 6 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Square', angle: 90, orb: 6 },</span>
+<span class="cstat-no" title="statement not covered" >  { name: 'Sextile', angle: 60, orb: 4 }</span>
+<span class="cstat-no" title="statement not covered" >] as const;</span>
+&nbsp;
+// Utility functions
+<span class="cstat-no" title="statement not covered" >export function getSignByDegree(degree: number): string {</span>
+<span class="cstat-no" title="statement not covered" >  const normalizedDegree = degree % 360;</span>
+<span class="cstat-no" title="statement not covered" >  const signIndex = Math.floor(normalizedDegree / 30);</span>
+<span class="cstat-no" title="statement not covered" >  return ZODIAC_SIGNS[signIndex];</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export function getSignDetails(signName: string) {</span>
+<span class="cstat-no" title="statement not covered" >  return ZODIAC_DETAILED.find(sign =&gt; sign.name === signName);</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const DEGREES_PER_SIGN = 30;</span>
+<span class="cstat-no" title="statement not covered" >export const WHOLE_SIGN_HOUSES = Array.from({ length: 12 }, (_, i) =&gt; i + 1);</span>
+&nbsp;
+// Planet characteristics for detailed interpretations
+<span class="cstat-no" title="statement not covered" >export const PLANET_CHARACTERISTICS: Record&lt;string, {</span>
+  keywords: string[];
+  description: string;
+  themes: string[];
+  challenges: string[];
+  strengths: string[];
+<span class="cstat-no" title="statement not covered" >}&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >  "Sun": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Identity", "Ego", "Life Purpose", "Vitality", "Leadership", "Father", "Authority"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "The Sun represents your core identity, ego, and life purpose. It shows how you express your fundamental self and what drives you at the deepest level. The Sun is associated with the father figure and represents your conscious mind and willpower.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Self-expression", "Leadership", "Creativity", "Authority", "Life direction", "Personal power"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Ego conflicts", "Over-identification with achievements", "Need for constant recognition", "Difficulty with criticism"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Natural leadership", "Strong willpower", "Creative expression", "Ability to inspire others", "Clear sense of purpose"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Moon": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Emotions", "Intuition", "Mother", "Home", "Security", "Nurturing", "Subconscious"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "The Moon represents your emotional nature, intuition, and subconscious mind. It shows how you process feelings, your need for security, and your relationship with the mother figure. The Moon governs your inner world and emotional responses.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Emotional security", "Nurturing", "Intuition", "Home life", "Maternal instincts", "Emotional patterns"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Emotional instability", "Mood swings", "Over-sensitivity", "Difficulty with change", "Attachment issues"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Strong intuition", "Emotional intelligence", "Nurturing abilities", "Empathy", "Psychic sensitivity"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Mercury": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Communication", "Thinking", "Learning", "Siblings", "Travel", "Intellect", "Adaptability"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "Mercury represents your communication style, thinking patterns, and how you process information. It governs learning, short trips, and your relationship with siblings. Mercury shows how you express ideas and connect with others mentally.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Communication", "Learning", "Intellectual pursuits", "Adaptability", "Curiosity", "Mental agility"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Scattered thinking", "Over-analysis", "Communication difficulties", "Restlessness", "Indecisiveness"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Quick thinking", "Versatile communication", "Learning ability", "Adaptability", "Intellectual curiosity"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Venus": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Love", "Beauty", "Values", "Relationships", "Art", "Harmony", "Pleasure"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "Venus represents your approach to love, beauty, and what you value. It governs relationships, artistic expression, and your sense of aesthetics. Venus shows how you attract and relate to others, and what brings you pleasure and satisfaction.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Romance", "Beauty", "Artistic expression", "Values", "Partnerships", "Aesthetics"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Dependency in relationships", "Vanity", "Indecision in love", "Over-idealization", "People-pleasing"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Natural charm", "Artistic talent", "Diplomatic skills", "Appreciation for beauty", "Loving nature"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Mars": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Action", "Courage", "Energy", "Sexuality", "Competition", "Drive", "Assertiveness"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "Mars represents your energy, drive, and how you take action. It governs your courage, sexuality, and competitive nature. Mars shows how you assert yourself, pursue goals, and handle conflict or challenges.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Physical energy", "Courage", "Sexuality", "Competition", "Leadership", "Protection"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Aggression", "Impatience", "Impulsiveness", "Conflict", "Burnout", "Anger issues"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Courage", "Physical energy", "Protective instincts", "Leadership", "Determination", "Passion"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Jupiter": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Expansion", "Wisdom", "Luck", "Philosophy", "Travel", "Optimism", "Growth"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "Jupiter represents expansion, wisdom, and your quest for meaning. It governs higher learning, philosophy, travel, and your sense of optimism. Jupiter shows how you grow, learn, and find abundance in life.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Personal growth", "Wisdom", "Optimism", "Abundance", "Philosophy", "Higher learning"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Over-optimism", "Excess", "Dogmatism", "Overconfidence", "Scattered focus"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Natural wisdom", "Optimistic outlook", "Generosity", "Teaching ability", "Abundance mindset"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Saturn": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Structure", "Responsibility", "Limitations", "Discipline", "Authority", "Time", "Wisdom"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "Saturn represents structure, responsibility, and the lessons you must learn. It governs discipline, authority figures, and the areas where you face challenges. Saturn shows where you need to work hard and build lasting foundations.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Responsibility", "Discipline", "Structure", "Authority", "Time", "Wisdom through experience"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Self-doubt", "Fear of failure", "Rigidity", "Pessimism", "Over-criticism"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Discipline", "Reliability", "Practical wisdom", "Endurance", "Ability to build lasting structures"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Uranus": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Innovation", "Freedom", "Revolution", "Individuality", "Technology", "Awakening", "Change"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "Uranus represents innovation, freedom, and sudden change. It governs your unique individuality, revolutionary ideas, and connection to collective consciousness. Uranus brings unexpected breakthroughs and liberates you from limitations.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Individuality", "Innovation", "Freedom", "Revolution", "Technology", "Awakening"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Rebellion without cause", "Detachment", "Unpredictability", "Difficulty with authority", "Alienation"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Original thinking", "Innovation", "Independence", "Visionary abilities", "Awakening others"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Neptune": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Spirituality", "Inspiration", "Illusion", "Compassion", "Dreams", "Mysticism", "Dissolution"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "Neptune represents spirituality, inspiration, and the dissolution of boundaries. It governs your connection to the divine, artistic inspiration, and your capacity for compassion. Neptune can bring both transcendence and confusion.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Spirituality", "Inspiration", "Compassion", "Artistic expression", "Dreams", "Mysticism"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Confusion", "Escapism", "Boundary issues", "Idealization", "Self-sacrifice"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Spiritual awareness", "Artistic inspiration", "Compassion", "Intuition", "Healing abilities"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Pluto": {</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Transformation", "Power", "Death", "Rebirth", "Psychology", "Control", "Intensity"],</span>
+<span class="cstat-no" title="statement not covered" >    description: "Pluto represents deep transformation, power dynamics, and psychological evolution. It governs death and rebirth, shared resources, and your capacity for profound change. Pluto brings intense experiences that force you to confront your deepest fears and desires.",</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Transformation", "Power", "Psychology", "Death and rebirth", "Intensity", "Control"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Power struggles", "Control issues", "Intensity", "Psychological crises", "Obsession"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Transformative power", "Psychological insight", "Resilience", "Ability to regenerate", "Deep understanding"]</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+// Sign characteristics for detailed interpretations
+<span class="cstat-no" title="statement not covered" >export const SIGN_CHARACTERISTICS: Record&lt;string, {</span>
+  element: string;
+  quality: string;
+  ruler: string;
+  polarity: string;
+  description: string;
+  keywords: string[];
+  themes: string[];
+  challenges: string[];
+  strengths: string[];
+<span class="cstat-no" title="statement not covered" >}&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >  "Aries": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Fire",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Cardinal",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Mars",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Positive",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Aries is the first sign of the zodiac, representing new beginnings, courage, and pioneering spirit. As a fire sign, Aries is passionate, energetic, and driven by action. Cardinal quality makes Aries natural leaders who initiate change.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Pioneering", "Courageous", "Energetic", "Independent", "Competitive", "Impulsive", "Enthusiastic"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["New beginnings", "Leadership", "Courage", "Independence", "Action", "Competition"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Impatience", "Impulsiveness", "Selfishness", "Aggression", "Lack of follow-through"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Natural leadership", "Courage", "Energy", "Pioneering spirit", "Directness", "Enthusiasm"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Taurus": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Earth",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Fixed",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Venus",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Negative",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Taurus is the second sign, representing stability, sensuality, and material security. As an earth sign, Taurus is practical, grounded, and connected to the physical world. Fixed quality makes Taurus determined and resistant to change.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Stable", "Sensual", "Patient", "Loyal", "Practical", "Stubborn", "Reliable"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Security", "Sensuality", "Material world", "Patience", "Loyalty", "Beauty"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Stubbornness", "Possessiveness", "Resistance to change", "Materialism", "Slow to act"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Reliability", "Patience", "Practical wisdom", "Sensuality", "Loyalty", "Determination"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Gemini": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Air",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Mutable",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Mercury",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Positive",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Gemini is the third sign, representing communication, curiosity, and adaptability. As an air sign, Gemini is intellectual, social, and thrives on mental stimulation. Mutable quality makes Gemini flexible and versatile.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Communicative", "Curious", "Adaptable", "Versatile", "Intellectual", "Social", "Restless"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Communication", "Learning", "Variety", "Social connections", "Intellectual pursuits", "Adaptability"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Scattered energy", "Superficiality", "Indecisiveness", "Restlessness", "Gossip"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Versatility", "Communication skills", "Intellectual curiosity", "Adaptability", "Social skills"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Cancer": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Water",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Cardinal",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Moon",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Negative",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Cancer is the fourth sign, representing emotional depth, nurturing, and home. As a water sign, Cancer is intuitive, sensitive, and deeply emotional. Cardinal quality makes Cancer natural nurturers who initiate emotional connections.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Nurturing", "Sensitive", "Protective", "Intuitive", "Emotional", "Home-loving", "Caring"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Emotional security", "Family", "Home", "Nurturing", "Intuition", "Protection"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Moodiness", "Over-sensitivity", "Clinginess", "Defensiveness", "Emotional dependency"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Nurturing abilities", "Intuition", "Protective instincts", "Emotional depth", "Loyalty"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Leo": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Fire",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Fixed",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Sun",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Positive",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Leo is the fifth sign, representing creativity, leadership, and self-expression. As a fire sign, Leo is passionate, confident, and naturally dramatic. Fixed quality makes Leo determined and loyal, with a strong sense of pride.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Creative", "Confident", "Generous", "Loyal", "Dramatic", "Proud", "Leadership"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Self-expression", "Creativity", "Leadership", "Recognition", "Generosity", "Drama"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Pride", "Attention-seeking", "Stubbornness", "Drama", "Over-confidence"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Natural leadership", "Creativity", "Generosity", "Loyalty", "Charisma", "Confidence"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Virgo": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Earth",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Mutable",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Mercury",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Negative",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Virgo is the sixth sign, representing precision, service, and analytical thinking. As an earth sign, Virgo is practical, detail-oriented, and focused on improvement. Mutable quality makes Virgo adaptable and helpful.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Analytical", "Practical", "Service-oriented", "Perfectionist", "Reliable", "Modest", "Helpful"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Service", "Perfection", "Analysis", "Health", "Organization", "Improvement"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Perfectionism", "Over-criticism", "Worry", "Self-doubt", "Rigidity"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Attention to detail", "Practical skills", "Service orientation", "Reliability", "Analytical thinking"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Libra": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Air",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Cardinal",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Venus",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Positive",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Libra is the seventh sign, representing balance, harmony, and relationships. As an air sign, Libra is intellectual, diplomatic, and values fairness. Cardinal quality makes Libra natural mediators who initiate partnerships.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Diplomatic", "Fair", "Charming", "Social", "Indecisive", "Peace-loving", "Aesthetic"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Balance", "Relationships", "Justice", "Harmony", "Beauty", "Partnerships"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Indecisiveness", "People-pleasing", "Conflict avoidance", "Dependency", "Superficiality"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Diplomatic skills", "Sense of fairness", "Charm", "Social skills", "Appreciation for beauty"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Scorpio": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Water",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Fixed",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Pluto",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Negative",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Scorpio is the eighth sign, representing intensity, transformation, and deep emotional power. As a water sign, Scorpio is intuitive, passionate, and drawn to the mysteries of life. Fixed quality makes Scorpio determined and loyal.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Intense", "Passionate", "Mysterious", "Loyal", "Transformative", "Secretive", "Powerful"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Transformation", "Intensity", "Power", "Mystery", "Psychology", "Loyalty"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Jealousy", "Secretiveness", "Control issues", "Intensity", "Vengefulness"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Intensity", "Loyalty", "Psychological insight", "Transformative power", "Passion"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Sagittarius": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Fire",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Mutable",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Jupiter",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Positive",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Sagittarius is the ninth sign, representing adventure, optimism, and philosophical thinking. As a fire sign, Sagittarius is enthusiastic, freedom-loving, and seeks truth. Mutable quality makes Sagittarius adaptable and open-minded.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Optimistic", "Adventurous", "Philosophical", "Honest", "Freedom-loving", "Enthusiastic", "Blunt"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Adventure", "Philosophy", "Freedom", "Truth-seeking", "Optimism", "Expansion"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Bluntness", "Restlessness", "Over-optimism", "Impatience", "Dogmatism"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Optimism", "Adventure", "Philosophical thinking", "Honesty", "Enthusiasm", "Open-mindedness"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Capricorn": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Earth",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Cardinal",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Saturn",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Negative",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Capricorn is the tenth sign, representing ambition, discipline, and practical wisdom. As an earth sign, Capricorn is grounded, responsible, and focused on achievement. Cardinal quality makes Capricorn natural leaders who build lasting structures.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Ambitious", "Disciplined", "Responsible", "Practical", "Patient", "Traditional", "Determined"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Achievement", "Structure", "Responsibility", "Tradition", "Authority", "Long-term goals"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Pessimism", "Rigidity", "Workaholism", "Emotional coldness", "Over-criticism"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Discipline", "Responsibility", "Practical wisdom", "Determination", "Reliability", "Leadership"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Aquarius": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Air",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Fixed",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Uranus",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Positive",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Aquarius is the eleventh sign, representing innovation, humanitarianism, and intellectual independence. As an air sign, Aquarius is intellectual, original, and values freedom. Fixed quality makes Aquarius determined and loyal to their ideals.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Innovative", "Independent", "Humanitarian", "Intellectual", "Unconventional", "Detached", "Visionary"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Innovation", "Humanitarianism", "Freedom", "Intellectual pursuits", "Groups", "Progress"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Detachment", "Rebellion", "Alienation", "Unpredictability", "Emotional distance"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Innovation", "Independence", "Humanitarian vision", "Intellectual abilities", "Original thinking"]</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "Pisces": {</span>
+<span class="cstat-no" title="statement not covered" >    element: "Water",</span>
+<span class="cstat-no" title="statement not covered" >    quality: "Mutable",</span>
+<span class="cstat-no" title="statement not covered" >    ruler: "Neptune",</span>
+<span class="cstat-no" title="statement not covered" >    polarity: "Negative",</span>
+<span class="cstat-no" title="statement not covered" >    description: "Pisces is the twelfth sign, representing spirituality, compassion, and artistic sensitivity. As a water sign, Pisces is intuitive, empathetic, and deeply connected to the spiritual realm. Mutable quality makes Pisces adaptable and compassionate.",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["Compassionate", "Intuitive", "Artistic", "Spiritual", "Dreamy", "Selfless", "Mystical"],</span>
+<span class="cstat-no" title="statement not covered" >    themes: ["Spirituality", "Compassion", "Artistic expression", "Intuition", "Dreams", "Service"],</span>
+<span class="cstat-no" title="statement not covered" >    challenges: ["Escapism", "Boundary issues", "Over-sensitivity", "Confusion", "Self-sacrifice"],</span>
+<span class="cstat-no" title="statement not covered" >    strengths: ["Compassion", "Intuition", "Artistic abilities", "Spiritual awareness", "Empathy", "Healing"]</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >}; </span></pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-10T22:40:14.652Z
+            </div>
+        <script src="../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

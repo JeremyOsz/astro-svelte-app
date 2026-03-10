@@ -1,6 +1,7 @@
 import type { PageServerLoad, Actions } from './$types';
 import { fail } from '@sveltejs/kit';
-import { env } from '$env/dynamic/private';
+import { getEphemerisConfig } from '$lib/server/ephemeris';
+import { fetchWithRetry } from '$lib/server/http';
 
 export const load: PageServerLoad = async () => {
   return {
@@ -27,33 +28,40 @@ export const actions: Actions = {
       }
       
       const cityData = JSON.parse(cityDataStr);
+      const latitude = Number.parseFloat(String(cityData.lat));
+      const longitude = Number.parseFloat(String(cityData.lng));
+
+      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+        return fail(400, {
+          error: 'Invalid location coordinates',
+          chartData: null
+        });
+      }
       
       // Format the data for the external API
       const apiData = {
         date: birthDate,
         time: birthTime,
         place: cityData.fullLocation,
-        latitude: parseFloat(cityData.lat),
-        longitude: parseFloat(cityData.lng),
+        latitude,
+        longitude,
         house_system: 'whole_sign'
       };
       
       // Call the external API
-      const API_BASE_URL = 'https://immanuel-astro.onrender.com';
-      const API_KEY = env.EPHEMERIS_API_KEY || '';
+      const { baseUrl, apiKey } = getEphemerisConfig();
       
-      const response = await fetch(`${API_BASE_URL}/birth-chart`, {
+      const response = await fetchWithRetry(`${baseUrl}/birth-chart`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': API_KEY
+          'X-API-Key': apiKey
         },
         body: JSON.stringify(apiData)
-      });
+      }, { timeoutMs: 12_000, retries: 1 });
       
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
       }
       
       const chartResult = await response.json();
@@ -61,15 +69,13 @@ export const actions: Actions = {
       // Transform the response to the expected format
       const chartData = transformChartData(chartResult);
       
-      console.log('Transformed chart data:', chartData);
-      
       // Create birth data object
       const birthData = {
         date: birthDate,
         time: birthTime,
         place: cityData.fullLocation,
-        latitude: parseFloat(cityData.lat),
-        longitude: parseFloat(cityData.lng)
+        latitude,
+        longitude
       };
       
       // Return success with the chart data and birth data
@@ -80,21 +86,10 @@ export const actions: Actions = {
       };
       
     } catch (error) {
-      console.error('=== BIRTH CHART CALCULATION ERROR ===');
-      console.error('Error details:', error);
-      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
-      console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
-      
-      // Log API configuration on error
-      const API_BASE_URL = 'https://immanuel-astro.onrender.com';
-      const API_KEY = env.EPHEMERIS_API_KEY || '';
-      console.error('API Base URL:', API_BASE_URL);
-      console.error('API Key present:', !!API_KEY);
-      console.error('API Key length:', API_KEY.length);
-      console.error('API Key preview:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
+      console.error('Birth chart calculation failed:', error);
       
       return fail(500, {
-        error: error instanceof Error ? error.message : 'An error occurred while calculating the chart',
+        error: 'An error occurred while calculating the chart',
         chartData: null
       });
     }
@@ -102,7 +97,6 @@ export const actions: Actions = {
 };
 
 function transformChartData(apiResponse: any): string {
-  console.log('Transforming API response:', apiResponse);
   const planetLines: string[] = [];
   const houseCusps: number[] = [];
   
@@ -113,27 +107,17 @@ function transformChartData(apiResponse: any): string {
   };
   
   // Extract house cusps from the API response
-  console.log('=== SEARCHING FOR HOUSE CUSPS ===');
-  console.log('API response keys:', Object.keys(apiResponse));
-  
   if (apiResponse.houses && Array.isArray(apiResponse.houses)) {
-    console.log('Found houses array:', apiResponse.houses);
     houseCusps.push(...apiResponse.houses);
   } else if (apiResponse.native && apiResponse.native.houses) {
-    console.log('Found houses in native:', apiResponse.native.houses);
     houseCusps.push(...apiResponse.native.houses);
   } else {
-    console.log('No house cusps found in expected locations');
-    console.log('Checking for house cusps in objects...');
-    
     // Look for house cusps in the objects
     if (apiResponse.objects) {
       Object.entries(apiResponse.objects).forEach(([key, object]: [string, any]) => {
         if (object.name && object.name.includes('House')) {
-          console.log('Found house cusp object:', key, object);
           if (object.longitude && object.longitude.raw !== undefined) {
             houseCusps.push(object.longitude.raw);
-            console.log('Added house cusp:', object.longitude.raw);
           }
         }
       });
@@ -142,9 +126,6 @@ function transformChartData(apiResponse: any): string {
     // Sort house cusps if we found them
     if (houseCusps.length > 0) {
       houseCusps.sort((a, b) => a - b);
-      console.log('Sorted house cusps:', houseCusps);
-    } else {
-      console.log('No house cusps found in API response, will use fallback calculation');
     }
   }
   
@@ -231,33 +212,9 @@ function transformChartData(apiResponse: any): string {
   if (houseCusps.length === 12) {
     const houseCuspsLine = `#HOUSES:${houseCusps.join(',')}`;
     planetLines.push(houseCuspsLine);
-    console.log('Added house cusps line:', houseCuspsLine);
-  } else {
-    console.log('WARNING: Expected 12 house cusps, but found', houseCusps.length);
   }
   
   // Combine planets, angles, and house cusps
-  console.log('=== FINAL CHART DATA ===');
-  console.log('Total lines:', planetLines.length);
-  console.log('Final chart data lines:', planetLines);
   const finalData = planetLines.join('\n');
-  console.log('Final chart data string:', finalData);
   return finalData;
 }
-
-
-
-function formatDegrees(decimal: number): string {
-  const deg = Math.floor(decimal);
-  const min = Math.round((decimal - deg) * 60);
-  return `${deg}°${min.toString().padStart(2, '0')}'`;
-}
-
-function getSignByDegree(longitude: number): string {
-  const signs = [
-    'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-    'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
-  ];
-  const signIndex = Math.floor(longitude / 30);
-  return signs[signIndex % 12];
-} 

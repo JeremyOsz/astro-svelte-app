@@ -186,7 +186,6 @@ function createChartStore() {
           body: formData
         });
         const result = await response.json();
-        console.log('[generateChartFromBirthData] API result:', result);
         let chartData: string | undefined, birthDataResult: BirthData | undefined;
         // Handle SvelteKit action response (dehydrated array) or plain object
         if (result.data) {
@@ -211,7 +210,6 @@ function createChartStore() {
           }
         }
         if (chartData) {
-          console.log('[generateChartFromBirthData] Setting chartData:', chartData);
           update(state => ({
             ...state,
             chartData,

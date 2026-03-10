@@ -15,6 +15,13 @@
     import SynastryInterpretation from '$lib/components/SynastryInterpretation.svelte';
   import SynastryLoadingState from '$lib/components/SynastryLoadingState.svelte';
 
+  const ENABLE_DEBUG_LOGS = false;
+  function debugLog(...args: unknown[]) {
+    if (ENABLE_DEBUG_LOGS) {
+      console.log(...args);
+    }
+  }
+
   // Core data
   let person1Data = '';
   let person2Data = '';
@@ -166,7 +173,7 @@ MC,Gemini,12°00'`;
   }
 
   function runTest() {
-    console.log('Test function removed - now using ephemeris API for synastry calculations');
+    debugLog('Test function removed - now using ephemeris API for synastry calculations');
   }
 
   onMount(async () => {
@@ -200,8 +207,8 @@ MC,Gemini,12°00'`;
     }
     
     if (person1CitySearch.length > 1) {
-      person1SearchTimeout = setTimeout(() => {
-        person1CityResults = searchCities(person1CitySearch, 1000);
+      person1SearchTimeout = setTimeout(async () => {
+        person1CityResults = await searchCities(person1CitySearch, 20);
         showPerson1CityDropdown = person1CityResults.length > 0;
       }, 300);
     } else {
@@ -218,8 +225,8 @@ MC,Gemini,12°00'`;
     }
     
     if (person2CitySearch.length > 1) {
-      person2SearchTimeout = setTimeout(() => {
-        person2CityResults = searchCities(person2CitySearch, 1000);
+      person2SearchTimeout = setTimeout(async () => {
+        person2CityResults = await searchCities(person2CitySearch, 20);
         showPerson2CityDropdown = person2CityResults.length > 0;
       }, 300);
     } else {
@@ -255,9 +262,9 @@ MC,Gemini,12°00'`;
   }
 
   function handlePerson1ChartSelect(chart: any) {
-    console.log('Person 1 chart selected:', chart);
-    console.log('Chart data:', chart.chartData);
-    console.log('Birth data:', chart.birthData);
+    debugLog('Person 1 chart selected:', chart);
+    debugLog('Chart data:', chart.chartData);
+    debugLog('Birth data:', chart.birthData);
     selectedPerson1Chart = chart;
     person1Data = chart.chartData;
     
@@ -279,9 +286,9 @@ MC,Gemini,12°00'`;
   }
 
   function handlePerson2ChartSelect(chart: any) {
-    console.log('Person 2 chart selected:', chart);
-    console.log('Chart data:', chart.chartData);
-    console.log('Birth data:', chart.birthData);
+    debugLog('Person 2 chart selected:', chart);
+    debugLog('Chart data:', chart.chartData);
+    debugLog('Birth data:', chart.birthData);
     selectedPerson2Chart = chart;
     person2Data = chart.chartData;
     
@@ -547,12 +554,12 @@ MC,Gemini,12°00'`;
               loading = true;
               isSubmitting = true;
               isFormCollapsed = true; // Collapse form on submit
-              console.log('Loading started:', loading);
+              debugLog('Loading started:', loading);
               
               return async ({ result, update }) => {
                 loading = false;
                 isSubmitting = false;
-                console.log('Loading finished:', loading);
+                debugLog('Loading finished:', loading);
                 
                 if (result.type === 'success') {
                   // Form submitted successfully
@@ -668,7 +675,7 @@ MC,Gemini,12°00'`;
                   {#if showPerson1SavedCharts}
                     <div class="border border-gray-200 rounded-md p-3 bg-gray-50">
                       <SavedChartsList onChartSelect={(chart) => {
-                        console.log('Person 1 chart selected from component:', chart);
+                        debugLog('Person 1 chart selected from component:', chart);
                         handlePerson1ChartSelect(chart);
                       }} />
                     </div>
@@ -778,7 +785,7 @@ MC,Gemini,12°00'`;
                   {#if showPerson2SavedCharts}
                     <div class="border border-gray-200 rounded-md p-3 bg-gray-50">
                       <SavedChartsList onChartSelect={(chart) => {
-                        console.log('Person 2 chart selected from component:', chart);
+                        debugLog('Person 2 chart selected from component:', chart);
                         handlePerson2ChartSelect(chart);
                       }} />
                     </div>

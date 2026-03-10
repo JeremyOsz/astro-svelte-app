@@ -3,6 +3,13 @@ import { SwissEphemerisService } from '$lib/astrology/swiss-ephemeris-service';
 import { getTransitInterpretation, getDetailedAspectInterpretation } from '$lib/data/interpretations/index';
 import { getSignByDegree } from '$lib/data/astrological-data';
 
+const ENABLE_DEBUG_LOGS = false;
+function debugLog(...args: unknown[]) {
+  if (ENABLE_DEBUG_LOGS) {
+    console.log(...args);
+  }
+}
+
 export interface DailyHoroscope {
   date: string;
   theme: string;
@@ -45,10 +52,10 @@ export class DailyHoroscopeService {
     location?: { latitude: number; longitude: number; name: string }
   ): Promise<DailyHoroscope> {
     try {
-      console.log('DailyHoroscopeService: Starting horoscope generation');
-      console.log('DailyHoroscopeService: Natal chart:', natalChart);
-      console.log('DailyHoroscopeService: Date:', date);
-      console.log('DailyHoroscopeService: Location:', location);
+      debugLog('DailyHoroscopeService: Starting horoscope generation');
+      debugLog('DailyHoroscopeService: Natal chart:', natalChart);
+      debugLog('DailyHoroscopeService: Date:', date);
+      debugLog('DailyHoroscopeService: Location:', location);
 
       // Calculate current transits
       const transitData = await SwissEphemerisService.calculateTransits(
@@ -58,7 +65,7 @@ export class DailyHoroscopeService {
         location
       );
 
-      console.log('DailyHoroscopeService: Transit data received:', transitData);
+      debugLog('DailyHoroscopeService: Transit data received:', transitData);
 
       // Ensure transitData has the expected structure
       if (!transitData || typeof transitData !== 'object') {
@@ -66,14 +73,14 @@ export class DailyHoroscopeService {
       }
 
       // Get Moon information
-      console.log('DailyHoroscopeService: Getting Moon info...');
+      debugLog('DailyHoroscopeService: Getting Moon info...');
       const moonInfo = this.getMoonInfo(transitData, natalChart);
-      console.log('DailyHoroscopeService: Moon info:', moonInfo);
+      debugLog('DailyHoroscopeService: Moon info:', moonInfo);
 
       // Get key transits (prioritized by importance)
-      console.log('DailyHoroscopeService: Getting key transits...');
+      debugLog('DailyHoroscopeService: Getting key transits...');
       const keyTransits = this.getKeyTransits(transitData, natalChart);
-      console.log('DailyHoroscopeService: Key transits:', keyTransits);
+      debugLog('DailyHoroscopeService: Key transits:', keyTransits);
 
       // Generate daily theme
       const theme = this.generateDailyTheme(keyTransits, moonInfo);
@@ -101,7 +108,7 @@ export class DailyHoroscopeService {
         intensity
       };
 
-      console.log('DailyHoroscopeService: Generated horoscope:', result);
+      debugLog('DailyHoroscopeService: Generated horoscope:', result);
       return result;
     } catch (error) {
       console.error('Error generating daily horoscope:', error);
@@ -110,24 +117,24 @@ export class DailyHoroscopeService {
   }
 
   private static getMoonInfo(transitData: any, natalChart: BirthChart): MoonInfo {
-    console.log('getMoonInfo: Starting with transitData:', transitData);
-    console.log('getMoonInfo: transitData keys:', Object.keys(transitData));
+    debugLog('getMoonInfo: Starting with transitData:', transitData);
+    debugLog('getMoonInfo: transitData keys:', Object.keys(transitData));
     
     // Handle different possible response structures
     let planets: any[] = [];
     
     if (transitData.planets && Array.isArray(transitData.planets)) {
-      console.log('getMoonInfo: Found planets array with', transitData.planets.length, 'planets');
+      debugLog('getMoonInfo: Found planets array with', transitData.planets.length, 'planets');
       planets = transitData.planets;
     } else if (transitData.objects && typeof transitData.objects === 'object') {
-      console.log('getMoonInfo: Found objects structure with keys:', Object.keys(transitData.objects));
+      debugLog('getMoonInfo: Found objects structure with keys:', Object.keys(transitData.objects));
       // Handle case where planets are stored with numeric IDs as keys
       planets = Object.values(transitData.objects).filter((obj: any) => 
         obj && typeof obj === 'object' && obj.name && obj.longitude !== undefined
       );
-      console.log('getMoonInfo: Extracted', planets.length, 'planets from objects');
+      debugLog('getMoonInfo: Extracted', planets.length, 'planets from objects');
     } else if (Array.isArray(transitData)) {
-      console.log('getMoonInfo: transitData is an array with', transitData.length, 'items');
+      debugLog('getMoonInfo: transitData is an array with', transitData.length, 'items');
       // Handle case where transitData might be the planets array directly
       planets = transitData;
     } else {
@@ -140,14 +147,14 @@ export class DailyHoroscopeService {
       throw new Error('No planets found in ephemeris data');
     }
 
-    console.log('getMoonInfo: Looking for Moon in planets:', planets.map(p => p.name));
+    debugLog('getMoonInfo: Looking for Moon in planets:', planets.map(p => p.name));
     const moon = planets.find((p: any) => p.name === 'Moon');
     if (!moon) {
       console.error('getMoonInfo: Moon not found in planets');
       throw new Error('Moon position not found in ephemeris data');
     }
 
-    console.log('getMoonInfo: Found Moon:', moon);
+    debugLog('getMoonInfo: Found Moon:', moon);
 
     // Extract Moon's longitude and sign
     let moonLongitude: number;
@@ -155,10 +162,10 @@ export class DailyHoroscopeService {
     
     if (typeof moon.longitude === 'number') {
       moonLongitude = moon.longitude;
-      console.log('getMoonInfo: Moon longitude (number):', moonLongitude);
+      debugLog('getMoonInfo: Moon longitude (number):', moonLongitude);
     } else if (moon.longitude && typeof moon.longitude === 'object' && 'raw' in moon.longitude) {
       moonLongitude = (moon.longitude as any).raw;
-      console.log('getMoonInfo: Moon longitude (object):', moonLongitude);
+      debugLog('getMoonInfo: Moon longitude (object):', moonLongitude);
     } else {
       console.error('getMoonInfo: Moon longitude not found or invalid:', moon.longitude);
       throw new Error('Moon longitude not found in ephemeris data');
@@ -166,46 +173,46 @@ export class DailyHoroscopeService {
     
     if (typeof moon.sign === 'string') {
       moonSign = moon.sign;
-      console.log('getMoonInfo: Moon sign (string):', moonSign);
+      debugLog('getMoonInfo: Moon sign (string):', moonSign);
     } else if (moon.sign && typeof moon.sign === 'object' && 'name' in moon.sign) {
       moonSign = (moon.sign as any).name;
-      console.log('getMoonInfo: Moon sign (object):', moonSign);
+      debugLog('getMoonInfo: Moon sign (object):', moonSign);
     } else {
       // Calculate sign from longitude if not available
       const signNames = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
                         'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
       const signIndex = Math.floor(moonLongitude / 30);
       moonSign = signNames[signIndex];
-      console.log('getMoonInfo: Calculated Moon sign from longitude:', moonSign);
+      debugLog('getMoonInfo: Calculated Moon sign from longitude:', moonSign);
     }
 
     // Calculate Moon's house position
     const moonHouse = this.calculateHousePosition(moonLongitude, natalChart);
-    console.log('getMoonInfo: Moon house:', moonHouse);
+    debugLog('getMoonInfo: Moon house:', moonHouse);
 
     // Get Moon aspects to natal planets
     let moonAspects: any[] = [];
     if (transitData.aspects) {
-      console.log('getMoonInfo: Found aspects in transitData');
+      debugLog('getMoonInfo: Found aspects in transitData');
       if (Array.isArray(transitData.aspects)) {
         moonAspects = transitData.aspects.filter((aspect: any) => 
           aspect.transitPlanet === 'Moon' || aspect.natalPlanet === 'Moon'
         );
-        console.log('getMoonInfo: Found', moonAspects.length, 'Moon aspects in array');
+        debugLog('getMoonInfo: Found', moonAspects.length, 'Moon aspects in array');
       } else if (typeof transitData.aspects === 'object') {
         // Handle case where aspects might be stored differently
         moonAspects = Object.values(transitData.aspects).filter((aspect: any) => 
           aspect && (aspect.transitPlanet === 'Moon' || aspect.natalPlanet === 'Moon')
         );
-        console.log('getMoonInfo: Found', moonAspects.length, 'Moon aspects in object');
+        debugLog('getMoonInfo: Found', moonAspects.length, 'Moon aspects in object');
       }
     } else {
-      console.log('getMoonInfo: No aspects found in transitData');
+      debugLog('getMoonInfo: No aspects found in transitData');
     }
 
     // Check for void of course (simplified - would need more sophisticated calculation)
     const voidOfCourse = this.checkVoidOfCourse(moon, planets);
-    console.log('getMoonInfo: Void of course:', voidOfCourse);
+    debugLog('getMoonInfo: Void of course:', voidOfCourse);
 
     const descriptions = {
       'Aries': 'Emotional energy is direct and assertive. You may feel more impulsive or competitive.',
@@ -247,12 +254,12 @@ export class DailyHoroscopeService {
       voidOfCourse
     };
 
-    console.log('getMoonInfo: Returning Moon info:', result);
+    debugLog('getMoonInfo: Returning Moon info:', result);
     return result;
   }
 
   private static calculateTransitAspects(transitData: any, natalChart: BirthChart): any[] {
-    console.log('calculateTransitAspects: Starting calculation');
+    debugLog('calculateTransitAspects: Starting calculation');
     
     // Extract planets from transit data
     let transitPlanets: any[] = [];
@@ -267,10 +274,10 @@ export class DailyHoroscopeService {
       transitPlanets = transitData;
     }
     
-    console.log('calculateTransitAspects: Found', transitPlanets.length, 'transit planets');
+    debugLog('calculateTransitAspects: Found', transitPlanets.length, 'transit planets');
     
     if (transitPlanets.length === 0) {
-      console.log('calculateTransitAspects: No transit planets found');
+      debugLog('calculateTransitAspects: No transit planets found');
       return [];
     }
     
@@ -337,23 +344,23 @@ export class DailyHoroscopeService {
       });
     });
     
-    console.log('calculateTransitAspects: Calculated', aspects.length, 'aspects');
+    debugLog('calculateTransitAspects: Calculated', aspects.length, 'aspects');
     return aspects.sort((a, b) => a.orb - b.orb);
   }
 
   private static getKeyTransits(transitData: any, natalChart: BirthChart): KeyTransit[] {
-    console.log('getKeyTransits: Starting with transitData:', transitData);
-    console.log('getKeyTransits: transitData keys:', Object.keys(transitData));
+    debugLog('getKeyTransits: Starting with transitData:', transitData);
+    debugLog('getKeyTransits: transitData keys:', Object.keys(transitData));
     
     // Calculate aspects from transit data instead of expecting them from API
     const aspects = this.calculateTransitAspects(transitData, natalChart);
     
     if (aspects.length === 0) {
-      console.log('getKeyTransits: No aspects calculated, returning empty array');
+      debugLog('getKeyTransits: No aspects calculated, returning empty array');
       return [];
     }
 
-    console.log('getKeyTransits: Processing', aspects.length, 'calculated aspects');
+    debugLog('getKeyTransits: Processing', aspects.length, 'calculated aspects');
 
     // Prioritize aspects by importance
     const personalPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'];
@@ -411,7 +418,7 @@ export class DailyHoroscopeService {
       .sort((a: any, b: any) => b.priority - a.priority)
       .slice(0, 6); // Top 6 most important aspects
 
-    console.log('getKeyTransits: Prioritized aspects:', prioritizedAspects);
+    debugLog('getKeyTransits: Prioritized aspects:', prioritizedAspects);
 
     return prioritizedAspects.map((aspect: any) => {
       const interpretation = getTransitInterpretation(

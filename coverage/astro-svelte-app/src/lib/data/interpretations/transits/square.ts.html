@@ -1,0 +1,685 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for astro-svelte-app/src/lib/data/interpretations/transits/square.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../../index.html">All files</a> / <a href="index.html">astro-svelte-app/src/lib/data/interpretations/transits</a> square.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/102</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/102</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >export const SQUARE_INTERPRETATIONS = {<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cstat-no" title="statement not covered" >    "Sun_Sun": "A challenging transit that creates internal conflict and tension in your core identity. The Sun's influence on your ego energy creates internal conflict as you feel pulled between different aspects of your personality or experience a crisis of identity. This is a time when you become acutely aware of the gap between who you are and who you want to be. The square forces you to confront and resolve internal conflicts, leading to personal growth and transformation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Moon": "This transit creates a challenging conflict between your conscious ego and emotional nature. The Sun's influence on your ego energy conflicts with the Moon's emotional sensitivity, making you feel torn between your need for recognition and your need for emotional security. This is a time when you become acutely aware of the tension between your personal ambitions and your emotional needs. The square forces you to develop emotional intelligence and find balance between your identity and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Mercury": "A transit that creates challenging tension between your identity and your communication style. The Sun's influence on your ego energy conflicts with Mercury's intellectual energy, making you feel torn between expressing your authentic self and communicating effectively with others. This is a time when you become acutely aware of the gap between your inner thoughts and your ability to express them clearly. The square forces you to develop authentic communication that bridges your identity and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Venus": "This transit creates challenging tension between your identity and your values in relationships. The Sun's influence on your ego energy conflicts with Venus's love and beauty energy, making you feel torn between being authentically yourself and being attractive to others. This is a time when you become acutely aware of the conflict between your personal needs and your desire for harmony in relationships. The square forces you to develop self-love and find balance between authenticity and acceptance.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Mars": "A transit that creates challenging tension between your identity and your action impulses. The Sun's influence on your ego energy conflicts with Mars's warrior energy, making you feel torn between your strategic goals and your immediate desire to act. This is a time when you become acutely aware of the conflict between your long-term ambitions and your need for immediate action. The square forces you to develop integrated action that honors both your identity and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Jupiter": "This transit creates challenging tension between your personal identity and your desire for universal growth. The Sun's influence on your ego energy conflicts with Jupiter's expansive wisdom, making you feel torn between your individual ambitions and your desire to help others expand. This is a time when you become acutely aware of the conflict between personal success and universal service. The square forces you to develop integrated perspective that balances individual needs with broader wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Saturn": "A transit that creates challenging tension between your identity and your sense of responsibility. The Sun's influence on your ego energy conflicts with Saturn's disciplined structure, making you feel torn between your personal desires and your duty to others. This is a time when you become acutely aware of the conflict between personal freedom and practical constraints. The square forces you to develop mature discipline that honors both your identity and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Uranus": "This transit creates challenging tension between your identity and your need for freedom. The Sun's influence on your ego energy conflicts with Uranus's revolutionary energy, making you feel torn between conventional success and revolutionary change. This is a time when you become acutely aware of the conflict between personal recognition and complete independence. The square forces you to develop authentic innovation that honors both your identity and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Neptune": "This transit creates challenging tension between your identity and your spiritual ideals. The Sun's influence on your ego energy conflicts with Neptune's spiritual idealism, making you feel torn between worldly success and spiritual transcendence. This is a time when you become acutely aware of the conflict between personal ambition and spiritual unity. The square forces you to develop integrated spirituality that honors both your identity and your spiritual nature.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Pluto": "This transit creates challenging tension between your identity and your transformative power. The Sun's influence on your ego energy conflicts with Pluto's deep psychological energy, making you feel torn between maintaining your current self and undergoing deep change. This is a time when you become acutely aware of the conflict between personal stability and profound transformation. The square forces you to develop integrated transformation that honors both your identity and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Sun": "This transit creates challenging tension between your emotional nature and your core identity. The Moon's influence on your emotional sensitivity conflicts with the Sun's ego energy, making you feel torn between your emotional needs and your sense of self. This is a time when you become acutely aware of the conflict between your feelings and your personal ambitions. The square forces you to develop emotional integration that honors both your emotions and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Moon": "A transit that creates challenging tension in your emotional nature. The Moon's influence on your emotional sensitivity creates internal conflict as you feel pulled between different emotional needs or experience emotional conflicts and instability. This is a time when you become acutely aware of emotional imbalances and the need for emotional resolution. The square forces you to find harmony between conflicting emotional impulses and develop emotional maturity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Mercury": "This transit creates challenging tension between your emotions and your thinking processes. The Moon's influence on your emotional sensitivity conflicts with Mercury's intellectual energy, making you feel torn between expressing your feelings and thinking rationally. This is a time when you become acutely aware of the conflict between emotional expression and logical communication. The square forces you to develop emotional communication that bridges your feelings and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Venus": "This transit creates challenging tension between your emotional needs and your values in relationships. The Moon's influence on your emotional sensitivity conflicts with Venus's love and beauty energy, making you feel torn between your emotional security and your desire for romantic love. This is a time when you become acutely aware of the conflict between emotional safety and relational harmony. The square forces you to develop emotional love that honors both your feelings and your relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Mars": "This transit creates challenging tension between your emotions and your action impulses. The Moon's influence on your emotional sensitivity conflicts with Mars's warrior energy, making you feel torn between your emotional security and your need for immediate action. This is a time when you become acutely aware of the conflict between emotional safety and aggressive impulses. The square forces you to develop emotional courage that honors both your feelings and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Jupiter": "This transit creates challenging tension between your emotional needs and your desire for expansion. The Moon's influence on your emotional sensitivity conflicts with Jupiter's expansive wisdom, making you feel torn between emotional security and personal growth. This is a time when you become acutely aware of the conflict between emotional safety and universal expansion. The square forces you to develop emotional wisdom that honors both your feelings and your growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Saturn": "This transit creates challenging tension between your emotions and your sense of responsibility. The Moon's influence on your emotional sensitivity conflicts with Saturn's disciplined structure, making you feel torn between your emotional needs and your duty to others. This is a time when you become acutely aware of the conflict between emotional expression and practical constraints. The square forces you to develop emotional discipline that honors both your feelings and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Uranus": "This transit creates challenging tension between your emotions and your need for freedom. The Moon's influence on your emotional sensitivity conflicts with Uranus's revolutionary energy, making you feel torn between emotional security and emotional independence. This is a time when you become acutely aware of the conflict between emotional safety and revolutionary change. The square forces you to develop emotional authenticity that honors both your feelings and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Neptune": "This transit creates challenging tension between your emotions and your spiritual ideals. The Moon's influence on your emotional sensitivity conflicts with Neptune's spiritual idealism, making you feel torn between emotional security and spiritual transcendence. This is a time when you become acutely aware of the conflict between emotional safety and spiritual unity. The square forces you to develop spiritual boundaries that honor both your emotions and your spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Pluto": "This transit creates challenging tension between your emotions and your transformative power. The Moon's influence on your emotional sensitivity conflicts with Pluto's deep psychological energy, making you feel torn between emotional security and deep psychological change. This is a time when you become acutely aware of the conflict between emotional safety and profound transformation. The square forces you to develop psychological clarity that honors both your emotions and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Sun": "This transit creates challenging tension between your thinking processes and your core identity. Mercury's influence on your intellectual energy conflicts with the Sun's ego energy, making you feel torn between expressing your thoughts clearly and maintaining your authentic self. This is a time when you become acutely aware of the conflict between intellectual communication and personal identity. The square forces you to develop authentic communication that honors both your intellect and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Moon": "This transit creates challenging tension between your thinking and your emotional nature. Mercury's influence on your intellectual energy conflicts with the Moon's emotional sensitivity, making you feel torn between logical thinking and emotional expression. This is a time when you become acutely aware of the conflict between intellectual clarity and emotional needs. The square forces you to develop emotional communication that bridges your thoughts and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Mercury": "A transit that creates challenging tension in your thinking and communication processes. Mercury's influence on your intellectual energy creates internal conflict as you feel pulled between different ideas or experience mental conflicts and communication difficulties. This is a time when you become acutely aware of intellectual imbalances and the need for mental resolution. The square forces you to find harmony between conflicting thoughts and develop clear communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Venus": "This transit creates challenging tension between your thinking and your values in relationships. Mercury's influence on your intellectual energy conflicts with Venus's love and beauty energy, making you feel torn between logical communication and artistic expression. This is a time when you become acutely aware of the conflict between intellectual precision and relational harmony. The square forces you to develop artistic communication that honors both your intellect and your appreciation for beauty.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Mars": "This transit creates challenging tension between your thinking and your action impulses. Mercury's influence on your intellectual energy conflicts with Mars's warrior energy, making you feel torn between careful consideration and immediate action. This is a time when you become acutely aware of the conflict between intellectual precision and aggressive impulses. The square forces you to develop decisive communication that honors both your thoughts and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Jupiter": "This transit creates challenging tension between your thinking and your desire for expansion. Mercury's influence on your intellectual energy conflicts with Jupiter's expansive wisdom, making you feel torn between intellectual precision and universal wisdom. This is a time when you become acutely aware of the conflict between detailed thinking and broad perspective. The square forces you to develop philosophical communication that honors both your intellect and your growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Saturn": "This transit creates challenging tension between your thinking and your sense of responsibility. Mercury's influence on your intellectual energy conflicts with Saturn's disciplined structure, making you feel torn between intellectual freedom and practical constraints. This is a time when you become acutely aware of the conflict between creative thinking and systematic structure. The square forces you to develop disciplined communication that honors both your intellect and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Uranus": "This transit creates challenging tension between your thinking and your need for innovation. Mercury's influence on your intellectual energy conflicts with Uranus's revolutionary energy, making you feel torn between conventional communication and revolutionary ideas. This is a time when you become acutely aware of the conflict between systematic thinking and breakthrough insights. The square forces you to develop innovative communication that honors both your intellect and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Neptune": "This transit creates challenging tension between your thinking and your spiritual awareness. Mercury's influence on your intellectual energy conflicts with Neptune's spiritual idealism, making you feel torn between logical clarity and intuitive understanding. This is a time when you become acutely aware of the conflict between intellectual precision and spiritual transcendence. The square forces you to develop spiritual communication that honors both your intellect and your spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Pluto": "This transit creates challenging tension between your thinking and your transformative power. Mercury's influence on your intellectual energy conflicts with Pluto's deep psychological energy, making you feel torn between intellectual clarity and psychological depth. This is a time when you become acutely aware of the conflict between logical thinking and penetrating insight. The square forces you to develop transformative communication that honors both your intellect and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Sun": "This transit creates challenging tension between your values and your core identity. Venus's influence on your love and beauty energy conflicts with the Sun's ego energy, making you feel torn between being attractive to others and being authentically yourself. This is a time when you become acutely aware of the conflict between relational harmony and personal authenticity. The square forces you to develop authentic love that honors both your values and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Moon": "This transit creates challenging tension between your values and your emotional nature. Venus's influence on your love and beauty energy conflicts with the Moon's emotional sensitivity, making you feel torn between your desire for romantic love and your need for emotional security. This is a time when you become acutely aware of the conflict between relational harmony and emotional safety. The square forces you to develop emotional love that honors both your values and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Mercury": "This transit creates challenging tension between your values and your thinking processes. Venus's influence on your love and beauty energy conflicts with Mercury's intellectual energy, making you feel torn between artistic expression and logical communication. This is a time when you become acutely aware of the conflict between relational harmony and intellectual precision. The square forces you to develop artistic communication that honors both your values and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Venus": "A transit that creates challenging tension in your values and relationships. Venus's influence on your love and beauty energy creates internal conflict as you feel pulled between different relationship needs or experience conflicts in love and beauty. This is a time when you become acutely aware of relational imbalances and the need for harmony resolution. The square forces you to find balance between conflicting values and relationship needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Mars": "This transit creates challenging tension between your values and your action impulses. Venus's influence on your love and beauty energy conflicts with Mars's warrior energy, making you feel torn between relational harmony and passionate desire. This is a time when you become acutely aware of the conflict between love and aggression. The square forces you to develop passionate love that honors both your values and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Jupiter": "This transit creates challenging tension between your values and your desire for expansion. Venus's influence on your love and beauty energy conflicts with Jupiter's expansive wisdom, making you feel torn between focused relationships and universal love. This is a time when you become acutely aware of the conflict between personal harmony and broader generosity. The square forces you to develop generous love that honors both your values and your growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Saturn": "This transit creates challenging tension between your values and your sense of responsibility. Venus's influence on your love and beauty energy conflicts with Saturn's disciplined structure, making you feel torn between relational freedom and commitment. This is a time when you become acutely aware of the conflict between love and duty. The square forces you to develop committed love that honors both your values and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Uranus": "This transit creates challenging tension between your values and your need for freedom. Venus's influence on your love and beauty energy conflicts with Uranus's revolutionary energy, making you feel torn between conventional relationships and unconventional love. This is a time when you become acutely aware of the conflict between relational harmony and independence. The square forces you to develop authentic love that honors both your values and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Neptune": "This transit creates challenging tension between your values and your spiritual ideals. Venus's influence on your love and beauty energy conflicts with Neptune's spiritual idealism, making you feel torn between practical love and spiritual unity. This is a time when you become acutely aware of the conflict between relational harmony and spiritual transcendence. The square forces you to develop spiritual love that honors both your values and your spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Pluto": "This transit creates challenging tension between your values and your transformative power. Venus's influence on your love and beauty energy conflicts with Pluto's deep psychological energy, making you feel torn between harmonious relationships and intense transformation. This is a time when you become acutely aware of the conflict between love and power. The square forces you to develop transformative love that honors both your values and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Sun": "This transit creates challenging tension between your action impulses and your core identity. Mars's influence on your warrior energy conflicts with the Sun's ego energy, making you feel torn between immediate action and strategic planning. This is a time when you become acutely aware of the conflict between aggressive impulses and personal recognition. The square forces you to develop integrated action that honors both your drive and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Moon": "This transit creates challenging tension between your action impulses and your emotional nature. Mars's influence on your warrior energy conflicts with the Moon's emotional sensitivity, making you feel torn between immediate action and emotional security. This is a time when you become acutely aware of the conflict between aggressive impulses and emotional safety. The square forces you to develop emotional courage that honors both your drive and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Mercury": "This transit creates challenging tension between your action impulses and your thinking processes. Mars's influence on your warrior energy conflicts with Mercury's intellectual energy, making you feel torn between immediate action and careful consideration. This is a time when you become acutely aware of the conflict between aggressive impulses and intellectual precision. The square forces you to develop decisive communication that honors both your drive and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Venus": "This transit creates challenging tension between your action impulses and your values. Mars's influence on your warrior energy conflicts with Venus's love and beauty energy, making you feel torn between passionate desire and relational harmony. This is a time when you become acutely aware of the conflict between aggression and love. The square forces you to develop passionate love that honors both your drive and your values.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Mars": "A transit that creates challenging tension in your action impulses and drive. Mars's influence on your warrior energy creates internal conflict as you feel pulled between different action needs or experience conflicts in your energy and drive. This is a time when you become acutely aware of action imbalances and the need for energy resolution. The square forces you to find harmony between conflicting action impulses and develop balanced action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Jupiter": "This transit creates challenging tension between your action impulses and your desire for expansion. Mars's influence on your warrior energy conflicts with Jupiter's expansive wisdom, making you feel torn between focused action and broad growth. This is a time when you become acutely aware of the conflict between aggressive impulses and universal generosity. The square forces you to develop enthusiastic action that honors both your drive and your growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Saturn": "This transit creates challenging tension between your action impulses and your sense of responsibility. Mars's influence on your warrior energy conflicts with Saturn's disciplined structure, making you feel torn between immediate action and systematic discipline. This is a time when you become acutely aware of the conflict between aggressive impulses and practical constraints. The square forces you to develop disciplined action that honors both your drive and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Uranus": "This transit creates challenging tension between your action impulses and your need for freedom. Mars's influence on your warrior energy conflicts with Uranus's revolutionary energy, making you feel torn between conventional action and revolutionary change. This is a time when you become acutely aware of the conflict between aggressive impulses and independence. The square forces you to develop innovative action that honors both your drive and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Neptune": "This transit creates challenging tension between your action impulses and your spiritual ideals. Mars's influence on your warrior energy conflicts with Neptune's spiritual idealism, making you feel torn between practical action and spiritual inspiration. This is a time when you become acutely aware of the conflict between aggressive impulses and spiritual unity. The square forces you to develop inspired action that honors both your drive and your spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Pluto": "This transit creates challenging tension between your action impulses and your transformative power. Mars's influence on your warrior energy conflicts with Pluto's deep psychological energy, making you feel torn between immediate action and deep transformation. This is a time when you become acutely aware of the conflict between aggressive impulses and psychological depth. The square forces you to develop powerful action that honors both your drive and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Sun": "This transit creates challenging tension between your desire for expansion and your core identity. Jupiter's influence on your expansive wisdom conflicts with the Sun's ego energy, making you feel torn between personal growth and universal service. This is a time when you become acutely aware of the conflict between individual ambition and broader wisdom. The square forces you to develop integrated growth that honors both your expansion and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Moon": "This transit creates challenging tension between your desire for expansion and your emotional nature. Jupiter's influence on your expansive wisdom conflicts with the Moon's emotional sensitivity, making you feel torn between personal growth and emotional security. This is a time when you become acutely aware of the conflict between universal expansion and emotional safety. The square forces you to develop emotional wisdom that honors both your growth and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Mercury": "This transit creates challenging tension between your desire for expansion and your thinking processes. Jupiter's influence on your expansive wisdom conflicts with Mercury's intellectual energy, making you feel torn between broad perspective and intellectual precision. This is a time when you become acutely aware of the conflict between universal wisdom and detailed thinking. The square forces you to develop philosophical communication that honors both your growth and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Venus": "This transit creates challenging tension between your desire for expansion and your values. Jupiter's influence on your expansive wisdom conflicts with Venus's love and beauty energy, making you feel torn between universal love and focused relationships. This is a time when you become acutely aware of the conflict between broader generosity and personal harmony. The square forces you to develop generous love that honors both your growth and your values.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Mars": "This transit creates challenging tension between your desire for expansion and your action impulses. Jupiter's influence on your expansive wisdom conflicts with Mars's warrior energy, making you feel torn between broad growth and focused action. This is a time when you become acutely aware of the conflict between universal generosity and aggressive impulses. The square forces you to develop enthusiastic action that honors both your growth and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Jupiter": "A transit that creates challenging tension in your expansion and growth processes. Jupiter's influence on your expansive wisdom creates internal conflict as you feel pulled between different growth needs or experience conflicts in your wisdom and expansion. This is a time when you become acutely aware of growth imbalances and the need for expansion resolution. The square forces you to find harmony between conflicting expansion impulses and develop balanced growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Saturn": "This transit creates challenging tension between your desire for expansion and your sense of responsibility. Jupiter's influence on your expansive wisdom conflicts with Saturn's disciplined structure, making you feel torn between unlimited growth and practical constraints. This is a time when you become acutely aware of the conflict between optimism and realism. The square forces you to develop practical wisdom that honors both your growth and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Uranus": "This transit creates challenging tension between your desire for expansion and your need for freedom. Jupiter's influence on your expansive wisdom conflicts with Uranus's revolutionary energy, making you feel torn between conventional wisdom and revolutionary thinking. This is a time when you become acutely aware of the conflict between universal growth and independence. The square forces you to develop innovative wisdom that honors both your growth and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Neptune": "This transit creates challenging tension between your desire for expansion and your spiritual ideals. Jupiter's influence on your expansive wisdom conflicts with Neptune's spiritual idealism, making you feel torn between practical growth and spiritual transcendence. This is a time when you become acutely aware of the conflict between universal wisdom and spiritual unity. The square forces you to develop spiritual wisdom that honors both your growth and your spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Pluto": "This transit creates challenging tension between your desire for expansion and your transformative power. Jupiter's influence on your expansive wisdom conflicts with Pluto's deep psychological energy, making you feel torn between broad growth and deep transformation. This is a time when you become acutely aware of the conflict between universal wisdom and psychological depth. The square forces you to develop transformative wisdom that honors both your growth and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Sun": "This transit creates challenging tension between your sense of responsibility and your core identity. Saturn's influence on your disciplined structure conflicts with the Sun's ego energy, making you feel torn between duty to others and personal freedom. This is a time when you become acutely aware of the conflict between practical constraints and personal ambition. The square forces you to develop mature discipline that honors both your responsibilities and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Moon": "This transit creates challenging tension between your sense of responsibility and your emotional nature. Saturn's influence on your disciplined structure conflicts with the Moon's emotional sensitivity, making you feel torn between duty and emotional security. This is a time when you become acutely aware of the conflict between practical constraints and emotional needs. The square forces you to develop emotional discipline that honors both your responsibilities and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Mercury": "This transit creates challenging tension between your sense of responsibility and your thinking processes. Saturn's influence on your disciplined structure conflicts with Mercury's intellectual energy, making you feel torn between systematic structure and intellectual freedom. This is a time when you become acutely aware of the conflict between practical constraints and creative thinking. The square forces you to develop disciplined communication that honors both your responsibilities and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Venus": "This transit creates challenging tension between your sense of responsibility and your values. Saturn's influence on your disciplined structure conflicts with Venus's love and beauty energy, making you feel torn between duty and romantic love. This is a time when you become acutely aware of the conflict between practical constraints and relational harmony. The square forces you to develop committed love that honors both your responsibilities and your values.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Mars": "This transit creates challenging tension between your sense of responsibility and your action impulses. Saturn's influence on your disciplined structure conflicts with Mars's warrior energy, making you feel torn between systematic discipline and immediate action. This is a time when you become acutely aware of the conflict between practical constraints and aggressive impulses. The square forces you to develop disciplined action that honors both your responsibilities and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Jupiter": "This transit creates challenging tension between your sense of responsibility and your desire for expansion. Saturn's influence on your disciplined structure conflicts with Jupiter's expansive wisdom, making you feel torn between practical constraints and unlimited growth. This is a time when you become acutely aware of the conflict between realism and optimism. The square forces you to develop practical wisdom that honors both your responsibilities and your growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Saturn": "A transit that creates challenging tension in your discipline and responsibility processes. Saturn's influence on your disciplined structure creates internal conflict as you feel pulled between different duty requirements or experience conflicts in your discipline and responsibility. This is a time when you become acutely aware of responsibility imbalances and the need for discipline resolution. The square forces you to find harmony between conflicting duty requirements and develop balanced responsibility.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Uranus": "This transit creates challenging tension between your sense of responsibility and your need for freedom. Saturn's influence on your disciplined structure conflicts with Uranus's revolutionary energy, making you feel torn between conventional discipline and revolutionary change. This is a time when you become acutely aware of the conflict between practical constraints and independence. The square forces you to develop innovative discipline that honors both your responsibilities and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Neptune": "This transit creates challenging tension between your sense of responsibility and your spiritual ideals. Saturn's influence on your disciplined structure conflicts with Neptune's spiritual idealism, making you feel torn between practical duty and spiritual transcendence. This is a time when you become acutely aware of the conflict between material constraints and spiritual unity. The square forces you to develop spiritual discipline that honors both your responsibilities and your spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Pluto": "This transit creates challenging tension between your sense of responsibility and your transformative power. Saturn's influence on your disciplined structure conflicts with Pluto's deep psychological energy, making you feel torn between systematic discipline and deep transformation. This is a time when you become acutely aware of the conflict between practical constraints and psychological depth. The square forces you to develop transformative discipline that honors both your responsibilities and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Sun": "This transit creates challenging tension between your need for freedom and your core identity. Uranus's influence on your revolutionary energy conflicts with the Sun's ego energy, making you feel torn between revolutionary change and personal recognition. This is a time when you become acutely aware of the conflict between independence and conventional success. The square forces you to develop authentic innovation that honors both your need for freedom and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Moon": "This transit creates challenging tension between your need for freedom and your emotional nature. Uranus's influence on your revolutionary energy conflicts with the Moon's emotional sensitivity, making you feel torn between emotional independence and emotional security. This is a time when you become acutely aware of the conflict between revolutionary change and emotional safety. The square forces you to develop emotional authenticity that honors both your need for freedom and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Mercury": "This transit creates challenging tension between your need for freedom and your thinking processes. Uranus's influence on your revolutionary energy conflicts with Mercury's intellectual energy, making you feel torn between revolutionary ideas and conventional communication. This is a time when you become acutely aware of the conflict between independence and systematic thinking. The square forces you to develop innovative communication that honors both your need for freedom and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Venus": "This transit creates challenging tension between your need for freedom and your values. Uranus's influence on your revolutionary energy conflicts with Venus's love and beauty energy, making you feel torn between unconventional love and relational harmony. This is a time when you become acutely aware of the conflict between independence and romantic connection. The square forces you to develop authentic love that honors both your need for freedom and your values.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Mars": "This transit creates challenging tension between your need for freedom and your action impulses. Uranus's influence on your revolutionary energy conflicts with Mars's warrior energy, making you feel torn between revolutionary action and conventional approaches. This is a time when you become acutely aware of the conflict between independence and aggressive impulses. The square forces you to develop innovative action that honors both your need for freedom and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Jupiter": "This transit creates challenging tension between your need for freedom and your desire for expansion. Uranus's influence on your revolutionary energy conflicts with Jupiter's expansive wisdom, making you feel torn between revolutionary growth and conventional wisdom. This is a time when you become acutely aware of the conflict between independence and universal expansion. The square forces you to develop innovative wisdom that honors both your need for freedom and your growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Saturn": "This transit creates challenging tension between your need for freedom and your sense of responsibility. Uranus's influence on your revolutionary energy conflicts with Saturn's disciplined structure, making you feel torn between revolutionary change and conventional discipline. This is a time when you become acutely aware of the conflict between independence and practical constraints. The square forces you to develop innovative discipline that honors both your need for freedom and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Uranus": "A transit that creates challenging tension in your need for freedom and innovation processes. Uranus's influence on your revolutionary energy creates internal conflict as you feel pulled between different freedom requirements or experience conflicts in your revolutionary energy and innovation. This is a time when you become acutely aware of freedom imbalances and the need for innovation resolution. The square forces you to find harmony between conflicting freedom impulses and develop balanced innovation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Neptune": "This transit creates challenging tension between your need for freedom and your spiritual ideals. Uranus's influence on your revolutionary energy conflicts with Neptune's spiritual idealism, making you feel torn between revolutionary change and spiritual transcendence. This is a time when you become acutely aware of the conflict between independence and spiritual unity. The square forces you to develop spiritual innovation that honors both your need for freedom and your spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Pluto": "This transit creates challenging tension between your need for freedom and your transformative power. Uranus's influence on your revolutionary energy conflicts with Pluto's deep psychological energy, making you feel torn between revolutionary change and deep transformation. This is a time when you become acutely aware of the conflict between independence and psychological depth. The square forces you to develop transformative innovation that honors both your need for freedom and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Sun": "This transit creates challenging tension between your spiritual ideals and your core identity. Neptune's influence on your spiritual idealism conflicts with the Sun's ego energy, making you feel torn between spiritual transcendence and personal recognition. This is a time when you become acutely aware of the conflict between spiritual unity and individual identity. The square forces you to develop spiritual authenticity that honors both your spirituality and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Moon": "This transit creates challenging tension between your spiritual ideals and your emotional nature. Neptune's influence on your spiritual idealism conflicts with the Moon's emotional sensitivity, making you feel torn between spiritual transcendence and emotional security. This is a time when you become acutely aware of the conflict between spiritual unity and emotional safety. The square forces you to develop spiritual boundaries that honor both your spirituality and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Mercury": "This transit creates challenging tension between your spiritual ideals and your thinking processes. Neptune's influence on your spiritual idealism conflicts with Mercury's intellectual energy, making you feel torn between intuitive understanding and logical clarity. This is a time when you become acutely aware of the conflict between spiritual transcendence and intellectual precision. The square forces you to develop spiritual communication that honors both your spirituality and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Venus": "This transit creates challenging tension between your spiritual ideals and your values. Neptune's influence on your spiritual idealism conflicts with Venus's love and beauty energy, making you feel torn between spiritual love and practical relationships. This is a time when you become acutely aware of the conflict between spiritual unity and romantic harmony. The square forces you to develop spiritual love that honors both your spirituality and your values.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Mars": "This transit creates challenging tension between your spiritual ideals and your action impulses. Neptune's influence on your spiritual idealism conflicts with Mars's warrior energy, making you feel torn between spiritual inspiration and practical action. This is a time when you become acutely aware of the conflict between spiritual unity and aggressive impulses. The square forces you to develop inspired action that honors both your spirituality and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Jupiter": "This transit creates challenging tension between your spiritual ideals and your desire for expansion. Neptune's influence on your spiritual idealism conflicts with Jupiter's expansive wisdom, making you feel torn between spiritual transcendence and universal growth. This is a time when you become acutely aware of the conflict between spiritual unity and universal wisdom. The square forces you to develop spiritual wisdom that honors both your spirituality and your growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Saturn": "This transit creates challenging tension between your spiritual ideals and your sense of responsibility. Neptune's influence on your spiritual idealism conflicts with Saturn's disciplined structure, making you feel torn between spiritual transcendence and practical duty. This is a time when you become acutely aware of the conflict between spiritual unity and material constraints. The square forces you to develop spiritual discipline that honors both your spirituality and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Uranus": "This transit creates challenging tension between your spiritual ideals and your need for freedom. Neptune's influence on your spiritual idealism conflicts with Uranus's revolutionary energy, making you feel torn between spiritual transcendence and revolutionary change. This is a time when you become acutely aware of the conflict between spiritual unity and independence. The square forces you to develop spiritual innovation that honors both your spirituality and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Neptune": "A transit that creates challenging tension in your spiritual awareness and idealism processes. Neptune's influence on your spiritual idealism creates internal conflict as you feel pulled between different spiritual needs or experience conflicts in your spiritual nature and idealism. This is a time when you become acutely aware of spiritual imbalances and the need for spirituality resolution. The square forces you to find harmony between conflicting spiritual impulses and develop balanced spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Pluto": "This transit creates challenging tension between your spiritual ideals and your transformative power. Neptune's influence on your spiritual idealism conflicts with Pluto's deep psychological energy, making you feel torn between spiritual transcendence and deep transformation. This is a time when you become acutely aware of the conflict between spiritual unity and psychological depth. The square forces you to develop spiritual transformation that honors both your spirituality and your need for deep change.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Sun": "This transit creates challenging tension between your transformative power and your core identity. Pluto's influence on your deep psychological energy conflicts with the Sun's ego energy, making you feel torn between deep change and personal stability. This is a time when you become acutely aware of the conflict between psychological depth and individual identity. The square forces you to develop integrated transformation that honors both your transformative power and your identity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Moon": "This transit creates challenging tension between your transformative power and your emotional nature. Pluto's influence on your deep psychological energy conflicts with the Moon's emotional sensitivity, making you feel torn between deep change and emotional security. This is a time when you become acutely aware of the conflict between psychological depth and emotional safety. The square forces you to develop psychological clarity that honors both your transformative power and your feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Mercury": "This transit creates challenging tension between your transformative power and your thinking processes. Pluto's influence on your deep psychological energy conflicts with Mercury's intellectual energy, making you feel torn between penetrating insight and logical clarity. This is a time when you become acutely aware of the conflict between psychological depth and intellectual precision. The square forces you to develop transformative communication that honors both your transformative power and your intellect.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Venus": "This transit creates challenging tension between your transformative power and your values. Pluto's influence on your deep psychological energy conflicts with Venus's love and beauty energy, making you feel torn between intense transformation and harmonious relationships. This is a time when you become acutely aware of the conflict between psychological depth and romantic harmony. The square forces you to develop transformative love that honors both your transformative power and your values.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Mars": "This transit creates challenging tension between your transformative power and your action impulses. Pluto's influence on your deep psychological energy conflicts with Mars's warrior energy, making you feel torn between deep transformation and immediate action. This is a time when you become acutely aware of the conflict between psychological depth and aggressive impulses. The square forces you to develop powerful action that honors both your transformative power and your drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Jupiter": "This transit creates challenging tension between your transformative power and your desire for expansion. Pluto's influence on your deep psychological energy conflicts with Jupiter's expansive wisdom, making you feel torn between deep transformation and universal growth. This is a time when you become acutely aware of the conflict between psychological depth and universal wisdom. The square forces you to develop transformative wisdom that honors both your transformative power and your growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Saturn": "This transit creates challenging tension between your transformative power and your sense of responsibility. Pluto's influence on your deep psychological energy conflicts with Saturn's disciplined structure, making you feel torn between deep transformation and systematic discipline. This is a time when you become acutely aware of the conflict between psychological depth and material constraints. The square forces you to develop transformative discipline that honors both your transformative power and your responsibilities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Uranus": "This transit creates challenging tension between your transformative power and your need for freedom. Pluto's influence on your deep psychological energy conflicts with Uranus's revolutionary energy, making you feel torn between deep transformation and revolutionary change. This is a time when you become acutely aware of the conflict between psychological depth and independence. The square forces you to develop transformative innovation that honors both your transformative power and your need for freedom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Neptune": "This transit creates challenging tension between your transformative power and your spiritual ideals. Pluto's influence on your deep psychological energy conflicts with Neptune's spiritual idealism, making you feel torn between deep transformation and spiritual transcendence. This is a time when you become acutely aware of the conflict between psychological depth and spiritual unity. The square forces you to develop spiritual transformation that honors both your transformative power and your spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Pluto": "A transit that creates challenging tension in your transformative power and psychological depth processes. Pluto's influence on your deep psychological energy creates internal conflict as you feel pulled between different transformation needs or experience conflicts in your transformative nature and psychological insight. This is a time when you become acutely aware of transformation imbalances and the need for psychological resolution. The square forces you to find harmony between conflicting transformation impulses and develop balanced transformation."</span>
+<span class="cstat-no" title="statement not covered" >}</span></pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-10T22:40:14.652Z
+            </div>
+        <script src="../../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../../sorter.js"></script>
+        <script src="../../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

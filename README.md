@@ -46,18 +46,33 @@ pnpm dev
 
 ### Birth Chart Calculation
 - **POST** `/api/birth-chart`
-- **Body**: `{ date, time, latitude, longitude, timezone }`
+- **Body**: `{ date, time, latitude, longitude, place?, house_system? }`
 - **Returns**: Complete birth chart with planetary positions and house cusps
 
 ### Transit Calculation
 - **POST** `/api/transits`
-- **Body**: `{ natalChart, transitDate }`
+- **Body**: `{ natalChart, transitDate, house_system?, transitLocation? }`
 - **Returns**: Current planetary transits with aspects to natal chart
 
 ### Daily Horoscope
-- **GET** `/api/daily-horoscope`
-- **Query**: `{ sign }`
-- **Returns**: Daily horoscope for the specified zodiac sign
+- **POST** `/api/daily-horoscope`
+- **Body**: `{ natalChart, date?, location? }`
+- **Returns**: Daily horoscope generated from natal chart + transit context
+
+### Synastry
+- **POST** `/api/synastry`
+- **Body**: `{ person1, person2, house_system? }`
+- **Returns**: Cross-chart aspects and overlays
+
+### Current Positions
+- **POST** `/api/current-positions`
+- **Body**: `{ date, time?, latitude?, longitude?, house_system? }`
+- **Returns**: Current planetary objects/native data
+
+### Chat
+- **POST** `/api/chat`
+- **Body**: `{ messages, chartContext? }`
+- **Returns**: Assistant response message
 
 ## 🌟 Astronomical Accuracy
 

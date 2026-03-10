@@ -1,0 +1,685 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for astro-svelte-app/src/lib/data/interpretations/transits/minor-aspects.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../../index.html">All files</a> / <a href="index.html">astro-svelte-app/src/lib/data/interpretations/transits</a> minor-aspects.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/102</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/102</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >export const MINOR_ASPECT_INTERPRETATIONS = {<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cstat-no" title="statement not covered" >    "Sun_Sun_SemiSextile": "A gentle whisper of self-awareness that brings subtle shifts in your core identity. You may notice small but meaningful changes in how you express yourself, with gentle nudges toward personal development. This transit creates quiet moments for self-reflection and gentle growth, helping you make small adjustments to align with your authentic self.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Moon_SemiSextile": "A gentle bridge between your conscious identity and emotional nature creates subtle harmony. You may experience small improvements in emotional intelligence as your sense of self and feelings find gentle alignment. This transit brings quiet developments in emotional awareness and self-expression, helping you integrate your identity with your emotional needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Mercury_SemiSextile": "A gentle connection between your identity and communication style creates subtle harmony. You may experience small improvements in expressing your thoughts clearly as your sense of self and intellectual energy find gentle alignment. This transit brings quiet developments in communication and self-expression, helping you articulate your authentic voice.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Venus_SemiSextile": "A gentle bridge between your identity and relationship values creates subtle harmony. You may experience small improvements in attractiveness as your sense of self and love energy find gentle alignment. This transit brings quiet developments in relationships and self-expression, helping you embody your authentic beauty in connections with others.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Mars_SemiSextile": "A gentle connection between your identity and action impulses creates subtle harmony. You may experience small improvements in confidence as your sense of self and warrior energy find gentle alignment. This transit brings quiet developments in action and self-expression, helping you channel your authentic drive with greater ease.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Jupiter_SemiSextile": "A gentle bridge between your identity and growth desires creates subtle harmony. You may experience small improvements in optimism as your sense of self and expansive wisdom find gentle alignment. This transit brings quiet developments in personal growth and self-expression, helping you embrace your authentic potential with greater confidence.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your identity and your sense of responsibility. The Sun's influence on your ego energy combines with Saturn's disciplined structure, making you feel a slight improvement in your discipline or a gentle alignment between your duty and your sense of self. This transit often brings small but meaningful developments in your maturity and self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your identity and your need for freedom. The Sun's influence on your ego energy combines with Uranus's revolutionary energy, making you feel a slight improvement in your authenticity or a gentle alignment between your innovation and your sense of self. This transit often brings small but meaningful developments in your independence and self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your identity and your spiritual nature. The Sun's influence on your ego energy combines with Neptune's spiritual idealism, making you feel a slight improvement in your compassion or a gentle alignment between your spirituality and your sense of self. This transit often brings small but meaningful developments in your spiritual awareness and self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your identity and your transformative power. The Sun's influence on your ego energy combines with Pluto's deep psychological energy, making you feel a slight improvement in your psychological insight or a gentle alignment between your transformative nature and your sense of self. This transit often brings small but meaningful developments in your personal power and self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your emotional nature and your core identity. The Moon's influence on your emotional sensitivity combines with the Sun's ego energy, making you feel a slight improvement in your emotional balance or a gentle alignment between your feelings and your sense of self. This transit often brings small but meaningful developments in your emotional awareness and self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Moon_SemiSextile": "A subtle transit that brings gentle awareness to your emotional nature. The Moon's influence on your emotional sensitivity creates gentle awareness as you feel a slight shift in your emotional responses or a gentle nudge toward emotional development. This transit often brings small but meaningful opportunities for emotional reflection and gentle growth. It's a time for making small adjustments to align with your emotional needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Mercury_SemiSextile": "A subtle transit that creates gentle harmony between your emotions and your thinking processes. The Moon's influence on your emotional sensitivity combines with Mercury's intellectual energy, making you feel a slight improvement in your emotional communication or a gentle alignment between your feelings and your thoughts. This transit often brings small but meaningful developments in your emotional intelligence and communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Venus_SemiSextile": "A subtle transit that creates gentle harmony between your emotions and your values in relationships. The Moon's influence on your emotional sensitivity combines with Venus's love and beauty energy, making you feel a slight improvement in your emotional fulfillment or a gentle alignment between your feelings and your values. This transit often brings small but meaningful developments in your emotional satisfaction and relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Mars_SemiSextile": "A subtle transit that creates gentle harmony between your emotions and your action impulses. The Moon's influence on your emotional sensitivity combines with Mars's warrior energy, making you feel a slight improvement in your emotional courage or a gentle alignment between your feelings and your drive. This transit often brings small but meaningful developments in your emotional strength and action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Jupiter_SemiSextile": "A subtle transit that creates gentle harmony between your emotions and your desire for growth. The Moon's influence on your emotional sensitivity combines with Jupiter's expansive wisdom, making you feel a slight improvement in your emotional optimism or a gentle alignment between your feelings and your wisdom. This transit often brings small but meaningful developments in your emotional growth and fulfillment.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your emotions and your sense of responsibility. The Moon's influence on your emotional sensitivity combines with Saturn's disciplined structure, making you feel a slight improvement in your emotional discipline or a gentle alignment between your feelings and your duty. This transit often brings small but meaningful developments in your emotional maturity and stability.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your emotions and your need for freedom. The Moon's influence on your emotional sensitivity combines with Uranus's revolutionary energy, making you feel a slight improvement in your emotional authenticity or a gentle alignment between your feelings and your independence. This transit often brings small but meaningful developments in your emotional freedom and authenticity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your emotions and your spiritual nature. The Moon's influence on your emotional sensitivity combines with Neptune's spiritual idealism, making you feel a slight improvement in your emotional compassion or a gentle alignment between your feelings and your spirituality. This transit often brings small but meaningful developments in your emotional spirituality and empathy.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your emotions and your transformative power. The Moon's influence on your emotional sensitivity combines with Pluto's deep psychological energy, making you feel a slight improvement in your emotional depth or a gentle alignment between your feelings and your transformative nature. This transit often brings small but meaningful developments in your emotional transformation and psychological insight.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your thinking processes and your core identity. Mercury's influence on your intellectual energy combines with the Sun's ego energy, making you feel a slight improvement in your intellectual confidence or a gentle alignment between your thoughts and your sense of self. This transit often brings small but meaningful developments in your intellectual awareness and self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Moon_SemiSextile": "A subtle transit that creates gentle harmony between your thinking and your emotional nature. Mercury's influence on your intellectual energy combines with the Moon's emotional sensitivity, making you feel a slight improvement in your emotional intelligence or a gentle alignment between your thoughts and your feelings. This transit often brings small but meaningful developments in your emotional communication and understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Mercury_SemiSextile": "A subtle transit that brings gentle awareness to your thinking and communication processes. Mercury's influence on your intellectual energy creates gentle awareness as you feel a slight shift in your mental clarity or a gentle nudge toward intellectual development. This transit often brings small but meaningful opportunities for mental reflection and gentle growth. It's a time for making small adjustments to align with your intellectual needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Venus_SemiSextile": "A subtle transit that creates gentle harmony between your thinking and your values. Mercury's influence on your intellectual energy combines with Venus's love and beauty energy, making you feel a slight improvement in your artistic thinking or a gentle alignment between your thoughts and your appreciation for beauty. This transit often brings small but meaningful developments in your artistic communication and social grace.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Mars_SemiSextile": "A subtle transit that creates gentle harmony between your thinking and your action impulses. Mercury's influence on your intellectual energy combines with Mars's warrior energy, making you feel a slight improvement in your decisive thinking or a gentle alignment between your thoughts and your drive. This transit often brings small but meaningful developments in your action-oriented communication and decision-making.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Jupiter_SemiSextile": "A subtle transit that creates gentle harmony between your thinking and your desire for growth. Mercury's influence on your intellectual energy combines with Jupiter's expansive wisdom, making you feel a slight improvement in your philosophical thinking or a gentle alignment between your thoughts and your wisdom. This transit often brings small but meaningful developments in your intellectual expansion and philosophical understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your thinking and your sense of responsibility. Mercury's influence on your intellectual energy combines with Saturn's disciplined structure, making you feel a slight improvement in your disciplined thinking or a gentle alignment between your thoughts and your duty. This transit often brings small but meaningful developments in your systematic thinking and reliable communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your thinking and your need for innovation. Mercury's influence on your intellectual energy combines with Uranus's revolutionary energy, making you feel a slight improvement in your original thinking or a gentle alignment between your thoughts and your independence. This transit often brings small but meaningful developments in your innovative communication and breakthrough thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your thinking and your spiritual awareness. Mercury's influence on your intellectual energy combines with Neptune's spiritual idealism, making you feel a slight improvement in your intuitive thinking or a gentle alignment between your thoughts and your spirituality. This transit often brings small but meaningful developments in your spiritual communication and intuitive understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your thinking and your transformative power. Mercury's influence on your intellectual energy combines with Pluto's deep psychological energy, making you feel a slight improvement in your psychological thinking or a gentle alignment between your thoughts and your transformative nature. This transit often brings small but meaningful developments in your transformative communication and psychological insight.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your values and your core identity. Venus's influence on your love and beauty energy combines with the Sun's ego energy, making you feel a slight improvement in your authentic attractiveness or a gentle alignment between your values and your sense of self. This transit often brings small but meaningful developments in your authentic love and self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Moon_SemiSextile": "A subtle transit that creates gentle harmony between your values and your emotional nature. Venus's influence on your love and beauty energy combines with the Moon's emotional sensitivity, making you feel a slight improvement in your emotional fulfillment in love or a gentle alignment between your values and your feelings. This transit often brings small but meaningful developments in your emotional love and satisfaction.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Mercury_SemiSextile": "A subtle transit that creates gentle harmony between your values and your thinking processes. Venus's influence on your love and beauty energy combines with Mercury's intellectual energy, making you feel a slight improvement in your artistic communication or a gentle alignment between your values and your thoughts. This transit often brings small but meaningful developments in your artistic expression and social grace.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Venus_SemiSextile": "A subtle transit that brings gentle awareness to your values and relationships. Venus's influence on your love and beauty energy creates gentle awareness as you feel a slight shift in your attractiveness or a gentle nudge toward relationship development. This transit often brings small but meaningful opportunities for love reflection and gentle growth. It's a time for making small adjustments to align with your relationship needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Mars_SemiSextile": "A subtle transit that creates gentle harmony between your values and your action impulses. Venus's influence on your love and beauty energy combines with Mars's warrior energy, making you feel a slight improvement in your passionate love or a gentle alignment between your values and your drive. This transit often brings small but meaningful developments in your passionate relationships and dynamic love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Jupiter_SemiSextile": "A subtle transit that creates gentle harmony between your values and your desire for expansion. Venus's influence on your love and beauty energy combines with Jupiter's expansive wisdom, making you feel a slight improvement in your generous love or a gentle alignment between your values and your wisdom. This transit often brings small but meaningful developments in your generous relationships and expanded love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your values and your sense of responsibility. Venus's influence on your love and beauty energy combines with Saturn's disciplined structure, making you feel a slight improvement in your committed love or a gentle alignment between your values and your duty. This transit often brings small but meaningful developments in your committed relationships and mature love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your values and your need for freedom. Venus's influence on your love and beauty energy combines with Uranus's revolutionary energy, making you feel a slight improvement in your authentic love or a gentle alignment between your values and your independence. This transit often brings small but meaningful developments in your authentic relationships and independent love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your values and your spiritual ideals. Venus's influence on your love and beauty energy combines with Neptune's spiritual idealism, making you feel a slight improvement in your spiritual love or a gentle alignment between your values and your spirituality. This transit often brings small but meaningful developments in your spiritual relationships and idealistic love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your values and your transformative power. Venus's influence on your love and beauty energy combines with Pluto's deep psychological energy, making you feel a slight improvement in your intense love or a gentle alignment between your values and your transformative nature. This transit often brings small but meaningful developments in your intense relationships and transformative love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your core identity. Mars's influence on your warrior energy combines with the Sun's ego energy, making you feel a slight improvement in your confident action or a gentle alignment between your drive and your sense of self. This transit often brings small but meaningful developments in your confident action and self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Moon_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your emotional nature. Mars's influence on your warrior energy combines with the Moon's emotional sensitivity, making you feel a slight improvement in your emotional courage or a gentle alignment between your drive and your feelings. This transit often brings small but meaningful developments in your emotional strength and courageous action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Mercury_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your thinking processes. Mars's influence on your warrior energy combines with Mercury's intellectual energy, making you feel a slight improvement in your decisive communication or a gentle alignment between your drive and your thoughts. This transit often brings small but meaningful developments in your decisive thinking and courageous communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Venus_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your values. Mars's influence on your warrior energy combines with Venus's love and beauty energy, making you feel a slight improvement in your passionate relationships or a gentle alignment between your drive and your values. This transit often brings small but meaningful developments in your passionate love and dynamic relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Mars_SemiSextile": "A subtle transit that brings gentle awareness to your action impulses and drive. Mars's influence on your warrior energy creates gentle awareness as you feel a slight shift in your energy levels or a gentle nudge toward action development. This transit often brings small but meaningful opportunities for energy reflection and gentle growth. It's a time for making small adjustments to align with your action needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Jupiter_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your desire for expansion. Mars's influence on your warrior energy combines with Jupiter's expansive wisdom, making you feel a slight improvement in your enthusiastic action or a gentle alignment between your drive and your wisdom. This transit often brings small but meaningful developments in your enthusiastic action and expanded horizons.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your sense of responsibility. Mars's influence on your warrior energy combines with Saturn's disciplined structure, making you feel a slight improvement in your disciplined action or a gentle alignment between your drive and your duty. This transit often brings small but meaningful developments in your disciplined action and reliable achievement.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your need for freedom. Mars's influence on your warrior energy combines with Uranus's revolutionary energy, making you feel a slight improvement in your innovative action or a gentle alignment between your drive and your independence. This transit often brings small but meaningful developments in your innovative action and revolutionary drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your spiritual ideals. Mars's influence on your warrior energy combines with Neptune's spiritual idealism, making you feel a slight improvement in your inspired action or a gentle alignment between your drive and your spirituality. This transit often brings small but meaningful developments in your inspired action and spiritual motivation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your action impulses and your transformative power. Mars's influence on your warrior energy combines with Pluto's deep psychological energy, making you feel a slight improvement in your powerful action or a gentle alignment between your drive and your transformative nature. This transit often brings small but meaningful developments in your powerful action and transformative drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your core identity. You may feel a slight improvement in your confident growth or a gentle alignment between your wisdom and your sense of self. This transit often brings small but meaningful developments in your confident expansion and personal growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Moon_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your emotional nature. You may feel a slight improvement in your emotional optimism or a gentle alignment between your wisdom and your feelings. This transit often brings small but meaningful developments in your emotional growth and optimistic fulfillment.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Mercury_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your thinking processes. You may feel a slight improvement in your philosophical thinking or a gentle alignment between your wisdom and your thoughts. This transit often brings small but meaningful developments in your intellectual expansion and philosophical understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Venus_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your values. You may feel a slight improvement in your generous love or a gentle alignment between your wisdom and your values. This transit often brings small but meaningful developments in your generous relationships and expanded love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Mars_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your action impulses. You may feel a slight improvement in your enthusiastic action or a gentle alignment between your wisdom and your drive. This transit often brings small but meaningful developments in your enthusiastic action and expanded horizons.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Jupiter_SemiSextile": "A subtle transit that brings gentle awareness to your expansion and growth processes. You may feel a slight shift in your optimism or a gentle nudge toward growth development. This transit often brings small but meaningful opportunities for growth reflection and gentle expansion. It's a time for making small adjustments to align with your growth needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your sense of responsibility. You may feel a slight improvement in your practical wisdom or a gentle alignment between your wisdom and your duty. This transit often brings small but meaningful developments in your practical growth and reliable expansion.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your need for freedom. You may feel a slight improvement in your innovative growth or a gentle alignment between your wisdom and your independence. This transit often brings small but meaningful developments in your innovative expansion and revolutionary growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your spiritual ideals. You may feel a slight improvement in your spiritual wisdom or a gentle alignment between your wisdom and your spirituality. This transit often brings small but meaningful developments in your spiritual growth and inspired wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your desire for expansion and your transformative power. You may feel a slight improvement in your transformative wisdom or a gentle alignment between your wisdom and your transformative nature. This transit often brings small but meaningful developments in your transformative growth and powerful wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your core identity. You may feel a slight improvement in your mature confidence or a gentle alignment between your discipline and your sense of self. This transit often brings small but meaningful developments in your mature achievement and responsible self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Moon_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your emotional nature. You may feel a slight improvement in your emotional discipline or a gentle alignment between your duty and your feelings. This transit often brings small but meaningful developments in your emotional maturity and stable fulfillment.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Mercury_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your thinking processes. You may feel a slight improvement in your disciplined thinking or a gentle alignment between your duty and your thoughts. This transit often brings small but meaningful developments in your systematic thinking and reliable communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Venus_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your values. You may feel a slight improvement in your committed love or a gentle alignment between your duty and your values. This transit often brings small but meaningful developments in your committed relationships and mature love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Mars_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your action impulses. You may feel a slight improvement in your disciplined action or a gentle alignment between your duty and your drive. This transit often brings small but meaningful developments in your disciplined action and reliable achievement.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Jupiter_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your desire for expansion. You may feel a slight improvement in your practical wisdom or a gentle alignment between your duty and your wisdom. This transit often brings small but meaningful developments in your practical growth and reliable expansion.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Saturn_SemiSextile": "A subtle transit that brings gentle awareness to your discipline and responsibility processes. You may feel a slight shift in your sense of duty or a gentle nudge toward responsibility development. This transit often brings small but meaningful opportunities for discipline reflection and gentle growth. It's a time for making small adjustments to align with your responsibility needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your need for freedom. You may feel a slight improvement in your innovative discipline or a gentle alignment between your duty and your independence. This transit often brings small but meaningful developments in your innovative responsibility and revolutionary discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your spiritual ideals. You may feel a slight improvement in your spiritual discipline or a gentle alignment between your duty and your spirituality. This transit often brings small but meaningful developments in your spiritual responsibility and inspired discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your sense of responsibility and your transformative power. You may feel a slight improvement in your transformative discipline or a gentle alignment between your transformative nature and your duty. This transit often brings small but meaningful developments in your transformative responsibility and powerful discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your core identity. You may feel a slight improvement in your authentic confidence or a gentle alignment between your independence and your sense of self. This transit often brings small but meaningful developments in your authentic innovation and independent self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Moon_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your emotional nature. You may feel a slight improvement in your emotional authenticity or a gentle alignment between your independence and your feelings. This transit often brings small but meaningful developments in your emotional freedom and authentic feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Mercury_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your thinking processes. You may feel a slight improvement in your original thinking or a gentle alignment between your independence and your thoughts. This transit often brings small but meaningful developments in your innovative communication and breakthrough thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Venus_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your values. You may feel a slight improvement in your authentic love or a gentle alignment between your independence and your values. This transit often brings small but meaningful developments in your authentic relationships and independent love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Mars_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your action impulses. You may feel a slight improvement in your innovative action or a gentle alignment between your independence and your drive. This transit often brings small but meaningful developments in your revolutionary action and independent drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Jupiter_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your desire for expansion. You may feel a slight improvement in your innovative growth or a gentle alignment between your independence and your wisdom. This transit often brings small but meaningful developments in your revolutionary expansion and independent growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your sense of responsibility. You may feel a slight improvement in your innovative discipline or a gentle alignment between your independence and your duty. This transit often brings small but meaningful developments in your revolutionary responsibility and independent discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Uranus_SemiSextile": "A subtle transit that brings gentle awareness to your need for freedom and innovation processes. You may feel a slight shift in your independence or a gentle nudge toward innovation development. This transit often brings small but meaningful opportunities for freedom reflection and gentle growth. It's a time for making small adjustments to align with your innovation needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your spiritual ideals. You may feel a slight improvement in your spiritual innovation or a gentle alignment between your independence and your spirituality. This transit often brings small but meaningful developments in your spiritual freedom and innovative spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your need for freedom and your transformative power. You may feel a slight improvement in your transformative innovation or a gentle alignment between your independence and your transformative nature. This transit often brings small but meaningful developments in your revolutionary transformation and independent power.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your core identity. You may feel a slight improvement in your spiritual confidence or a gentle alignment between your spirituality and your sense of self. This transit often brings small but meaningful developments in your spiritual awareness and idealistic self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Moon_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your emotional nature. You may feel a slight improvement in your spiritual compassion or a gentle alignment between your spirituality and your feelings. This transit often brings small but meaningful developments in your spiritual empathy and idealistic feelings.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Mercury_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your thinking processes. You may feel a slight improvement in your spiritual intuition or a gentle alignment between your spirituality and your thoughts. This transit often brings small but meaningful developments in your spiritual communication and intuitive understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Venus_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your values. You may feel a slight improvement in your spiritual love or a gentle alignment between your spirituality and your values. This transit often brings small but meaningful developments in your spiritual relationships and idealistic love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Mars_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your action impulses. You may feel a slight improvement in your spiritual inspiration or a gentle alignment between your spirituality and your drive. This transit often brings small but meaningful developments in your inspired action and spiritual motivation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Jupiter_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your desire for expansion. You may feel a slight improvement in your spiritual wisdom or a gentle alignment between your spirituality and your wisdom. This transit often brings small but meaningful developments in your spiritual growth and inspired wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your sense of responsibility. You may feel a slight improvement in your spiritual discipline or a gentle alignment between your spirituality and your duty. This transit often brings small but meaningful developments in your spiritual responsibility and inspired discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your need for freedom. You may feel a slight improvement in your spiritual innovation or a gentle alignment between your spirituality and your independence. This transit often brings small but meaningful developments in your spiritual freedom and innovative spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Neptune_SemiSextile": "A subtle transit that brings gentle awareness to your spiritual awareness and idealism processes. You may feel a slight shift in your spirituality or a gentle nudge toward spiritual development. This transit often brings small but meaningful opportunities for spiritual reflection and gentle growth. It's a time for making small adjustments to align with your spiritual needs.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Pluto_SemiSextile": "A subtle transit that creates gentle harmony between your spiritual ideals and your transformative power. You may feel a slight improvement in your spiritual transformation or a gentle alignment between your spirituality and your transformative nature. This transit often brings small but meaningful developments in your spiritual transformation and powerful spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Sun_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your core identity. You may feel a slight improvement in your powerful confidence or a gentle alignment between your transformative nature and your sense of self. This transit often brings small but meaningful developments in your transformative awareness and powerful self-expression.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Moon_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your emotional nature. You may feel a slight improvement in your emotional depth or a gentle alignment between your transformative nature and your feelings. This transit often brings small but meaningful developments in your emotional transformation and psychological insight.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Mercury_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your thinking processes. You may feel a slight improvement in your psychological insight or a gentle alignment between your transformative nature and your thoughts. This transit often brings small but meaningful developments in your transformative communication and penetrating understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Venus_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your values. You may feel a slight improvement in your intense love or a gentle alignment between your transformative nature and your values. This transit often brings small but meaningful developments in your transformative relationships and powerful love.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Mars_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your action impulses. You may feel a slight improvement in your powerful action or a gentle alignment between your transformative nature and your drive. This transit often brings small but meaningful developments in your powerful action and transformative drive.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Jupiter_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your desire for expansion. You may feel a slight improvement in your transformative wisdom or a gentle alignment between your transformative nature and your wisdom. This transit often brings small but meaningful developments in your transformative growth and powerful wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Saturn_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your sense of responsibility. You may feel a slight improvement in your transformative discipline or a gentle alignment between your transformative nature and your duty. This transit often brings small but meaningful developments in your transformative responsibility and powerful discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Uranus_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your need for freedom. You may feel a slight improvement in your transformative innovation or a gentle alignment between your transformative nature and your independence. This transit often brings small but meaningful developments in your revolutionary transformation and independent power.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Neptune_SemiSextile": "A subtle transit that creates gentle harmony between your transformative power and your spiritual ideals. You may feel a slight improvement in your spiritual transformation or a gentle alignment between your transformative nature and your spirituality. This transit often brings small but meaningful developments in your spiritual transformation and powerful spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Pluto_SemiSextile": "A subtle transit that brings gentle awareness to your transformative power and psychological depth processes. You may feel a slight shift in your transformative energy or a gentle nudge toward transformation development. This transit often brings small but meaningful opportunities for transformation reflection and gentle growth. It's a time for making small adjustments to align with your transformation needs."</span>
+<span class="cstat-no" title="statement not covered" >}</span></pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-10T22:40:14.652Z
+            </div>
+        <script src="../../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../../sorter.js"></script>
+        <script src="../../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

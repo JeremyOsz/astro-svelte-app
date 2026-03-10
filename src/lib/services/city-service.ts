@@ -1,5 +1,3 @@
-import citiesData from 'cities.json';
-
 export interface City {
   name: string;
   lat: string;
@@ -15,131 +13,55 @@ export interface CitySearchResult extends City {
   adminName?: string;
 }
 
-export interface AdminRegion {
-  code: string;
-  name: string;
-  asciiName: string;
+interface CacheEntry {
+  results: CitySearchResult[];
+  expiresAt: number;
 }
 
-// Type the cities data properly
-const cities = citiesData as City[];
+const searchCache = new Map<string, CacheEntry>();
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
-// Load admin1 data for state/region names
-let admin1Data: Record<string, AdminRegion> = {};
-
-// Load admin1.json data
-async function loadAdmin1Data() {
-  try {
-    const response = await fetch('/data/admin1.json');
-    if (response.ok) {
-      const data: AdminRegion[] = await response.json();
-      // Convert array to object for faster lookups
-      admin1Data = data.reduce((acc, region) => {
-        acc[region.code] = region;
-        return acc;
-      }, {} as Record<string, AdminRegion>);
-    }
-  } catch (error) {
-    console.warn('Could not load admin1 data:', error);
+export async function searchCities(query: string, limit: number = 10): Promise<CitySearchResult[]> {
+  if (!query || query.trim().length < 2) {
+    return [];
   }
-}
 
-// Initialize admin data only on the client-side
-if (typeof window !== 'undefined') {
-  loadAdmin1Data();
-}
+  const normalizedQuery = query.trim().toLowerCase();
+  const normalizedLimit = Math.min(50, Math.max(1, limit));
+  const cacheKey = `${normalizedQuery}_${normalizedLimit}`;
 
-function getAdminName(country: string, admin1: string): string | undefined {
-  const key = `${country}.${admin1}`;
-  return admin1Data[key]?.name;
+  const cached = searchCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.results;
+  }
+
+  const params = new URLSearchParams({ q: normalizedQuery, limit: String(normalizedLimit) });
+  const response = await fetch(`/api/cities?${params.toString()}`);
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const body = await response.json();
+  const results = Array.isArray(body?.results) ? body.results as CitySearchResult[] : [];
+
+  searchCache.set(cacheKey, { results, expiresAt: Date.now() + CACHE_TTL_MS });
+  return results;
 }
 
 export function getCountryName(countryCode: string): string {
   try {
     const displayNames = new Intl.DisplayNames(['en'], { type: 'region' });
     return displayNames.of(countryCode) || countryCode;
-  } catch (error) {
-    // Fallback to country code if Intl.DisplayNames fails
+  } catch {
     return countryCode;
   }
 }
 
-// Cache for search results to improve performance
-const searchCache = new Map<string, CitySearchResult[]>();
-
-/**
- * Search for cities by name
- * @param query - Search query (city name)
- * @param limit - Maximum number of results to return (default: 10)
- * @returns Array of matching cities
- */
-export function searchCities(query: string, limit: number = 10): CitySearchResult[] {
-  if (!query || query.length < 2) {
-    return [];
-  }
-
-  const cacheKey = `${query.toLowerCase()}_${limit}`;
-  if (searchCache.has(cacheKey)) {
-    return searchCache.get(cacheKey)!;
-  }
-
-  const normalizedQuery = query.toLowerCase().trim();
-
-  // Sort by similarity: exact > prefix > substring > alpha
-  const scored = cities
-    .filter((city: City) => city.name.toLowerCase().includes(normalizedQuery))
-    .map((city: City) => {
-      const name = city.name.toLowerCase();
-      let score = 3;
-      if (name === normalizedQuery) score = 0; // exact match
-      else if (name.startsWith(normalizedQuery)) score = 1; // prefix match
-      else if (name.includes(normalizedQuery)) score = 2; // substring match
-      return { city, score };
-    })
-    .sort((a, b) => {
-      if (a.score !== b.score) return a.score - b.score;
-      return a.city.name.localeCompare(b.city.name);
-    })
-    .slice(0, limit)
-    .map(({ city }) => {
-      const adminName = getAdminName(city.country, city.admin1);
-      const countryName = getCountryName(city.country);
-      const displayName = adminName ? `${city.name}, ${adminName}, ${countryName}` : `${city.name}, ${countryName}`;
-      const fullLocation = adminName ? `${city.name}, ${adminName}, ${countryName}` : `${city.name}, ${countryName}`;
-      return {
-        ...city,
-        displayName,
-        fullLocation,
-        adminName
-      };
-    });
-
-  // Cache the results
-  searchCache.set(cacheKey, scored);
-
-  return scored;
+export function getCityByNameAndCountry(_name: string, _country: string): City | null {
+  return null;
 }
 
-/**
- * Get city by exact name and country
- * @param name - City name
- * @param country - Country code
- * @returns City object or null if not found
- */
-export function getCityByNameAndCountry(name: string, country: string): City | null {
-  const city = cities.find((c: City) => 
-    c.name.toLowerCase() === name.toLowerCase() && 
-    c.country.toLowerCase() === country.toLowerCase()
-  );
-  
-  return city || null;
-}
-
-// Removed estimateTimezoneFromLongitude, no longer needed
-
-/**
- * Clear the search cache (useful for memory management)
- */
 export function clearSearchCache(): void {
   searchCache.clear();
-} 
+}

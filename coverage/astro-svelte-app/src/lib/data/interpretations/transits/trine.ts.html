@@ -1,0 +1,685 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for astro-svelte-app/src/lib/data/interpretations/transits/trine.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../../index.html">All files</a> / <a href="index.html">astro-svelte-app/src/lib/data/interpretations/transits</a> trine.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/102</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/102</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >export const TRINE_INTERPRETATIONS = {<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cstat-no" title="statement not covered" >    "Sun_Sun": "A harmonious transit that brings natural flow and ease to your core identity and life purpose. The Sun's influence on your ego and self-expression creates a time when your authentic self-expression comes naturally and effortlessly. You may feel more confident, centered, and aligned with your true purpose. This transit often brings opportunities for personal recognition and success that feel organic and well-timed. It's an excellent period for taking on leadership roles and expressing your unique gifts.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Moon": "This transit creates a harmonious flow between your conscious ego and emotional nature. The Sun's influence on your identity combines with the Moon's emotional sensitivity, creating natural emotional intelligence and a strong sense of inner balance. This is a time when your identity and your feelings work together seamlessly, leading to greater authenticity and emotional fulfillment. You may feel more confident in expressing your emotions and more in tune with your intuitive responses.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Mercury": "A transit that creates natural harmony between your identity and your communication style. The Sun's influence on your self-expression combines with Mercury's intellectual energy, allowing you to speak with effortless authority and clarity. Your thoughts and your sense of self flow together naturally. This is an excellent time for important conversations, writing, teaching, or any form of self-expression. Your mental processes are sharp and your communication feels authentic and compelling.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Venus": "This transit creates natural harmony between your identity and your values in relationships. The Sun's influence on your self-expression combines with Venus's love and beauty energy, making you feel more attractive, confident, and naturally charming in social situations. This is a time when your personal values and your sense of self work together seamlessly, leading to greater authenticity in love and beauty. You may feel more inclined to express your creativity and pursue harmonious relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Mars": "A transit that creates natural harmony between your identity and your action impulses. The Sun's influence on your ego combines with Mars's warrior energy, making you feel more confident, assertive, and naturally courageous. This is a time when your goals and your sense of self work together seamlessly, leading to greater determination and natural leadership. You may feel more competitive and motivated to achieve your objectives with ease.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Jupiter": "This transit creates natural harmony between your identity and your desire for growth. The Sun's influence on your self-expression combines with Jupiter's expansive wisdom, making you feel more optimistic, generous, and naturally inclined toward personal development. This is a time when your identity and your beliefs work together seamlessly, leading to greater wisdom and a broader perspective on life. You may feel more confident about your future and more inclined to help others grow.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Saturn": "This transit creates natural harmony between your identity and your sense of responsibility. The Sun's influence on your ego combines with Saturn's disciplined structure, making you feel more mature, disciplined, and naturally focused on long-term goals. This is a time when your identity and your sense of duty work together seamlessly, leading to greater achievement and natural authority. You may feel more determined to build something lasting and meaningful in your life.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Uranus": "This transit creates natural harmony between your identity and your need for freedom. The Sun's influence on your self-expression combines with Uranus's revolutionary energy, making you feel more authentic, innovative, and naturally independent. This is a time when your identity and your revolutionary nature work together seamlessly, leading to greater authenticity and natural innovation. You may feel more inclined toward unconventional approaches to life with ease.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Neptune": "This transit creates natural harmony between your identity and your spiritual nature. The Sun's influence on your ego combines with Neptune's spiritual idealism, making you feel more compassionate, intuitive, and naturally connected to higher consciousness. This is a time when your identity and your spiritual ideals work together seamlessly, leading to greater empathy and natural artistic inspiration. You may feel more inclined toward spiritual practices and helping others.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Sun_Pluto": "This transit creates natural harmony between your identity and your transformative power. The Sun's influence on your self-expression combines with Pluto's deep psychological energy, allowing you to experience natural psychological insights and feel comfortable with deep personal changes. This is a time when your identity and your transformative nature work together seamlessly, leading to greater psychological depth and natural personal power. You may feel more comfortable uncovering hidden truths about yourself.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Sun": "This transit creates natural harmony between your emotional nature and your core identity. The Moon's influence on your emotional sensitivity combines with the Sun's ego energy, making you feel more emotionally balanced and naturally in tune with your life purpose. This is a time when your emotions and your sense of self work together seamlessly, leading to greater emotional authenticity and natural fulfillment. You may feel more nurturing and protective of your personal goals and relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Moon": "A transit that creates natural harmony in your emotional nature. The Moon's influence on your emotional sensitivity and intuitive nature creates balanced emotional responses and a strong sense of emotional well-being. This is a time when your emotional needs and your subconscious patterns work together naturally, leading to greater emotional stability and natural intuition. You may feel more nurturing, protective, and naturally in tune with the emotional needs of others.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Mercury": "This transit creates natural harmony between your emotions and your thinking processes. The Moon's influence on your emotional sensitivity combines with Mercury's intellectual energy, allowing you to express your feelings with natural clarity and think with emotional intelligence. This is a time when your emotional responses and your mental processes work together seamlessly, leading to natural emotional communication and understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Venus": "This transit creates natural harmony between your emotions and your values in relationships. The Moon's influence on your emotional nature combines with Venus's love and beauty energy, making you feel more loving, affectionate, and naturally emotionally fulfilled. This is a time when your emotional needs and your desire for beauty work together seamlessly, leading to natural emotional satisfaction in relationships and creative pursuits.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Mars": "This transit creates natural harmony between your emotions and your action impulses. The Moon's influence on your emotional sensitivity combines with Mars's warrior energy, making you feel more emotionally courageous and naturally driven. This is a time when your emotional responses and your action impulses work together seamlessly, leading to natural emotional courage and determination.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Jupiter": "This transit creates natural harmony between your emotions and your desire for growth. The Moon's influence on your emotional nature combines with Jupiter's expansive wisdom, making you feel more emotionally optimistic and naturally inclined toward emotional expansion. This is a time when your emotional needs and your desire for growth work together seamlessly, leading to natural emotional wisdom and fulfillment.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Saturn": "This transit creates natural harmony between your emotions and your sense of responsibility. The Moon's influence on your emotional sensitivity combines with Saturn's disciplined structure, making you feel more emotionally mature and naturally focused on emotional security. This is a time when your emotional needs and your sense of duty work together seamlessly, leading to natural emotional discipline and stability.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Uranus": "This transit creates natural harmony between your emotions and your need for freedom. The Moon's influence on your emotional nature combines with Uranus's revolutionary energy, making you feel more emotionally authentic and naturally independent. This is a time when your emotional responses and your need for freedom work together seamlessly, leading to natural emotional authenticity and innovation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Neptune": "This transit creates natural harmony between your emotions and your spiritual nature. The Moon's influence on your emotional sensitivity combines with Neptune's spiritual idealism, making you feel more emotionally compassionate and naturally connected to spiritual ideals. This is a time when your emotional responses and your spiritual nature work together seamlessly, leading to natural emotional empathy and artistic inspiration.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Moon_Pluto": "This transit creates natural harmony between your emotions and your transformative power. The Moon's influence on your emotional nature combines with Pluto's deep psychological energy, making you feel more emotionally intense and naturally comfortable with emotional transformation. This is a time when your emotional responses and your transformative nature work together seamlessly, leading to natural emotional depth and psychological insight.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Sun": "This transit creates natural harmony between your thinking processes and your core identity. Mercury's influence on your intellectual energy combines with the Sun's ego energy, allowing you to speak with natural authority and clarity. Your thoughts and your sense of self work together seamlessly. This is an excellent time for important conversations, writing, teaching, or any form of self-expression that feels authentic and compelling.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Moon": "This transit creates natural harmony between your thinking and your emotional nature. Mercury's influence on your intellectual energy combines with the Moon's emotional sensitivity, allowing you to think with natural emotional intelligence and express your feelings with clarity. This is a time when your mental processes and your emotional responses work together seamlessly, leading to natural emotional communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Mercury": "A transit that creates natural harmony in your thinking and communication processes. Mercury's influence on your intellectual energy and communication skills creates clear, balanced thinking and natural communication abilities. This is a time when your intellectual abilities work together seamlessly, making it an excellent period for studying, writing, teaching, or engaging in meaningful conversations that flow naturally.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Venus": "This transit creates natural harmony between your thinking and your values. Mercury's influence on your intellectual energy combines with Venus's love and beauty energy, allowing you to think naturally about beauty, relationships, and harmony. This is a time when your mental processes and your appreciation for beauty work together seamlessly, leading to natural artistic expression and social grace.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Mars": "This transit creates natural harmony between your thinking and your action impulses. Mercury's influence on your intellectual energy combines with Mars's warrior energy, allowing you to think with natural decisiveness and communicate with courage. This is a time when your mental processes and your action impulses work together seamlessly, leading to natural decisive thinking and courageous communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Jupiter": "This transit creates natural harmony between your thinking and your desire for growth. Mercury's influence on your intellectual energy combines with Jupiter's expansive wisdom, allowing you to think with natural optimism and wisdom. This is a time when your mental processes and your desire for expansion work together seamlessly, leading to natural intellectual expansion and philosophical thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Saturn": "This transit creates natural harmony between your thinking and your sense of responsibility. Mercury's influence on your intellectual energy combines with Saturn's disciplined structure, allowing you to think with natural discipline and systematic clarity. This is a time when your mental processes and your sense of duty work together seamlessly, leading to natural methodical thinking and reliable communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Uranus": "This transit creates natural harmony between your thinking and your need for innovation. Mercury's influence on your intellectual energy combines with Uranus's revolutionary energy, allowing you to think with natural originality and breakthrough insights. This is a time when your mental processes and your need for freedom work together seamlessly, leading to natural intellectual innovation and revolutionary thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Neptune": "This transit creates natural harmony between your thinking and your spiritual awareness. Mercury's influence on your intellectual energy combines with Neptune's spiritual idealism, allowing you to think with natural intuition and artistic sensitivity. This is a time when your mental processes and your spiritual nature work together seamlessly, leading to natural intuitive understanding and creative thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mercury_Pluto": "This transit creates natural harmony between your thinking and your transformative power. Mercury's influence on your intellectual energy combines with Pluto's deep psychological energy, allowing you to think with natural psychological insight and penetrating analysis. This is a time when your mental processes and your transformative nature work together seamlessly, leading to natural psychological insight and deep understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Sun": "This transit creates natural harmony between your values and your core identity. Venus's influence on your love and beauty energy combines with the Sun's ego energy, making you feel more naturally attractive, confident, and authentic in your relationships. This is a time when your values and your sense of self work together seamlessly, leading to natural authenticity in love and beauty.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Moon": "This transit creates natural harmony between your values and your emotional nature. Venus's influence on your love and beauty energy combines with the Moon's emotional sensitivity, making you feel more naturally loving, nurturing, and emotionally fulfilled in relationships. This is a time when your appreciation for beauty and your emotional responses work together seamlessly, leading to natural emotional satisfaction in love and creative pursuits.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Mercury": "This transit creates natural harmony between your values and your thinking processes. Venus's influence on your love and beauty energy combines with Mercury's intellectual energy, allowing you to express your values with natural clarity and think naturally about relationships and beauty. This is a time when your appreciation for beauty and your mental processes work together seamlessly, leading to natural artistic expression and social grace.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Venus": "A transit that creates natural harmony in your values and relationships. Venus's influence on your love and beauty energy creates natural attractiveness, loving feelings, and inclination toward artistic and social pursuits. This is a time when your values and your desire for beauty work together seamlessly, leading to natural satisfaction in relationships and creative endeavors.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Mars": "This transit creates natural harmony between your values and your action impulses. Venus's influence on your love and beauty energy combines with Mars's warrior energy, making you feel more naturally passionate, attractive, and driven in matters of love and beauty. This is a time when your appreciation for beauty and your action impulses work together seamlessly, leading to natural dynamic and passionate relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Jupiter": "This transit creates natural harmony between your values and your desire for expansion. Venus's influence on your love and beauty energy combines with Jupiter's expansive wisdom, making you feel more naturally generous, optimistic, and inclined toward growth in love and beauty. This is a time when your appreciation for beauty and your desire for expansion work together seamlessly, leading to natural generosity in love and broader artistic horizons.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Saturn": "This transit creates natural harmony between your values and your sense of responsibility. Venus's influence on your love and beauty energy combines with Saturn's disciplined structure, making you feel more naturally committed, serious, and focused on building lasting relationships. This is a time when your appreciation for beauty and your sense of duty work together seamlessly, leading to natural mature and stable relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Uranus": "This transit creates natural harmony between your values and your need for freedom. Venus's influence on your love and beauty energy combines with Uranus's revolutionary energy, making you feel more naturally authentic and inclined toward unconventional relationships. This is a time when your appreciation for beauty and your need for freedom work together seamlessly, leading to natural authentic and innovative relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Neptune": "This transit creates natural harmony between your values and your spiritual ideals. Venus's influence on your love and beauty energy combines with Neptune's spiritual idealism, making you feel more naturally compassionate, idealistic, and spiritually connected in matters of love and beauty. This is a time when your appreciation for beauty and your spiritual nature work together seamlessly, leading to natural spiritual love and artistic inspiration.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Venus_Pluto": "This transit creates natural harmony between your values and your transformative power. Venus's influence on your love and beauty energy combines with Pluto's deep psychological energy, making you feel more naturally intense and comfortable with transformative relationships. This is a time when your appreciation for beauty and your transformative nature work together seamlessly, leading to natural intense and transformative relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Sun": "This transit creates natural harmony between your action impulses and your core identity. Mars's influence on your warrior energy combines with the Sun's ego energy, making you feel more naturally confident, assertive, and ready to take action on your goals. This is a time when your action impulses and your sense of self work together seamlessly, leading to natural personal power and achievement.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Moon": "This transit creates natural harmony between your action impulses and your emotional nature. Mars's influence on your warrior energy combines with the Moon's emotional sensitivity, making you feel more naturally emotionally courageous and driven. This is a time when your action impulses and your emotional responses work together seamlessly, leading to natural emotional courage and determination.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Mercury": "This transit creates natural harmony between your action impulses and your thinking processes. Mars's influence on your warrior energy combines with Mercury's intellectual energy, allowing you to think with natural decisiveness and communicate with courage. This is a time when your action impulses and your mental processes work together seamlessly, leading to natural decisive thinking and courageous communication.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Venus": "This transit creates natural harmony between your action impulses and your values. Mars's influence on your warrior energy combines with Venus's love and beauty energy, making you feel more naturally passionate, attractive, and driven in matters of love and beauty. This is a time when your action impulses and your appreciation for beauty work together seamlessly, leading to natural dynamic and passionate relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Mars": "A transit that creates natural harmony in your action impulses and drive. Mars's influence on your warrior energy creates natural competitiveness, assertiveness, and readiness to take action. This is a time when your action impulses and your warrior energy work together seamlessly, leading to natural determination and achievement in your goals.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Jupiter": "This transit creates natural harmony between your action impulses and your desire for expansion. Mars's influence on your warrior energy combines with Jupiter's expansive wisdom, making you feel more naturally enthusiastic, optimistic, and inclined toward growth in your pursuits. This is a time when your action impulses and your desire for expansion work together seamlessly, leading to natural enthusiasm and broader horizons in your activities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Saturn": "This transit creates natural harmony between your action impulses and your sense of responsibility. Mars's influence on your warrior energy combines with Saturn's disciplined structure, making you feel more naturally focused, determined, and committed to achieving your goals through systematic effort. This is a time when your action impulses and your sense of duty work together seamlessly, leading to natural methodical and reliable achievement.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Uranus": "This transit creates natural harmony between your action impulses and your need for freedom. Mars's influence on your warrior energy combines with Uranus's revolutionary energy, making you feel more naturally innovative and inclined toward unconventional action. This is a time when your action impulses and your need for freedom work together seamlessly, leading to natural innovative and revolutionary action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Neptune": "This transit creates natural harmony between your action impulses and your spiritual ideals. Mars's influence on your warrior energy combines with Neptune's spiritual idealism, making you feel more naturally inspired, idealistic, and spiritually motivated in your pursuits. This is a time when your action impulses and your spiritual nature work together seamlessly, leading to natural inspired and compassionate action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Mars_Pluto": "This transit creates natural harmony between your action impulses and your transformative power. Mars's influence on your warrior energy combines with Pluto's deep psychological energy, making you feel more naturally powerful and comfortable with intense action. This is a time when your action impulses and your transformative nature work together seamlessly, leading to natural powerful and penetrating action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Sun": "This transit creates natural harmony between your desire for expansion and your core identity. Jupiter's influence on your expansive wisdom combines with the Sun's ego energy, making you feel more naturally confident, generous, and inclined toward personal development. This is a time when your desire for expansion and your sense of self work together seamlessly, leading to natural wisdom and a broader perspective on life.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Moon": "This transit creates natural harmony between your desire for expansion and your emotional nature. Jupiter's influence on your expansive wisdom combines with the Moon's emotional sensitivity, making you feel more naturally emotionally generous, optimistic, and inclined toward emotional growth. This is a time when your desire for expansion and your emotional responses work together seamlessly, leading to natural emotional wisdom and fulfillment.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Mercury": "This transit creates natural harmony between your desire for expansion and your thinking processes. Jupiter's influence on your expansive wisdom combines with Mercury's intellectual energy, allowing you to think with natural optimism and wisdom. This is a time when your desire for expansion and your mental processes work together seamlessly, leading to natural intellectual expansion and philosophical thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Venus": "This transit creates natural harmony between your desire for expansion and your values. Jupiter's influence on your expansive wisdom combines with Venus's love and beauty energy, making you feel more naturally generous, optimistic, and inclined toward growth in love and beauty. This is a time when your desire for expansion and your appreciation for beauty work together seamlessly, leading to natural generosity in love and broader artistic horizons.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Mars": "This transit creates natural harmony between your desire for expansion and your action impulses. Jupiter's influence on your expansive wisdom combines with Mars's warrior energy, making you feel more naturally enthusiastic, optimistic, and inclined toward growth in your pursuits. This is a time when your desire for expansion and your action impulses work together seamlessly, leading to natural enthusiasm and broader horizons in your activities.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Jupiter": "A transit that creates natural harmony in your expansion and growth processes. Jupiter's influence on your expansive wisdom creates natural optimism, generosity, and inclination toward personal development and helping others grow. This is a time when your desire for expansion and your wisdom work together seamlessly, leading to natural generosity and broader horizons.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Saturn": "This transit creates natural harmony between your desire for expansion and your sense of responsibility. Jupiter's influence on your expansive wisdom combines with Saturn's disciplined structure, making you feel more naturally focused on building lasting growth and achieving your goals through systematic effort. This is a time when your desire for expansion and your sense of duty work together seamlessly, leading to natural sustainable and reliable growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Uranus": "This transit creates natural harmony between your desire for expansion and your need for freedom. Jupiter's influence on your expansive wisdom combines with Uranus's revolutionary energy, making you feel more naturally innovative and inclined toward revolutionary growth. This is a time when your desire for expansion and your need for freedom work together seamlessly, leading to natural innovative and unconventional growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Neptune": "This transit creates natural harmony between your desire for expansion and your spiritual ideals. Jupiter's influence on your expansive wisdom combines with Neptune's spiritual idealism, making you feel more naturally compassionate, idealistic, and spiritually motivated in your pursuit of wisdom. This is a time when your desire for expansion and your spiritual nature work together seamlessly, leading to natural inspired and compassionate wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Jupiter_Pluto": "This transit creates natural harmony between your desire for expansion and your transformative power. Jupiter's influence on your expansive wisdom combines with Pluto's deep psychological energy, making you feel more naturally comfortable with transformative growth and psychological insight. This is a time when your desire for expansion and your transformative nature work together seamlessly, leading to natural powerful and penetrating wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Sun": "This transit creates natural harmony between your sense of responsibility and your core identity. Saturn's influence on your disciplined structure combines with the Sun's ego energy, making you feel more naturally mature, disciplined, and focused on long-term goals. This is a time when your sense of duty and your sense of self work together seamlessly, leading to natural achievement and authority.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Moon": "This transit creates natural harmony between your sense of responsibility and your emotional nature. Saturn's influence on your disciplined structure combines with the Moon's emotional sensitivity, making you feel more naturally emotionally mature, serious, and focused on emotional security. This is a time when your sense of duty and your emotional responses work together seamlessly, leading to natural emotional discipline and stability.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Mercury": "This transit creates natural harmony between your sense of responsibility and your thinking processes. Saturn's influence on your disciplined structure combines with Mercury's intellectual energy, allowing you to think with natural discipline and systematic clarity. This is a time when your sense of duty and your mental processes work together seamlessly, leading to natural methodical and reliable thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Venus": "This transit creates natural harmony between your sense of responsibility and your values. Saturn's influence on your disciplined structure combines with Venus's love and beauty energy, making you feel more naturally committed, serious, and focused on building lasting relationships. This is a time when your sense of duty and your appreciation for beauty work together seamlessly, leading to natural mature and stable relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Mars": "This transit creates natural harmony between your sense of responsibility and your action impulses. Saturn's influence on your disciplined structure combines with Mars's warrior energy, making you feel more naturally focused, determined, and committed to achieving your goals through systematic effort. This is a time when your sense of duty and your action impulses work together seamlessly, leading to natural methodical and reliable achievement.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Jupiter": "This transit creates natural harmony between your sense of responsibility and your desire for expansion. Saturn's influence on your disciplined structure combines with Jupiter's expansive wisdom, making you feel more naturally focused on building lasting growth and achieving your goals through systematic effort. This is a time when your sense of duty and your desire for expansion work together seamlessly, leading to natural sustainable and reliable growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Saturn": "A transit that creates natural harmony in your discipline and responsibility processes. Saturn's influence on your disciplined structure creates natural seriousness, determination, and commitment to building something lasting and meaningful. This is a time when your sense of duty and your discipline work together seamlessly, leading to natural achievement and maturity.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Uranus": "This transit creates natural harmony between your sense of responsibility and your need for freedom. Saturn's influence on your disciplined structure combines with Uranus's revolutionary energy, making you feel more naturally innovative and inclined toward revolutionary discipline. This is a time when your sense of duty and your need for freedom work together seamlessly, leading to natural innovative and unconventional discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Neptune": "This transit creates natural harmony between your sense of responsibility and your spiritual ideals. Saturn's influence on your disciplined structure combines with Neptune's spiritual idealism, making you feel more naturally compassionate, idealistic, and spiritually motivated in your approach to duty. This is a time when your sense of duty and your spiritual nature work together seamlessly, leading to natural inspired and compassionate responsibility.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Saturn_Pluto": "This transit creates natural harmony between your sense of responsibility and your transformative power. Saturn's influence on your disciplined structure combines with Pluto's deep psychological energy, making you feel more naturally comfortable with transformative discipline and psychological insight. This is a time when your sense of duty and your transformative nature work together seamlessly, leading to natural powerful and penetrating discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Sun": "This transit creates natural harmony between your need for freedom and your core identity. Uranus's influence on your revolutionary energy combines with the Sun's ego energy, making you feel more naturally authentic, innovative, and independent. This is a time when your need for freedom and your sense of self work together seamlessly, leading to natural authenticity and innovation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Moon": "This transit creates natural harmony between your need for freedom and your emotional nature. Uranus's influence on your revolutionary energy combines with the Moon's emotional sensitivity, making you feel more naturally emotionally authentic and independent. This is a time when your need for freedom and your emotional responses work together seamlessly, leading to natural emotional authenticity and innovation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Mercury": "This transit creates natural harmony between your need for freedom and your thinking processes. Uranus's influence on your revolutionary energy combines with Mercury's intellectual energy, allowing you to think with natural originality and breakthrough insights. This is a time when your need for freedom and your mental processes work together seamlessly, leading to natural intellectual innovation and revolutionary thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Venus": "This transit creates natural harmony between your need for freedom and your values. Uranus's influence on your revolutionary energy combines with Venus's love and beauty energy, making you feel more naturally authentic and inclined toward unconventional relationships. This is a time when your need for freedom and your appreciation for beauty work together seamlessly, leading to natural authentic and innovative relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Mars": "This transit creates natural harmony between your need for freedom and your action impulses. Uranus's influence on your revolutionary energy combines with Mars's warrior energy, making you feel more naturally innovative and inclined toward revolutionary action. This is a time when your need for freedom and your action impulses work together seamlessly, leading to natural innovative and unconventional action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Jupiter": "This transit creates natural harmony between your need for freedom and your desire for expansion. Uranus's influence on your revolutionary energy combines with Jupiter's expansive wisdom, making you feel more naturally innovative and inclined toward revolutionary growth. This is a time when your need for freedom and your desire for expansion work together seamlessly, leading to natural innovative and unconventional growth.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Saturn": "This transit creates natural harmony between your need for freedom and your sense of responsibility. Uranus's influence on your revolutionary energy combines with Saturn's disciplined structure, making you feel more naturally innovative and inclined toward revolutionary discipline. This is a time when your need for freedom and your sense of duty work together seamlessly, leading to natural innovative and unconventional discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Uranus": "A transit that creates natural harmony in your need for freedom and innovation processes. Uranus's influence on your revolutionary energy creates natural independence, originality, and inclination toward revolutionary change. This is a time when your need for freedom and your innovative energy work together seamlessly, leading to natural authenticity and breakthrough thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Neptune": "This transit creates natural harmony between your need for freedom and your spiritual ideals. Uranus's influence on your revolutionary energy combines with Neptune's spiritual idealism, making you feel more naturally spiritually innovative and inclined toward revolutionary spirituality. This is a time when your need for freedom and your spiritual nature work together seamlessly, leading to natural authentic and unconventional spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Uranus_Pluto": "This transit creates natural harmony between your need for freedom and your transformative power. Uranus's influence on your revolutionary energy combines with Pluto's deep psychological energy, making you feel more naturally comfortable with revolutionary transformation and psychological insight. This is a time when your need for freedom and your transformative nature work together seamlessly, leading to natural innovative and revolutionary transformation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Sun": "This transit creates natural harmony between your spiritual ideals and your core identity. Neptune's influence on your spiritual idealism combines with the Sun's ego energy, making you feel more naturally compassionate, intuitive, and connected to higher consciousness. This is a time when your spiritual nature and your sense of self work together seamlessly, leading to natural empathy and artistic inspiration.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Moon": "This transit creates natural harmony between your spiritual ideals and your emotional nature. Neptune's influence on your spiritual idealism combines with the Moon's emotional sensitivity, making you feel more naturally emotionally compassionate, intuitive, and connected to spiritual ideals. This is a time when your spiritual nature and your emotional responses work together seamlessly, leading to natural emotional empathy and artistic inspiration.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Mercury": "This transit creates natural harmony between your spiritual ideals and your thinking processes. Neptune's influence on your spiritual idealism combines with Mercury's intellectual energy, allowing you to think with natural intuition and artistic sensitivity. This is a time when your spiritual nature and your mental processes work together seamlessly, leading to natural intuitive understanding and creative thinking.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Venus": "This transit creates natural harmony between your spiritual ideals and your values. Neptune's influence on your spiritual idealism combines with Venus's love and beauty energy, making you feel more naturally compassionate, idealistic, and spiritually connected in matters of love and beauty. This is a time when your spiritual nature and your appreciation for beauty work together seamlessly, leading to natural spiritual love and artistic inspiration.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Mars": "This transit creates natural harmony between your spiritual ideals and your action impulses. Neptune's influence on your spiritual idealism combines with Mars's warrior energy, making you feel more naturally inspired, idealistic, and spiritually motivated in your pursuits. This is a time when your spiritual nature and your action impulses work together seamlessly, leading to natural inspired and compassionate action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Jupiter": "This transit creates natural harmony between your spiritual ideals and your desire for expansion. Neptune's influence on your spiritual idealism combines with Jupiter's expansive wisdom, making you feel more naturally compassionate, idealistic, and spiritually motivated in your pursuit of wisdom. This is a time when your spiritual nature and your desire for expansion work together seamlessly, leading to natural inspired and compassionate wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Saturn": "This transit creates natural harmony between your spiritual ideals and your sense of responsibility. Neptune's influence on your spiritual idealism combines with Saturn's disciplined structure, making you feel more naturally compassionate, idealistic, and spiritually motivated in your approach to duty. This is a time when your spiritual nature and your sense of duty work together seamlessly, leading to natural inspired and compassionate responsibility.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Uranus": "This transit creates natural harmony between your spiritual ideals and your need for freedom. Neptune's influence on your spiritual idealism combines with Uranus's revolutionary energy, making you feel more naturally spiritually innovative and inclined toward revolutionary spirituality. This is a time when your spiritual nature and your need for freedom work together seamlessly, leading to natural authentic and unconventional spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Neptune": "A transit that creates natural harmony in your spiritual awareness and idealism processes. Neptune's influence on your spiritual idealism creates natural compassion, intuition, and inclination toward spiritual practices and artistic expression. This is a time when your spiritual nature and your idealism work together seamlessly, leading to natural empathy and spiritual inspiration.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Neptune_Pluto": "This transit creates natural harmony between your spiritual ideals and your transformative power. Neptune's influence on your spiritual idealism combines with Pluto's deep psychological energy, making you feel more naturally comfortable with spiritual transformation and psychological insight. This is a time when your spiritual nature and your transformative nature work together seamlessly, leading to natural powerful and penetrating spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Sun": "This transit creates natural harmony between your transformative power and your core identity. Pluto's influence on your deep psychological energy combines with the Sun's ego energy, making you feel more naturally comfortable with deep personal changes and psychological insights. This is a time when your transformative nature and your sense of self work together seamlessly, leading to natural psychological depth and personal power.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Moon": "This transit creates natural harmony between your transformative power and your emotional nature. Pluto's influence on your deep psychological energy combines with the Moon's emotional sensitivity, making you feel more naturally comfortable with emotional transformation and psychological insight. This is a time when your transformative nature and your emotional responses work together seamlessly, leading to natural emotional depth and psychological insight.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Mercury": "This transit creates natural harmony between your transformative power and your thinking processes. Pluto's influence on your deep psychological energy combines with Mercury's intellectual energy, allowing you to think with natural psychological insight and penetrating analysis. This is a time when your transformative nature and your mental processes work together seamlessly, leading to natural psychological insight and deep understanding.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Venus": "This transit creates natural harmony between your transformative power and your values. Pluto's influence on your deep psychological energy combines with Venus's love and beauty energy, making you feel more naturally comfortable with transformative relationships and psychological insight. This is a time when your transformative nature and your appreciation for beauty work together seamlessly, leading to natural intense and transformative relationships.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Mars": "This transit creates natural harmony between your transformative power and your action impulses. Pluto's influence on your deep psychological energy combines with Mars's warrior energy, making you feel more naturally comfortable with powerful action and psychological insight. This is a time when your transformative nature and your action impulses work together seamlessly, leading to natural powerful and penetrating action.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Jupiter": "This transit creates natural harmony between your transformative power and your desire for expansion. Pluto's influence on your deep psychological energy combines with Jupiter's expansive wisdom, making you feel more naturally comfortable with transformative growth and psychological insight. This is a time when your transformative nature and your desire for expansion work together seamlessly, leading to natural powerful and penetrating wisdom.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Saturn": "This transit creates natural harmony between your transformative power and your sense of responsibility. Pluto's influence on your deep psychological energy combines with Saturn's disciplined structure, making you feel more naturally comfortable with transformative discipline and psychological insight. This is a time when your transformative nature and your sense of duty work together seamlessly, leading to natural powerful and penetrating discipline.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Uranus": "This transit creates natural harmony between your transformative power and your need for freedom. Pluto's influence on your deep psychological energy combines with Uranus's revolutionary energy, making you feel more naturally comfortable with revolutionary transformation and psychological insight. This is a time when your transformative nature and your need for freedom work together seamlessly, leading to natural innovative and revolutionary transformation.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Neptune": "This transit creates natural harmony between your transformative power and your spiritual ideals. Pluto's influence on your deep psychological energy combines with Neptune's spiritual idealism, making you feel more naturally comfortable with spiritual transformation and psychological insight. This is a time when your transformative nature and your spiritual nature work together seamlessly, leading to natural powerful and penetrating spirituality.",</span>
+    
+<span class="cstat-no" title="statement not covered" >    "Pluto_Pluto": "A transit that creates natural harmony in your transformative power and psychological depth processes. Pluto's influence on your deep psychological energy creates natural intensity, power, and inclination toward uncovering hidden truths and undergoing deep transformation. This is a time when your transformative nature and your psychological insight work together seamlessly, leading to natural personal power and profound change."</span>
+<span class="cstat-no" title="statement not covered" >}</span></pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-10T22:40:14.652Z
+            </div>
+        <script src="../../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../../sorter.js"></script>
+        <script src="../../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

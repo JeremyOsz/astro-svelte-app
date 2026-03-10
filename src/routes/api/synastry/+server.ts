@@ -1,10 +1,10 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { env } from '$env/dynamic/private';
+import { getEphemerisConfig } from '$lib/server/ephemeris';
+import { fetchWithRetry } from '$lib/server/http';
+import { BoundedTTLCache } from '$lib/server/bounded-cache';
 
-// Simple in-memory cache for server-side caching
-const serverCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+const serverCache = new BoundedTTLCache<any>(500, 60 * 60 * 1000);
 
 interface SynastryRequest {
   person1: {
@@ -24,16 +24,30 @@ interface SynastryRequest {
   house_system?: 'whole_sign' | 'placidus';
 }
 
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+
 export const POST: RequestHandler = async ({ request }) => {
   try {
-    const { person1, person2, house_system = 'whole_sign' } = await request.json() as SynastryRequest;
+    const body = await request.json() as Partial<SynastryRequest>;
+    const person1 = body.person1;
+    const person2 = body.person2;
+    const house_system = body.house_system || 'whole_sign';
+
+    if (!person1 || !person2) {
+      return json({ error: 'person1 and person2 are required objects' }, { status: 400 });
+    }
     
     // Validate required fields
-    if (!person1.date || person1.latitude === undefined || person1.longitude === undefined) {
+    if (!person1.date || !isFiniteNumber(person1.latitude) || !isFiniteNumber(person1.longitude)) {
       return json({ error: 'Missing required fields for person1: date, latitude, longitude' }, { status: 400 });
     }
-    if (!person2.date || person2.latitude === undefined || person2.longitude === undefined) {
+    if (!person2.date || !isFiniteNumber(person2.latitude) || !isFiniteNumber(person2.longitude)) {
       return json({ error: 'Missing required fields for person2: date, latitude, longitude' }, { status: 400 });
+    }
+    if (Number.isNaN(new Date(person1.date).getTime()) || Number.isNaN(new Date(person2.date).getTime())) {
+      return json({ error: 'Invalid date format for person1 or person2' }, { status: 400 });
     }
     
     // Create cache key
@@ -41,8 +55,8 @@ export const POST: RequestHandler = async ({ request }) => {
     
     // Check server cache first
     const cached = serverCache.get(cacheKey);
-    if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION) {
-      return json(cached.data);
+    if (cached) {
+      return json(cached);
     }
     
     // Format the data for the external API
@@ -65,24 +79,20 @@ export const POST: RequestHandler = async ({ request }) => {
     };
     
     // Call the external ephemeris API
-    const API_BASE_URL = 'https://immanuel-astro.onrender.com';
-    const API_KEY = env.EPHEMERIS_API_KEY || '';
+    const { baseUrl, apiKey } = getEphemerisConfig();
     
-    const response = await fetch(`${API_BASE_URL}/synastry`, {
+    const response = await fetchWithRetry(`${baseUrl}/synastry`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Key': API_KEY
+        'X-API-Key': apiKey
       },
       body: JSON.stringify(apiData)
-    });
+    }, { timeoutMs: 12_000, retries: 1 });
     
     if (!response.ok) {
       console.error('Synastry API request failed:', response.status, response.statusText);
-      const errorText = await response.text();
-      console.error('Response body:', errorText);
-      
-      throw new Error(`Synastry API request failed: ${response.status} ${response.statusText} - ${errorText}`);
+      throw new Error(`Synastry API request failed: ${response.status} ${response.statusText}`);
     }
     
     const synastryResult = await response.json();
@@ -97,18 +107,14 @@ export const POST: RequestHandler = async ({ request }) => {
     };
     
     // Cache the successful response
-    serverCache.set(cacheKey, {
-      data: responseData,
-      timestamp: Date.now()
-    });
+    serverCache.set(cacheKey, responseData);
     
     return json(responseData);
     
   } catch (error) {
     console.error('Error calculating synastry:', error);
     return json({ 
-      error: 'Failed to calculate synastry',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      error: 'Failed to calculate synastry'
     }, { status: 500 });
   }
 }; 

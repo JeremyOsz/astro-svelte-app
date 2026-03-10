@@ -11,6 +11,13 @@
     hideBriefTooltip 
   } from '../components/tooltips/brief-tooltip';
 
+  const ENABLE_DEBUG_LOGS = false;
+  function debugLog(...args: unknown[]) {
+    if (ENABLE_DEBUG_LOGS) {
+      console.log(...args);
+    }
+  }
+
   // Props (removed chartData prop since we'll use the store directly)
   export let showDegreeMarkers: boolean = true;
   export let showExtendedPlanets: boolean = true;
@@ -41,7 +48,7 @@
   
   // Debug dialog state changes
   $: if (dialogOpen) {
-    console.log('🎯 D3Chart: Dialog opened with data:', selectedElementData);
+    debugLog('🎯 D3Chart: Dialog opened with data:', selectedElementData);
   }
 
   // Subscribe to the chart store - use manual subscription for better control
@@ -122,13 +129,13 @@
       houseNumRadius: layout.houseNumRadius * scaleFactor,
       aspectHubRadius: layout.aspectHubRadius * scaleFactor
     };
-    console.log('D3Chart: Chart dimensions calculated:', dimensions);
+    debugLog('D3Chart: Chart dimensions calculated:', dimensions);
     return dimensions;
   });
 
   // Update CSS custom property when chart dimensions change
   $: if (chartContainer && $chartDimensions) {
-    console.log('D3Chart: Setting chart size CSS property:', $chartDimensions.chartSize);
+    debugLog('D3Chart: Setting chart size CSS property:', $chartDimensions.chartSize);
     chartContainer.style.setProperty('--chart-size', `${$chartDimensions.chartSize}px`);
   }
 
@@ -158,7 +165,7 @@
 
   // Lifecycle
   onMount(() => {
-    console.log('D3Chart: Component mounted');
+    debugLog('D3Chart: Component mounted');
     detectDeviceType();
     createBriefTooltip();
     
@@ -166,7 +173,7 @@
     if (chartContainer) {
       resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
-          console.log('D3Chart: Container resized:', entry.contentRect);
+          debugLog('D3Chart: Container resized:', entry.contentRect);
           // Force chart recreation when container size changes
           if (currentChartData) {
             createChart();
@@ -183,7 +190,7 @@
     chartStoreUnsubscribe = chartStore.subscribe((state) => {
       const { chartData, error, isLoading, version } = state;
       
-      console.log('D3Chart: Store update received:', { 
+      debugLog('D3Chart: Store update received:', { 
         hasData: !!chartData, 
         dataLength: chartData?.length, 
         version, 
@@ -206,17 +213,17 @@
           currentVersion = version;
           
           if (chartData.trim()) {
-            console.log('D3Chart: Processing new chart data from store (version:', version, ')');
-            console.log('D3Chart: Raw chart data:', chartData);
+            debugLog('D3Chart: Processing new chart data from store (version:', version, ')');
+            debugLog('D3Chart: Raw chart data:', chartData);
             parseChartData(chartData);
           } else {
-            console.log('D3Chart: Chart data is empty, clearing chart');
+            debugLog('D3Chart: Chart data is empty, clearing chart');
             // Clear the chart if no data
             d3.select(chartContainer).html('');
           }
         }, 100); // 100ms debounce
       } else {
-        console.log('D3Chart: Skipping update - conditions not met:', {
+        debugLog('D3Chart: Skipping update - conditions not met:', {
           hasData: !!chartData,
           versionGreater: version > currentVersion,
           hasContainer: !!chartContainer
@@ -227,7 +234,7 @@
 
   // Debug chart container binding
   $: if (chartContainer) {
-    console.log('D3Chart: Chart container bound:', chartContainer);
+    debugLog('D3Chart: Chart container bound:', chartContainer);
     // Re-observe if container changes
     if (resizeObserver) {
       resizeObserver.disconnect();
@@ -267,7 +274,7 @@
     isTablet = width >= 768 && width < 1024;
     const layout = isMobile ? CHART_LAYOUT.MOBILE : isTablet ? CHART_LAYOUT.TABLET : CHART_LAYOUT.DESKTOP;
     
-    console.log('D3Chart: Device detection - width:', width, 'layout:', layout, 'isMobile:', isMobile);
+    debugLog('D3Chart: Device detection - width:', width, 'layout:', layout, 'isMobile:', isMobile);
     
     chartState.update(state => ({
       ...state,
@@ -327,12 +334,12 @@
   function parseChartData(data: string) {
     const trimmedData = data?.trim();
     if (!trimmedData) {
-      console.log('D3Chart: No data to parse');
+      debugLog('D3Chart: No data to parse');
       return;
     }
 
-    console.log('D3Chart: Parsing chart data:', trimmedData);
-    console.log('D3Chart: Data lines:', trimmedData.split('\n'));
+    debugLog('D3Chart: Parsing chart data:', trimmedData);
+    debugLog('D3Chart: Data lines:', trimmedData.split('\n'));
 
     const lines = trimmedData.split('\n').filter((line: string) => line.trim() !== '');
     const parsedData: PlanetData[] = [];
@@ -347,7 +354,7 @@
       if (houseCuspDegrees.length === 12 && houseCuspDegrees.every(deg => !isNaN(deg))) {
         houseCusps = houseCuspDegrees.map((angle, index) => ({ house: index + 1, angle }));
         hasApiHouseCusps = true;
-        console.log('D3Chart: Using API house cusps:', houseCusps);
+        debugLog('D3Chart: Using API house cusps:', houseCusps);
       }
     }
 
@@ -403,30 +410,30 @@
       // Use API house number if available, otherwise calculate
       if (houseNumber !== undefined) {
         (planetData as any).house = houseNumber;
-        console.log(`D3Chart: Using API house for ${name}: ${houseNumber}`);
+        debugLog(`D3Chart: Using API house for ${name}: ${houseNumber}`);
       }
 
       parsedData.push(planetData);
     });
 
-    console.log('D3Chart: Parsed data count:', parsedData.length);
-    console.log('D3Chart: Parsed planets:', parsedData.map(p => p.planet));
-    console.log('D3Chart: Looking for ASC in planets:', parsedData.map(p => p.planet).includes('ASC'));
+    debugLog('D3Chart: Parsed data count:', parsedData.length);
+    debugLog('D3Chart: Parsed planets:', parsedData.map(p => p.planet));
+    debugLog('D3Chart: Looking for ASC in planets:', parsedData.map(p => p.planet).includes('ASC'));
     
     // Debug specific planet positions
     const sun = parsedData.find(p => p.planet === 'Sun');
     const moon = parsedData.find(p => p.planet === 'Moon');
     const asc = parsedData.find(p => p.planet === 'ASC');
-    console.log('D3Chart: Key planet positions:', {
+    debugLog('D3Chart: Key planet positions:', {
       Sun: sun ? `${sun.sign} ${sun.degree}°${sun.minute}'` : 'Not found',
       Moon: moon ? `${moon.sign} ${moon.degree}°${moon.minute}'` : 'Not found',
       ASC: asc ? `${asc.sign} ${asc.degree}°${asc.minute}'` : 'Not found'
     });
     if (!asc) {
-      console.log('D3Chart: No ASC found in parsed data, cannot create chart');
+      debugLog('D3Chart: No ASC found in parsed data, cannot create chart');
       return;
     }
-    console.log('D3Chart: Found ASC at angle:', asc.angle);
+    debugLog('D3Chart: Found ASC at angle:', asc.angle);
 
     // If we don't have API house cusps, calculate them using whole sign system
     if (!hasApiHouseCusps) {
@@ -436,7 +443,7 @@
         const angle = signIndex * 30; // 0, 30, 60, ...
         houseCusps.push({ house: i + 1, angle });
       }
-      console.log('D3Chart: Calculated house cusps (whole sign):', houseCusps);
+      debugLog('D3Chart: Calculated house cusps (whole sign):', houseCusps);
     }
 
     // Add missing angles
@@ -495,7 +502,7 @@
         }
         
         (planet as any).house = houseNumber;
-        console.log(`D3Chart: Calculated house for ${planet.planet}: ${houseNumber}`);
+        debugLog(`D3Chart: Calculated house for ${planet.planet}: ${houseNumber}`);
       }
     });
 
@@ -554,9 +561,9 @@
   }
 
   function createChart() {
-    console.log('D3Chart: createChart called');
+    debugLog('D3Chart: createChart called');
     if (!chartContainer) {
-      console.log('D3Chart: No chart container found');
+      debugLog('D3Chart: No chart container found');
       return;
     }
     const { showAspectLines, showPlanetLabels } = get(chartSettings);
@@ -564,20 +571,20 @@
 
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
     if (!asc) {
-      console.log('D3Chart: No ASC found in data');
+      debugLog('D3Chart: No ASC found in data');
       return;
     }
     const ascAngle = asc.angle;
-    console.log('D3Chart: ASC angle:', ascAngle);
-    console.log('D3Chart: House cusps:', houseCusps);
+    debugLog('D3Chart: ASC angle:', ascAngle);
+    debugLog('D3Chart: House cusps:', houseCusps);
     
     const container = d3.select(chartContainer);
-    console.log('D3Chart: Container selected:', container.node());
+    debugLog('D3Chart: Container selected:', container.node());
     container.html(''); // Clear previous chart
-    console.log('D3Chart: Container cleared');
+    debugLog('D3Chart: Container cleared');
 
     const { chartSize } = get(chartDimensions);
-    console.log('D3Chart: Chart size:', chartSize);
+    debugLog('D3Chart: Chart size:', chartSize);
 
     const { containerWidth, containerHeight } = get(chartDimensions);
     
@@ -587,36 +594,36 @@
       .attr('viewBox', `0 0 ${chartSize} ${chartSize}`)
       .attr('preserveAspectRatio', 'xMidYMid meet')
       .style('cursor', 'grab');
-    console.log('D3Chart: SVG created:', svg.node());
+    debugLog('D3Chart: SVG created:', svg.node());
 
     const g = svg.append('g')
       .attr('class', 'chart-group')
       .attr('transform', `translate(${chartSize / 2}, ${chartSize / 2})`);
 
-    console.log('D3Chart: Drawing chart elements...');
+    debugLog('D3Chart: Drawing chart elements...');
     // Use the 1st house cusp angle from the API (or calculated whole sign)
     const house1CuspAngle = houseCusps[0].angle;
-    console.log('D3Chart: Using house 1 cusp angle:', house1CuspAngle);
+    debugLog('D3Chart: Using house 1 cusp angle:', house1CuspAngle);
     
     // Draw chart elements
     drawZodiacWheel(g, house1CuspAngle);
-    console.log('D3Chart: Zodiac wheel drawn');
+    debugLog('D3Chart: Zodiac wheel drawn');
     drawHouseLinesAndNumbers(g, house1CuspAngle);
-    console.log('D3Chart: House lines drawn');
+    debugLog('D3Chart: House lines drawn');
     if (showAspectLines) {
-      console.log('D3Chart: showAspectLines is true, drawing aspects...');
+      debugLog('D3Chart: showAspectLines is true, drawing aspects...');
       const { aspects } = get(chartState);
-      console.log('D3Chart: Number of aspects to draw:', aspects.length);
+      debugLog('D3Chart: Number of aspects to draw:', aspects.length);
       drawAspects(g, house1CuspAngle);
-      console.log('D3Chart: Aspects drawn');
+      debugLog('D3Chart: Aspects drawn');
     } else {
-      console.log('D3Chart: showAspectLines is false, skipping aspects');
+      debugLog('D3Chart: showAspectLines is false, skipping aspects');
     }
     drawPlanets(g, house1CuspAngle);
-    console.log('D3Chart: Planets drawn');
+    debugLog('D3Chart: Planets drawn');
     
     setupZoom(); // Re-setup zoom for the new SVG
-    console.log('D3Chart: Zoom setup complete');
+    debugLog('D3Chart: Zoom setup complete');
   }
 
   function drawZodiacWheel(g: d3.Selection<SVGGElement, unknown, null, undefined>, house1CuspAngle: number) {
@@ -640,7 +647,7 @@
     const { data } = get(chartState);
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
     if (!asc) {
-      console.log('D3Chart: No ASC found for zodiac wheel');
+      debugLog('D3Chart: No ASC found for zodiac wheel');
       return;
     }
     
@@ -649,7 +656,7 @@
     const ascSignStartAngle = ascSignIndex * 30; // 0° of the Ascendant's sign
     const zodiacOffset = ascSignStartAngle - house1CuspAngle;
     
-    console.log('D3Chart: Zodiac wheel setup:', {
+    debugLog('D3Chart: Zodiac wheel setup:', {
       ascSign: asc.sign,
       ascSignIndex,
       ascSignStartAngle,
@@ -772,7 +779,7 @@
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
     if (!asc) {
-      console.log('D3Chart: No ASC found for house line positioning');
+      debugLog('D3Chart: No ASC found for house line positioning');
       return;
     }
     
@@ -869,7 +876,7 @@
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
     if (!asc) {
-      console.log('D3Chart: No ASC found for aspect positioning');
+      debugLog('D3Chart: No ASC found for aspect positioning');
       return;
     }
     
@@ -925,7 +932,7 @@
           hideBriefTooltip();
         })
         .on('click', () => {
-          console.log('🎯 D3Chart: Aspect clicked:', aspect);
+          debugLog('🎯 D3Chart: Aspect clicked:', aspect);
           selectedElementData = aspect;
           dialogOpen = true;
           hideBriefTooltip();
@@ -941,7 +948,7 @@
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
     if (!asc) {
-      console.log('D3Chart: No ASC found for planet positioning');
+      debugLog('D3Chart: No ASC found for planet positioning');
       return;
     }
     
@@ -1211,7 +1218,7 @@
 
         
         // Debug logging
-        console.log('Zoom transform:', { k: transform.k, x: transform.x, y: transform.y, showReset: showResetButton });
+        debugLog('Zoom transform:', { k: transform.k, x: transform.x, y: transform.y, showReset: showResetButton });
         
         // Force reactivity update
         showResetButton = showResetButton;

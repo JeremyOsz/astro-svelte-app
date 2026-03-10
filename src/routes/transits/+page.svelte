@@ -189,7 +189,6 @@
       {transitDate}
       {transitTime}
       {selectedTransitCityData}
-      {chartReady}
     />
   {/if}
 

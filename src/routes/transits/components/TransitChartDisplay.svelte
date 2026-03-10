@@ -36,7 +36,6 @@
   export let transitDate: string;
   export let transitTime: string;
   export let selectedTransitCityData: any;
-  export let chartReady: boolean;
 
   // Chart instructions
   let showInstructions = false;
@@ -461,14 +460,3 @@
   elementData={selectedElementData} 
   chartType="transit" 
 />
-
-<style>
-  .font-zodiac {
-    font-family: 'Noto Sans Symbols', 'Arial Unicode MS', 'Arial', sans-serif;
-    font-weight: 500;
-  }
-  
-  .font-symbols {
-    font-family: 'Noto Sans Symbols', 'Arial', sans-serif;
-  }
-</style>

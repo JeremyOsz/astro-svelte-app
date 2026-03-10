@@ -115,24 +115,3 @@
     </p>
   </div>
 </div>
-
-<style>
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-  
-  /* Custom pulse animation for mystical elements */
-  @keyframes mystical-pulse {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.1); }
-  }
-  
-  .animate-pulse {
-    animation: mystical-pulse 2s ease-in-out infinite;
-  }
-</style>

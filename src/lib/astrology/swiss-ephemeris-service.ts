@@ -1,5 +1,6 @@
 import type { BirthChart, PlanetPosition } from "$lib/types/types";
-import { env } from '$env/dynamic/private';
+import { getEphemerisConfig } from '$lib/server/ephemeris';
+import { fetchWithRetry } from '$lib/server/http';
 
 interface SwissEphemerisBirthData {
   date: string;
@@ -15,10 +16,6 @@ interface SwissEphemerisResponse {
   [key: string]: any;
 }
 
-// Use local server for development, but use the production API URL if set in environment
-const API_BASE_URL = env.EPHEMERIS_URL || 'http://127.0.0.1:8001';
-const API_KEY = env.EPHEMERIS_API_KEY;
-
 // Ensure this service is only used on the server side
 if (typeof window !== 'undefined') {
   throw new Error('SwissEphemerisService should only be used on the server side');
@@ -26,19 +23,16 @@ if (typeof window !== 'undefined') {
 
 export class SwissEphemerisService {
   private static async makeRequest(endpoint: string, data: any): Promise<any> {
-    if (!API_KEY) {
-      throw new Error('EPHEMERIS_API_KEY environment variable is not set. Please configure the ephemeris API.');
-    }
-
-    const url = `${API_BASE_URL}${endpoint}`;
-    const response = await fetch(url, {
+    const { baseUrl, apiKey } = getEphemerisConfig();
+    const url = `${baseUrl}${endpoint}`;
+    const response = await fetchWithRetry(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Key': API_KEY
+        'X-API-Key': apiKey
       },
       body: JSON.stringify(data)
-    });
+    }, { timeoutMs: 12_000, retries: 1 });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -55,11 +49,6 @@ export class SwissEphemerisService {
     place: string = 'Unknown Location',
     houseSystem: 'whole_sign' | 'placidus' = 'whole_sign'
   ): Promise<BirthChart> {
-    // Check if API is configured
-    if (!API_KEY) {
-      throw new Error('EPHEMERIS_API_KEY environment variable is not set. Please configure the ephemeris API.');
-    }
-
     const requestData: SwissEphemerisBirthData = {
       date: date.toISOString().split('T')[0],
       time: date.toTimeString().split(' ')[0],
@@ -79,22 +68,13 @@ export class SwissEphemerisService {
     latitude: number,
     longitude: number
   ): BirthChart {
-    console.log('=== TRANSFORMING RESPONSE ===');
-    console.log('Response keys:', Object.keys(response));
-    console.log('Response structure:', JSON.stringify(response, null, 2));
-    
-    // This transformation will need to be updated based on the actual API response structure
-    // For now, I'll create a basic structure that you can adjust
-    
     // Extract planets from the response
     const planets: PlanetPosition[] = [];
     
     // The actual response structure will depend on what the Swiss Ephemeris API returns
     // You'll need to map the response fields to your PlanetPosition interface
     if (response.planets) {
-      console.log('Found planets array with', response.planets.length, 'planets');
-      response.planets.forEach((planet: any, index: number) => {
-        console.log(`Planet ${index + 1}:`, planet);
+      response.planets.forEach((planet: any) => {
         planets.push({
           name: planet.name,
           longitude: planet.longitude,
@@ -106,10 +86,8 @@ export class SwissEphemerisService {
         });
       });
     } else if (response.objects) {
-      console.log('Found objects with', Object.keys(response.objects).length, 'objects');
       // Look for planets in the objects
       Object.entries(response.objects).forEach(([key, object]: [string, any]) => {
-        console.log(`Object ${key}:`, object);
         // Check if this is a planet (you might need to adjust this logic based on the actual structure)
         if (object.type && object.type.name === 'Planet') {
           planets.push({
@@ -124,8 +102,6 @@ export class SwissEphemerisService {
           });
         }
       });
-    } else {
-      console.log('No planets found in response. Available keys:', Object.keys(response));
     }
 
     // Extract houses, ascendant, and MC from the response
@@ -172,11 +148,6 @@ export class SwissEphemerisService {
     }
     if (!transitDate || isNaN(transitDate.getTime())) {
       throw new Error('Invalid transit date');
-    }
-
-    // Check if API is configured
-    if (!API_KEY) {
-      throw new Error('EPHEMERIS_API_KEY environment variable is not set. Please configure the ephemeris API.');
     }
 
     const requestData = {
