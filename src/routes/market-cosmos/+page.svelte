@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import PageInsightChat from '$lib/components/PageInsightChat.svelte';
+  import { buildMarketCosmosChatContext } from '$lib/market-cosmos/chat-context';
   import ZodiacIcon from '$lib/components/icons/ZodiacIcon.svelte';
   import {
     buildTimelineChartModel,
@@ -62,8 +64,32 @@
   let timelineError: string | null = null;
   let timelineRequestId = 0;
   let chartModel: TimelineChartModel | null = null;
+  let chatContext = '';
+  let chatSuggestions: string[] = [];
 
   $: chartModel = timelineData ? buildTimelineChartModel(timelineData, primaryPlanet, secondaryPlanet) : null;
+  $: chatContext = buildMarketCosmosChatContext({
+    activeTab,
+    selectedIndexLabel: indexOptions.find((option) => option.symbol === selectedIndex)?.label ?? selectedIndex,
+    selectedRange,
+    primaryPlanet,
+    secondaryPlanet,
+    overviewData,
+    timelineData
+  });
+
+  $: chatSuggestions =
+    activeTab === 'overview'
+      ? [
+          'What are the strongest signals in this overview?',
+          'How do the market moves and astrology snapshot connect?',
+          'Which category looks most notable right now?'
+        ]
+      : [
+          `Explain the ${primaryPlanet} and ${secondaryPlanet} pattern for ${selectedIndex}.`,
+          'What does the correlation section suggest?',
+          'Which recent ingress events matter most here?'
+        ];
 
   onMount(async () => {
     await Promise.all([loadOverview(), loadTimeline()]);
@@ -539,3 +565,12 @@
     </section>
   {/if}
 </div>
+
+<section class="mx-auto mt-6 max-w-6xl px-4 pb-10 md:px-6">
+  <PageInsightChat
+    title="Ask the Market Cosmos guide"
+    description="Chat about the current overview or timeline with the live page state supplied as context."
+    contextSummary={chatContext}
+    suggestions={chatSuggestions}
+  />
+</section>

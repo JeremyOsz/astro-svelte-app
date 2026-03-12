@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
+  import PageInsightChat from '$lib/components/PageInsightChat.svelte';
+  import { buildChartPageContext } from '$lib/page-chat/context-builders';
   import D3Chart from '../../lib/chart/D3Chart.svelte';
   import InterpretationList from '../../lib/components/interpretations/InterpretationList.svelte';
   import BirthChartForm from './BirthChartForm.svelte';
@@ -49,6 +51,8 @@
 
   // Chart instructions
   let showInstructions = false;
+  let chatContext = '';
+  let chatSuggestions: string[] = [];
 
   // Loading progress tracking
   let loadingProgress = 0;
@@ -99,6 +103,31 @@ MC,Leo,10°14'`;
   } else {
     showChart = false;
   }
+
+  $: chatContext = buildChartPageContext({
+    birthData: $chartStore.birthData,
+    chartData: $chartStore.chartData,
+    interpretationFilter,
+    showChart,
+    showDegreeMarkers,
+    showExtendedPlanets,
+    showAspectLines,
+    showPlanetLabels,
+    zoomLevel,
+    savedChartsCount: $chartStore.savedCharts.length
+  });
+
+  $: chatSuggestions = showChart
+    ? [
+        'What are the dominant themes in this chart?',
+        'Which placements should I pay attention to first?',
+        'How do the chart settings and interpretations connect?'
+      ]
+    : [
+        'What information do I need to generate a chart?',
+        'How should I read this birth chart page?',
+        'What can this chart tool help me discover?'
+      ];
 
   // Show loading state when API calls are in progress
   $: if (isLoading) {
@@ -795,6 +824,24 @@ MC,Leo,10°14'`;
               bind:zoomLevel={zoomLevel}
             />
           </div>
+          <div class="mt-4 rounded-lg border border-border bg-card/60">
+            <details class="group" open>
+              <summary class="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium text-foreground">
+                <span>AI Chart Interpretation</span>
+                <span class="text-xs text-muted-foreground transition-transform group-open:rotate-180">▼</span>
+              </summary>
+              <div class="border-t border-border px-4 py-4">
+                <PageInsightChat
+                  title="Ask about this birth chart"
+                  description="Chat with the current chart, birth details, and interpretation filter as context."
+                  contextSummary={chatContext}
+                  suggestions={chatSuggestions}
+                  featuredPromptLabel="What does this chart mean?"
+                  featuredPrompt="What does this chart mean? Give me a clear overall interpretation of the main themes, strongest placements, and anything especially notable."
+                />
+              </div>
+            </details>
+          </div>
           <!-- Search bar for interpretations -->
           <div class="mt-4">
             <Input
@@ -835,6 +882,17 @@ MC,Leo,10°14'`;
     </main>
   </div>
 </Sidebar.Provider> 
+
+{#if !showChart}
+  <div class="mx-auto max-w-4xl px-4 pb-10">
+    <PageInsightChat
+      title="Ask about the birth chart tool"
+      description="Get help generating or understanding a chart before you load one."
+      contextSummary={chatContext}
+      suggestions={chatSuggestions}
+    />
+  </div>
+{/if}
 
 <style>
 

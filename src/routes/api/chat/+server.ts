@@ -10,15 +10,17 @@ const MAX_MESSAGE_CHARS = 4_000;
 const MAX_CONTEXT_CHARS = 8_000;
 const CHAT_RATE_LIMIT_PER_MINUTE = 30;
 const CHAT_RATE_WINDOW_MS = 60_000;
+const PASSCODE_PATTERN = /^\d{8}$/;
 
-const SYSTEM_PROMPT = `You are a wise, thoughtful astrological guide for Velvet Arcana—an app that helps people explore their birth charts and celestial influences. Your tone is sophisticated and mystical: use language like "unlock," "reveal," "discover," and "explore." Refer to cosmic wisdom, celestial patterns, and the symbolism of the chart. Avoid technical jargon, overly casual language, and forced humor. Focus on curiosity and a shared journey of understanding.
+const SYSTEM_PROMPT = `You are a wise, thoughtful guide for Velvet Arcana—an app that helps people explore birth charts, celestial influences, and astrology-informed page insights. Your tone is sophisticated and reflective. Use clear language rooted in patterns, symbolism, and interpretation. Avoid technical jargon, overly casual language, and forced humor.
 
 **Restrictions and tone:**
 - Do not be sycophantic: avoid excessive agreement, flattery, or telling the user what they want to hear. Offer genuine reflection and insight, including nuance or alternative angles when appropriate.
-- Stay on topic: keep the conversation focused on astrology, the birth chart, and the user's questions about their chart or astrological meaning. If the user drifts to unrelated subjects (e.g., medical, legal, or purely non-astrological topics), gently redirect back to what the chart can illuminate—understanding and reflection—rather than engaging at length off-topic.
+- Stay on topic: keep the conversation focused on the page context provided by the app, especially astrology, chart interpretation, and astrology-informed page analysis. If the user drifts to unrelated subjects (e.g., medical, legal, or general financial advice), gently redirect back to reflective interpretation rather than engaging at length off-topic.
 - Prefer Kairos over Kronos: emphasize understanding, the "right moment," and reflective insight (Kairos—opportune time, quality of time) rather than prediction, fate, or chronological fortune-telling (Kronos). Frame insights as invitations to reflect and understand, not as forecasts or guarantees about the future.
+- If the page context includes markets or performance data, treat it as descriptive context for pattern analysis, not a basis for financial recommendations.
 
-When the user provides chart context (birth data and/or planetary positions), use it to ground your answers. Interpret placements, aspects, and themes when relevant to their questions. If no chart is provided, you can still discuss astrological concepts generally and suggest they add a chart for personalized insights.`;
+When the user provides page context (such as chart details, planetary positions, timeline summaries, or market-cosmos insights), use it to ground your answers. If context is missing, answer generally and invite the user to ask from a page with loaded data for a more grounded interpretation.`;
 
 type ChatMessage = {
   role: 'user' | 'assistant';
@@ -70,6 +72,23 @@ export const POST: RequestHandler = async ({ request }) => {
   }
 
   try {
+    const expectedPasscode = env.CHAT_ACCESS_PASSCODE?.trim();
+    if (expectedPasscode) {
+      if (!PASSCODE_PATTERN.test(expectedPasscode)) {
+        console.error('[api/chat] Invalid CHAT_ACCESS_PASSCODE configuration');
+        return json({ error: 'Chat is unavailable due to server configuration.' }, { status: 503 });
+      }
+
+      const providedPasscode = request.headers.get('x-chat-passcode')?.trim();
+      if (!providedPasscode || !PASSCODE_PATTERN.test(providedPasscode)) {
+        return json({ error: 'Chat passcode required.' }, { status: 401 });
+      }
+
+      if (providedPasscode !== expectedPasscode) {
+        return json({ error: 'Invalid chat passcode.' }, { status: 403 });
+      }
+    }
+
     const clientIp = getClientIp(request);
     const rate = checkRateLimit(`chat:${clientIp}`, CHAT_RATE_LIMIT_PER_MINUTE, CHAT_RATE_WINDOW_MS);
     if (!rate.allowed) {
@@ -112,13 +131,14 @@ export const POST: RequestHandler = async ({ request }) => {
       );
     }
 
-    const rawChartContext = (body as Record<string, unknown>)?.chartContext;
-    const chartContext =
-      typeof rawChartContext === 'string' ? rawChartContext.trim().slice(0, MAX_CONTEXT_CHARS) : '';
+    const rawContext =
+      (body as Record<string, unknown>)?.pageContext ?? (body as Record<string, unknown>)?.chartContext;
+    const pageContext =
+      typeof rawContext === 'string' ? rawContext.trim().slice(0, MAX_CONTEXT_CHARS) : '';
 
     const systemContent =
-      chartContext
-        ? `${SYSTEM_PROMPT}\n\nCurrent chart context (use this for personalized answers):\n${chartContext}`
+      pageContext
+        ? `${SYSTEM_PROMPT}\n\nCurrent page context (use this to ground your answer):\n${pageContext}`
         : SYSTEM_PROMPT;
 
     const openai = new OpenAI({ apiKey });

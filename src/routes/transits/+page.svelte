@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { chartStore } from '$lib/stores/chart-store';
+  import PageInsightChat from '$lib/components/PageInsightChat.svelte';
+  import { buildTransitsPageContext } from '$lib/page-chat/context-builders';
   import * as Alert from '$lib/components/ui/alert';
   import { AlertCircle } from 'lucide-svelte';
   import { 
@@ -33,9 +35,35 @@
   let transitChartData: string | null = null;
   let chartReady = false;
   let preparingChart = false;
+  let chatContext = '';
+  let chatSuggestions: string[] = [];
 
   // Form validation
   let formError: string = '';
+
+  $: chatContext = buildTransitsPageContext({
+    selectedBirthChart,
+    transitDate,
+    transitTime,
+    selectedTransitCityData,
+    currentTransits,
+    natalChart,
+    chartReady,
+    preparingChart,
+    loading
+  });
+
+  $: chatSuggestions = currentTransits
+    ? [
+        'What are the strongest transits here?',
+        'Which current influences look most important?',
+        'How do these transits interact with the natal chart?'
+      ]
+    : [
+        'How should I use the transits page?',
+        'What do I need before calculating transits?',
+        'What kind of questions can transit analysis answer?'
+      ];
 
   onMount(async () => {
     // Auto-select the first saved chart if available
@@ -196,6 +224,15 @@
   {#if currentTransits && !preparingChart}
     <TransitDetails {natalChart} {currentTransits} />
   {/if}
+
+  <div class="mt-8">
+    <PageInsightChat
+      title="Ask about these transits"
+      description="Chat with the current transit moment, selected natal chart, and loaded transit results."
+      contextSummary={chatContext}
+      suggestions={chatSuggestions}
+    />
+  </div>
 </div>
 
 <style>

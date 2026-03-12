@@ -1,15 +1,19 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import PageInsightChat from '$lib/components/PageInsightChat.svelte';
 
   import * as Input from '$lib/components/ui/input';
   import * as Dialog from '$lib/components/ui/dialog';
   import { ALL_TAROT_CARDS, type TarotCard } from '$lib/data/tarot-data';
+  import { buildTarotPageContext } from '$lib/page-chat/context-builders';
 
   let searchTerm = '';
   let selectedSuit = 'all';
   let selectedCard: TarotCard | null = null;
   let showReversed = false;
   let modalOpen = false;
+  let chatContext = '';
+  let chatSuggestions: string[] = [];
 
   const suits = [
     { value: 'all', label: 'All Cards' },
@@ -32,6 +36,27 @@
     const matchesSuit = selectedSuit === 'all' || (selectedSuit === 'major' && !card.suit) || card.suit?.toLowerCase() === selectedSuit;
     return matchesSearch && matchesSuit;
   });
+
+  $: chatContext = buildTarotPageContext({
+    searchTerm,
+    selectedSuit,
+    filteredCount: filteredCards.length,
+    totalCount: ALL_TAROT_CARDS.length,
+    showReversed,
+    selectedCard
+  });
+
+  $: chatSuggestions = selectedCard
+    ? [
+        `What is the core lesson of ${selectedCard.name}?`,
+        `How should I read ${selectedCard.name} in ${showReversed ? 'reversed' : 'upright'} form?`,
+        'What details on this card matter most?'
+      ]
+    : [
+        'Help me choose a card focus from this page.',
+        'What does the current filter suggest?',
+        'How should I start exploring tarot meanings here?'
+      ];
 
   function selectCard(card: TarotCard) {
     selectedCard = card;
@@ -197,6 +222,15 @@
     <!-- Card Count -->
     <div class="text-center mt-8 text-gray-600">
       Showing {filteredCards.length} of {ALL_TAROT_CARDS.length} cards
+    </div>
+
+    <div class="mt-8">
+      <PageInsightChat
+        title="Ask about these tarot meanings"
+        description="Chat with the current tarot filter state and selected card details as context."
+        contextSummary={chatContext}
+        suggestions={chatSuggestions}
+      />
     </div>
   </div>
 

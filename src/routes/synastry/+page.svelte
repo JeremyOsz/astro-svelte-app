@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import { enhance } from '$app/forms';
   import { chartStore } from '$lib/stores/chart-store';
+  import PageInsightChat from '$lib/components/PageInsightChat.svelte';
+  import { buildSynastryPageContext } from '$lib/page-chat/context-builders';
   import D3BiWheelChart from '$lib/chart/D3BiWheelChart.svelte';
   import ChartInstructions from '$lib/components/ChartInstructions.svelte';
   import { Input } from '$lib/components/ui/input';
@@ -108,6 +110,8 @@ MC,Gemini,12°00'`;
   let person1Chart: any = null;
   let person2Chart: any = null;
   let isSubmitting = false;
+  let chatContext = '';
+  let chatSuggestions: string[] = [];
 
   // Categorize aspects into main, angular, and minor
   $: mainAspects = synastryAspects.filter(aspect => {
@@ -124,6 +128,32 @@ MC,Gemini,12°00'`;
     const minorPoints = ['Chiron', 'Lilith', 'Node', 'Vertex', 'Fortune'];
     return minorPoints.includes(aspect.person1Planet) || minorPoints.includes(aspect.person2Planet);
   });
+
+  $: chatContext = buildSynastryPageContext({
+    relationshipType,
+    isChartReady,
+    loading,
+    storedPerson1Data,
+    storedPerson2Data,
+    synastryAspects,
+    mainAspects,
+    angularAspects,
+    minorAspects,
+    synastryHouseOverlays,
+    synastryPlanetInSigns
+  });
+
+  $: chatSuggestions = isChartReady
+    ? [
+        'What are the strongest compatibility signals here?',
+        'Which aspects matter most for this relationship type?',
+        'Where are the main tensions or growth edges?'
+      ]
+    : [
+        'How does synastry work on this page?',
+        'What birth details do I need for a good synastry reading?',
+        'What does relationship type change in the analysis?'
+      ];
 
   function convertChartToCSV(chart: any): string {
     if (!chart || !chart.planets) return '';
@@ -1048,6 +1078,15 @@ MC,Gemini,12°00'`;
       </Accordion.Item>
     </Accordion.Root>
   {/if}
+
+  <div class="mb-8">
+    <PageInsightChat
+      title="Ask about this synastry chart"
+      description="Chat with the current relationship setup and calculated compatibility context."
+      contextSummary={chatContext}
+      suggestions={chatSuggestions}
+    />
+  </div>
 </div>
 
 <style>
