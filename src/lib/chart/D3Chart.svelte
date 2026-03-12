@@ -631,10 +631,10 @@
     const { isMobile } = get(chartState);
     const { showDegreeMarkers } = get(chartSettings);
     const isDarkTheme = document.documentElement.classList.contains('dark');
-    const wheelStroke = isDarkTheme ? '#4b5568' : '#c8d0dd';
-    const signDividerStroke = isDarkTheme ? '#74829c' : '#9aa8bc';
-    const majorTickStroke = isDarkTheme ? '#5d6a80' : '#bcc7d8';
-    const minorTickStroke = isDarkTheme ? '#3d4759' : '#d5dde9';
+    const wheelStroke = isDarkTheme ? '#4b5568' : '#8fa0b8';
+    const signDividerStroke = isDarkTheme ? '#74829c' : '#6f829d';
+    const majorTickStroke = isDarkTheme ? '#5d6a80' : '#8ea0b8';
+    const minorTickStroke = isDarkTheme ? '#3d4759' : '#a8b8cb';
 
     g.append('circle')
       .attr('r', zodiacOuterRadius)
@@ -708,7 +708,7 @@
         .attr('r', isMobile ? 8 : 12) // Smaller hover radius
         .attr('fill', 'transparent')
         .attr('stroke', 'transparent')
-        .attr('stroke-width', 1.5)
+        .attr('stroke-width', 2)
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, sign);
@@ -787,10 +787,10 @@
     const { zodiacInnerRadius, houseLineInnerRadius, houseNumRadius } = get(chartDimensions);
     const axes = data.filter((p: PlanetData) => ['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
     const isDarkTheme = document.documentElement.classList.contains('dark');
-    const axisStroke = isDarkTheme ? '#6f7b94' : '#777';
-    const dividerStroke = isDarkTheme ? '#3a4358' : '#ddd';
-    const axisLabelFill = isDarkTheme ? '#dbe5f8' : '#555';
-    const houseNumberFill = isDarkTheme ? '#9aa8c0' : '#7d8696';
+    const axisStroke = isDarkTheme ? '#6f7b94' : '#5f7089';
+    const dividerStroke = isDarkTheme ? '#3a4358' : '#a9b8cb';
+    const axisLabelFill = isDarkTheme ? '#dbe5f8' : '#3f516d';
+    const houseNumberFill = isDarkTheme ? '#9aa8c0' : '#5f718b';
 
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
@@ -834,7 +834,7 @@
         .attr('r', isMobile ? 12 : 16)
         .attr('fill', 'transparent')
         .attr('stroke', 'transparent')
-        .attr('stroke-width', 1.5)
+        .attr('stroke-width', 2)
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, point.sign);
@@ -1448,6 +1448,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: color-mix(in oklch, var(--color-background) 72%, white);
+  }
+
+  :global(.dark .chart-container) {
+    background: color-mix(in oklch, var(--color-card) 90%, var(--color-background));
   }
 
   /* Brief tooltip styles */
@@ -1463,7 +1468,8 @@
     z-index: 1100;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
     max-width: 260px;
-    white-space: nowrap;
+    white-space: normal;
+    line-height: 1.35;
   }
 
   :global(.brief-tooltip-content) {

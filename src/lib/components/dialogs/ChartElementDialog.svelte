@@ -984,4 +984,30 @@
   :global(.chart-element-dialog p) {
     line-height: 1.65;
   }
+
+  :global(.dark .chart-element-dialog .bg-blue-100),
+  :global(.dark .chart-element-dialog .bg-green-100),
+  :global(.dark .chart-element-dialog .bg-orange-100),
+  :global(.dark .chart-element-dialog .bg-purple-100),
+  :global(.dark .chart-element-dialog .bg-yellow-100),
+  :global(.dark .chart-element-dialog .bg-indigo-100) {
+    background: color-mix(in oklch, var(--color-muted) 78%, var(--color-card)) !important;
+    border: 1px solid color-mix(in oklch, var(--color-border) 90%, var(--color-foreground));
+  }
+
+  :global(.dark .chart-element-dialog .text-blue-800),
+  :global(.dark .chart-element-dialog .text-green-800),
+  :global(.dark .chart-element-dialog .text-orange-800),
+  :global(.dark .chart-element-dialog .text-purple-800),
+  :global(.dark .chart-element-dialog .text-yellow-800),
+  :global(.dark .chart-element-dialog .text-indigo-800) {
+    color: var(--color-foreground) !important;
+  }
+
+  :global(.dark .chart-element-dialog .text-green-600),
+  :global(.dark .chart-element-dialog .text-orange-600),
+  :global(.dark .chart-element-dialog .text-blue-600),
+  :global(.dark .chart-element-dialog .text-purple-600) {
+    color: var(--color-accent) !important;
+  }
 </style> 
