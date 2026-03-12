@@ -319,33 +319,33 @@
 </script>
 
 {#if filteredPlanetInterpretations.length || filteredAspectInterpretations.length || filteredSignInterpretations.length}
-  <section class="mt-8 space-y-6">
-    <h2 class="text-2xl font-bold text-gray-800">Interpretations</h2>
+  <section class="interpretation-list mt-8 space-y-6 text-[15px]">
+    <h2 class="text-2xl font-bold text-foreground">Interpretations</h2>
 
     {#if filteredPlanetInterpretations.length}
       <div class="space-y-4">
-        <h3 class="text-xl font-semibold text-gray-700">Planets in Signs & Houses</h3>
+        <h3 class="text-xl font-semibold text-foreground">Planets in Signs & Houses</h3>
         {#each filteredPlanetInterpretations as interpretation, i}
-          <div class="border rounded-lg p-6 bg-white shadow-sm" class:mt-2={i !== 0}>
+          <div class="interpretation-card border border-border rounded-lg p-6 bg-card shadow-sm" class:mt-2={i !== 0}>
             <div class="space-y-4">
               <!-- Header -->
-              <div class="border-b pb-3">
-                <h4 class="text-lg font-semibold text-gray-900">{interpretation.title}</h4>
-                <p class="text-sm text-gray-600 mt-1">{interpretation.position}</p>
+              <div class="border-b border-border pb-3">
+                <h4 class="text-lg font-semibold text-foreground">{interpretation.title}</h4>
+                <p class="text-sm text-muted-foreground mt-1">{interpretation.position}</p>
               </div>
 
               <!-- Description -->
               <div>
-                <p class="text-gray-700 leading-relaxed">{interpretation.description}</p>
+                <p class="text-foreground leading-7">{interpretation.description}</p>
               </div>
 
               <!-- Themes -->
               {#if interpretation.themes && interpretation.themes.length > 0}
                 <div>
-                  <h5 class="font-medium text-gray-900 mb-2">Themes</h5>
+                  <h5 class="font-medium text-foreground mb-2">Themes</h5>
                   <div class="flex flex-wrap gap-1">
                     {#each interpretation.themes as theme}
-                      <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{theme}</span>
+                      <span class="theme-chip px-2 py-1 text-xs rounded-full">{theme}</span>
                     {/each}
                   </div>
                 </div>
@@ -354,12 +354,12 @@
               <!-- Strengths and Challenges -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {#if interpretation.strengths && interpretation.strengths.length > 0}
-                  <div class="bg-green-50 rounded-lg p-4">
-                    <h5 class="font-semibold text-green-800 mb-2 text-sm">Strengths</h5>
-                    <ul class="text-sm text-green-700 space-y-1">
+                  <div class="strength-box rounded-lg p-4">
+                    <h5 class="font-semibold strength-heading mb-2">Strengths</h5>
+                    <ul class="strength-copy space-y-1.5 leading-6">
                       {#each interpretation.strengths as strength}
                         <li class="flex items-start gap-2">
-                          <span class="text-green-600 mt-1">•</span>
+                          <span class="strength-bullet mt-1">•</span>
                           <span>{strength}</span>
                         </li>
                       {/each}
@@ -368,12 +368,12 @@
                 {/if}
 
                 {#if interpretation.challenges && interpretation.challenges.length > 0}
-                  <div class="bg-orange-50 rounded-lg p-4">
-                    <h5 class="font-semibold text-orange-800 mb-2 text-sm">Challenges</h5>
-                    <ul class="text-sm text-orange-700 space-y-1">
+                  <div class="challenge-box rounded-lg p-4">
+                    <h5 class="font-semibold challenge-heading mb-2">Challenges</h5>
+                    <ul class="challenge-copy space-y-1.5 leading-6">
                       {#each interpretation.challenges as challenge}
                         <li class="flex items-start gap-2">
-                          <span class="text-orange-600 mt-1">•</span>
+                          <span class="challenge-bullet mt-1">•</span>
                           <span>{challenge}</span>
                         </li>
                       {/each}
@@ -389,35 +389,35 @@
 
     {#if filteredAspectInterpretations.length}
       <div class="space-y-4">
-        <h3 class="text-xl font-semibold text-gray-700">Aspects</h3>
+        <h3 class="text-xl font-semibold text-foreground">Aspects</h3>
         {#each filteredAspectInterpretations as interpretation, i}
-          <div class="border rounded-lg p-6 bg-white shadow-sm" class:mt-2={i !== 0}>
+          <div class="interpretation-card border border-border rounded-lg p-6 bg-card shadow-sm" class:mt-2={i !== 0}>
             <div class="space-y-4">
               <!-- Header -->
-              <div class="border-b pb-3">
-                <h4 class="text-lg font-semibold text-gray-900">{interpretation.title}</h4>
+              <div class="border-b border-border pb-3">
+                <h4 class="text-lg font-semibold text-foreground">{interpretation.title}</h4>
                 <div class="flex gap-2 mt-2">
-                  <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">Orb: {interpretation.orb}</span>
-                  <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">{interpretation.nature}</span>
+                  <span class="meta-chip px-2 py-1 text-xs rounded-full">Orb: {interpretation.orb}</span>
+                  <span class="meta-chip px-2 py-1 text-xs rounded-full">{interpretation.nature}</span>
                 </div>
               </div>
 
               <!-- Description -->
               <div>
-                <p class="text-gray-700 leading-relaxed">{interpretation.description}</p>
+                <p class="text-foreground leading-7">{interpretation.description}</p>
               </div>
 
               {#if interpretation.general}
-                <div class="bg-blue-50 rounded-lg p-4">
-                  <h5 class="font-medium text-blue-900 mb-2">General Interpretation</h5>
-                  <p class="text-sm text-blue-800">{interpretation.general}</p>
+                <div class="info-box rounded-lg p-4">
+                  <h5 class="font-medium info-heading mb-2">General Interpretation</h5>
+                  <p class="info-copy leading-7">{interpretation.general}</p>
                 </div>
               {/if}
 
               {#if interpretation.specific}
-                <div class="bg-purple-50 rounded-lg p-4">
-                  <h5 class="font-medium text-purple-900 mb-2">Specific Meaning</h5>
-                  <p class="text-sm text-purple-800">{interpretation.specific}</p>
+                <div class="specific-box rounded-lg p-4">
+                  <h5 class="font-medium specific-heading mb-2">Specific Meaning</h5>
+                  <p class="specific-copy leading-7">{interpretation.specific}</p>
                 </div>
               {/if}
             </div>
@@ -428,33 +428,33 @@
 
     {#if filteredSignInterpretations.length}
       <div class="space-y-4">
-        <h3 class="text-xl font-semibold text-gray-700">Signs in Houses</h3>
+        <h3 class="text-xl font-semibold text-foreground">Signs in Houses</h3>
         {#each filteredSignInterpretations as interpretation, i}
-          <div class="border rounded-lg p-6 bg-white shadow-sm" class:mt-2={i !== 0}>
+          <div class="interpretation-card border border-border rounded-lg p-6 bg-card shadow-sm" class:mt-2={i !== 0}>
             <div class="space-y-4">
               <!-- Header -->
-              <div class="border-b pb-3">
-                <h4 class="text-lg font-semibold text-gray-900">{interpretation.title}</h4>
+              <div class="border-b border-border pb-3">
+                <h4 class="text-lg font-semibold text-foreground">{interpretation.title}</h4>
               </div>
 
               <!-- Description -->
               <div>
-                <p class="text-gray-700 leading-relaxed">{interpretation.description}</p>
+                <p class="text-foreground leading-7">{interpretation.description}</p>
               </div>
 
               <!-- House Information -->
-              <div class="bg-gray-50 rounded-lg p-4">
-                <h5 class="font-medium text-gray-900 mb-2">House {interpretation.title.split(' ').pop()} represents</h5>
-                <p class="text-sm text-gray-700">{interpretation.houseGeneral}</p>
+              <div class="house-box rounded-lg p-4">
+                <h5 class="font-medium text-foreground mb-2">House {interpretation.title.split(' ').pop()} represents</h5>
+                <p class="text-muted-foreground leading-6">{interpretation.houseGeneral}</p>
               </div>
 
               <!-- Themes -->
               {#if interpretation.themes && interpretation.themes.length > 0}
                 <div>
-                  <h5 class="font-medium text-gray-900 mb-2">Themes</h5>
+                  <h5 class="font-medium text-foreground mb-2">Themes</h5>
                   <div class="flex flex-wrap gap-1">
                     {#each interpretation.themes as theme}
-                      <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">{theme}</span>
+                      <span class="theme-chip px-2 py-1 text-xs rounded-full">{theme}</span>
                     {/each}
                   </div>
                 </div>
@@ -463,12 +463,12 @@
               <!-- Strengths and Challenges -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {#if interpretation.strengths && interpretation.strengths.length > 0}
-                  <div class="bg-green-50 rounded-lg p-4">
-                    <h5 class="font-semibold text-green-800 mb-2 text-sm">Strengths</h5>
-                    <ul class="text-sm text-green-700 space-y-1">
+                  <div class="strength-box rounded-lg p-4">
+                    <h5 class="font-semibold strength-heading mb-2">Strengths</h5>
+                    <ul class="strength-copy space-y-1.5 leading-6">
                       {#each interpretation.strengths as strength}
                         <li class="flex items-start gap-2">
-                          <span class="text-green-600 mt-1">•</span>
+                          <span class="strength-bullet mt-1">•</span>
                           <span>{strength}</span>
                         </li>
                       {/each}
@@ -477,12 +477,12 @@
                 {/if}
 
                 {#if interpretation.challenges && interpretation.challenges.length > 0}
-                  <div class="bg-orange-50 rounded-lg p-4">
-                    <h5 class="font-semibold text-orange-800 mb-2 text-sm">Challenges</h5>
-                    <ul class="text-sm text-orange-700 space-y-1">
+                  <div class="challenge-box rounded-lg p-4">
+                    <h5 class="font-semibold challenge-heading mb-2">Challenges</h5>
+                    <ul class="challenge-copy space-y-1.5 leading-6">
                       {#each interpretation.challenges as challenge}
                         <li class="flex items-start gap-2">
-                          <span class="text-orange-600 mt-1">•</span>
+                          <span class="challenge-bullet mt-1">•</span>
                           <span>{challenge}</span>
                         </li>
                       {/each}
@@ -497,3 +497,81 @@
     {/if}
   </section>
 {/if} 
+
+<style>
+  .interpretation-card {
+    border-color: color-mix(in oklch, var(--color-border) 92%, var(--color-foreground));
+    background: color-mix(in oklch, var(--color-card) 88%, var(--color-background));
+  }
+
+  .theme-chip {
+    background: color-mix(in oklch, var(--color-primary) 18%, var(--color-card));
+    color: var(--color-foreground);
+    border: 1px solid color-mix(in oklch, var(--color-primary) 28%, var(--color-border));
+    font-weight: 600;
+  }
+
+  .meta-chip {
+    background: color-mix(in oklch, var(--color-muted) 75%, var(--color-card));
+    color: var(--color-foreground);
+    border: 1px solid color-mix(in oklch, var(--color-border) 88%, var(--color-foreground));
+    font-weight: 600;
+  }
+
+  .house-box {
+    background: color-mix(in oklch, var(--color-muted) 85%, var(--color-card));
+    border: 1px solid color-mix(in oklch, var(--color-border) 88%, var(--color-foreground));
+  }
+
+  .info-box {
+    background: color-mix(in oklch, var(--color-accent) 14%, var(--color-card));
+    border: 1px solid color-mix(in oklch, var(--color-accent) 35%, var(--color-border));
+  }
+
+  .info-heading,
+  .info-copy {
+    color: color-mix(in oklch, var(--color-foreground) 90%, white);
+  }
+
+  .specific-box {
+    background: color-mix(in oklch, var(--color-primary) 16%, var(--color-card));
+    border: 1px solid color-mix(in oklch, var(--color-primary) 35%, var(--color-border));
+  }
+
+  .specific-heading,
+  .specific-copy {
+    color: var(--color-foreground);
+  }
+
+  .strength-box {
+    background: color-mix(in oklch, var(--color-muted) 86%, var(--color-card));
+    border: 1px solid color-mix(in oklch, #22c55e 36%, var(--color-border));
+    box-shadow: inset 3px 0 0 0 color-mix(in oklch, #22c55e 58%, transparent);
+  }
+
+  .strength-heading,
+  .strength-copy,
+  .strength-bullet {
+    color: var(--color-foreground);
+  }
+
+  .strength-heading {
+    color: color-mix(in oklch, #22c55e 42%, var(--color-foreground));
+  }
+
+  .challenge-box {
+    background: color-mix(in oklch, var(--color-muted) 86%, var(--color-card));
+    border: 1px solid color-mix(in oklch, #f97316 36%, var(--color-border));
+    box-shadow: inset 3px 0 0 0 color-mix(in oklch, #f97316 58%, transparent);
+  }
+
+  .challenge-heading,
+  .challenge-copy,
+  .challenge-bullet {
+    color: var(--color-foreground);
+  }
+
+  .challenge-heading {
+    color: color-mix(in oklch, #f97316 45%, var(--color-foreground));
+  }
+</style>

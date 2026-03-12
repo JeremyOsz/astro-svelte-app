@@ -106,11 +106,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols:wght@400;500;600&display=swap" rel="stylesheet">
 </svelte:head>
 
-<div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
+<div class="eclipse-interpretations container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
   <!-- Page Header -->
   <div class="text-center mb-8">
-    <h1 class="text-4xl font-bold text-gray-900 mb-4">Astrological Interpretations</h1>
-    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+    <h1 class="text-4xl font-bold text-foreground mb-4">Astrological Interpretations</h1>
+    <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
       Explore the meanings and interpretations of planets, signs, houses, and aspects in astrology.
       Discover how these cosmic elements influence personality, relationships, and life experiences.
     </p>
@@ -119,7 +119,7 @@
   <!-- Search Section -->
   <div class="mb-8">
     <div class="relative max-w-md mx-auto">
-      <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+      <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
       <Input placeholder="Search interpretations..." bind:value={searchTerm} class="pl-10" />
     </div>
   </div>
@@ -127,37 +127,37 @@
   <!-- Tabs -->
   <div class="mb-8">
     <div class="flex justify-center">
-      <div class="inline-flex flex-wrap rounded-lg bg-gray-100 p-1">
+      <div class="inline-flex flex-wrap rounded-lg bg-card border border-border p-1">
         <button
-          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'planets' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'planets' ? 'bg-background text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
           on:click={() => activeTab = 'planets'}
         >
           <span class="text-lg astrological-symbol">☉</span>
           Planets
         </button>
         <button
-          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'signs' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'signs' ? 'bg-background text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
           on:click={() => activeTab = 'signs'}
         >
           <span class="text-lg astrological-symbol">♈</span>
           Signs
         </button>
         <button
-          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'houses' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'houses' ? 'bg-background text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
           on:click={() => activeTab = 'houses'}
         >
           <span class="text-lg">🏠</span>
           Houses
         </button>
         <button
-          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'aspects' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'aspects' ? 'bg-background text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
           on:click={() => activeTab = 'aspects'}
         >
           <span class="text-lg astrological-symbol">⚡</span>
           Aspects
         </button>
         <button
-          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'other-objects' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}"
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'other-objects' ? 'bg-background text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
           on:click={() => activeTab = 'other-objects'}
         >
           <span class="text-lg astrological-symbol">⚷</span>
@@ -171,7 +171,7 @@
   {#if activeTab === 'planets'}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredPlanets as planet}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
           <CardHeader class="pb-3">
             <div class="flex items-center gap-3 mb-3">
               <span class="text-3xl astrological-symbol">{planet.symbol}</span>
@@ -215,12 +215,12 @@
             <!-- Strengths and Challenges -->
             <div class="grid grid-cols-1 gap-3">
               {#if planet.strengths && planet.strengths.length > 0}
-                <div class="bg-green-50 rounded-lg p-3">
-                  <h4 class="font-semibold text-green-800 mb-2 text-sm">Strengths</h4>
-                  <ul class="text-sm text-green-700 space-y-1">
+                <div class="strength-box rounded-lg p-3">
+                  <h4 class="font-semibold strength-heading mb-2 text-sm">Strengths</h4>
+                  <ul class="text-sm strength-copy space-y-1">
                     {#each planet.strengths as strength}
                       <li class="flex items-start gap-2">
-                        <span class="text-green-600 mt-1">•</span>
+                        <span class="strength-bullet mt-1">•</span>
                         <span>{strength}</span>
                       </li>
                     {/each}
@@ -229,12 +229,12 @@
               {/if}
 
               {#if planet.challenges && planet.challenges.length > 0}
-                <div class="bg-orange-50 rounded-lg p-3">
-                  <h4 class="font-semibold text-orange-800 mb-2 text-sm">Challenges</h4>
-                  <ul class="text-sm text-orange-700 space-y-1">
+                <div class="challenge-box rounded-lg p-3">
+                  <h4 class="font-semibold challenge-heading mb-2 text-sm">Challenges</h4>
+                  <ul class="text-sm challenge-copy space-y-1">
                     {#each planet.challenges as challenge}
                       <li class="flex items-start gap-2">
-                        <span class="text-orange-600 mt-1">•</span>
+                        <span class="challenge-bullet mt-1">•</span>
                         <span>{challenge}</span>
                       </li>
                     {/each}
@@ -249,7 +249,7 @@
   {:else if activeTab === 'signs'}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredSigns as sign}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
           <CardHeader class="pb-3">
             <div class="flex items-center gap-3 mb-3">
               <span class="text-3xl astrological-symbol">{sign.symbol}</span>
@@ -304,12 +304,12 @@
             <!-- Strengths and Challenges -->
             <div class="grid grid-cols-1 gap-3">
               {#if sign.strengths && sign.strengths.length > 0}
-                <div class="bg-green-50 rounded-lg p-3">
-                  <h4 class="font-semibold text-green-800 mb-2 text-sm">Strengths</h4>
-                  <ul class="text-sm text-green-700 space-y-1">
+                <div class="strength-box rounded-lg p-3">
+                  <h4 class="font-semibold strength-heading mb-2 text-sm">Strengths</h4>
+                  <ul class="text-sm strength-copy space-y-1">
                     {#each sign.strengths as strength}
                       <li class="flex items-start gap-2">
-                        <span class="text-green-600 mt-1">•</span>
+                        <span class="strength-bullet mt-1">•</span>
                         <span>{strength}</span>
                       </li>
                     {/each}
@@ -318,12 +318,12 @@
               {/if}
 
               {#if sign.challenges && sign.challenges.length > 0}
-                <div class="bg-orange-50 rounded-lg p-3">
-                  <h4 class="font-semibold text-orange-800 mb-2 text-sm">Challenges</h4>
-                  <ul class="text-sm text-orange-700 space-y-1">
+                <div class="challenge-box rounded-lg p-3">
+                  <h4 class="font-semibold challenge-heading mb-2 text-sm">Challenges</h4>
+                  <ul class="text-sm challenge-copy space-y-1">
                     {#each sign.challenges as challenge}
                       <li class="flex items-start gap-2">
-                        <span class="text-orange-600 mt-1">•</span>
+                        <span class="challenge-bullet mt-1">•</span>
                         <span>{challenge}</span>
                       </li>
                     {/each}
@@ -338,7 +338,7 @@
   {:else if activeTab === 'houses'}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredHouses as house}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
           <CardHeader class="pb-3">
             <div class="flex items-center gap-3 mb-3">
               <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
@@ -368,7 +368,7 @@
   {:else if activeTab === 'aspects'}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredAspects as aspect}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
           <CardHeader class="pb-3">
             <div class="flex items-center justify-between mb-3">
               <CardTitle class="text-xl">{aspect.name}</CardTitle>
@@ -401,7 +401,7 @@
   {:else if activeTab === 'other-objects'}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredOtherObjects as obj}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
           <CardHeader class="pb-3">
             <div class="flex items-center gap-3 mb-3">
               <span class="text-3xl astrological-symbol">{obj.symbol}</span>
@@ -417,9 +417,9 @@
             <p class="text-gray-600 leading-relaxed">{obj.description}</p>
             
             <!-- Significance -->
-            <div class="bg-blue-50 rounded-lg p-3">
-              <h4 class="font-semibold text-blue-800 mb-2 text-sm">Significance</h4>
-              <p class="text-sm text-blue-700">{obj.significance}</p>
+            <div class="significance-box rounded-lg p-3">
+              <h4 class="font-semibold significance-heading mb-2 text-sm">Significance</h4>
+              <p class="text-sm significance-copy">{obj.significance}</p>
             </div>
 
             <!-- Themes -->
@@ -457,11 +457,11 @@
   {#if searchTerm && !hasResults}
     <div class="text-center py-12">
       <div class="max-w-md mx-auto">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-          <Search class="h-8 w-8 text-gray-400" />
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+          <Search class="h-8 w-8 text-muted-foreground" />
         </div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">No interpretations found</h3>
-        <p class="text-gray-600">
+        <h3 class="text-lg font-semibold text-foreground mb-2">No interpretations found</h3>
+        <p class="text-muted-foreground">
           No results found for "{searchTerm}". Try searching with different keywords or browse the tabs above.
         </p>
       </div>
@@ -469,12 +469,12 @@
   {/if}
 
   <!-- Info Section -->
-  <div class="mt-12 p-6 bg-blue-50 rounded-lg border border-blue-200">
+  <div class="mt-12 p-6 rounded-lg border bg-card border-border">
     <div class="flex items-start gap-3">
-      <Info class="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+      <Info class="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
       <div>
-        <h3 class="font-semibold text-blue-900 mb-2">Understanding Astrological Elements</h3>
-        <p class="text-blue-800 text-sm leading-relaxed">
+        <h3 class="font-semibold text-foreground mb-2">Understanding Astrological Elements</h3>
+        <p class="text-muted-foreground text-sm leading-relaxed">
           These interpretations provide foundational meanings in astrology. Remember that the full interpretation 
           of any chart depends on the unique combination of planets, signs, houses, and aspects in your specific 
           birth chart. Each element interacts with others to create your unique astrological profile.
@@ -501,5 +501,138 @@
   /* Ensure proper cursor on interactive elements */
   button {
     cursor: pointer;
+  }
+
+  .strength-box {
+    background: #ecfdf3;
+  }
+
+  .strength-heading {
+    color: #166534;
+  }
+
+  .strength-copy {
+    color: #15803d;
+  }
+
+  .strength-bullet {
+    color: #16a34a;
+  }
+
+  .challenge-box {
+    background: #fff5eb;
+  }
+
+  .challenge-heading {
+    color: #9a3412;
+  }
+
+  .challenge-copy {
+    color: #c2410c;
+  }
+
+  .challenge-bullet {
+    color: #ea580c;
+  }
+
+  .significance-box {
+    background: #eff6ff;
+  }
+
+  .significance-heading {
+    color: #1e40af;
+  }
+
+  .significance-copy {
+    color: #1d4ed8;
+  }
+
+  :global(.dark .eclipse-interpretations .text-gray-900) {
+    color: #f2f5fb !important;
+  }
+
+  :global(.dark .eclipse-interpretations .text-gray-600),
+  :global(.dark .eclipse-interpretations .text-gray-500) {
+    color: #cdd6e6 !important;
+  }
+
+  :global(.dark .eclipse-interpretations .bg-blue-100),
+  :global(.dark .eclipse-interpretations .bg-indigo-100),
+  :global(.dark .eclipse-interpretations .bg-purple-100),
+  :global(.dark .eclipse-interpretations .bg-teal-100),
+  :global(.dark .eclipse-interpretations .bg-amber-100),
+  :global(.dark .eclipse-interpretations .bg-cyan-100),
+  :global(.dark .eclipse-interpretations .bg-pink-100),
+  :global(.dark .eclipse-interpretations .bg-red-100),
+  :global(.dark .eclipse-interpretations .bg-green-100),
+  :global(.dark .eclipse-interpretations .bg-orange-100),
+  :global(.dark .eclipse-interpretations .bg-gray-100),
+  :global(.dark .eclipse-interpretations .bg-emerald-100),
+  :global(.dark .eclipse-interpretations .bg-rose-100),
+  :global(.dark .eclipse-interpretations .bg-violet-100) {
+    background-color: #283246 !important;
+  }
+
+  :global(.dark .eclipse-interpretations .text-blue-800),
+  :global(.dark .eclipse-interpretations .text-indigo-800),
+  :global(.dark .eclipse-interpretations .text-purple-800),
+  :global(.dark .eclipse-interpretations .text-teal-800),
+  :global(.dark .eclipse-interpretations .text-amber-800),
+  :global(.dark .eclipse-interpretations .text-cyan-800),
+  :global(.dark .eclipse-interpretations .text-pink-800),
+  :global(.dark .eclipse-interpretations .text-red-800),
+  :global(.dark .eclipse-interpretations .text-green-800),
+  :global(.dark .eclipse-interpretations .text-orange-800),
+  :global(.dark .eclipse-interpretations .text-gray-800),
+  :global(.dark .eclipse-interpretations .text-emerald-800),
+  :global(.dark .eclipse-interpretations .text-rose-800),
+  :global(.dark .eclipse-interpretations .text-violet-800) {
+    color: #dbe5f8 !important;
+  }
+
+  :global(.dark .eclipse-interpretations .border-blue-200),
+  :global(.dark .eclipse-interpretations .border-indigo-200),
+  :global(.dark .eclipse-interpretations .border-purple-200),
+  :global(.dark .eclipse-interpretations .border-teal-200),
+  :global(.dark .eclipse-interpretations .border-amber-200),
+  :global(.dark .eclipse-interpretations .border-cyan-200),
+  :global(.dark .eclipse-interpretations .border-pink-200),
+  :global(.dark .eclipse-interpretations .border-red-200),
+  :global(.dark .eclipse-interpretations .border-green-200),
+  :global(.dark .eclipse-interpretations .border-orange-200),
+  :global(.dark .eclipse-interpretations .border-gray-200),
+  :global(.dark .eclipse-interpretations .border-emerald-200),
+  :global(.dark .eclipse-interpretations .border-rose-200),
+  :global(.dark .eclipse-interpretations .border-violet-200) {
+    border-color: #3b4b66 !important;
+  }
+
+  :global(.dark .eclipse-interpretations .strength-box) {
+    background: #1f2a22;
+  }
+
+  :global(.dark .eclipse-interpretations .strength-heading),
+  :global(.dark .eclipse-interpretations .strength-copy),
+  :global(.dark .eclipse-interpretations .strength-bullet) {
+    color: #8de7b8;
+  }
+
+  :global(.dark .eclipse-interpretations .challenge-box) {
+    background: #2b2219;
+  }
+
+  :global(.dark .eclipse-interpretations .challenge-heading),
+  :global(.dark .eclipse-interpretations .challenge-copy),
+  :global(.dark .eclipse-interpretations .challenge-bullet) {
+    color: #ffb683;
+  }
+
+  :global(.dark .eclipse-interpretations .significance-box) {
+    background: #1d2a3d;
+  }
+
+  :global(.dark .eclipse-interpretations .significance-heading),
+  :global(.dark .eclipse-interpretations .significance-copy) {
+    color: #91b9ff;
   }
 </style> 

@@ -1,12 +1,14 @@
 <script>
   import "../app.css";
+  import { onMount } from 'svelte';
   import * as NavigationMenu from "$lib/components/ui/navigation-menu";
   import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import { cn } from "$lib/utils";
-  import { Home, Star, BookOpen, Calendar, Search, Moon, Users, LineChart } from 'lucide-svelte';
+  import { Home, Star, BookOpen, Calendar, Search, Moon, Sun, Users, LineChart } from 'lucide-svelte';
   import { page } from '$app/stores';
   let mobileMenuOpen = false;
+  let theme = 'light';
 
   // Astrology navigation items
   const astrologyItems = [
@@ -97,20 +99,37 @@
   ];
 
   $: currentPath = $page.url.pathname;
+  $: isDark = theme === 'dark';
+
+  function applyTheme(nextTheme) {
+    theme = nextTheme;
+    document.documentElement.classList.toggle('dark', nextTheme === 'dark');
+    localStorage.setItem('theme', nextTheme);
+  }
+
+  function toggleTheme() {
+    applyTheme(theme === 'dark' ? 'light' : 'dark');
+  }
+
+  onMount(() => {
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(storedTheme ?? (prefersDark ? 'dark' : 'light'));
+  });
 </script>
 
 <div class="min-h-screen flex flex-col">
-  <header class="bg-gradient-to-tr from-indigo-500 to-purple-700 text-white shadow-md flex-shrink-0">
+  <header class={`text-white shadow-md flex-shrink-0 border-b border-border ${isDark ? 'bg-gradient-to-r from-[#182133] via-[#24324a] to-[#2f3d5c]' : 'bg-gradient-to-r from-[#5a6fa8] to-[#9aafd6]'}`}>
     <nav>
               <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:pr-20 flex justify-between items-center py-4 relative overflow-visible">
-        <a href="/" class="text-xl font-bold hover:text-white/80 transition-colors cursor-pointer">Astro Chart</a>
+        <a href="/" class="text-xl font-bold hover:text-white transition-colors cursor-pointer px-2 py-1 rounded-md hover:bg-white/15">Astro Chart</a>
         <!-- Desktop Navigation -->
         <div class="hidden lg:block relative">
           <NavigationMenu.Root>
             <NavigationMenu.List class="flex gap-8">
               <!-- Astrology Dropdown -->
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle())}>
+                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "text-white/95 hover:bg-white/20 focus:bg-white/20 data-[state=open]:bg-white/25 data-[state=open]:text-white")}>
                   Astrology
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
@@ -139,7 +158,7 @@
               
               <!-- Tarot Dropdown -->
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle())}>
+                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "text-white/95 hover:bg-white/20 focus:bg-white/20 data-[state=open]:bg-white/25 data-[state=open]:text-white")}>
                   Tarot
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
@@ -169,37 +188,49 @@
             <NavigationMenu.Viewport />
           </NavigationMenu.Root>
         </div>
+        <button
+          class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/35 bg-white/10 text-white hover:bg-white/25 hover:border-white/55 transition-colors"
+          on:click={toggleTheme}
+          aria-label="Toggle theme"
+          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {#if theme === 'dark'}
+            <Sun class="h-4 w-4" />
+          {:else}
+            <Moon class="h-4 w-4" />
+          {/if}
+        </button>
         <!-- Mobile Hamburger -->
         <div class="lg:hidden">
-          <button class="p-2 ml-2 text-white" aria-label="Open menu" on:click={() => mobileMenuOpen = true}>
+          <button class="p-2 ml-2 text-white rounded-md hover:bg-white/20 transition-colors" aria-label="Open menu" on:click={() => mobileMenuOpen = true}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
           </button>
           <Sheet.Root bind:open={mobileMenuOpen}>
-            <Sheet.Content side="left" class="p-0 w-80 max-w-[90vw] bg-white text-gray-900">
-              <Sheet.Header class="p-4 border-b">
+            <Sheet.Content side="left" class="p-0 w-80 max-w-[90vw] bg-card text-foreground border-r border-border">
+              <Sheet.Header class="p-4 border-b border-border">
                 <Sheet.Title>Menu</Sheet.Title>
                 <Sheet.Close class="absolute top-4 right-4" />
               </Sheet.Header>
-              <nav class="flex flex-col gap-2 p-4 text-gray-900">
+              <nav class="flex flex-col gap-2 p-4 text-foreground">
                 <!-- Astrology Section -->
                 <div class="mb-6">
-                  <h3 class="font-semibold text-purple-600 mb-3 text-sm uppercase tracking-wide border-b border-gray-200 pb-2">Astrology</h3>
+                  <h3 class="font-semibold text-primary mb-3 text-sm uppercase tracking-wide border-b border-border pb-2">Astrology</h3>
                   <div class="space-y-2">
-                    <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Birth Chart</a>
-                    <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Transits</a>
-                    <a href="/synastry" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Synastry</a>
-                    <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Interpretations</a>
-                    <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Daily Horoscope</a>
-                    <a href="/market-cosmos" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Market Cosmos</a>
+                    <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Birth Chart</a>
+                    <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Transits</a>
+                    <a href="/synastry" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Synastry</a>
+                    <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Interpretations</a>
+                    <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Daily Horoscope</a>
+                    <a href="/market-cosmos" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Market Cosmos</a>
                   </div>
                 </div>
                 
                 <!-- Tarot Section -->
                 <div class="mb-6">
-                  <h3 class="font-semibold text-purple-600 mb-3 text-sm uppercase tracking-wide border-b border-gray-200 pb-2">Tarot</h3>
+                  <h3 class="font-semibold text-primary mb-3 text-sm uppercase tracking-wide border-b border-border pb-2">Tarot</h3>
                   <div class="space-y-2">
-                    <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Tarot Cards</a>
-                    <a href="/tarot-layouts" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Tarot Layouts</a>
+                    <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Tarot Cards</a>
+                    <a href="/tarot-layouts" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Tarot Layouts</a>
                   </div>
                 </div>
               </nav>
@@ -217,12 +248,12 @@
    </main>
 
    <!-- Mobile Bottom Navigation -->
-   <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 lg:hidden z-50 pb-safe">
+   <nav class="fixed bottom-0 left-0 right-0 bg-card border-t border-border lg:hidden z-50 pb-safe">
      <div class="flex justify-around">
        {#each mobileNavItems as item}
          <a
            href={item.href}
-           class="flex flex-col items-center py-3 px-2 min-w-0 flex-1 transition-colors {currentPath === item.href ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700'}"
+           class="flex flex-col items-center py-3 px-2 min-w-0 flex-1 transition-colors {currentPath === item.href ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}"
          >
            <svelte:component this={item.icon} class="w-6 h-6 mb-1" />
            <span class="text-xs font-medium truncate">{item.title}</span>
@@ -232,7 +263,7 @@
    </nav>
 
    <!-- Desktop Footer -->
-   <footer class="bg-gray-100 py-4 text-center text-gray-500 border-t hidden lg:block flex-shrink-0">
+   <footer class="bg-card py-4 text-center text-muted-foreground border-t border-border hidden lg:block flex-shrink-0">
      <p>&copy; 2025 Astro Chart by Jeremy Osztreicher. Powered by Swiss Ephemeris and D3.js</p>
    </footer>
 </div><style>

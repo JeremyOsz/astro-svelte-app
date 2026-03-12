@@ -126,7 +126,7 @@
   function percentClass(value: number): string {
     if (value > 0) return 'text-emerald-600';
     if (value < 0) return 'text-rose-600';
-    return 'text-slate-600';
+    return 'text-muted-foreground';
   }
 
   function categoryLabel(category: MarketCategory): string {
@@ -163,13 +163,13 @@
   function correlationClass(value: number): string {
     if (value > 0.1) return 'text-emerald-700';
     if (value < -0.1) return 'text-rose-700';
-    return 'text-slate-700';
+    return 'text-muted-foreground';
   }
 
   function strengthClass(strength: string): string {
     if (strength.includes('Bullish')) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
     if (strength.includes('Bearish')) return 'bg-rose-50 text-rose-700 border-rose-200';
-    return 'bg-slate-50 text-slate-700 border-slate-200';
+    return 'bg-muted/50 text-muted-foreground border-border';
   }
 </script>
 
@@ -182,23 +182,23 @@
 </svelte:head>
 
 <div class="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-8">
-  <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+  <section class="rounded-2xl border border-border bg-card p-5 shadow-sm md:p-7">
     <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Market x Cosmos</p>
-    <h1 class="mt-2 text-2xl font-bold text-slate-900 md:text-3xl">Index Timeline vs Planetary Signs</h1>
-    <p class="mt-3 max-w-3xl text-sm text-slate-600 md:text-base">
+    <h1 class="mt-2 text-2xl font-bold text-foreground md:text-3xl">Index Timeline vs Planetary Signs</h1>
+    <p class="mt-3 max-w-3xl text-sm text-muted-foreground md:text-base">
       Track one index at a time against planetary sign movement. Use the timeline tab to compare a primary and secondary
       planet over the same market period.
     </p>
 
-    <div class="mt-5 inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+    <div class="mt-5 inline-flex rounded-lg border border-border bg-muted/50 p-1">
       <button
-        class="rounded-md px-4 py-2 text-sm font-medium transition-colors {activeTab === 'overview' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}"
+        class="rounded-md px-4 py-2 text-sm font-medium transition-colors {activeTab === 'overview' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
         on:click={() => (activeTab = 'overview')}
       >
         Overview
       </button>
       <button
-        class="rounded-md px-4 py-2 text-sm font-medium transition-colors {activeTab === 'timeline' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}"
+        class="rounded-md px-4 py-2 text-sm font-medium transition-colors {activeTab === 'timeline' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
         on:click={() => (activeTab = 'timeline')}
       >
         Timeline
@@ -209,7 +209,7 @@
   {#if activeTab === 'overview'}
     <section class="mt-6 space-y-5">
       {#if overviewLoading}
-        <div class="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-600">Loading market-cosmos overview...</div>
+        <div class="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">Loading market-cosmos overview...</div>
       {:else if overviewError}
         <div class="rounded-xl border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">{overviewError}</div>
       {:else if overviewData}
@@ -226,22 +226,22 @@
 
         <div class="grid gap-4 md:grid-cols-3">
           {#each overviewData.categorySummaries as summary}
-            <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-              <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{categoryLabel(summary.category)}</p>
+            <article class="rounded-xl border border-border bg-card p-4 shadow-sm">
+              <p class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{categoryLabel(summary.category)}</p>
               <p class="mt-2 text-2xl font-semibold {percentClass(summary.averageChangePercent)}">
                 {summary.averageChangePercent.toFixed(2)}%
               </p>
-              <p class="mt-1 text-xs text-slate-500">Average change across {summary.assetsTracked} assets</p>
+              <p class="mt-1 text-xs text-muted-foreground">Average change across {summary.assetsTracked} assets</p>
               {#if summary.strongestMoveSymbol}
-                <p class="mt-3 text-xs text-slate-600">Strongest move: {summary.strongestMoveSymbol}</p>
+                <p class="mt-3 text-xs text-muted-foreground">Strongest move: {summary.strongestMoveSymbol}</p>
               {/if}
             </article>
           {/each}
         </div>
 
-        <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div class="overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
           <table class="min-w-full text-sm">
-            <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+            <thead class="bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
                 <th class="px-4 py-3 text-left">Asset</th>
                 <th class="px-4 py-3 text-left">Category</th>
@@ -251,13 +251,13 @@
             </thead>
             <tbody>
               {#each overviewData.assets as asset}
-                <tr class="border-t border-slate-100">
+                <tr class="border-t border-border/70">
                   <td class="px-4 py-3">
-                    <div class="font-medium text-slate-900">{asset.name}</div>
-                    <div class="text-xs text-slate-500">{asset.symbol}</div>
+                    <div class="font-medium text-foreground">{asset.name}</div>
+                    <div class="text-xs text-muted-foreground">{asset.symbol}</div>
                   </td>
-                  <td class="px-4 py-3 text-slate-600">{categoryLabel(asset.category)}</td>
-                  <td class="px-4 py-3 text-right text-slate-900">{formatPrice(asset.price, asset.currency)}</td>
+                  <td class="px-4 py-3 text-muted-foreground">{categoryLabel(asset.category)}</td>
+                  <td class="px-4 py-3 text-right text-foreground">{formatPrice(asset.price, asset.currency)}</td>
                   <td class="px-4 py-3 text-right font-medium {percentClass(asset.changePercent)}">
                     {asset.changePercent.toFixed(2)}%
                   </td>
@@ -270,11 +270,11 @@
     </section>
   {:else}
     <section class="mt-6 space-y-5">
-      <div class="grid gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-4">
+      <div class="grid gap-3 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-4">
         <label class="text-sm">
-          <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Index</span>
+          <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Index</span>
           <select
-            class="w-full rounded-md border border-slate-300 px-3 py-2"
+            class="w-full rounded-md border border-input px-3 py-2"
             bind:value={selectedIndex}
             on:change={loadTimeline}
             data-testid="index-select"
@@ -286,8 +286,8 @@
         </label>
 
         <label class="text-sm">
-          <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Range</span>
-          <select class="w-full rounded-md border border-slate-300 px-3 py-2" bind:value={selectedRange} on:change={loadTimeline}>
+          <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Range</span>
+          <select class="w-full rounded-md border border-input px-3 py-2" bind:value={selectedRange} on:change={loadTimeline}>
             {#each rangeOptions as range}
               <option value={range}>{formatRange(range)}</option>
             {/each}
@@ -295,8 +295,8 @@
         </label>
 
         <label class="text-sm">
-          <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Primary Planet</span>
-          <select class="w-full rounded-md border border-slate-300 px-3 py-2" bind:value={primaryPlanet} on:change={loadTimeline}>
+          <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Primary Planet</span>
+          <select class="w-full rounded-md border border-input px-3 py-2" bind:value={primaryPlanet} on:change={loadTimeline}>
             {#each planetOptions as planet}
               <option value={planet}>{planet}</option>
             {/each}
@@ -304,8 +304,8 @@
         </label>
 
         <label class="text-sm">
-          <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Secondary Planet</span>
-          <select class="w-full rounded-md border border-slate-300 px-3 py-2" bind:value={secondaryPlanet} on:change={loadTimeline}>
+          <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Secondary Planet</span>
+          <select class="w-full rounded-md border border-input px-3 py-2" bind:value={secondaryPlanet} on:change={loadTimeline}>
             {#each planetOptions as planet}
               <option value={planet}>{planet}</option>
             {/each}
@@ -325,15 +325,15 @@
       {/if}
 
       {#if timelineLoading}
-        <div class="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-600">Loading timeline...</div>
+        <div class="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">Loading timeline...</div>
       {:else if timelineError}
         <div class="rounded-xl border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">{timelineError}</div>
       {:else if timelineData && chartModel}
-        <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:p-6" data-testid="timeline-chart-container">
-          <h2 class="text-lg font-semibold text-slate-900">
+        <article class="rounded-xl border border-border bg-card p-4 shadow-sm md:p-6" data-testid="timeline-chart-container">
+          <h2 class="text-lg font-semibold text-foreground">
             {indexOptions.find((option) => option.symbol === selectedIndex)?.label} vs {primaryPlanet} and {secondaryPlanet}
           </h2>
-          <p class="mt-1 text-sm text-slate-600">
+          <p class="mt-1 text-sm text-muted-foreground">
             Primary sign shown as background bands. Secondary sign shown as ribbon lane.
           </p>
 
@@ -404,7 +404,7 @@
             </svg>
           </div>
 
-          <div class="mt-4 rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs text-slate-600">
+          <div class="mt-4 rounded-lg border border-border/70 bg-muted/50 p-3 text-xs text-muted-foreground">
             <p>
               Latest range: <strong>{chartModel.startDate}</strong> to <strong>{chartModel.endDate}</strong>.
               Currency: <strong>{chartModel.currency}</strong>.
@@ -413,9 +413,9 @@
           </div>
         </article>
 
-        <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:p-6">
-          <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Correlation with Rise/Fall</h3>
-          <p class="mt-2 text-sm text-slate-600">
+        <article class="rounded-xl border border-border bg-card p-4 shadow-sm md:p-6">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Correlation with Rise/Fall</h3>
+          <p class="mt-2 text-sm text-muted-foreground">
             Baseline up-day rate: <strong>{formatPct(timelineData.correlation.baselineUpRate)}</strong> ·
             Baseline average daily return: <strong>{formatSignedPct(timelineData.correlation.baselineAverageReturnPct)}</strong> ·
             Observations: <strong>{timelineData.correlation.observations}</strong>
@@ -423,10 +423,10 @@
 
           <div class="mt-4 space-y-4">
             {#each timelineData.correlation.perPlanet as planetCorrelation}
-              <div class="rounded-lg border border-slate-100 p-3">
+              <div class="rounded-lg border border-border/70 p-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                  <p class="text-sm font-semibold text-slate-900">{planetCorrelation.planet}</p>
-                  <p class="text-xs text-slate-600">
+                  <p class="text-sm font-semibold text-foreground">{planetCorrelation.planet}</p>
+                  <p class="text-xs text-muted-foreground">
                     Position/return corr:
                     <span class={correlationClass(planetCorrelation.signIndexReturnCorrelation)}>
                       {planetCorrelation.signIndexReturnCorrelation.toFixed(3)}
@@ -434,12 +434,12 @@
                   </p>
                 </div>
 
-                <p class="mt-2 text-xs text-slate-600">
+                <p class="mt-2 text-xs text-muted-foreground">
                   Strongest rise sign:
                   <strong>
                     {#if planetCorrelation.strongestRiseSign}
                       <span class="inline-flex items-center gap-1">
-                        <ZodiacIcon sign={planetCorrelation.strongestRiseSign} size={14} className="text-slate-700" />
+                        <ZodiacIcon sign={planetCorrelation.strongestRiseSign} size={14} className="text-muted-foreground" />
                         {planetCorrelation.strongestRiseSign}
                       </span>
                     {:else}
@@ -450,7 +450,7 @@
                   <strong>
                     {#if planetCorrelation.strongestFallSign}
                       <span class="inline-flex items-center gap-1">
-                        <ZodiacIcon sign={planetCorrelation.strongestFallSign} size={14} className="text-slate-700" />
+                        <ZodiacIcon sign={planetCorrelation.strongestFallSign} size={14} className="text-muted-foreground" />
                         {planetCorrelation.strongestFallSign}
                       </span>
                     {:else}
@@ -460,11 +460,11 @@
                 </p>
 
                 {#if planetCorrelation.bySign.length === 0}
-                  <p class="mt-2 text-xs text-slate-500">No sign correlation samples for this planet in the selected range.</p>
+                  <p class="mt-2 text-xs text-muted-foreground">No sign correlation samples for this planet in the selected range.</p>
                 {:else}
                   <div class="mt-3 overflow-x-auto">
                     <table class="min-w-full text-xs">
-                      <thead class="text-slate-500">
+                      <thead class="text-muted-foreground">
                         <tr>
                           <th class="py-1 text-left">Sign</th>
                           <th class="py-1 text-right">Days</th>
@@ -476,15 +476,15 @@
                       </thead>
                       <tbody>
                         {#each planetCorrelation.bySign.slice(0, 8) as stat}
-                          <tr class="border-t border-slate-100">
-                            <td class="py-1 text-slate-800">
+                          <tr class="border-t border-border/70">
+                            <td class="py-1 text-foreground">
                               <span class="inline-flex items-center gap-1">
-                                <ZodiacIcon sign={stat.sign} size={13} className="text-slate-700" />
+                                <ZodiacIcon sign={stat.sign} size={13} className="text-muted-foreground" />
                                 {stat.sign}
                               </span>
                             </td>
-                            <td class="py-1 text-right text-slate-700">{stat.sampleSize}</td>
-                            <td class="py-1 text-right text-slate-700">{formatPct(stat.upRate)}</td>
+                            <td class="py-1 text-right text-muted-foreground">{stat.sampleSize}</td>
+                            <td class="py-1 text-right text-muted-foreground">{formatPct(stat.upRate)}</td>
                             <td class="py-1 text-right {correlationClass(stat.averageReturnPct)}">{formatSignedPct(stat.averageReturnPct)}</td>
                             <td class="py-1 text-right {correlationClass(stat.phiWithRise)}">{stat.phiWithRise.toFixed(3)}</td>
                             <td class="py-1 text-right">
@@ -503,18 +503,18 @@
           </div>
         </article>
 
-        <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-          <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Recent Ingress Events</h3>
+        <article class="rounded-xl border border-border bg-card p-4 shadow-sm">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Recent Ingress Events</h3>
           {#if timelineData.ingressEvents.length === 0}
-            <p class="mt-2 text-sm text-slate-600">No ingress events for the selected period.</p>
+            <p class="mt-2 text-sm text-muted-foreground">No ingress events for the selected period.</p>
           {:else}
-            <ul class="mt-3 space-y-2 text-sm text-slate-700">
+            <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
               {#each timelineData.ingressEvents.slice(-8).reverse() as event}
-                <li class="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2">
+                <li class="flex items-center justify-between rounded-md border border-border/70 px-3 py-2">
                   <span>
                     <strong>{event.planet}</strong> moved from {event.fromSign} to {event.toSign}
                   </span>
-                  <span class="text-xs text-slate-500">{event.date}</span>
+                  <span class="text-xs text-muted-foreground">{event.date}</span>
                 </li>
               {/each}
             </ul>
@@ -522,7 +522,7 @@
         </article>
       {/if}
 
-      <p class="text-xs text-slate-500">
+      <p class="text-xs text-muted-foreground">
         Educational view only. This is not investment advice.
       </p>
     </section>

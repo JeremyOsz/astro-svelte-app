@@ -14,9 +14,9 @@
   
   // Intensity colors
   $: intensityColors = {
-    low: 'text-green-400',
-    medium: 'text-yellow-400', 
-    high: 'text-red-400'
+    low: 'text-primary',
+    medium: 'text-primary',
+    high: 'text-primary'
   };
 
   $: intensityIcons = {
@@ -34,10 +34,10 @@
 
   // Daypart colors
   const daypartColors: Record<string, string> = {
-    morning: 'text-orange-400',
-    afternoon: 'text-yellow-400',
-    evening: 'text-purple-400',
-    night: 'text-blue-400'
+    morning: 'text-primary',
+    afternoon: 'text-primary',
+    evening: 'text-primary',
+    night: 'text-primary'
   };
 
   // Helper function for ordinal suffixes
@@ -60,7 +60,7 @@
   $: transitUrl = natalChart ? `/transits?date=${currentHoroscope.date}&chart=${encodeURIComponent(JSON.stringify(natalChart))}` : '/transits';
 </script>
 
-<div class="space-y-6">
+<div class="daily-horoscope-display space-y-6">
   <!-- Header with Theme -->
   <div class="bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-lg p-6 border border-purple-500/30">
     <div class="flex items-center justify-between mb-4">
@@ -367,8 +367,58 @@
 </div>
 
 <style>
-  /* Custom styles for better visual appeal */
+  /* Neutralize page-specific palette to follow global theme tokens */
+  .daily-horoscope-display :global([class*="bg-gradient-to-r"]) {
+    background: var(--color-card) !important;
+  }
+
+  .daily-horoscope-display :global([class*="bg-white/10"]),
+  .daily-horoscope-display :global([class*="bg-white/5"]) {
+    background-color: color-mix(in oklch, var(--color-muted) 60%, transparent) !important;
+  }
+
+  .daily-horoscope-display :global([class*="border-purple-500/30"]),
+  .daily-horoscope-display :global([class*="border-blue-500/30"]),
+  .daily-horoscope-display :global([class*="border-green-500/30"]),
+  .daily-horoscope-display :global([class*="border-indigo-500/30"]),
+  .daily-horoscope-display :global([class*="border-orange-500/30"]),
+  .daily-horoscope-display :global([class*="border-yellow-500/30"]),
+  .daily-horoscope-display :global([class*="border-white/10"]) {
+    border-color: var(--color-border) !important;
+  }
+
+  .daily-horoscope-display :global(.text-white) {
+    color: var(--color-foreground) !important;
+  }
+
+  .daily-horoscope-display :global(.text-slate-200),
+  .daily-horoscope-display :global(.text-slate-300),
+  .daily-horoscope-display :global(.text-slate-400) {
+    color: var(--color-muted-foreground) !important;
+  }
+
+  .daily-horoscope-display :global([class*="bg-transparent"][class*="text-white"][class*="border-white/30"]) {
+    background-color: var(--color-background) !important;
+    color: var(--color-foreground) !important;
+    border-color: var(--color-border) !important;
+  }
+
+  .daily-horoscope-display :global([class*="bg-transparent"][class*="text-white"][class*="border-white/30"]:hover) {
+    background-color: color-mix(in oklch, var(--color-accent) 20%, transparent) !important;
+  }
+
+  .daily-horoscope-display :global([class*="bg-purple-600"]),
+  .daily-horoscope-display :global([class*="bg-blue-600"]) {
+    background-color: var(--color-primary) !important;
+    color: var(--color-primary-foreground) !important;
+  }
+
+  .daily-horoscope-display :global([class*="hover:bg-purple-700"]:hover),
+  .daily-horoscope-display :global([class*="hover:bg-blue-700"]:hover) {
+    filter: brightness(0.92);
+  }
+
   :global(.accordion-trigger[data-state="open"]) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--color-border);
   }
 </style> 

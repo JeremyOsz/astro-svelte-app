@@ -170,7 +170,7 @@
     <div class="space-y-4">
       <!-- Birth Date Input -->
       <div class="space-y-2">
-        <label for="{formPrefix}birth-date" class="block text-sm font-medium text-gray-700">
+        <label for="{formPrefix}birth-date" class="block text-sm font-medium text-foreground">
           Birth Date
         </label>
         <input
@@ -179,14 +179,14 @@
           name="{formPrefix}birthDate"
           bind:value={birthDate}
           required
-          class="w-full px-4 py-3 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white shadow-sm"
+          class="w-full px-4 py-3 text-lg border border-border rounded-xl focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-card text-foreground shadow-sm"
           style="min-height: 48px; -webkit-appearance: none;"
         />
       </div>
 
       <!-- Birth Time Input -->
       <div class="space-y-2">
-        <label for="{formPrefix}birth-time" class="block text-sm font-medium text-gray-700">
+        <label for="{formPrefix}birth-time" class="block text-sm font-medium text-foreground">
           Birth Time
         </label>
         <input
@@ -195,17 +195,17 @@
           name="{formPrefix}birthTime"
           bind:value={birthTime}
           required
-          class="w-full px-4 py-3 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white shadow-sm"
+          class="w-full px-4 py-3 text-lg border border-border rounded-xl focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-card text-foreground shadow-sm"
           style="min-height: 48px; -webkit-appearance: none;"
         />
-        <p class="text-xs text-gray-500">
+        <p class="text-xs text-muted-foreground">
           If you don't know your exact birth time, use 12:00 PM
         </p>
       </div>
 
       <!-- City Search Input -->
       <div class="space-y-2">
-        <label for="{formPrefix}city" class="block text-sm font-medium text-gray-700">
+        <label for="{formPrefix}city" class="block text-sm font-medium text-foreground">
           Birth City
         </label>
         <div class="relative">
@@ -232,22 +232,22 @@
             }}
             placeholder="Start typing your birth city..."
             required
-            class="w-full px-4 py-3 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white shadow-sm"
+            class="w-full px-4 py-3 text-lg border border-border rounded-xl focus:ring-2 focus:ring-ring focus:border-ring transition-colors bg-card text-foreground shadow-sm"
             style="min-height: 48px;"
           />
           
           <!-- City Dropdown -->
           {#if showCityDropdown && cityResults.length > 0}
-            <div class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+            <div class="absolute z-50 w-full mt-1 bg-card border border-border rounded-xl shadow-lg max-h-60 overflow-y-auto">
               {#each cityResults as city, index}
                 <button
                   type="button"
-                  class="w-full px-4 py-3 text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none transition-colors {selectedIndex === index ? 'bg-indigo-50 text-indigo-700' : 'text-gray-900'}"
+                  class="w-full px-4 py-3 text-left hover:bg-accent/20 focus:bg-accent/20 focus:outline-none transition-colors {selectedIndex === index ? 'bg-accent/25 text-foreground' : 'text-foreground'}"
                   on:click={() => selectCity(city)}
                   on:mouseenter={() => selectedIndex = index}
                 >
                   <div class="font-medium">{city.name}</div>
-                  <div class="text-sm text-gray-500">{city.fullLocation}</div>
+                  <div class="text-sm text-muted-foreground">{city.fullLocation}</div>
                 </button>
               {/each}
             </div>
@@ -263,7 +263,7 @@
         <button
           type="submit"
           disabled={isSubmitting}
-          class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          class="w-full bg-primary text-primary-foreground font-semibold py-4 px-6 rounded-xl shadow-lg hover:opacity-90 focus:ring-4 focus:ring-ring transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           style="min-height: 56px;"
         >
           {isSubmitting ? 'Calculating...' : 'Calculate Birth Chart'}
@@ -272,10 +272,17 @@
 
       <!-- Error Display -->
       {#if formError}
-        <div class="bg-red-50 border border-red-200 rounded-xl p-4">
-          <p class="text-red-700 text-sm">{formError}</p>
+        <div class="bg-destructive/10 border border-destructive/35 rounded-xl p-4">
+          <p class="text-destructive text-sm">{formError}</p>
         </div>
       {/if}
     </div>
   </form>
 </div> 
+
+<style>
+  :global(.dark input[type="date"]),
+  :global(.dark input[type="time"]) {
+    color-scheme: dark;
+  }
+</style>

@@ -67,7 +67,7 @@
   <meta name="description" content="View planetary transits and their effects on your natal chart for any date and location" />
 </svelte:head>
 
-<div class="container mx-auto px-4 py-8 max-w-6xl">
+<div class="transits-theme container mx-auto px-4 py-8 max-w-6xl">
   <!-- Page Header -->
   <div class="text-center mb-8">
     <h1 class="text-4xl font-bold text-gray-900 mb-4">Planetary Transits</h1>
@@ -201,6 +201,69 @@
 <style>
   .container {
     min-height: calc(100vh - 200px);
+  }
+
+  :global(.dark .transits-theme .text-gray-900) {
+    color: #f2f5fb !important;
+  }
+
+  :global(.dark .transits-theme .text-gray-800),
+  :global(.dark .transits-theme .text-gray-700) {
+    color: #e4e9f5 !important;
+  }
+
+  :global(.dark .transits-theme .text-gray-600),
+  :global(.dark .transits-theme .text-gray-500),
+  :global(.dark .transits-theme .text-gray-400) {
+    color: #b7c1d6 !important;
+  }
+
+  :global(.dark .transits-theme .bg-white) {
+    background-color: #1a1d24 !important;
+  }
+
+  :global(.dark .transits-theme .bg-gray-50) {
+    background-color: #222734 !important;
+  }
+
+  :global(.dark .transits-theme .bg-gray-100) {
+    background-color: #2a3040 !important;
+  }
+
+  :global(.dark .transits-theme .border-gray-100),
+  :global(.dark .transits-theme .border-gray-200),
+  :global(.dark .transits-theme .border-gray-300),
+  :global(.dark .transits-theme .border-gray-400) {
+    border-color: #3a4358 !important;
+  }
+
+  :global(.dark .transits-theme .hover\:bg-gray-50:hover) {
+    background-color: #2d3444 !important;
+  }
+
+  :global(.dark .transits-theme .text-blue-600) {
+    color: #91b9ff !important;
+  }
+
+  :global(.dark .transits-theme .text-indigo-600) {
+    color: #a8b8ff !important;
+  }
+
+  :global(.dark .transits-theme .text-purple-600),
+  :global(.dark .transits-theme .text-purple-500) {
+    color: #c8abff !important;
+  }
+
+  :global(.dark .transits-theme .text-orange-600),
+  :global(.dark .transits-theme .text-orange-700),
+  :global(.dark .transits-theme .text-orange-800) {
+    color: #ffb683 !important;
+  }
+
+  :global(.dark .transits-theme .text-green-600),
+  :global(.dark .transits-theme .text-green-700),
+  :global(.dark .transits-theme .text-green-800) {
+    color: #8de7b8 !important;
   }
 
   @media (max-width: 768px) {

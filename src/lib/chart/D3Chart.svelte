@@ -630,17 +630,22 @@
     const { zodiacOuterRadius, zodiacInnerRadius } = get(chartDimensions);
     const { isMobile } = get(chartState);
     const { showDegreeMarkers } = get(chartSettings);
+    const isDarkTheme = document.documentElement.classList.contains('dark');
+    const wheelStroke = isDarkTheme ? '#4b5568' : '#c8d0dd';
+    const signDividerStroke = isDarkTheme ? '#74829c' : '#9aa8bc';
+    const majorTickStroke = isDarkTheme ? '#5d6a80' : '#bcc7d8';
+    const minorTickStroke = isDarkTheme ? '#3d4759' : '#d5dde9';
 
     g.append('circle')
       .attr('r', zodiacOuterRadius)
       .attr('fill', 'none')
-      .attr('stroke', '#ccc')
+      .attr('stroke', wheelStroke)
       .attr('stroke-width', isMobile ? 1 : 2);
 
     g.append('circle')
       .attr('r', zodiacInnerRadius)
       .attr('fill', 'none')
-      .attr('stroke', '#ccc')
+      .attr('stroke', wheelStroke)
       .attr('stroke-width', isMobile ? 1 : 2);
 
     // Get the Ascendant to determine the starting sign
@@ -739,15 +744,15 @@
       const adjustedAngle = i - zodiacOffset;
       const displayAngle = (180 - adjustedAngle) * Math.PI / 180;
       let tickLength = 4;
-      let stroke = '#ddd';
+      let stroke = minorTickStroke;
       let strokeWidth = 1;
 
       if (i % 30 === 0) { // Zodiac sign dividers
-        tickLength = 20; stroke = '#aaa'; strokeWidth = 1.5;
+        tickLength = 20; stroke = signDividerStroke; strokeWidth = 1.5;
       } else if (i % 10 === 0) {
-        tickLength = 10; stroke = '#ccc'; strokeWidth = 1;
+        tickLength = 10; stroke = majorTickStroke; strokeWidth = 1;
       } else if (i % 5 === 0) {
-        tickLength = 5; stroke = '#ddd'; strokeWidth = 1;
+        tickLength = 5; stroke = minorTickStroke; strokeWidth = 1;
       } else if (!showDegreeMarkers) {
         continue;
       }
@@ -775,6 +780,11 @@
     const { houseCusps, data, isMobile } = get(chartState);
     const { zodiacInnerRadius, houseLineInnerRadius, houseNumRadius } = get(chartDimensions);
     const axes = data.filter((p: PlanetData) => ['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
+    const isDarkTheme = document.documentElement.classList.contains('dark');
+    const axisStroke = isDarkTheme ? '#6f7b94' : '#777';
+    const dividerStroke = isDarkTheme ? '#3a4358' : '#ddd';
+    const axisLabelFill = isDarkTheme ? '#dbe5f8' : '#555';
+    const houseNumberFill = isDarkTheme ? '#9aa8c0' : '#ccc';
 
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
@@ -798,7 +808,7 @@
         .attr('y1', Math.sin(angle) * houseLineInnerRadius)
         .attr('x2', Math.cos(angle) * zodiacInnerRadius)
         .attr('y2', Math.sin(angle) * zodiacInnerRadius)
-        .attr('stroke', isAxis ? '#777' : '#ddd')
+        .attr('stroke', isAxis ? axisStroke : dividerStroke)
         .attr('stroke-width', isAxis ? (isMobile ? 1.2 : 2) : 1);
     });
 
@@ -841,7 +851,7 @@
         .attr('dominant-baseline', 'middle')
         .attr('font-size', isMobile ? 10 : 14)
         .attr('font-weight', 'bold')
-        .attr('fill', '#555')
+        .attr('fill', axisLabelFill)
         .style('pointer-events', 'none')
         .text(planetSymbols[point.planet]);
     });
@@ -864,7 +874,7 @@
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
         .attr('font-size', isMobile ? 9 : 14)
-        .attr('fill', '#ccc')
+        .attr('fill', houseNumberFill)
         .text(cusp.house);
     });
   }
@@ -872,6 +882,7 @@
   function drawAspects(g: d3.Selection<SVGGElement, unknown, null, undefined>, house1CuspAngle: number) {
     const { aspects, data, isMobile } = get(chartState);
     const { aspectHubRadius } = get(chartDimensions);
+    const isDarkTheme = document.documentElement.classList.contains('dark');
 
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
@@ -887,7 +898,7 @@
     g.append('circle')
       .attr('r', aspectHubRadius)
       .attr('fill', 'none')
-      .attr('stroke', '#eee');
+      .attr('stroke', isDarkTheme ? '#3a4358' : '#eee');
 
     aspects.forEach((aspect: Aspect) => {
       const planet1 = data.find((p: PlanetData) => p.planet === aspect.planet1);
@@ -944,6 +955,7 @@
     const { data, isMobile } = get(chartState);
     const { showExtendedPlanets, showPlanetLabels } = get(chartSettings);
     const { planetRingRadius, zodiacInnerRadius, labelRadius } = get(chartDimensions);
+    const isDarkTheme = document.documentElement.classList.contains('dark');
 
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
@@ -1027,7 +1039,7 @@
         .attr('dominant-baseline', 'middle')
         .style('font-family', "'Noto Sans Symbols', 'Arial', sans-serif")
         .attr('font-size', isMobile ? 16 : 28)
-        .attr('fill', p.isRetrograde ? '#e53935' : '#333')
+        .attr('fill', p.isRetrograde ? (isDarkTheme ? '#ff8f8f' : '#e53935') : (isDarkTheme ? '#dbe5f8' : '#333'))
         .style('pointer-events', 'none'); // Pass events to the hover area
       
       // Add subtle visual indicator for clustered planets
@@ -1357,7 +1369,7 @@
 
   <div class="relative w-full">
     <div 
-      class="chart-container flex justify-center items-center border border-gray-200 rounded bg-gray-50 overflow-hidden relative touch-pan-x touch-pan-y w-full h-full"
+      class="chart-container flex justify-center items-center border border-border rounded bg-card overflow-hidden relative touch-pan-x touch-pan-y w-full h-full"
       style="aspect-ratio: 1; min-height: 450px; max-height: 1000px;"
       bind:this={chartContainer}
       on:touchstart={handleTouchStart}
@@ -1369,21 +1381,21 @@
     <!-- Chart controls - positioned outside the chart container -->
     <div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
       <button 
-        class="w-9 h-9 bg-white/95 border border-gray-300 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-bold text-gray-600 backdrop-blur-sm shadow-md hover:bg-white hover:border-gray-400 hover:scale-105 hover:shadow-lg active:scale-95"
+        class="w-9 h-9 bg-card/95 border border-border rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-bold text-foreground backdrop-blur-sm shadow-md hover:bg-accent/25 hover:border-ring/60 hover:scale-105 hover:shadow-lg active:scale-95"
         on:click={zoomIn}
         title="Zoom in"
       >
         +
       </button>
       <button 
-        class="w-9 h-9 bg-white/95 border border-gray-300 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-bold text-gray-600 backdrop-blur-sm shadow-md hover:bg-white hover:border-gray-400 hover:scale-105 hover:shadow-lg active:scale-95"
+        class="w-9 h-9 bg-card/95 border border-border rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-bold text-foreground backdrop-blur-sm shadow-md hover:bg-accent/25 hover:border-ring/60 hover:scale-105 hover:shadow-lg active:scale-95"
         on:click={zoomOut}
         title="Zoom out"
       >
         −
       </button>
       <button 
-        class="w-9 h-9 bg-white/95 border border-gray-300 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-bold text-gray-600 backdrop-blur-sm shadow-md hover:bg-white hover:border-gray-400 hover:scale-105 hover:shadow-lg active:scale-95"
+        class="w-9 h-9 bg-card/95 border border-border rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-bold text-foreground backdrop-blur-sm shadow-md hover:bg-accent/25 hover:border-ring/60 hover:scale-105 hover:shadow-lg active:scale-95"
         on:click={zoomReset}
         title="Reset zoom and position"
       >
@@ -1412,8 +1424,8 @@
 
   /* Brief tooltip styles */
   :global(.brief-chart-tooltip) {
-    background: rgba(255, 255, 255, 0.8);
-    color: black;
+    background: color-mix(in oklch, var(--color-card) 92%, transparent);
+    color: var(--color-foreground);
     padding: 8px 12px;
     border-radius: 6px;
     font-size: 12px;
@@ -1426,11 +1438,11 @@
   }
 
   :global(.brief-tooltip-content) {
-    color: black;
+    color: var(--color-foreground);
   }
 
   :global(.brief-tooltip-main) {
-    color: black;
+    color: var(--color-foreground);
     font-weight: 500;
   }
 </style> 
