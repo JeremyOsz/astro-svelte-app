@@ -64,6 +64,15 @@
   let timelineError: string | null = null;
   let timelineRequestId = 0;
   let chartModel: TimelineChartModel | null = null;
+  let svgElement: SVGSVGElement | null = null;
+  let hoverPoint:
+    | {
+        x: number;
+        y: number;
+        date: string;
+        close: number;
+      }
+    | null = null;
   let chatContext = '';
   let chatSuggestions: string[] = [];
 
@@ -201,6 +210,39 @@
     if (strength.includes('Bullish')) return 'bg-emerald-500/10 text-emerald-500 border-emerald-500/40';
     if (strength.includes('Bearish')) return 'bg-rose-500/10 text-rose-500 border-rose-500/40';
     return 'bg-muted/50 text-muted-foreground border-border';
+  }
+
+  function handleSvgMouseMove(event: MouseEvent): void {
+    if (!chartModel || !svgElement) return;
+
+    const rect = svgElement.getBoundingClientRect();
+    if (rect.width === 0) return;
+
+    const relativeX = ((event.clientX - rect.left) / rect.width) * chartModel.width;
+
+    let nearest = null as (typeof chartModel.pricePoints)[number] | null;
+    let bestDistance = Infinity;
+
+    for (const point of chartModel.pricePoints) {
+      const distance = Math.abs(point.x - relativeX);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        nearest = point;
+      }
+    }
+
+    hoverPoint = nearest
+      ? {
+          x: nearest.x,
+          y: nearest.y,
+          date: nearest.date,
+          close: nearest.close
+        }
+      : null;
+  }
+
+  function handleSvgMouseLeave(): void {
+    hoverPoint = null;
   }
 </script>
 
@@ -369,7 +411,15 @@
           </p>
 
           <div class="mt-4 overflow-x-auto">
-            <svg viewBox={`0 0 ${chartModel.width} ${chartModel.height}`} class="min-w-[720px]">
+            <svg
+              bind:this={svgElement}
+              viewBox={`0 0 ${chartModel.width} ${chartModel.height}`}
+              class="min-w-[720px]"
+              role="img"
+              aria-label="Index price timeline with planetary sign bands. Hover to reveal the exact value for each day."
+              on:mousemove={handleSvgMouseMove}
+              on:mouseleave={handleSvgMouseLeave}
+            >
               <rect x="0" y="0" width={chartModel.width} height={chartModel.height} fill="var(--color-card)" />
 
               {#each chartModel.primaryBands as band}
@@ -404,6 +454,28 @@
               {/each}
 
               <path d={chartModel.pricePath} fill="none" stroke="#1d4ed8" stroke-width="2.5" />
+
+              {#if hoverPoint}
+                <line
+                  x1={hoverPoint.x}
+                  y1="24"
+                  x2={hoverPoint.x}
+                  y2="285"
+                  stroke="var(--color-border)"
+                  stroke-width="1"
+                  stroke-dasharray="4 4"
+                />
+                <circle cx={hoverPoint.x} cy={hoverPoint.y} r="4" fill="#1d4ed8" stroke="var(--color-background)" stroke-width="2" />
+                <g transform={`translate(${Math.min(Math.max(hoverPoint.x + 8, 80), chartModel.width - 210)}, ${Math.max(hoverPoint.y - 30, 40)})`}>
+                  <rect width="190" height="40" rx="6" ry="6" fill="var(--color-popover)" stroke="var(--color-border)" stroke-width="1" />
+                  <text x="10" y="17" class="fill-foreground text-[11px]">
+                    {hoverPoint.date}
+                  </text>
+                  <text x="10" y="31" class="fill-muted-foreground text-[11px]">
+                    {formatPrice(hoverPoint.close, chartModel.currency)}
+                  </text>
+                </g>
+              {/if}
 
               {#each chartModel.secondaryBands as band}
                 <rect

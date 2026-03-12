@@ -11,6 +11,7 @@ export interface TimelineChartModel {
   width: number;
   height: number;
   pricePath: string;
+  pricePoints: Array<{ x: number; y: number; date: string; close: number }>;
   yMin: number;
   yMax: number;
   startDate: string;
@@ -94,8 +95,19 @@ export function buildTimelineChartModel(
     return priceBottom - ratio * (priceBottom - topPad);
   };
 
-  const pricePath = series
-    .map((point, index) => `${index === 0 ? 'M' : 'L'}${xForDate(point.date).toFixed(2)},${yForPrice(point.close).toFixed(2)}`)
+  const pricePoints = series.map((point) => {
+    const x = xForDate(point.date);
+    const y = yForPrice(point.close);
+    return {
+      x,
+      y,
+      date: point.date,
+      close: point.close
+    };
+  });
+
+  const pricePath = pricePoints
+    .map((point, index) => `${index === 0 ? 'M' : 'L'}${point.x.toFixed(2)},${point.y.toFixed(2)}`)
     .join(' ');
 
   const dayWidth = (width - leftPad - rightPad) / Math.max(1, dayDiff(firstDate, lastDate) + 1);
@@ -144,6 +156,7 @@ export function buildTimelineChartModel(
     width,
     height,
     pricePath,
+    pricePoints,
     yMin: paddedMin,
     yMax: paddedMax,
     startDate: firstDate,
