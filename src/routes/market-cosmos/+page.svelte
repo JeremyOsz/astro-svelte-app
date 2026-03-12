@@ -1,7 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import ZodiacIcon from '$lib/components/icons/ZodiacIcon.svelte';
-  import { buildTimelineChartModel, buildTimelineQuery, type TimelineChartModel } from '$lib/market-cosmos/timeline-view';
+  import {
+    buildTimelineChartModel,
+    buildTimelineQuery,
+    getTimelineSignColor,
+    type TimelineChartModel
+  } from '$lib/market-cosmos/timeline-view';
   import type {
     IndexSymbol,
     MarketCategory,
@@ -167,8 +172,8 @@
   }
 
   function strengthClass(strength: string): string {
-    if (strength.includes('Bullish')) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-    if (strength.includes('Bearish')) return 'bg-rose-50 text-rose-700 border-rose-200';
+    if (strength.includes('Bullish')) return 'bg-emerald-500/10 text-emerald-500 border-emerald-500/40';
+    if (strength.includes('Bearish')) return 'bg-rose-500/10 text-rose-500 border-rose-500/40';
     return 'bg-muted/50 text-muted-foreground border-border';
   }
 </script>
@@ -183,7 +188,7 @@
 
 <div class="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-8">
   <section class="rounded-2xl border border-border bg-card p-5 shadow-sm md:p-7">
-    <p class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Market x Cosmos</p>
+    <p class="text-xs font-semibold uppercase tracking-wider text-primary">Market x Cosmos</p>
     <h1 class="mt-2 text-2xl font-bold text-foreground md:text-3xl">Index Timeline vs Planetary Signs</h1>
     <p class="mt-3 max-w-3xl text-sm text-muted-foreground md:text-base">
       Track one index at a time against planetary sign movement. Use the timeline tab to compare a primary and secondary
@@ -211,10 +216,10 @@
       {#if overviewLoading}
         <div class="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">Loading market-cosmos overview...</div>
       {:else if overviewError}
-        <div class="rounded-xl border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">{overviewError}</div>
+        <div class="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive">{overviewError}</div>
       {:else if overviewData}
         {#if overviewData.warnings.length > 0}
-          <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          <div class="rounded-xl border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-500">
             <p class="font-semibold">Partial data warning</p>
             <ul class="mt-2 list-disc pl-5">
               {#each overviewData.warnings as warning}
@@ -274,7 +279,7 @@
         <label class="text-sm">
           <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Index</span>
           <select
-            class="w-full rounded-md border border-input px-3 py-2"
+            class="w-full rounded-md border border-input bg-card text-foreground px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             bind:value={selectedIndex}
             on:change={loadTimeline}
             data-testid="index-select"
@@ -287,7 +292,7 @@
 
         <label class="text-sm">
           <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Range</span>
-          <select class="w-full rounded-md border border-input px-3 py-2" bind:value={selectedRange} on:change={loadTimeline}>
+          <select class="w-full rounded-md border border-input bg-card text-foreground px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" bind:value={selectedRange} on:change={loadTimeline}>
             {#each rangeOptions as range}
               <option value={range}>{formatRange(range)}</option>
             {/each}
@@ -296,7 +301,7 @@
 
         <label class="text-sm">
           <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Primary Planet</span>
-          <select class="w-full rounded-md border border-input px-3 py-2" bind:value={primaryPlanet} on:change={loadTimeline}>
+          <select class="w-full rounded-md border border-input bg-card text-foreground px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" bind:value={primaryPlanet} on:change={loadTimeline}>
             {#each planetOptions as planet}
               <option value={planet}>{planet}</option>
             {/each}
@@ -305,7 +310,7 @@
 
         <label class="text-sm">
           <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Secondary Planet</span>
-          <select class="w-full rounded-md border border-input px-3 py-2" bind:value={secondaryPlanet} on:change={loadTimeline}>
+          <select class="w-full rounded-md border border-input bg-card text-foreground px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" bind:value={secondaryPlanet} on:change={loadTimeline}>
             {#each planetOptions as planet}
               <option value={planet}>{planet}</option>
             {/each}
@@ -314,7 +319,7 @@
       </div>
 
       {#if timelineData?.meta.warnings && timelineData.meta.warnings.length > 0}
-        <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+        <div class="rounded-xl border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-500">
           <p class="font-semibold">Timeline warnings</p>
           <ul class="mt-2 list-disc pl-5">
             {#each timelineData.meta.warnings as warning}
@@ -327,7 +332,7 @@
       {#if timelineLoading}
         <div class="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">Loading timeline...</div>
       {:else if timelineError}
-        <div class="rounded-xl border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">{timelineError}</div>
+        <div class="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive">{timelineError}</div>
       {:else if timelineData && chartModel}
         <article class="rounded-xl border border-border bg-card p-4 shadow-sm md:p-6" data-testid="timeline-chart-container">
           <h2 class="text-lg font-semibold text-foreground">
@@ -339,7 +344,7 @@
 
           <div class="mt-4 overflow-x-auto">
             <svg viewBox={`0 0 ${chartModel.width} ${chartModel.height}`} class="min-w-[720px]">
-              <rect x="0" y="0" width={chartModel.width} height={chartModel.height} fill="#ffffff" />
+              <rect x="0" y="0" width={chartModel.width} height={chartModel.height} fill="var(--color-card)" />
 
               {#each chartModel.primaryBands as band}
                 <rect
@@ -348,7 +353,10 @@
                   width={band.width}
                   height="261"
                   fill={band.color}
-                  fill-opacity="0.12"
+                  fill-opacity="0.2"
+                  stroke={band.color}
+                  stroke-opacity="0.3"
+                  stroke-width="0.5"
                 >
                   <title>{primaryPlanet}: {band.sign}</title>
                 </rect>
@@ -356,15 +364,15 @@
 
               {#each chartModel.primaryBands as band}
                 {#if band.width >= 24}
-                  <ZodiacIcon sign={band.sign} x={band.labelX - 8} y={30} size={16} color="#334155" ariaLabel={`${band.sign} sign`} />
+                  <ZodiacIcon sign={band.sign} x={band.labelX - 8} y={30} size={16} color={band.color} ariaLabel={`${band.sign} sign`} />
                 {/if}
               {/each}
 
-              <line x1="72" y1="24" x2="72" y2="285" stroke="#cbd5e1" stroke-width="1" />
-              <line x1="72" y1="285" x2="970" y2="285" stroke="#cbd5e1" stroke-width="1" />
+              <line x1="72" y1="24" x2="72" y2="285" stroke="var(--color-border)" stroke-width="1" />
+              <line x1="72" y1="285" x2="970" y2="285" stroke="var(--color-border)" stroke-width="1" />
 
               {#each chartModel.ingressMarkers as marker}
-                <line x1={marker.x} y1="24" x2={marker.x} y2="354" stroke="#64748b" stroke-dasharray="4 4" stroke-width="1">
+                <line x1={marker.x} y1="24" x2={marker.x} y2="354" stroke="var(--color-muted-foreground)" stroke-dasharray="4 4" stroke-width="1">
                   <title>{marker.tooltip}</title>
                 </line>
               {/each}
@@ -378,7 +386,10 @@
                   width={band.width}
                   height="34"
                   fill={band.color}
-                  fill-opacity="0.35"
+                  fill-opacity="0.45"
+                  stroke={band.color}
+                  stroke-opacity="0.45"
+                  stroke-width="0.5"
                 >
                   <title>{secondaryPlanet}: {band.sign}</title>
                 </rect>
@@ -386,21 +397,21 @@
 
               {#each chartModel.secondaryBands as band}
                 {#if band.width >= 20}
-                  <ZodiacIcon sign={band.sign} x={band.labelX - 7} y={329} size={14} color="#1e293b" ariaLabel={`${band.sign} sign`} />
+                  <ZodiacIcon sign={band.sign} x={band.labelX - 7} y={329} size={14} color={band.color} ariaLabel={`${band.sign} sign`} />
                 {/if}
               {/each}
 
-              <line x1="72" y1="320" x2="970" y2="320" stroke="#cbd5e1" stroke-width="1" />
-              <line x1="72" y1="354" x2="970" y2="354" stroke="#cbd5e1" stroke-width="1" />
+              <line x1="72" y1="320" x2="970" y2="320" stroke="var(--color-border)" stroke-width="1" />
+              <line x1="72" y1="354" x2="970" y2="354" stroke="var(--color-border)" stroke-width="1" />
 
-              <text x="14" y="30" class="fill-slate-500 text-[11px]">{chartModel.yMax.toFixed(2)}</text>
-              <text x="14" y="288" class="fill-slate-500 text-[11px]">{chartModel.yMin.toFixed(2)}</text>
+              <text x="14" y="30" class="fill-muted-foreground text-[11px]">{chartModel.yMax.toFixed(2)}</text>
+              <text x="14" y="288" class="fill-muted-foreground text-[11px]">{chartModel.yMin.toFixed(2)}</text>
 
-              <text x="72" y="390" class="fill-slate-500 text-[11px]">{chartModel.startDate}</text>
-              <text x="486" y="390" class="fill-slate-500 text-[11px]" text-anchor="middle">{selectedRange}</text>
-              <text x="970" y="390" class="fill-slate-500 text-[11px]" text-anchor="end">{chartModel.endDate}</text>
+              <text x="72" y="390" class="fill-muted-foreground text-[11px]">{chartModel.startDate}</text>
+              <text x="486" y="390" class="fill-muted-foreground text-[11px]" text-anchor="middle">{selectedRange}</text>
+              <text x="970" y="390" class="fill-muted-foreground text-[11px]" text-anchor="end">{chartModel.endDate}</text>
 
-              <text x="76" y="315" class="fill-slate-500 text-[10px]">{secondaryPlanet} sign ribbon</text>
+              <text x="76" y="315" class="fill-muted-foreground text-[10px]">{secondaryPlanet} sign ribbon</text>
             </svg>
           </div>
 
@@ -439,7 +450,7 @@
                   <strong>
                     {#if planetCorrelation.strongestRiseSign}
                       <span class="inline-flex items-center gap-1">
-                        <ZodiacIcon sign={planetCorrelation.strongestRiseSign} size={14} className="text-muted-foreground" />
+                        <ZodiacIcon sign={planetCorrelation.strongestRiseSign} size={14} color={getTimelineSignColor(planetCorrelation.strongestRiseSign)} />
                         {planetCorrelation.strongestRiseSign}
                       </span>
                     {:else}
@@ -450,7 +461,7 @@
                   <strong>
                     {#if planetCorrelation.strongestFallSign}
                       <span class="inline-flex items-center gap-1">
-                        <ZodiacIcon sign={planetCorrelation.strongestFallSign} size={14} className="text-muted-foreground" />
+                        <ZodiacIcon sign={planetCorrelation.strongestFallSign} size={14} color={getTimelineSignColor(planetCorrelation.strongestFallSign)} />
                         {planetCorrelation.strongestFallSign}
                       </span>
                     {:else}
@@ -479,7 +490,7 @@
                           <tr class="border-t border-border/70">
                             <td class="py-1 text-foreground">
                               <span class="inline-flex items-center gap-1">
-                                <ZodiacIcon sign={stat.sign} size={13} className="text-muted-foreground" />
+                                <ZodiacIcon sign={stat.sign} size={13} color={getTimelineSignColor(stat.sign)} />
                                 {stat.sign}
                               </span>
                             </td>

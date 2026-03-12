@@ -21,6 +21,26 @@ export interface TimelineChartModel {
   ingressMarkers: Array<{ x: number; tooltip: string }>;
 }
 
+// Dark-safe sign palette: preserves astrological element identity but differentiates each sign.
+export const TIMELINE_SIGN_COLORS: Record<ZodiacSign, string> = {
+  Aries: '#ff6b5e',
+  Taurus: '#6bc27f',
+  Gemini: '#f6d365',
+  Cancer: '#61b9ff',
+  Leo: '#ff9151',
+  Virgo: '#86c95f',
+  Libra: '#ffd17a',
+  Scorpio: '#4d9dff',
+  Sagittarius: '#ff6f87',
+  Capricorn: '#4aa56d',
+  Aquarius: '#f2c86b',
+  Pisces: '#79b4ff'
+};
+
+export function getTimelineSignColor(sign: ZodiacSign): string {
+  return TIMELINE_SIGN_COLORS[sign] || ZODIAC_COLORS[sign] || '#94a3b8';
+}
+
 export function buildTimelineQuery(params: {
   symbol: IndexSymbol;
   range: TimelineRange;
@@ -87,7 +107,7 @@ export function buildTimelineChartModel(
       x: startX,
       width: Math.max(1, endX - startX),
       sign: segment.sign,
-      color: ZODIAC_COLORS[segment.sign] || '#94a3b8',
+      color: getTimelineSignColor(segment.sign),
       labelX: startX + Math.max(1, endX - startX) / 2
     };
   });
@@ -99,7 +119,7 @@ export function buildTimelineChartModel(
       x: startX,
       width: Math.max(1, endX - startX),
       sign: segment.sign,
-      color: ZODIAC_COLORS[segment.sign] || '#94a3b8',
+      color: getTimelineSignColor(segment.sign),
       labelX: startX + Math.max(1, endX - startX) / 2
     };
   });

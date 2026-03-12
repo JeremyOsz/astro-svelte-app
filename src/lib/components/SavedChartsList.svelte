@@ -5,7 +5,6 @@
   import { URLSharingService } from '$lib/services/url-sharing';
   
   export let onChartSelect: (chart: SavedChart) => void = () => {};
-  export let theme: 'light' | 'dark' = 'light';
   
   let editingChartId: string | null = null;
   let editingName: string = '';
@@ -60,26 +59,26 @@
 
 <div class="space-y-4">
   <div class="flex items-center justify-between">
-    <h3 class="text-lg font-semibold {theme === 'dark' ? 'text-white' : 'text-gray-900'}">Saved Charts</h3>
-    <span class="text-sm {theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}">{$chartStore.savedCharts.length} charts</span>
+    <h3 class="text-lg font-semibold text-foreground">Saved Charts</h3>
+    <span class="text-sm text-muted-foreground">{$chartStore.savedCharts.length} charts</span>
   </div>
   
   {#if $chartStore.savedCharts.length === 0}
     <div class="text-center py-8">
-      <div class="{theme === 'dark' ? 'text-slate-400' : 'text-gray-400'} mb-2">
+      <div class="text-muted-foreground mb-2">
         <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       </div>
-      <p class="{theme === 'dark' ? 'text-slate-300' : 'text-gray-500'} text-sm">No saved charts yet</p>
-      <p class="{theme === 'dark' ? 'text-slate-400' : 'text-gray-400'} text-xs">Generate a chart to save it here</p>
+      <p class="text-muted-foreground text-sm">No saved charts yet</p>
+      <p class="text-muted-foreground text-xs">Generate a chart to save it here</p>
     </div>
   {:else}
     <div class="space-y-2">
       {#each $chartStore.savedCharts as chart}
         {@const isSelected = $chartStore.currentChartId === chart.id}
         <div 
-          class="flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer {isSelected ? (theme === 'dark' ? 'bg-blue-600/20 border-blue-500/50' : 'bg-blue-50 border-blue-200') : (theme === 'dark' ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-50 hover:bg-gray-100')} border {isSelected ? 'border-2' : 'border-transparent'}"
+          class="flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer border {isSelected ? 'border-primary/55 bg-primary/10' : 'border-border bg-card hover:bg-accent/20'}"
           role="button"
           tabindex="0"
           onclick={() => onChartSelect(chart)}
@@ -102,11 +101,11 @@
             {:else}
               <div class="flex items-center gap-2">
                 {#if isSelected}
-                  <Check class="h-4 w-4 {theme === 'dark' ? 'text-blue-300' : 'text-blue-600'}" />
+                  <Check class="h-4 w-4 text-primary" />
                 {/if}
-                <div class="font-medium truncate {theme === 'dark' ? 'text-white' : 'text-gray-900'}">{chart.name}</div>
+                <div class="font-medium truncate text-foreground">{chart.name}</div>
               </div>
-              <div class="text-sm {theme === 'dark' ? 'text-slate-300' : 'text-gray-500'}">
+              <div class="text-sm text-muted-foreground">
                 {new Date(chart.createdAt).toLocaleDateString()} • {chart.birthData.place}
               </div>
             {/if}
@@ -121,7 +120,7 @@
                 onChartSelect(chart);
               }}
               title={isSelected ? "Currently viewing" : "View chart"}
-              class="{isSelected ? (theme === 'dark' ? 'text-blue-300 bg-blue-600/30 hover:bg-blue-600/40' : 'text-blue-600 bg-blue-100 hover:bg-blue-200') : (theme === 'dark' ? 'text-slate-300 hover:text-white hover:bg-white/20' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-200')}"
+              class="{isSelected ? 'text-primary bg-primary/15 hover:bg-primary/20' : 'text-muted-foreground hover:text-foreground hover:bg-accent/20'}"
             >
               <Eye class="h-4 w-4" />
             </Button>
@@ -134,7 +133,7 @@
                 handleShare(chart);
               }}
               title="Share chart"
-              class="{theme === 'dark' ? 'text-slate-300 hover:text-white hover:bg-white/20' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-200'}"
+              class="text-muted-foreground hover:text-foreground hover:bg-accent/20"
             >
               <Share2 class="h-4 w-4" />
             </Button>
@@ -148,7 +147,7 @@
                   handleEdit(chart);
                 }}
                 title="Edit name"
-                class="{theme === 'dark' ? 'text-slate-300 hover:text-white hover:bg-white/20' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-200'}"
+                class="text-muted-foreground hover:text-foreground hover:bg-accent/20"
               >
                 <Edit class="h-4 w-4" />
               </Button>
@@ -162,7 +161,7 @@
                 handleDelete(chart.id);
               }}
               title="Delete chart"
-              class="{theme === 'dark' ? 'text-red-400 hover:text-red-300 hover:bg-red-500/20' : 'text-red-600 hover:text-red-800 hover:bg-red-50'}"
+              class="text-destructive hover:bg-destructive/10"
             >
               <Trash2 class="h-4 w-4" />
             </Button>
@@ -176,9 +175,9 @@
 <!-- Share Dialog -->
 {#if showShareDialog}
   <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-lg p-6 max-w-md w-full">
-      <h3 class="text-lg font-semibold mb-4">Share Chart</h3>
-      <p class="text-sm text-gray-600 mb-4">
+    <div class="bg-card border border-border rounded-lg p-6 max-w-md w-full">
+      <h3 class="text-lg font-semibold text-foreground mb-4">Share Chart</h3>
+      <p class="text-sm text-muted-foreground mb-4">
         Copy this URL to share your chart with others:
       </p>
       <div class="flex gap-2">
@@ -186,14 +185,14 @@
           type="text"
           value={shareUrl}
           readonly
-          class="flex-1 px-3 py-2 border rounded text-sm bg-gray-50"
+          class="flex-1 px-3 py-2 border border-input rounded text-sm bg-muted/50 text-foreground"
         />
-        <Button size="sm" onclick={copyShareUrl} class="bg-blue-600 hover:bg-blue-700 text-white font-medium">
+        <Button size="sm" onclick={copyShareUrl} class="bg-primary hover:opacity-90 text-primary-foreground font-medium">
           {copiedMessage ? 'Copied!' : 'Copy'}
         </Button>
       </div>
       <div class="flex justify-end mt-4">
-        <Button variant="outline" size="sm" onclick={() => showShareDialog = false} class="border-gray-300 text-gray-700 hover:bg-gray-50">
+        <Button variant="outline" size="sm" onclick={() => showShareDialog = false} class="border-border text-foreground hover:bg-accent/20">
           Close
         </Button>
       </div>
