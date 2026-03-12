@@ -203,3 +203,4 @@ Extend the existing synastry system to generate predictions for ideal partner co
 - ~URL sharing functionality~
 - ~Save/load chart management~
 - ~Share charts via URL parameters~
+- After stock market feature: add a simple news analysis tool to measure sentiment/themes and compare them with astrological movements
