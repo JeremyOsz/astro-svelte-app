@@ -25,18 +25,20 @@ export function createBriefTooltip() {
 
 export function showBriefTooltip(event: MouseEvent, data: any) {
   if (!tooltip) createBriefTooltip();
+  const isDarkTheme = document.documentElement.classList.contains('dark');
+  const natalColor = isDarkTheme ? '#e6edf9' : '#111827';
 
   let content = '';
   
   if (data.aspect) {
-    const planet1Color = data.isTransitAspect ? '#ff9500' : '#000000'; // orange for transit, black for natal
-    const planet2Color = '#000000'; // natal planet is always black
+    const planet1Color = data.isTransitAspect ? '#ff9500' : natalColor;
+    const planet2Color = natalColor;
     const aspectSymbol = aspectSymbols[data.aspect] || data.aspect;
     const aspectColor = getAspectColorByChartType(data.aspect, data.chartType || 'natal');
     const orbText = data.orb !== undefined ? ` (${data.orb.toFixed(1)}°)` : '';
     content = `<span style="color: ${planet1Color}; font-weight: 700;">${data.planet1}</span> <span style="color: ${aspectColor}; font-weight: 600;">${aspectSymbol}</span> <span style="color: ${planet2Color}; font-weight: 700;">${data.planet2}</span>${orbText}`;
   } else if (data.planet) {
-    const planetColor = data.isTransit ? '#ff9500' : '#000000'; // orange for transit, black for natal
+    const planetColor = data.isTransit ? '#ff9500' : natalColor;
     const degreeText = data.degree !== undefined ? ` ${data.degree}°${data.minute?.toString().padStart(2, '0') || '00'}` : '';
     content = `<span style="color: ${planetColor}; font-weight: 700;">${data.planet}</span> in ${data.sign}${degreeText}`;
   } else if (data.sign) {

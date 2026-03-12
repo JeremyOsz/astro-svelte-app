@@ -101,6 +101,9 @@
   $: currentPath = $page.url.pathname;
   $: isDark = theme === 'dark';
 
+  /**
+   * @param {'light' | 'dark'} nextTheme
+   */
   function applyTheme(nextTheme) {
     theme = nextTheme;
     document.documentElement.classList.toggle('dark', nextTheme === 'dark');
@@ -114,7 +117,10 @@
   onMount(() => {
     const storedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    applyTheme(storedTheme ?? (prefersDark ? 'dark' : 'light'));
+    const resolvedTheme = storedTheme === 'dark' || storedTheme === 'light'
+      ? storedTheme
+      : (prefersDark ? 'dark' : 'light');
+    applyTheme(resolvedTheme);
   });
 </script>
 
@@ -122,14 +128,14 @@
   <header class={`text-white shadow-md flex-shrink-0 border-b border-border ${isDark ? 'bg-gradient-to-r from-[#182133] via-[#24324a] to-[#2f3d5c]' : 'bg-gradient-to-r from-[#5a6fa8] to-[#9aafd6]'}`}>
     <nav>
               <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:pr-20 flex justify-between items-center py-4 relative overflow-visible">
-        <a href="/" class="text-xl font-bold hover:text-white transition-colors cursor-pointer px-2 py-1 rounded-md hover:bg-white/15">Astro Chart</a>
+        <a href="/" class="text-xl font-bold text-white transition-colors cursor-pointer px-2 py-1 rounded-md hover:bg-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">Astro Chart</a>
         <!-- Desktop Navigation -->
         <div class="hidden lg:block relative">
           <NavigationMenu.Root>
             <NavigationMenu.List class="flex gap-8">
               <!-- Astrology Dropdown -->
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "text-white/95 hover:bg-white/20 focus:bg-white/20 data-[state=open]:bg-white/25 data-[state=open]:text-white")}>
+                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "text-white hover:bg-white/35 hover:text-white focus:bg-white/35 focus:text-white data-[state=open]:bg-white/40 data-[state=open]:text-white focus-visible:ring-2 focus-visible:ring-white/70")}>
                   Astrology
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
@@ -141,10 +147,10 @@
                             <a
                               {...props}
                               href={item.href}
-                              class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              class="group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/80 hover:text-foreground focus:bg-accent/80 focus:text-foreground"
                             >
                               <div class="text-sm font-medium leading-none">{item.title}</div>
-                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground transition-colors group-hover:text-foreground/85 group-focus:text-foreground/85">
                                 {item.description}
                               </p>
                             </a>
@@ -158,7 +164,7 @@
               
               <!-- Tarot Dropdown -->
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "text-white/95 hover:bg-white/20 focus:bg-white/20 data-[state=open]:bg-white/25 data-[state=open]:text-white")}>
+                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "text-white hover:bg-white/35 hover:text-white focus:bg-white/35 focus:text-white data-[state=open]:bg-white/40 data-[state=open]:text-white focus-visible:ring-2 focus-visible:ring-white/70")}>
                   Tarot
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
@@ -170,10 +176,10 @@
                             <a
                               {...props}
                               href={item.href}
-                              class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              class="group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/80 hover:text-foreground focus:bg-accent/80 focus:text-foreground"
                             >
                               <div class="text-sm font-medium leading-none">{item.title}</div>
-                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground transition-colors group-hover:text-foreground/85 group-focus:text-foreground/85">
                                 {item.description}
                               </p>
                             </a>

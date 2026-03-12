@@ -544,7 +544,7 @@
 </script>
 
 <Dialog.Root bind:open>
-  <Dialog.Content class="max-w-90vw md:max-w-3xl lg:max-w-3xl lg:p-10 max-h-[90vh] overflow-y-auto">
+  <Dialog.Content class="chart-element-dialog max-w-90vw md:max-w-3xl lg:max-w-3xl lg:p-10 max-h-[90vh] overflow-y-auto">
     {#if elementData && interpretation}
       <Dialog.Header>
         {#if isAspectInterpretation(interpretation)}
@@ -931,5 +931,57 @@
   .aspect-keyword:hover {
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  :global(.chart-element-dialog) {
+    background: var(--color-card);
+    color: var(--color-foreground);
+    border: 1px solid var(--color-border);
+  }
+
+  :global(.chart-element-dialog .text-gray-900),
+  :global(.chart-element-dialog .text-gray-800),
+  :global(.chart-element-dialog .text-gray-700),
+  :global(.chart-element-dialog .text-gray-600),
+  :global(.chart-element-dialog .text-gray-500) {
+    color: var(--color-foreground) !important;
+  }
+
+  :global(.chart-element-dialog .bg-gray-50),
+  :global(.chart-element-dialog .bg-blue-50),
+  :global(.chart-element-dialog .bg-green-50),
+  :global(.chart-element-dialog .bg-orange-50),
+  :global(.chart-element-dialog .bg-purple-50),
+  :global(.chart-element-dialog .bg-yellow-50),
+  :global(.chart-element-dialog .bg-indigo-50) {
+    background: color-mix(in oklch, var(--color-muted) 82%, var(--color-card)) !important;
+    border-color: var(--color-border) !important;
+  }
+
+  :global(.chart-element-dialog .text-blue-800),
+  :global(.chart-element-dialog .text-green-800),
+  :global(.chart-element-dialog .text-orange-800),
+  :global(.chart-element-dialog .text-purple-800),
+  :global(.chart-element-dialog .text-yellow-800),
+  :global(.chart-element-dialog .text-indigo-800) {
+    color: var(--color-foreground) !important;
+  }
+
+  :global(.chart-element-dialog .text-blue-700),
+  :global(.chart-element-dialog .text-green-700),
+  :global(.chart-element-dialog .text-orange-700),
+  :global(.chart-element-dialog .text-purple-700),
+  :global(.chart-element-dialog .text-yellow-700),
+  :global(.chart-element-dialog .text-indigo-700) {
+    color: var(--color-muted-foreground) !important;
+  }
+
+  :global(.chart-element-dialog .aspect-overview) {
+    background: color-mix(in oklch, var(--color-muted) 78%, var(--color-card));
+    border: 1px solid var(--color-border);
+  }
+
+  :global(.chart-element-dialog p) {
+    line-height: 1.65;
   }
 </style> 

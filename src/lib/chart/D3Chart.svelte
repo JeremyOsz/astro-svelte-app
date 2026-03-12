@@ -707,14 +707,20 @@
         .attr('cy', y)
         .attr('r', isMobile ? 8 : 12) // Smaller hover radius
         .attr('fill', 'transparent')
+        .attr('stroke', 'transparent')
+        .attr('stroke-width', 1.5)
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
+          d3.select(this)
+            .attr('stroke', zodiacColors[sign])
+            .attr('fill', isDarkTheme ? 'rgba(187, 162, 255, 0.08)' : 'rgba(90, 111, 168, 0.08)');
           showBriefTooltip(event, signData);
         })
         .on('mouseout', function(this: SVGCircleElement) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
+          d3.select(this).attr('stroke', 'transparent').attr('fill', 'transparent');
           hideBriefTooltip();
         })
         .on('click', () => {
@@ -784,7 +790,7 @@
     const axisStroke = isDarkTheme ? '#6f7b94' : '#777';
     const dividerStroke = isDarkTheme ? '#3a4358' : '#ddd';
     const axisLabelFill = isDarkTheme ? '#dbe5f8' : '#555';
-    const houseNumberFill = isDarkTheme ? '#9aa8c0' : '#ccc';
+    const houseNumberFill = isDarkTheme ? '#9aa8c0' : '#7d8696';
 
     // Get the Ascendant to calculate the zodiac offset (same as in drawZodiacWheel)
     const asc = data.find((p: PlanetData) => p.planet === 'ASC');
@@ -827,14 +833,18 @@
         .attr('cy', Math.sin(angle) * (zodiacInnerRadius - 10))
         .attr('r', isMobile ? 12 : 16)
         .attr('fill', 'transparent')
+        .attr('stroke', 'transparent')
+        .attr('stroke-width', 1.5)
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, point.sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
+          d3.select(this).attr('stroke', isDarkTheme ? '#bba2ff' : '#5a6fa8');
           showBriefTooltip(event, point);
         })
         .on('mouseout', function(this: SVGCircleElement) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
+          d3.select(this).attr('stroke', 'transparent');
           hideBriefTooltip();
         })
         .on('click', () => {
@@ -914,6 +924,7 @@
 
       // Visible line for display
       aspectGroup.append('line')
+        .attr('class', 'aspect-visible-line')
         .attr('x1', Math.cos(angle1) * aspectHubRadius)
         .attr('y1', Math.sin(angle1) * aspectHubRadius)
         .attr('x2', Math.cos(angle2) * aspectHubRadius)
@@ -934,12 +945,16 @@
         .attr('stroke-width', 15) // Wider for easier hovering
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGLineElement, event: MouseEvent) {
+          const parent = d3.select(this.parentNode as SVGGElement);
           const filterUrl = ensureGlowFilterForAspect(g, getAspectColorByChartType(aspect.aspect, 'natal'));
-          d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
+          parent.style('filter', filterUrl);
+          parent.select<SVGLineElement>('.aspect-visible-line').attr('stroke-width', isMobile ? aspect.weight * 1.15 : aspect.weight * 1.4);
           showBriefTooltip(event, aspect);
         })
         .on('mouseout', function(this: SVGLineElement) {
-          d3.select(this.parentNode as SVGGElement).style('filter', null);
+          const parent = d3.select(this.parentNode as SVGGElement);
+          parent.style('filter', null);
+          parent.select<SVGLineElement>('.aspect-visible-line').attr('stroke-width', isMobile ? aspect.weight * 0.6 : aspect.weight);
           hideBriefTooltip();
         })
         .on('click', () => {
@@ -970,6 +985,8 @@
 
     // Define a glow filter for each sign color (if not already present)
     const defs = getDefs(g);
+    const planetLabelFill = isDarkTheme ? '#dbe5f8' : '#2f3a4d';
+    const planetMinuteFill = isDarkTheme ? '#b9c8e3' : '#4a5568';
 
     let planetsToDraw = data.filter((p: PlanetData) => planetSymbols[p.planet] && !['ASC', 'MC', 'DSC', 'IC'].includes(p.planet));
     if (!showExtendedPlanets) {
@@ -1000,10 +1017,15 @@
         .attr('cy', 0)
         .attr('r', hoverRadius)
         .attr('fill', 'transparent')
+        .attr('stroke', 'transparent')
+        .attr('stroke-width', 1.5)
         .style('cursor', 'pointer')
         .on('mouseover', function(this: SVGCircleElement, event: MouseEvent) {
           const filterUrl = ensureGlowFilterForSign(g, p.sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
+          d3.select(this)
+            .attr('stroke', zodiacColors[p.sign] || (isDarkTheme ? '#bba2ff' : '#5a6fa8'))
+            .attr('fill', isDarkTheme ? 'rgba(187, 162, 255, 0.08)' : 'rgba(90, 111, 168, 0.08)');
           
           // Add visual indicator for clustered planets
           if (clusterInfo.isInCluster) {
@@ -1021,7 +1043,11 @@
         })
         .on('mouseout', function(this: SVGCircleElement) {
           d3.select(this.parentNode as SVGGElement).style('filter', null);
-          d3.select(this).style('stroke', null).style('stroke-width', null).style('stroke-dasharray', null);
+          d3.select(this)
+            .attr('stroke', 'transparent')
+            .attr('fill', 'transparent')
+            .style('stroke-width', null)
+            .style('stroke-dasharray', null);
           hideBriefTooltip();
         })
         .on('click', () => {
@@ -1098,6 +1124,7 @@
             .attr('y', -8)
             .style('font-size', '12px')
             .style('font-weight', 'bold')
+            .style('fill', planetLabelFill)
             .text(p.degree);
 
           labelGroup.append('text')
@@ -1118,6 +1145,7 @@
             .attr('text-anchor', 'middle')
             .attr('y', 20)
             .style('font-size', '11px')
+            .style('fill', planetMinuteFill)
             .text(p.minute.toString().padStart(2, '0'));
           
           if (p.isRetrograde) {
@@ -1424,16 +1452,17 @@
 
   /* Brief tooltip styles */
   :global(.brief-chart-tooltip) {
-    background: color-mix(in oklch, var(--color-card) 92%, transparent);
+    background: color-mix(in oklch, var(--color-card) 96%, var(--color-background));
     color: var(--color-foreground);
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
+    border: 1px solid color-mix(in oklch, var(--color-border) 86%, var(--color-foreground));
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
     pointer-events: none;
-    z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    max-width: 200px;
+    z-index: 1100;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+    max-width: 260px;
     white-space: nowrap;
   }
 
