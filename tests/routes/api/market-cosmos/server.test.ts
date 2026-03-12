@@ -49,6 +49,26 @@ describe('/api/market-cosmos', () => {
     expect(buildSnapshotMock).not.toHaveBeenCalled();
   });
 
+  it('returns 200 with warnings when upstream is partial', async () => {
+    buildSnapshotMock.mockResolvedValue({
+      generatedAt: '2026-03-12T09:00:00.000Z',
+      lookbackDays: 14,
+      assets: [],
+      astrology: null,
+      categorySummaries: [],
+      warnings: ['Market data unavailable for ^AXJO']
+    });
+
+    const { GET } = await import('../../../../src/routes/api/market-cosmos/+server');
+    const response = await GET({
+      url: new URL('http://localhost:5173/api/market-cosmos?lookbackDays=14')
+    } as any);
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.warnings).toContain('Market data unavailable for ^AXJO');
+  });
+
   it('returns 500 when snapshot builder throws', async () => {
     buildSnapshotMock.mockRejectedValue(new Error('network down'));
     const { GET } = await import('../../../../src/routes/api/market-cosmos/+server');

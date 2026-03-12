@@ -4,7 +4,7 @@
   import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import { cn } from "$lib/utils";
-  import { Home, Star, BookOpen, Calendar, Search, Moon, Users } from 'lucide-svelte';
+  import { Home, Star, BookOpen, Calendar, Search, Moon, Users, LineChart } from 'lucide-svelte';
   import { page } from '$app/stores';
   let mobileMenuOpen = false;
 
@@ -34,6 +34,11 @@
       title: "Daily Horoscope",
       href: "/daily-horoscope",
       description: "Daily astrological guidance and insights"
+    },
+    {
+      title: "Market Cosmos",
+      href: "/market-cosmos",
+      description: "Track index timelines against planetary sign movements"
     }
   ];
 
@@ -82,6 +87,12 @@
       href: "/tarot",
       icon: BookOpen,
       description: "Tarot cards and meanings"
+    },
+    {
+      title: "Markets",
+      href: "/market-cosmos",
+      icon: LineChart,
+      description: "Market x cosmos timeline"
     }
   ];
 
@@ -179,6 +190,7 @@
                     <a href="/synastry" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Synastry</a>
                     <a href="/interpretations" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Interpretations</a>
                     <a href="/daily-horoscope" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Daily Horoscope</a>
+                    <a href="/market-cosmos" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-gray-50 text-gray-900 block transition-colors">Market Cosmos</a>
                   </div>
                 </div>
                 
@@ -260,4 +272,3 @@
     }
   }
 </style>
-
