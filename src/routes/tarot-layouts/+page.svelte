@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-
   import * as Input from '$lib/components/ui/input';
   import * as Dialog from '$lib/components/ui/dialog';
-  import { TAROT_LAYOUTS, type TarotLayout, getAllCategories, getAllDifficulties } from '$lib/data/tarot-layouts';
+  import * as Button from '$lib/components/ui/button';
+  import { TAROT_LAYOUTS, type TarotLayout, type DrawnCard, drawCardsForSpread } from '$lib/data/tarot-layouts';
+  import TarotSpreadReading from '$lib/components/tarot/TarotSpreadReading.svelte';
 
   let searchTerm = '';
   let selectedCategory = 'all';
   let selectedDifficulty = 'all';
   let selectedLayout: TarotLayout | null = null;
   let modalOpen = false;
+  let drawnCards: DrawnCard[] = [];
 
   const categories = [
     { value: 'all', label: 'All Categories' },
@@ -49,12 +50,20 @@
 
   function selectLayout(layout: TarotLayout) {
     selectedLayout = layout;
+    drawnCards = [];
     modalOpen = true;
   }
 
   function closeLayoutDetail() {
     selectedLayout = null;
+    drawnCards = [];
     modalOpen = false;
+  }
+
+  function pullCards() {
+    if (selectedLayout) {
+      drawnCards = drawCardsForSpread(selectedLayout);
+    }
   }
 
   function getDifficultyColor(difficulty: string) {
@@ -270,6 +279,28 @@
           </Dialog.Description>
         </Dialog.Header>
         
+        <!-- Pull cards / Reading section -->
+        <div class="mb-6">
+          {#if drawnCards.length > 0}
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-gray-900">Your reading</h3>
+              <Button.Root on:click={pullCards} variant="outline" size="sm">
+                Draw again
+              </Button.Root>
+            </div>
+            <TarotSpreadReading layout={selectedLayout} drawnCards={drawnCards} />
+          {:else}
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+              <p class="text-sm text-purple-800 mb-3">
+                Pull cards for this spread to see a random reading. Cards are drawn from the full deck; each may appear upright or reversed.
+              </p>
+              <Button.Root on:click={pullCards} class="bg-purple-600 hover:bg-purple-700 text-white">
+                Pull cards for this spread
+              </Button.Root>
+            </div>
+          {/if}
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 my-6">
           <!-- Layout Visualization -->
           <div class="space-y-6">
