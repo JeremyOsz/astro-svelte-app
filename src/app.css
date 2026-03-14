@@ -103,73 +103,74 @@
   }
 }
 
+/* Velvet Arcana — tarot/grimoire/occult palette */
 :root {
-  --radius: 0.625rem;
-  --background: #E9EEF5;
-  --foreground: #1B2838;
-  --card: #D7E0EC;
-  --card-foreground: #1B2838;
-  --popover: #D7E0EC;
-  --popover-foreground: #1B2838;
-  --primary: #5A6FA8;
-  --primary-foreground: #F3F6FB;
-  --secondary: #C9D4E4;
-  --secondary-foreground: #1B2838;
-  --muted: #D7E0EC;
-  --muted-foreground: #445A74;
-  --accent: #9AAFD6;
-  --accent-foreground: #1B2838;
+  --radius: 0.5rem;
+  --background: #F5F0E6;
+  --foreground: #2C2419;
+  --card: #EDE6DB;
+  --card-foreground: #2C2419;
+  --popover: #EDE6DB;
+  --popover-foreground: #2C2419;
+  --primary: #3D5C4A;
+  --primary-foreground: #F5F0E6;
+  --secondary: #D4C4A8;
+  --secondary-foreground: #2C2419;
+  --muted: #E2D9CC;
+  --muted-foreground: #5C5244;
+  --accent: #8B5A3C;
+  --accent-foreground: #F5F0E6;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #B8C7DB;
-  --input: #B8C7DB;
-  --ring: #5A6FA8;
-  --chart-1: #5A6FA8;
-  --chart-2: #9AAFD6;
-  --chart-3: #3F5579;
-  --chart-4: #7E95C0;
-  --chart-5: #AABBDD;
-  --sidebar: #DDE5F0;
-  --sidebar-foreground: #1B2838;
-  --sidebar-primary: #5A6FA8;
-  --sidebar-primary-foreground: #F3F6FB;
-  --sidebar-accent: #9AAFD6;
-  --sidebar-accent-foreground: #1B2838;
-  --sidebar-border: #B8C7DB;
-  --sidebar-ring: #5A6FA8;
+  --border: #C4B59A;
+  --input: #C4B59A;
+  --ring: #3D5C4A;
+  --chart-1: #3D5C4A;
+  --chart-2: #8B5A3C;
+  --chart-3: #5C5244;
+  --chart-4: #6B7B5C;
+  --chart-5: #A68B6B;
+  --sidebar: #E8E0D4;
+  --sidebar-foreground: #2C2419;
+  --sidebar-primary: #3D5C4A;
+  --sidebar-primary-foreground: #F5F0E6;
+  --sidebar-accent: #8B5A3C;
+  --sidebar-accent-foreground: #F5F0E6;
+  --sidebar-border: #C4B59A;
+  --sidebar-ring: #3D5C4A;
 }
 
 .dark {
-  --background: #0F1014;
-  --foreground: #ECEEF3;
-  --card: #1A1D24;
-  --card-foreground: #ECEEF3;
-  --popover: #1A1D24;
-  --popover-foreground: #ECEEF3;
-  --primary: #BBA2FF;
-  --primary-foreground: #0F1014;
-  --secondary: #262A33;
-  --secondary-foreground: #ECEEF3;
-  --muted: #1A1D24;
-  --muted-foreground: #B7BECD;
-  --accent: #6FA8C9;
-  --accent-foreground: #0F1014;
+  --background: #1E1B17;
+  --foreground: #E8E0D4;
+  --card: #28241f;
+  --card-foreground: #E8E0D4;
+  --popover: #28241f;
+  --popover-foreground: #E8E0D4;
+  --primary: #B8956B;
+  --primary-foreground: #1A1612;
+  --secondary: #3D3529;
+  --secondary-foreground: #E8E0D4;
+  --muted: #322e28;
+  --muted-foreground: #B0A090;
+  --accent: #C9A86C;
+  --accent-foreground: #1A1612;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: #2A2F3A;
-  --input: #2A2F3A;
-  --ring: #BBA2FF;
-  --chart-1: #BBA2FF;
-  --chart-2: #6FA8C9;
-  --chart-3: #8D7BC7;
-  --chart-4: #91BAD5;
-  --chart-5: #4E6F8A;
-  --sidebar: #131720;
-  --sidebar-foreground: #ECEEF3;
-  --sidebar-primary: #BBA2FF;
-  --sidebar-primary-foreground: #0F1014;
-  --sidebar-accent: #6FA8C9;
-  --sidebar-accent-foreground: #0F1014;
-  --sidebar-border: #2A2F3A;
-  --sidebar-ring: #BBA2FF;
+  --border: #4a4238;
+  --input: #4a4238;
+  --ring: #B8956B;
+  --chart-1: #B8956B;
+  --chart-2: #C9A86C;
+  --chart-3: #8B7355;
+  --chart-4: #6B7B5C;
+  --chart-5: #A68B6B;
+  --sidebar: #232019;
+  --sidebar-foreground: #E8E0D4;
+  --sidebar-primary: #B8956B;
+  --sidebar-primary-foreground: #1A1612;
+  --sidebar-accent: #C9A86C;
+  --sidebar-accent-foreground: #1A1612;
+  --sidebar-border: #4a4238;
+  --sidebar-ring: #B8956B;
 }
 
 @theme {
@@ -218,22 +219,63 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   }
+}
+
+/* Parchment-style background texture (subtle) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Ornamental border utility — tarot/grimoire frame */
+.occult-border {
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-foreground) 8%, transparent);
+}
+.occult-border-thick {
+  border: 2px solid var(--color-border);
+  box-shadow: inset 0 0 0 2px color-mix(in oklch, var(--color-foreground) 6%, transparent);
+}
+
+/* Section title — grimoire-style heading with rule */
+.section-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--foreground);
+}
+.section-title-rule {
+  width: 4rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-border), transparent);
+  margin-top: 0.5rem;
+}
+
+/* Ornamental primary button — engraved/tactile grimoire feel */
+.btn-occult {
+  box-shadow: inset 0 1px 0 color-mix(in oklch, white 25%, transparent), 0 1px 2px color-mix(in oklch, var(--foreground) 15%, transparent);
 }
 
 button, [role="button"] {
   cursor: pointer;
 }
 
-/* Enhanced loading animations */
+/* Enhanced loading animations — occult gold/ember */
 @keyframes mystical-glow {
   0%, 100% { 
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 20px rgba(184, 149, 107, 0.35);
     transform: scale(1);
   }
   50% { 
-    box-shadow: 0 0 30px rgba(147, 51, 234, 0.5);
-    transform: scale(1.05);
+    box-shadow: 0 0 28px rgba(201, 168, 108, 0.5);
+    transform: scale(1.02);
   }
 }
 

@@ -46,7 +46,7 @@
     <!-- Header with Icon -->
     <div class="text-center mb-6">
       <div class="relative inline-block">
-        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mb-4">
+        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-4">
           <Globe class="h-8 w-8 text-white" />
         </div>
         <div class="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
@@ -66,7 +66,7 @@
         </div>
         <div class="w-full bg-gray-200 rounded-full h-2">
           <div 
-            class="bg-gradient-to-r from-purple-500 to-blue-600 h-2 rounded-full transition-all duration-300 ease-out"
+            class="bg-primary h-2 rounded-full transition-all duration-300 ease-out"
             style="width: {progress}%"
           ></div>
         </div>
@@ -76,7 +76,7 @@
     <!-- Current Step -->
     <div class="text-center mb-6">
       <div class="flex items-center justify-center gap-2 mb-2">
-        <Loader2 class="h-5 w-5 animate-spin text-purple-500" />
+        <Loader2 class="h-5 w-5 animate-spin text-primary" />
         <span class="text-sm font-medium text-gray-700">{steps[currentStep]}</span>
       </div>
       <p class="text-xs text-gray-500">{message}</p>
@@ -89,7 +89,7 @@
           <div class="flex items-center gap-3">
             <div class="w-4 h-4 rounded-full flex items-center justify-center text-xs font-medium
                         {index < currentStep ? 'bg-green-500 text-white' : 
-                         index === currentStep ? 'bg-purple-500 text-white animate-pulse' : 
+                         index === currentStep ? 'bg-primary text-primary-foreground animate-pulse' : 
                          'bg-gray-200 text-gray-400'}">
               {index < currentStep ? '✓' : index + 1}
             </div>
@@ -120,7 +120,7 @@
   <div class="fixed inset-0 pointer-events-none overflow-hidden">
     <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-yellow-300 rounded-full animate-pulse opacity-60"></div>
     <div class="absolute top-1/3 right-1/4 w-1 h-1 bg-blue-300 rounded-full animate-ping opacity-40"></div>
-    <div class="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-purple-300 rounded-full animate-pulse opacity-50"></div>
+    <div class="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-primary/50 rounded-full animate-pulse opacity-50"></div>
     <div class="absolute bottom-1/4 right-1/3 w-1 h-1 bg-green-300 rounded-full animate-ping opacity-30"></div>
   </div>
 </div>

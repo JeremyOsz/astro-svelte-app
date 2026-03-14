@@ -16,6 +16,7 @@
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
     import SynastryInterpretation from '$lib/components/SynastryInterpretation.svelte';
   import SynastryLoadingState from '$lib/components/SynastryLoadingState.svelte';
+  import { OccultDivider, SectionHeader } from '$lib/components/occult';
 
   const ENABLE_DEBUG_LOGS = false;
   function debugLog(...args: unknown[]) {
@@ -421,15 +422,18 @@ MC,Gemini,12°00'`;
   <meta name="description" content="Compare two birth charts to explore relationship compatibility and synastry aspects" />
 </svelte:head>
 
-<div class="container mx-auto px-4 py-8 max-w-6xl">
+<div class="min-h-screen bg-gradient-to-br from-background via-card/50 to-muted/60 dark:from-background dark:via-card/80 dark:to-muted/40">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
   <!-- Page Header -->
-  <div class="text-center mb-8">
-    <h1 class="text-4xl font-bold text-gray-900 mb-4">Synastry Chart</h1>
-    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-      Explore the cosmic dance between two souls. Compare birth charts to discover relationship dynamics, 
+  <header class="text-center mb-10">
+    <OccultDivider symbol="star" class="mb-6" />
+    <h1 class="font-display text-3xl sm:text-4xl font-bold text-foreground tracking-wide mb-3">Synastry Chart</h1>
+    <p class="text-lg text-muted-foreground max-w-2xl mx-auto font-body">
+      Explore the cosmic dance between two souls. Compare birth charts to discover relationship dynamics,
       compatibility, and the unique aspects that bind you together.
     </p>
-  </div>
+    <OccultDivider symbol="moon" class="mt-6" />
+  </header>
 
   <!-- Chart Instructions -->
   <ChartInstructions bind:showInstructions />
@@ -452,8 +456,10 @@ MC,Gemini,12°00'`;
   {/if}
 
   <!-- Synastry Form -->
-  <div class="mb-8">
-    <Card.Root>
+  <section class="mb-8">
+    <SectionHeader title="Compare two charts" symbol="dot" class="mb-4" />
+    <Card.Root class="occult-border relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl z-10" aria-hidden="true"></div>
       <Card.Header>
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
@@ -934,12 +940,15 @@ MC,Gemini,12°00'`;
         </Card.Content>
       {/if}
     </Card.Root>
-  </div>
+  </section>
 
   <!-- Chart Display -->
   {#if isChartReady}
     <!-- Chart Section -->
-    <Card.Root class="mb-8">
+    <section class="mb-8">
+    <SectionHeader title="Your synastry chart" symbol="moon" class="mb-4" />
+    <Card.Root class="mb-8 occult-border relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl z-10" aria-hidden="true"></div>
       <Card.Header>
         <Card.Title>Synastry Chart</Card.Title>
         <Card.Description>
@@ -965,6 +974,7 @@ MC,Gemini,12°00'`;
         {/if}
       </Card.Content>
     </Card.Root>
+    </section>
 
     <!-- Collapsible Analysis Sections -->
     <Accordion.Root type="multiple" value={['analysis', 'education']} class="mb-8">
@@ -1086,6 +1096,7 @@ MC,Gemini,12°00'`;
       contextSummary={chatContext}
       suggestions={chatSuggestions}
     />
+  </div>
   </div>
 </div>
 

@@ -227,7 +227,7 @@
                   <button 
                     type="button"
                     on:click={() => window.location.href = '/chart'}
-                    class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
+                    class="btn-occult px-6 py-3 bg-primary text-primary-foreground font-display font-semibold rounded-xl shadow-lg hover:opacity-90 focus:ring-4 focus:ring-ring transition-all duration-200 transform hover:scale-[1.02] active:scale-95 border border-primary/30"
                   >
                     Create Birth Chart
                   </button>
@@ -323,7 +323,7 @@
           <button
             type="submit"
             disabled={loading || !selectedBirthChart || !transitDate || !selectedTransitCityData}
-            class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            class="btn-occult w-full bg-primary text-primary-foreground font-display font-semibold py-4 px-6 rounded-xl shadow-lg hover:opacity-90 focus:ring-4 focus:ring-ring transition-all duration-200 transform hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none border border-primary/30"
             style="min-height: 56px;"
           >
             {loading ? 'Calculating...' : 'Calculate Transits'}

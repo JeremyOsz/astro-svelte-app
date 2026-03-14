@@ -49,8 +49,8 @@
         <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-red-600 rounded-full flex items-center justify-center mb-4">
           <Heart class="h-8 w-8 text-white" />
         </div>
-        <div class="absolute -top-1 -right-1 w-6 h-6 bg-purple-400 rounded-full flex items-center justify-center">
-          <Star class="h-3 w-3 text-purple-800" />
+        <div class="absolute -top-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <Star class="h-3 w-3 text-primary-foreground" />
         </div>
       </div>
       <h3 class="text-xl font-semibold text-gray-900 mb-2">Synastry Analysis</h3>
@@ -120,7 +120,7 @@
   <div class="fixed inset-0 pointer-events-none overflow-hidden">
     <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-pink-300 rounded-full animate-pulse opacity-60"></div>
     <div class="absolute top-1/3 right-1/4 w-1 h-1 bg-red-300 rounded-full animate-ping opacity-40"></div>
-    <div class="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-purple-300 rounded-full animate-pulse opacity-50"></div>
+    <div class="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-primary/50 rounded-full animate-pulse opacity-50"></div>
     <div class="absolute bottom-1/4 right-1/3 w-1 h-1 bg-yellow-300 rounded-full animate-ping opacity-30"></div>
   </div>
 </div>

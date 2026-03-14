@@ -41,11 +41,11 @@
 
 <div class="flex flex-col items-center justify-center py-12 px-4">
   <!-- Main loading container with mystical styling -->
-  <div class="relative bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 border border-indigo-200 rounded-2xl p-8 shadow-lg max-w-md w-full">
+  <div class="relative bg-card border border-border rounded-2xl p-8 shadow-lg max-w-md w-full occult-border">
     <!-- Animated background elements -->
     <div class="absolute inset-0 overflow-hidden rounded-2xl">
       <div class="absolute top-4 left-4 star-twinkle">
-        <Sparkles class="h-6 w-6 text-purple-400 opacity-60" />
+        <Sparkles class="h-6 w-6 text-primary opacity-60" />
       </div>
       <div class="absolute top-8 right-6 star-twinkle" style="animation-delay: 0.5s;">
         <Star class="h-4 w-4 text-yellow-400 opacity-60" />
@@ -64,11 +64,11 @@
       <div class="relative mb-6">
         <div class="w-20 h-20 mx-auto relative mystical-glow">
           <!-- Outer ring -->
-          <div class="absolute inset-0 border-4 border-indigo-200 rounded-full cosmic-spin" style="animation-duration: 3s;"></div>
+          <div class="absolute inset-0 border-4 border-primary/40 rounded-full cosmic-spin" style="animation-duration: 3s;"></div>
           <!-- Inner ring -->
-          <div class="absolute inset-2 border-4 border-purple-300 rounded-full cosmic-spin" style="animation-duration: 2s; animation-direction: reverse;"></div>
+          <div class="absolute inset-2 border-4 border-primary/30 rounded-full cosmic-spin" style="animation-duration: 2s; animation-direction: reverse;"></div>
           <!-- Center -->
-          <div class="absolute inset-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+          <div class="absolute inset-4 bg-primary rounded-full flex items-center justify-center">
             <Loader2 class="h-6 w-6 text-white animate-spin" />
           </div>
         </div>
@@ -89,7 +89,7 @@
         <div class="mb-4">
           <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
             <div 
-              class="h-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-500 ease-out"
+              class="h-2 bg-primary rounded-full transition-all duration-500 ease-out"
               style="width: {progress}%"
             ></div>
           </div>

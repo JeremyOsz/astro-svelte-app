@@ -10,6 +10,8 @@ export default {
     extend: {
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
+        'display': ['Cinzel', 'Georgia', 'serif'],
+        'body': ['Cormorant Garamond', 'Georgia', 'serif'],
       },
       colors: {
         primary: {

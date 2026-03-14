@@ -528,7 +528,7 @@
             <p><strong class="text-blue-600">{minorAspects.length}</strong> minor aspect{minorAspects.length !== 1 ? 's' : ''} active</p>
           {/if}
           {#if angularAspects.length > 0}
-            <p><strong class="text-purple-600">{angularAspects.length}</strong> angular aspect{angularAspects.length !== 1 ? 's' : ''} active</p>
+            <p><strong class="text-primary">{angularAspects.length}</strong> angular aspect{angularAspects.length !== 1 ? 's' : ''} active</p>
           {/if}
           {#if aspectsToObjects.length > 0}
             <p><strong class="text-gray-600">{aspectsToObjects.length}</strong> aspect{aspectsToObjects.length !== 1 ? 's' : ''} to sensitive points</p>
@@ -651,13 +651,13 @@
               <span class="font-medium text-gray-700">
                 {aspect.transitSymbol} {aspect.transitPlanet}
               </span>
-              <span class="text-purple-600 font-medium">
+              <span class="text-primary font-medium">
                 {aspect.aspectSymbol} {aspect.aspect}
               </span>
               <span class="font-medium text-gray-700">
                 {aspect.birthSymbol} {aspect.birthPlanet}
               </span>
-              <span class="font-medium text-purple-600">
+              <span class="font-medium text-primary">
                 H{aspect.transitHouse}
               </span>
               <span class="font-mono text-gray-600 text-sm">
@@ -671,15 +671,15 @@
         <div class="mt-6">
           <h4 class="font-semibold text-gray-900 mb-3 text-base">Angular Aspect Interpretations:</h4>
           {#each angularAspects as aspect}
-            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
-              <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700">
+            <div class="bg-primary/10 border border-primary/30 rounded-lg p-4 mb-4">
+              <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700 dark:text-foreground">
                 <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
-                <span class="font-['Noto_Sans_Symbols'] text-xl text-purple-600">{aspect.aspectSymbol}</span>
+                <span class="font-['Noto_Sans_Symbols'] text-xl text-primary">{aspect.aspectSymbol}</span>
                 <span>{aspect.birthSymbol} {aspect.birthPlanet}</span>
-                <span class="text-purple-600">(House {aspect.transitHouse})</span>
+                <span class="text-primary">(House {aspect.transitHouse})</span>
               </div>
-              <div class="text-sm leading-relaxed text-gray-700">
-                {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-purple-600">$1</strong>')}
+              <div class="text-sm leading-relaxed text-gray-700 dark:text-foreground">
+                {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary">$1</strong>')}
               </div>
             </div>
           {/each}

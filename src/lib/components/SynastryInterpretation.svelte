@@ -252,7 +252,7 @@
 
   function getIntensityColor(intensity: string): string {
     switch (intensity) {
-      case 'strong': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'strong': return 'bg-primary/20 text-primary border-primary/40';
       case 'moderate': return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'weak': return 'bg-gray-100 text-gray-800 border-gray-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
@@ -337,10 +337,10 @@
             <div class="text-red-700 font-medium">Challenging</div>
             <div class="text-xs text-red-600 mt-1">Strong: {challengingAspects.filter(a => a.intensity === 'strong').length}</div>
           </div>
-          <div class="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
-            <div class="text-2xl font-bold text-purple-600">{strongAspects.length}</div>
-            <div class="text-purple-700 font-medium">Strong Aspects</div>
-            <div class="text-xs text-purple-600 mt-1">Most impactful</div>
+          <div class="text-center p-4 bg-primary/10 rounded-lg border border-primary/30">
+            <div class="text-2xl font-bold text-primary">{strongAspects.length}</div>
+            <div class="text-primary font-medium">Strong Aspects</div>
+            <div class="text-xs text-primary mt-1">Most impactful</div>
           </div>
           <div class="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
             <div class="text-2xl font-bold text-blue-600">{synastryAspects.length}</div>

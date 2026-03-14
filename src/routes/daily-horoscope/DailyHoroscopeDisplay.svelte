@@ -62,7 +62,7 @@
 
 <div class="daily-horoscope-display space-y-6">
   <!-- Header with Theme -->
-  <div class="bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-lg p-6 border border-purple-500/30">
+  <div class="bg-gradient-to-r from-primary/20 to-accent/20 backdrop-blur-sm rounded-lg p-6 border border-primary/30">
     <div class="flex items-center justify-between mb-4">
       <h2 class="text-2xl font-bold text-white flex items-center gap-2">
         <Calendar class="w-6 h-6" />
@@ -90,7 +90,7 @@
   </div>
 
   <!-- Moon Information -->
-  <div class="bg-gradient-to-r from-blue-600/20 to-indigo-600/20 backdrop-blur-sm rounded-lg p-6 border border-blue-500/30">
+  <div class="bg-gradient-to-r from-primary/15 to-primary/25 backdrop-blur-sm rounded-lg p-6 border border-primary/30">
     <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
       <Moon class="w-5 h-5 text-blue-400" />
       Moon in {currentHoroscope.moonInfo.sign} ({currentHoroscope.moonInfo.house || '?'}{getOrdinalSuffix(currentHoroscope.moonInfo.house || 1)} House)
@@ -157,10 +157,10 @@
   </div>
 
   <!-- Guidance -->
-  <div class="bg-gradient-to-r from-purple-600/20 to-violet-600/20 backdrop-blur-sm rounded-lg p-6 border border-purple-500/30">
+  <div class="bg-gradient-to-r from-primary/15 to-accent/20 backdrop-blur-sm rounded-lg p-6 border border-primary/30">
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-xl font-semibold text-white flex items-center gap-2">
-        <Target class="w-5 h-5 text-purple-400" />
+        <Target class="w-5 h-5 text-primary" />
         Guidance
       </h3>
       <Button 
@@ -180,9 +180,9 @@
   </div>
 
   <!-- Lunar Phase -->
-  <div class="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 backdrop-blur-sm rounded-lg p-6 border border-indigo-500/30">
+  <div class="bg-gradient-to-r from-primary/15 to-accent/20 backdrop-blur-sm rounded-lg p-6 border border-primary/30">
     <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-      <Star class="w-5 h-5 text-indigo-400" />
+      <Star class="w-5 h-5 text-primary" />
       Lunar Phase: {currentHoroscope.lunarPhase.phase}
     </h3>
     <p class="text-slate-200 leading-relaxed">{currentHoroscope.lunarPhase.description}</p>
@@ -299,7 +299,7 @@
           <div class="grid md:grid-cols-2 gap-6">
             <div>
               <h4 class="font-medium text-white mb-3 flex items-center gap-2">
-                <Calendar class="w-4 h-4 text-purple-400" />
+                <Calendar class="w-4 h-4 text-primary" />
                 Technical Details
               </h4>
               <div class="bg-white/5 rounded p-3 space-y-1 text-sm">
@@ -321,7 +321,7 @@
                   <p class="text-slate-300 text-sm mb-2">Get detailed transit information and charts for this date:</p>
                   <Button 
                     href={transitUrl} 
-                    class="w-full bg-purple-600 hover:bg-purple-700 text-white text-sm"
+                    class="w-full bg-primary hover:opacity-90 text-primary-foreground text-sm"
                   >
                     <ExternalLink class="w-4 h-4 mr-2" />
                     View Detailed Transits

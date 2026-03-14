@@ -4,6 +4,7 @@
   import * as NavigationMenu from "$lib/components/ui/navigation-menu";
   import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
+  import { OccultDivider, OccultEmblem } from "$lib/components/occult";
   import { cn } from "$lib/utils";
   import { Home, Star, BookOpen, Calendar, Search, Moon, Sun, Users, LineChart } from 'lucide-svelte';
   import { page } from '$app/stores';
@@ -124,18 +125,23 @@
   });
 </script>
 
-<div class="min-h-screen flex flex-col">
-  <header class={`text-white shadow-md flex-shrink-0 border-b border-border ${isDark ? 'bg-gradient-to-r from-[#182133] via-[#24324a] to-[#2f3d5c]' : 'bg-gradient-to-r from-[#5a6fa8] to-[#9aafd6]'}`}>
+<div class="min-h-screen flex flex-col relative z-[1]">
+  <header class={`text-amber-50 shadow-lg flex-shrink-0 border-b ${isDark ? 'bg-gradient-to-r from-[#1a2520] via-[#2d3d35] to-[#1e2c24] border-amber-500/40' : 'bg-gradient-to-r from-[#2d4a3e] via-[#3D5C4A] to-[#2d4a3e] border-amber-900/30'}`}>
+    <!-- Ornamental top rule -->
+    <div class={`h-1 w-full bg-gradient-to-r from-transparent to-transparent ${isDark ? 'via-amber-400/50' : 'via-amber-600/40'}`} aria-hidden="true"></div>
     <nav>
-              <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:pr-20 flex justify-between items-center py-4 relative overflow-visible">
-        <a href="/" class="text-xl font-bold text-white transition-colors cursor-pointer px-2 py-1 rounded-md hover:bg-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">Astro Chart</a>
+              <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:pr-20 flex justify-between items-center py-3 relative overflow-visible">
+        <a href="/" class="flex items-center gap-2 font-display text-xl font-semibold tracking-wide text-amber-50 transition-colors cursor-pointer px-2 py-1 rounded-md hover:bg-amber-950/40 hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60">
+          <OccultEmblem size={32} class="shrink-0" />
+          <span>Astro Chart</span>
+        </a>
         <!-- Desktop Navigation -->
         <div class="hidden lg:block relative">
           <NavigationMenu.Root>
             <NavigationMenu.List class="flex gap-8">
               <!-- Astrology Dropdown -->
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "text-white hover:bg-white/35 hover:text-white focus:bg-white/35 focus:text-white data-[state=open]:bg-white/40 data-[state=open]:text-white focus-visible:ring-2 focus-visible:ring-white/70")}>
+                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "font-display text-amber-50 hover:bg-amber-950/40 hover:text-amber-100 focus:bg-amber-950/40 focus:text-amber-100 data-[state=open]:bg-amber-950/50 data-[state=open]:text-amber-100 focus-visible:ring-2 focus-visible:ring-amber-400/60")}>
                   Astrology
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
@@ -147,10 +153,10 @@
                             <a
                               {...props}
                               href={item.href}
-                              class="group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/80 hover:text-foreground focus:bg-accent/80 focus:text-foreground"
+                              class="group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/20 hover:text-foreground focus:bg-primary/20 focus:text-foreground dark:hover:bg-amber-900/30 dark:hover:text-amber-100 dark:focus:bg-amber-900/30 dark:focus:text-amber-100"
                             >
                               <div class="text-sm font-medium leading-none">{item.title}</div>
-                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground transition-colors group-hover:text-foreground/85 group-focus:text-foreground/85">
+                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground transition-colors group-hover:text-foreground/90 group-focus:text-foreground/90 dark:group-hover:text-amber-100/90 dark:group-focus:text-amber-100/90">
                                 {item.description}
                               </p>
                             </a>
@@ -164,7 +170,7 @@
               
               <!-- Tarot Dropdown -->
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "text-white hover:bg-white/35 hover:text-white focus:bg-white/35 focus:text-white data-[state=open]:bg-white/40 data-[state=open]:text-white focus-visible:ring-2 focus-visible:ring-white/70")}>
+                <NavigationMenu.Trigger class={cn(navigationMenuTriggerStyle(), "font-display text-amber-50 hover:bg-amber-950/40 hover:text-amber-100 focus:bg-amber-950/40 focus:text-amber-100 data-[state=open]:bg-amber-950/50 data-[state=open]:text-amber-100 focus-visible:ring-2 focus-visible:ring-amber-400/60")}>
                   Tarot
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
@@ -176,10 +182,10 @@
                             <a
                               {...props}
                               href={item.href}
-                              class="group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/80 hover:text-foreground focus:bg-accent/80 focus:text-foreground"
+                              class="group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/20 hover:text-foreground focus:bg-primary/20 focus:text-foreground dark:hover:bg-amber-900/30 dark:hover:text-amber-100 dark:focus:bg-amber-900/30 dark:focus:text-amber-100"
                             >
                               <div class="text-sm font-medium leading-none">{item.title}</div>
-                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground transition-colors group-hover:text-foreground/85 group-focus:text-foreground/85">
+                              <p class="line-clamp-2 text-sm leading-snug text-muted-foreground transition-colors group-hover:text-foreground/90 group-focus:text-foreground/90 dark:group-hover:text-amber-100/90 dark:group-focus:text-amber-100/90">
                                 {item.description}
                               </p>
                             </a>
@@ -195,7 +201,7 @@
           </NavigationMenu.Root>
         </div>
         <button
-          class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/35 bg-white/10 text-white hover:bg-white/25 hover:border-white/55 transition-colors"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-amber-200/30 bg-amber-950/20 text-amber-50 hover:bg-amber-950/40 hover:border-amber-200/50 transition-colors"
           on:click={toggleTheme}
           aria-label="Toggle theme"
           title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -208,19 +214,19 @@
         </button>
         <!-- Mobile Hamburger -->
         <div class="lg:hidden">
-          <button class="p-2 ml-2 text-white rounded-md hover:bg-white/20 transition-colors" aria-label="Open menu" on:click={() => mobileMenuOpen = true}>
+          <button class="p-2 ml-2 text-amber-50 rounded-md hover:bg-amber-950/40 hover:text-amber-100 transition-colors" aria-label="Open menu" on:click={() => mobileMenuOpen = true}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
           </button>
           <Sheet.Root bind:open={mobileMenuOpen}>
             <Sheet.Content side="left" class="p-0 w-80 max-w-[90vw] bg-card text-foreground border-r border-border">
               <Sheet.Header class="p-4 border-b border-border">
-                <Sheet.Title>Menu</Sheet.Title>
+                <Sheet.Title class="font-display tracking-wide">Menu</Sheet.Title>
                 <Sheet.Close class="absolute top-4 right-4" />
               </Sheet.Header>
               <nav class="flex flex-col gap-2 p-4 text-foreground">
                 <!-- Astrology Section -->
                 <div class="mb-6">
-                  <h3 class="font-semibold text-primary mb-3 text-sm uppercase tracking-wide border-b border-border pb-2">Astrology</h3>
+                  <h3 class="font-display font-semibold text-primary mb-3 text-sm uppercase tracking-wide border-b border-border pb-2">Astrology</h3>
                   <div class="space-y-2">
                     <a href="/chart" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Birth Chart</a>
                     <a href="/transits" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Transits</a>
@@ -233,7 +239,7 @@
                 
                 <!-- Tarot Section -->
                 <div class="mb-6">
-                  <h3 class="font-semibold text-primary mb-3 text-sm uppercase tracking-wide border-b border-border pb-2">Tarot</h3>
+                  <h3 class="font-display font-semibold text-primary mb-3 text-sm uppercase tracking-wide border-b border-border pb-2">Tarot</h3>
                   <div class="space-y-2">
                     <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Tarot Cards</a>
                     <a href="/tarot-layouts" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Tarot Layouts</a>
@@ -245,16 +251,26 @@
         </div>
       </div>
     </nav>
+    <!-- Ornamental divider under header (visible in light and dark) -->
+    <div class="max-w-6xl mx-auto px-4 flex justify-center pb-1.5 pt-0.5">
+      <OccultDivider symbol="moon" variant="light" class={isDark ? 'opacity-100' : 'opacity-90'} />
+    </div>
+    <!-- Explicit bottom rule so the line is always visible in dark mode -->
+    <div class={`h-px w-full ${isDark ? 'bg-amber-400/50' : 'bg-amber-900/25'}`} aria-hidden="true"></div>
   </header>
 
      <main class="flex-1 w-full pb-20 lg:pb-0 min-h-0">
-     <div class="container mx-auto max-w-none lg:px-0">
-       <slot />
+     <div class="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+       <!-- Decorative side margins on large screens (grimoire margin) -->
+       <div class="relative">
+         <slot />
+       </div>
      </div>
    </main>
 
    <!-- Mobile Bottom Navigation -->
-   <nav class="fixed bottom-0 left-0 right-0 bg-card border-t border-border lg:hidden z-50 pb-safe">
+   <nav class="fixed bottom-0 left-0 right-0 bg-card border-t-2 border-border lg:hidden z-50 pb-safe occult-border-thick">
+     <div class="h-0.5 w-full bg-gradient-to-r from-transparent via-border to-transparent" aria-hidden="true"></div>
      <div class="flex justify-around">
        {#each mobileNavItems as item}
          <a
@@ -269,8 +285,11 @@
    </nav>
 
    <!-- Desktop Footer -->
-   <footer class="bg-card py-4 text-center text-muted-foreground border-t border-border hidden lg:block flex-shrink-0">
-     <p>&copy; 2025 Astro Chart by Jeremy Osztreicher. Powered by Swiss Ephemeris and D3.js</p>
+   <footer class="bg-card py-6 text-center text-muted-foreground border-t-2 border-border hidden lg:block flex-shrink-0 occult-border-thick">
+     <div class="max-w-5xl mx-auto px-4">
+       <OccultDivider symbol="star" class="mb-4 opacity-70" />
+       <p class="font-body text-sm">&copy; 2025 Astro Chart. Powered by Swiss Ephemeris and D3.js</p>
+     </div>
    </footer>
 </div><style>
   /* Ensure full viewport height */

@@ -2,6 +2,7 @@
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Badge } from '$lib/components/ui/badge';
   import { Input } from '$lib/components/ui/input';
+  import { OccultDivider, SectionHeader, OccultCard } from '$lib/components/occult';
   import { Search, Info } from 'lucide-svelte';
   import { cn } from '$lib/utils';
   import { 
@@ -72,9 +73,9 @@
   // Get quality color
   function getQualityColor(quality: string): string {
     const colors = {
-      'Cardinal': 'bg-purple-100 text-purple-800 border-purple-200',
-      'Fixed': 'bg-orange-100 text-orange-800 border-orange-200',
-      'Mutable': 'bg-teal-100 text-teal-800 border-teal-200'
+      'Cardinal': 'bg-primary/20 text-primary border-primary/40',
+      'Fixed': 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/40 dark:text-amber-200 dark:border-amber-700/50',
+      'Mutable': 'bg-secondary text-secondary-foreground border-border'
     };
     return colors[quality as keyof typeof colors] || 'bg-gray-100 text-gray-800 border-gray-200';
   }
@@ -89,10 +90,10 @@
   // Get category color
   function getCategoryColor(category: string): string {
     const colors = {
-      'Extended Planet': 'bg-indigo-100 text-indigo-800 border-indigo-200',
-      'Angle': 'bg-violet-100 text-violet-800 border-violet-200',
-      'Asteroid': 'bg-pink-100 text-pink-800 border-pink-200',
-      'Point': 'bg-amber-100 text-amber-800 border-amber-200'
+      'Extended Planet': 'bg-primary/20 text-primary border-primary/40',
+      'Angle': 'bg-accent/20 text-accent-foreground border-accent/40',
+      'Asteroid': 'bg-secondary text-secondary-foreground border-border',
+      'Point': 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/40 dark:text-amber-200 dark:border-amber-700/50'
     };
     return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800 border-gray-200';
   }
@@ -106,28 +107,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols:wght@400;500;600&display=swap" rel="stylesheet">
 </svelte:head>
 
-<div class="eclipse-interpretations container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
+<div class="eclipse-interpretations min-h-screen bg-gradient-to-br from-background via-card/50 to-muted/60 dark:from-background dark:via-card/80 dark:to-muted/40">
+  <div class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8">
   <!-- Page Header -->
-  <div class="text-center mb-8">
-    <h1 class="text-4xl font-bold text-foreground mb-4">Astrological Interpretations</h1>
-    <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+  <header class="text-center mb-10">
+    <OccultDivider symbol="star" class="mb-6" />
+    <h1 class="font-display text-3xl sm:text-4xl font-bold text-foreground tracking-wide mb-3">Astrological Interpretations</h1>
+    <p class="text-lg text-muted-foreground max-w-2xl mx-auto font-body">
       Explore the meanings and interpretations of planets, signs, houses, and aspects in astrology.
       Discover how these cosmic elements influence personality, relationships, and life experiences.
     </p>
-  </div>
+    <OccultDivider symbol="moon" class="mt-6" />
+  </header>
 
-  <!-- Search Section -->
-  <div class="mb-8">
-    <div class="relative max-w-md mx-auto">
-      <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-      <Input placeholder="Search interpretations..." bind:value={searchTerm} class="pl-10" />
-    </div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="mb-8">
-    <div class="flex justify-center">
-      <div class="inline-flex flex-wrap rounded-lg bg-card border border-border p-1">
+  <!-- Search & Tabs -->
+  <section class="mb-8">
+    <SectionHeader title="Browse by category" symbol="dot" class="mb-4" />
+    <OccultCard corners={true} class="mb-6">
+      <div class="relative max-w-md mx-auto mb-6">
+        <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+        <Input placeholder="Search interpretations..." bind:value={searchTerm} class="pl-10 bg-background/80 font-body" />
+      </div>
+    <div class="flex justify-center flex-wrap gap-2">
+      <div class="inline-flex flex-wrap rounded-lg bg-muted/50 border border-border p-1.5 occult-border">
         <button
           class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'planets' ? 'bg-background text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
           on:click={() => activeTab = 'planets'}
@@ -157,7 +159,7 @@
           Aspects
         </button>
         <button
-          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 {activeTab === 'other-objects' ? 'bg-background text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
+          class="flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 font-body {activeTab === 'other-objects' ? 'bg-background text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'}"
           on:click={() => activeTab = 'other-objects'}
         >
           <span class="text-lg astrological-symbol">⚷</span>
@@ -165,13 +167,16 @@
         </button>
       </div>
     </div>
-  </div>
+    </OccultCard>
+  </section>
 
   <!-- Content -->
   {#if activeTab === 'planets'}
+    <section class="mb-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredPlanets as planet}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border occult-border relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl z-10" aria-hidden="true"></div>
           <CardHeader class="pb-3">
             <div class="flex items-center gap-3 mb-3">
               <span class="text-3xl astrological-symbol">{planet.symbol}</span>
@@ -246,10 +251,13 @@
         </Card>
       {/each}
     </div>
+    </section>
   {:else if activeTab === 'signs'}
+    <section class="mb-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredSigns as sign}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border occult-border relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl z-10" aria-hidden="true"></div>
           <CardHeader class="pb-3">
             <div class="flex items-center gap-3 mb-3">
               <span class="text-3xl astrological-symbol">{sign.symbol}</span>
@@ -281,7 +289,7 @@
                 <h4 class="font-medium text-gray-900 mb-2">Themes</h4>
                 <div class="flex flex-wrap gap-1">
                   {#each sign.themes as theme}
-                    <Badge variant="secondary" class="text-xs bg-purple-100 text-purple-800">
+                    <Badge variant="secondary" class="text-xs bg-primary/20 text-primary">
                       {theme}
                     </Badge>
                   {/each}
@@ -335,18 +343,21 @@
         </Card>
       {/each}
     </div>
+    </section>
   {:else if activeTab === 'houses'}
+    <section class="mb-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredHouses as house}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border occult-border relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl z-10" aria-hidden="true"></div>
           <CardHeader class="pb-3">
             <div class="flex items-center gap-3 mb-3">
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+              <div class="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display font-bold text-lg">
                 {house.number}
               </div>
               <div>
                 <CardTitle class="text-xl">{house.name}</CardTitle>
-                <Badge variant="outline" class="mt-1 bg-purple-100 text-purple-800 border-purple-200">
+                <Badge variant="outline" class="mt-1 bg-primary/20 text-primary border-primary/40">
                   {house.keyword}
                 </Badge>
               </div>
@@ -365,10 +376,13 @@
         </Card>
       {/each}
     </div>
+    </section>
   {:else if activeTab === 'aspects'}
+    <section class="mb-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredAspects as aspect}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border occult-border relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl z-10" aria-hidden="true"></div>
           <CardHeader class="pb-3">
             <div class="flex items-center justify-between mb-3">
               <CardTitle class="text-xl">{aspect.name}</CardTitle>
@@ -398,10 +412,13 @@
         </Card>
       {/each}
     </div>
+    </section>
   {:else if activeTab === 'other-objects'}
+    <section class="mb-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredOtherObjects as obj}
-        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border">
+        <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer bg-card border-border occult-border relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl z-10" aria-hidden="true"></div>
           <CardHeader class="pb-3">
             <div class="flex items-center gap-3 mb-3">
               <span class="text-3xl astrological-symbol">{obj.symbol}</span>
@@ -428,7 +445,7 @@
                 <h4 class="font-medium text-gray-900 mb-2">Themes</h4>
                 <div class="flex flex-wrap gap-1">
                   {#each obj.themes as theme}
-                    <Badge variant="secondary" class="text-xs bg-indigo-100 text-indigo-800">
+                    <Badge variant="secondary" class="text-xs bg-primary/20 text-primary">
                       {theme}
                     </Badge>
                   {/each}
@@ -451,25 +468,28 @@
         </Card>
       {/each}
     </div>
+    </section>
   {/if}
 
   <!-- No Results -->
   {#if searchTerm && !hasResults}
     <div class="text-center py-12">
+      <OccultDivider symbol="moon" class="mb-6" />
       <div class="max-w-md mx-auto">
         <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
           <Search class="h-8 w-8 text-muted-foreground" />
         </div>
-        <h3 class="text-lg font-semibold text-foreground mb-2">No interpretations found</h3>
-        <p class="text-muted-foreground">
+        <h3 class="font-display text-lg font-semibold text-foreground mb-2">No interpretations found</h3>
+        <p class="text-muted-foreground font-body">
           No results found for "{searchTerm}". Try searching with different keywords or browse the tabs above.
         </p>
       </div>
+      <OccultDivider symbol="star" class="mt-6" />
     </div>
   {/if}
 
   <!-- Info Section -->
-  <div class="mt-12 p-6 rounded-lg border bg-card border-border">
+  <OccultCard corners={true} class="mt-12">
     <div class="flex items-start gap-3">
       <Info class="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
       <div>
@@ -481,6 +501,7 @@
         </p>
       </div>
     </div>
+  </OccultCard>
   </div>
 </div>
 

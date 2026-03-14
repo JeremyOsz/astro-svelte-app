@@ -3,6 +3,7 @@
 
   import * as Input from '$lib/components/ui/input';
   import * as Dialog from '$lib/components/ui/dialog';
+  import { OccultDivider, SectionHeader, OccultCard } from '$lib/components/occult';
   import TarotQuestionGenerator from '$lib/components/tarot/TarotQuestionGenerator.svelte';
   import { TAROT_LAYOUTS, type TarotLayout, getAllCategories, getAllDifficulties } from '$lib/data/tarot-layouts';
 
@@ -90,7 +91,7 @@
       case 'Career':
         return 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200';
       case 'Spiritual':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-200';
+        return 'bg-primary/20 text-primary dark:bg-primary/30 dark:text-primary-foreground';
       case 'Problem-Solving':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200';
       default:
@@ -104,33 +105,40 @@
   <meta name="description" content="Explore tarot layouts and spreads for different purposes. From simple one-card readings to complex spreads like the Celtic Cross." />
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-background dark:to-card">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
-    <!-- Header -->
-    <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-foreground mb-4">Tarot Layouts & Spreads</h1>
-      <p class="text-lg text-muted-foreground max-w-3xl mx-auto mb-4">
+<div class="min-h-screen bg-gradient-to-br from-background via-card/50 to-muted/60 dark:from-background dark:via-card/80 dark:to-muted/40">
+  <div class="w-full max-w-4xl mx-auto py-6 sm:py-8">
+    <!-- Page title — grimoire chapter style -->
+    <header class="text-center mb-10">
+      <OccultDivider symbol="star" class="mb-6" />
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-foreground tracking-wide mb-3">Tarot Layouts & Spreads</h1>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto mb-6 font-body">
         Discover the art of tarot spreads. Each layout offers a unique way to explore your questions and find guidance through the cards.
       </p>
-      <div class="bg-muted/80 dark:bg-primary/15 border border-border rounded-lg p-4 max-w-2xl mx-auto">
-        <p class="text-sm text-foreground dark:text-card-foreground">
-          💡 <strong>How to use:</strong> Click any layout to see detailed instructions and card positions. Use filters to find spreads for your specific needs.
-        </p>
+      <div class="inline-block max-w-2xl">
+        <OccultCard corners={true} class="!py-4 !px-5">
+          <p class="text-sm text-foreground font-body text-center">
+            <strong>How to use:</strong> Click any layout to see detailed instructions and card positions. Use filters to find spreads for your specific needs.
+          </p>
+        </OccultCard>
       </div>
-    </div>
+      <OccultDivider symbol="moon" class="mt-6" />
+    </header>
 
     <!-- Single card pull — Question generator -->
-    <div class="bg-card rounded-lg shadow-md p-6 mb-8 border border-border">
-      <h2 class="text-2xl font-bold text-foreground mb-2">Single Card Pull — Question Generator</h2>
-      <p class="text-muted-foreground mb-4">
-        Not sure what to ask? Choose a theme and discover questions designed for one-card readings. Use one as your focus when you shuffle and draw.
-      </p>
-      <TarotQuestionGenerator />
-    </div>
+    <section class="mb-10">
+      <SectionHeader title="Single Card Pull — Question Generator" symbol="dot" class="mb-4" />
+      <OccultCard corners={true}>
+        <p class="text-muted-foreground mb-4 font-body">
+          Not sure what to ask? Choose a theme and discover questions designed for one-card readings. Use one as your focus when you shuffle and draw.
+        </p>
+        <TarotQuestionGenerator />
+      </OccultCard>
+    </section>
 
     <!-- Historical Background -->
-    <div class="bg-card rounded-lg shadow-md p-6 mb-8 border border-border">
-      <h2 class="text-2xl font-bold text-foreground mb-4">The Art of Tarot Spreads</h2>
+    <section class="mb-10">
+      <SectionHeader title="The Art of Tarot Spreads" symbol="moon" class="mb-4" />
+      <OccultCard corners={true}>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-muted-foreground">
         <div class="space-y-4">
           <div>
@@ -165,10 +173,13 @@
           </div>
         </div>
       </div>
-    </div>
+      </OccultCard>
+    </section>
 
     <!-- Search and Filters -->
-    <div class="bg-card rounded-lg shadow-md p-6 mb-8 border border-border">
+    <section class="mb-10">
+      <SectionHeader title="Find a Spread" symbol="star" class="mb-4" />
+      <OccultCard corners={true}>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label for="search" class="block text-sm font-medium text-muted-foreground mb-2">Search Layouts</label>
@@ -206,19 +217,23 @@
           </select>
         </div>
       </div>
-    </div>
+      </OccultCard>
+    </section>
 
     <!-- Layouts Grid -->
+    <section>
+      <SectionHeader title="Layouts" symbol="moon" class="mb-6" />
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each filteredLayouts as layout}
         <button
           on:click={() => selectLayout(layout)}
-          class="group bg-card rounded-lg shadow-md hover:shadow-lg border border-border transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer text-left"
+          class="group relative bg-card rounded-lg shadow-md hover:shadow-lg border border-border occult-border transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer text-left h-full overflow-hidden"
         >
-          <div class="p-6">
+          <div class="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl" aria-hidden="true"></div>
+          <div class="p-5 pt-6">
             <!-- SVG Layout Preview -->
             <div class="mb-4 flex justify-center">
-              <div class="relative bg-muted/50 dark:bg-muted rounded-lg p-4 border border-border overflow-hidden">
+              <div class="relative bg-muted/50 dark:bg-muted rounded-md p-3 border border-border overflow-hidden occult-border">
                 <svg width="350" height="250" viewBox="0 0 600 400" class="w-full h-auto">
                   {@html layout.svg}
                 </svg>
@@ -228,7 +243,7 @@
             <!-- Layout Info -->
             <div class="space-y-3">
               <div class="flex items-start justify-between">
-                <h3 class="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                <h3 class="font-display text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
                   {layout.name}
                 </h3>
                 <div class="flex gap-2">
@@ -258,16 +273,19 @@
     <!-- No Results -->
     {#if filteredLayouts.length === 0}
       <div class="text-center py-12">
-        <div class="text-6xl mb-4">🔮</div>
-        <h3 class="text-xl font-semibold text-foreground mb-2">No layouts found</h3>
-        <p class="text-muted-foreground">Try adjusting your search terms or filters</p>
+        <OccultDivider symbol="moon" class="mb-6" />
+        <div class="text-5xl mb-4 opacity-80" aria-hidden="true">◇</div>
+        <h3 class="font-display text-xl font-semibold text-foreground mb-2">No layouts found</h3>
+        <p class="text-muted-foreground font-body">Try adjusting your search terms or filters</p>
+        <OccultDivider symbol="star" class="mt-6" />
       </div>
     {/if}
 
     <!-- Layout Count -->
-    <div class="text-center mt-8 text-muted-foreground">
+    <div class="text-center mt-8 text-muted-foreground font-body text-sm">
       Showing {filteredLayouts.length} of {TAROT_LAYOUTS.length} layouts
     </div>
+    </section>
   </div>
 
   <!-- Layout Detail Modal (Dialog) -->
@@ -275,7 +293,7 @@
     <Dialog.Content class="!max-w-none !w-[95vw] md:!w-[90vw] lg:!w-[85vw] !max-h-[95vh] overflow-y-auto sm:!max-w-none">
       {#if selectedLayout}
         <Dialog.Header>
-          <Dialog.Title class="flex items-center gap-3">
+          <Dialog.Title class="font-display flex items-center gap-3 text-xl tracking-wide">
             {selectedLayout.name}
             <div class="flex gap-2">
               <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {getDifficultyColor(selectedLayout.difficulty)}">

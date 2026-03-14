@@ -7,6 +7,7 @@
   import { Calendar, MapPin, Clock, User, CalendarDays, BookOpen, Moon, Sun, Star, ArrowLeft, ArrowRight, RefreshCw } from 'lucide-svelte';
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import DailyHoroscopeDisplay from './DailyHoroscopeDisplay.svelte';
+  import { OccultDivider, SectionHeader, OccultCard } from '$lib/components/occult';
   import type { BirthChart } from '$lib/types/types';
   import { enhance } from '$app/forms';
 
@@ -71,24 +72,28 @@
   <meta name="description" content="Your personalized daily horoscope based on your natal chart and current transits" />
 </svelte:head>
 
-<div class="min-h-screen bg-background text-foreground">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
+<div class="min-h-screen bg-gradient-to-br from-background via-card/50 to-muted/60 dark:from-background dark:via-card/80 dark:to-muted/40 text-foreground">
+    <div class="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8">
     <!-- Header -->
-    <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold mb-2 flex items-center justify-center gap-3">
-        <Star class="w-8 h-8 text-primary" />
+    <header class="text-center mb-10">
+      <OccultDivider symbol="star" class="mb-6" />
+      <h1 class="font-display text-3xl sm:text-4xl font-bold tracking-wide mb-2 flex items-center justify-center gap-3">
+        <Star class="w-8 h-8 text-primary shrink-0" />
         Daily Horoscope
-        <Star class="w-8 h-8 text-primary" />
+        <Star class="w-8 h-8 text-primary shrink-0" />
       </h1>
-      <p class="text-muted-foreground text-lg">Your personalized daily guidance from the stars</p>
-    </div>
+      <p class="text-muted-foreground text-lg font-body">Your personalized daily guidance from the stars</p>
+      <OccultDivider symbol="moon" class="mt-6" />
+    </header>
 
     <!-- Chart Selection -->
-    <div class="bg-card border border-border rounded-lg p-6 mb-8">
-      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-        <User class="w-5 h-5" />
-        Select Your Birth Chart
-      </h2>
+    <section class="mb-8">
+      <SectionHeader title="Select Your Birth Chart" symbol="dot" class="mb-4" />
+      <OccultCard corners={true}>
+      <div class="flex items-center gap-2 mb-4">
+        <User class="w-5 h-5 text-muted-foreground" />
+        <span class="font-display text-sm uppercase tracking-wide text-muted-foreground">Saved Charts</span>
+      </div>
       
       {#if $chartStore.savedCharts.length === 0}
         <div class="text-center py-8">
@@ -100,7 +105,8 @@
       {:else}
         <SavedChartsList onChartSelect={handleChartSelect} />
       {/if}
-    </div>
+      </OccultCard>
+    </section>
 
     <!-- Date Navigation and Form -->
     {#if natalChart}
@@ -139,11 +145,13 @@
         <input type="hidden" name="natalChart" value={JSON.stringify(natalChart)} />
         <input type="hidden" name="date" value={selectedDate} />
         
-        <div class="bg-card border border-border rounded-lg p-6 mb-8">
-          <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Calendar class="w-5 h-5" />
-            Date Selection
-          </h2>
+        <section class="mb-8">
+          <SectionHeader title="Date Selection" symbol="moon" class="mb-4" />
+          <OccultCard corners={true}>
+          <div class="flex items-center gap-2 mb-4">
+            <Calendar class="w-5 h-5 text-muted-foreground" />
+            <span class="font-display text-sm uppercase tracking-wide text-muted-foreground">Choose a date</span>
+          </div>
           
           <div class="flex items-center justify-center gap-4">
             <Button 
@@ -188,11 +196,12 @@
           </div>
           
           <div class="text-center mt-4">
-            <Button type="submit" class="bg-primary text-primary-foreground hover:opacity-90 font-medium">
+            <Button type="submit" class="btn-occult bg-primary text-primary-foreground hover:opacity-90 font-display font-medium">
               Generate Horoscope
             </Button>
           </div>
-        </div>
+          </OccultCard>
+        </section>
       </form>
     {/if}
 
@@ -205,10 +214,10 @@
 
     <!-- Loading State -->
     {#if loading}
-      <div class="bg-card border border-border rounded-lg p-8 text-center">
+      <OccultCard corners={true} class="p-8 text-center">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <p class="text-foreground text-lg">Generating your daily horoscope...</p>
-      </div>
+        <p class="text-foreground text-lg font-body">Generating your daily horoscope...</p>
+      </OccultCard>
     {:else if error}
       <div class="bg-destructive/15 border border-destructive/30 rounded-lg p-6 text-center">
         <p class="text-destructive text-lg mb-4">{error}</p>
@@ -225,15 +234,17 @@
       <!-- Daily Horoscope Display -->
       <DailyHoroscopeDisplay {currentHoroscope} {natalChart} />
     {:else if natalChart}
-      <div class="bg-card border border-border rounded-lg p-8 text-center">
-        <p class="text-muted-foreground text-lg">Click "Today" or select a date to generate your horoscope</p>
-      </div>
+      <OccultCard corners={true} class="p-8 text-center">
+        <p class="text-muted-foreground text-lg font-body">Click "Today" or select a date to generate your horoscope</p>
+      </OccultCard>
     {/if}
 
     <!-- Instructions -->
     {#if !natalChart}
-      <div class="bg-card border border-border rounded-lg p-6 mt-8">
-        <h3 class="text-lg font-semibold mb-3">How to Get Your Daily Horoscope</h3>
+      <section class="mt-10">
+      <SectionHeader title="How to Get Your Daily Horoscope" symbol="star" class="mb-4" />
+      <OccultCard corners={true}>
+        <h3 class="font-display text-lg font-semibold mb-3 sr-only">How to Get Your Daily Horoscope</h3>
         <div class="grid md:grid-cols-3 gap-4 text-muted-foreground">
           <div class="text-center">
             <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
@@ -251,10 +262,11 @@
             <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
               <span class="text-primary-foreground font-bold">3</span>
             </div>
-            <p>Receive your personalized daily guidance</p>
+            <p class="font-body">Receive your personalized daily guidance</p>
           </div>
         </div>
-      </div>
+      </OccultCard>
+      </section>
     {/if}
   </div>
 </div> 
