@@ -1258,16 +1258,16 @@ export const CUPS_SUIT: TarotCard[] = [
     suit: "Cups",
     keywords: ["Emotional balance", "Generosity", "Diplomacy", "Wisdom", "Compassion"],
     upright: {
-      general: "The King of Cups represents emotional balance, generosity, and wisdom. He's a compassionate and diplomatic leader.",
-      love: "Emotional balance in love, generous relationships, wise partnerships",
-      career: "Emotional balance at work, generous career, wise job",
-      health: "Emotional balance in health, generous wellness, wise healing"
+      general: "The King of Cups embodies emotional balance, generosity, and wisdom. He is the compassionate, diplomatic leader who rules from the heart without losing clarity—a reminder that strength and sensitivity can dwell together.",
+      love: "In love and partnership, this card reveals a season of emotional maturity and generosity. It invites you to offer—and receive—wisdom and compassion, and to seek relationships that honour both feeling and discernment.",
+      career: "At work, the King of Cups points to leading with emotional intelligence and fairness. It suggests success through diplomacy, mentorship, and a balanced approach that considers both people and outcomes.",
+      health: "For health and wellness, this card speaks to the wisdom of listening to your body and emotions. It encourages a compassionate approach to self-care and, when needed, seeking or offering calm, grounded support."
     },
     reversed: {
-      general: "Coldness, moodiness, bad advice, manipulation",
-      love: "Coldness in love, moodiness in relationships, bad advice",
-      career: "Coldness at work, moodiness in career, bad advice",
-      health: "Coldness in health, moodiness in wellness, bad advice"
+      general: "Reversed, the King of Cups can indicate coldness, moodiness, or the misuse of emotional intelligence—manipulation, or advice that serves the giver more than the receiver. It invites reflection on where you may be withholding warmth or clarity.",
+      love: "In relationships, the reversed King can suggest emotional distance, mood swings, or guidance that misses the mark. It may be a nudge to examine whether you are giving or receiving from a place of genuine care.",
+      career: "At work, this reversal can point to poor judgment, favouritism, or advice that leads astray. It invites a return to fairness and to leading with both heart and clear boundaries.",
+      health: "In matters of wellness, the reversed card can signal ignoring emotional or physical needs, or relying on advice that doesn’t truly serve you. It encourages reclaiming your own authority over your wellbeing."
     },
     element: "Water"
   }
@@ -2007,4 +2007,63 @@ export const getMajorArcana = (): TarotCard[] => {
 
 export const getMinorArcana = (): TarotCard[] => {
   return [...MINOR_ARCANA, ...CUPS_SUIT, ...SWORDS_SUIT, ...PENTACLES_SUIT];
-}; 
+};
+
+/**
+ * Returns a randomly selected card and whether it is reversed (50% chance).
+ * Use for a "random card pull" or single-card draw.
+ */
+export function getRandomCard(): { card: TarotCard; reversed: boolean } {
+  const index = Math.floor(Math.random() * ALL_TAROT_CARDS.length);
+  const card = ALL_TAROT_CARDS[index]!;
+  const reversed = Math.random() < 0.5;
+  return { card, reversed };
+}
+
+/** Centralized astrological significance copy for tarot card dialog. Velvet Arcana tone. */
+export const TAROT_ELEMENT_DESCRIPTIONS: Record<string, string> = {
+  Fire: "Dynamic energy, passion, and the spark of transformation.",
+  Earth: "Stability, practicality, and connection to the material world.",
+  Air: "Intellectual energy, communication, and the realm of ideas.",
+  Water: "Emotional energy, intuition, and spiritual depth."
+};
+
+export const TAROT_PLANET_DESCRIPTIONS: Record<string, string> = {
+  Sun: "Vitality, ego, and conscious self-expression.",
+  Moon: "Emotions, intuition, and the patterns of the subconscious.",
+  Mercury: "Communication, intellect, and adaptability.",
+  Venus: "Love, beauty, and harmonious relationships.",
+  Mars: "Action, courage, and assertive energy.",
+  Jupiter: "Expansion, wisdom, and spiritual growth.",
+  Saturn: "Structure, discipline, and life lessons.",
+  Uranus: "Innovation, rebellion, and sudden change.",
+  Neptune: "Dreams, spirituality, and transcendence.",
+  Pluto: "Transformation, power, and deep change."
+};
+
+export const TAROT_ZODIAC_DESCRIPTIONS: Record<string, string> = {
+  Aries: "Pioneering spirit, courage, and new beginnings.",
+  Taurus: "Stability, sensuality, and material security.",
+  Gemini: "Communication, curiosity, and adaptability.",
+  Cancer: "Emotional depth, nurturing, and intuition.",
+  Leo: "Creative expression, leadership, and confidence.",
+  Virgo: "Practicality, service, and attention to detail.",
+  Libra: "Balance, harmony, and relationship focus.",
+  Scorpio: "Transformation, intensity, and deep insight.",
+  Sagittarius: "Adventure, wisdom, and the spiritual quest.",
+  Capricorn: "Ambition, structure, and long-term goals.",
+  Aquarius: "Innovation, humanitarianism, and individuality.",
+  Pisces: "Compassion, spirituality, and artistic sensitivity."
+};
+
+export function getElementDescription(element: string): string {
+  return TAROT_ELEMENT_DESCRIPTIONS[element] ?? "";
+}
+
+export function getPlanetDescription(planet: string): string {
+  return TAROT_PLANET_DESCRIPTIONS[planet] ?? "";
+}
+
+export function getZodiacDescription(zodiac: string): string {
+  return TAROT_ZODIAC_DESCRIPTIONS[zodiac] ?? "";
+} 

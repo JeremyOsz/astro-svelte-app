@@ -2,6 +2,9 @@
 
 @import "tailwindcss";
 
+/* Class-based dark mode: .dark on root enables dark: utilities */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @import "tw-animate-css";
 
 
