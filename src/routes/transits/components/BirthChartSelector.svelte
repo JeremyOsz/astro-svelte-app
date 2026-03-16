@@ -18,7 +18,7 @@
   <Card.Header>
     <Card.Title class="flex items-center gap-2">
       <User class="h-5 w-5" />
-      Select Birth Chart
+      Select Person
     </Card.Title>
   </Card.Header>
   <Card.Content>
@@ -41,15 +41,15 @@
     {:else}
       <div class="space-y-4">
         {#if $chartStore.savedCharts.length > 0}
-          <p class="text-sm text-gray-600">Choose a saved birth chart to analyze:</p>
+          <p class="text-sm text-gray-600">Choose a saved person to analyze:</p>
           <SavedChartsList onChartSelect={handleChartSelect} />
         {:else}
           <div class="text-center py-8">
             <BookOpen class="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">No Saved Charts</h3>
-            <p class="text-gray-600 mb-4">You need to create and save a birth chart first.</p>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">No People Saved</h3>
+            <p class="text-gray-600 mb-4">Sign in and save a person from the Birth Chart page first.</p>
             <Button onclick={() => window.location.href = '/chart'}>
-              Create Birth Chart
+              Open Birth Chart
             </Button>
           </div>
         {/if}

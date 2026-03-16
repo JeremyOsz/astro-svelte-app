@@ -1,8 +1,8 @@
-import { writable, derived } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
 import { chartStorageService, type SavedChart } from '../services/chart-storage';
 import { URLSharingService } from '../services/url-sharing';
+import type { User } from '@supabase/supabase-js';
 
-// Re-export SavedChart type for components
 export type { SavedChart } from '../services/chart-storage';
 
 export interface BirthData {
@@ -22,6 +22,8 @@ export interface ChartState {
   currentChartId: string | null;
   savedCharts: SavedChart[];
   isSaving: boolean;
+  authUser: User | null;
+  hasPendingLegacyImport: boolean;
 }
 
 function createChartStore() {
@@ -32,128 +34,231 @@ function createChartStore() {
     isLoading: false,
     version: 0,
     currentChartId: null,
-    savedCharts: chartStorageService.getAllCharts(),
-    isSaving: false
+    savedCharts: [],
+    isSaving: false,
+    authUser: null,
+    hasPendingLegacyImport: false
   });
+
+  async function refreshPeople() {
+    try {
+      const people = await chartStorageService.getAllCharts();
+      update((state) => ({
+        ...state,
+        savedCharts: people,
+        currentChartId:
+          state.currentChartId && people.some((item) => item.id === state.currentChartId)
+            ? state.currentChartId
+            : (people[0]?.id ?? null),
+        version: state.version + 1
+      }));
+    } catch (error) {
+      update((state) => ({
+        ...state,
+        error: error instanceof Error ? error.message : 'Failed to load people',
+        savedCharts: [],
+        currentChartId: null,
+        version: state.version + 1
+      }));
+    }
+  }
+
+  async function syncLegacyImportState(user: User | null) {
+    if (!user) {
+      update((state) => ({ ...state, hasPendingLegacyImport: false }));
+      return;
+    }
+
+    const legacyCharts = chartStorageService.getLegacyLocalCharts();
+    const hasImported = chartStorageService.getLegacyImportFlag(user.id);
+
+    update((state) => ({
+      ...state,
+      hasPendingLegacyImport: legacyCharts.length > 0 && !hasImported
+    }));
+  }
 
   return {
     subscribe,
-    
-    // Save current chart
+
+    setAuthUser: async (user: User | null) => {
+      update((state) => ({ ...state, authUser: user, error: null }));
+
+      if (!user) {
+        update((state) => ({
+          ...state,
+          savedCharts: [],
+          currentChartId: null,
+          hasPendingLegacyImport: false,
+          version: state.version + 1
+        }));
+        return;
+      }
+
+      await refreshPeople();
+      await syncLegacyImportState(user);
+    },
+
+    importLegacyCharts: async () => {
+      const activeUser = get(chartStore).authUser;
+
+      if (!activeUser) {
+        throw new Error('Please sign in to import local people');
+      }
+
+      const legacyCharts = chartStorageService.getLegacyLocalCharts().map((chart) => ({
+        name: chart.name,
+        birthData: chart.birthData,
+        chartData: chart.chartData
+      }));
+
+      if (legacyCharts.length === 0) {
+        chartStorageService.setLegacyImportFlag(activeUser.id);
+        update((state) => ({ ...state, hasPendingLegacyImport: false }));
+        return { importedCount: 0, skippedCount: 0 };
+      }
+
+      const result = await chartStorageService.importLegacyCharts(legacyCharts);
+      chartStorageService.setLegacyImportFlag(activeUser.id);
+
+      await refreshPeople();
+
+      update((state) => ({
+        ...state,
+        hasPendingLegacyImport: false,
+        version: state.version + 1
+      }));
+
+      return result;
+    },
+
+    dismissLegacyImportPrompt: () => {
+      const activeUser = get(chartStore).authUser;
+
+      if (activeUser) {
+        chartStorageService.setLegacyImportFlag(activeUser.id);
+      }
+
+      update((state) => ({ ...state, hasPendingLegacyImport: false, version: state.version + 1 }));
+    },
+
     saveCurrentChart: async (name: string) => {
-      update(state => ({ ...state, isSaving: true }));
-      
+      update((state) => ({ ...state, isSaving: true, error: null }));
+
       try {
-        update(state => {
-          if (!state.chartData || !state.birthData) return state;
-          
-          const savedChart = chartStorageService.saveChart({
-            name,
-            birthData: state.birthData,
-            chartData: state.chartData
-          });
-          
-          return {
-            ...state,
-            currentChartId: savedChart.id,
-            savedCharts: chartStorageService.getAllCharts(),
-            version: state.version + 1,
-            isSaving: false
-          };
+        const snapshot = get(chartStore);
+
+        if (!snapshot.authUser) {
+          throw new Error('Please sign in to save people');
+        }
+
+        if (!snapshot.chartData || !snapshot.birthData) {
+          throw new Error('No chart data available to save');
+        }
+
+        const savedChart = await chartStorageService.saveChart({
+          name,
+          birthData: snapshot.birthData,
+          chartData: snapshot.chartData
         });
+
+        await refreshPeople();
+
+        update((state) => ({
+          ...state,
+          currentChartId: savedChart?.id ?? state.currentChartId,
+          isSaving: false,
+          version: state.version + 1
+        }));
       } catch (error) {
-        update(state => ({ ...state, isSaving: false }));
+        update((state) => ({
+          ...state,
+          isSaving: false,
+          error: error instanceof Error ? error.message : 'Failed to save person'
+        }));
         throw error;
       }
     },
-    
-    // Load saved chart
+
     loadChart: (chartId: string) => {
-      const chart = chartStorageService.getChart(chartId);
-      if (!chart) return;
-      
-      update(state => ({
-        ...state,
-        chartData: chart.chartData,
-        birthData: chart.birthData,
-        currentChartId: chart.id,
-        error: null,
-        isLoading: false,
-        version: state.version + 1
-      }));
+      update((state) => {
+        const chart = state.savedCharts.find((item) => item.id === chartId);
+        if (!chart) return state;
+
+        return {
+          ...state,
+          chartData: chart.chartData,
+          birthData: chart.birthData,
+          currentChartId: chart.id,
+          error: null,
+          isLoading: false,
+          version: state.version + 1
+        };
+      });
     },
-    
-    // Delete saved chart
-    deleteChart: (chartId: string) => {
-      chartStorageService.deleteChart(chartId);
-      update(state => ({
+
+    deleteChart: async (chartId: string) => {
+      await chartStorageService.deleteChart(chartId);
+      await refreshPeople();
+
+      update((state) => ({
         ...state,
-        savedCharts: chartStorageService.getAllCharts(),
         currentChartId: state.currentChartId === chartId ? null : state.currentChartId,
         version: state.version + 1
       }));
     },
-    
-    // Update chart name
-    updateChartName: (chartId: string, name: string) => {
-      chartStorageService.updateChart(chartId, { name });
-      update(state => ({
-        ...state,
-        savedCharts: chartStorageService.getAllCharts(),
-        version: state.version + 1
-      }));
+
+    updateChartName: async (chartId: string, name: string) => {
+      await chartStorageService.updateChart(chartId, { name });
+      await refreshPeople();
     },
-    
-    // Load from URL parameters
+
     loadFromURL: async () => {
       const urlData = URLSharingService.parseURLParams();
       if (!urlData) return false;
-      
-      update(state => ({ ...state, isLoading: true }));
-      
+
+      update((state) => ({ ...state, isLoading: true }));
+
       try {
-        // Here you would call your API to generate chart data
-        // For now, we'll just set the birth data
-        update(state => ({
+        update((state) => ({
           ...state,
           birthData: urlData.birthData,
           isLoading: false,
           version: state.version + 1
         }));
-        
+
         return true;
-      } catch (error) {
-        update(state => ({ 
-          ...state, 
+      } catch {
+        update((state) => ({
+          ...state,
           error: 'Failed to load chart from URL',
-          isLoading: false 
+          isLoading: false
         }));
         return false;
       }
     },
-    
-    // Generate share URL
+
     generateShareURL: (): string | null => {
-      let currentState: ChartState;
-      chartStore.subscribe(state => {
+      let currentState: ChartState | undefined;
+      const unsubscribe = chartStore.subscribe((state) => {
         currentState = state;
-      })();
-      
-      if (!currentState!.birthData) return null;
-      
+      });
+      unsubscribe();
+
+      if (!currentState?.birthData) return null;
+
       return URLSharingService.generateShareURL({
-        birthData: currentState!.birthData,
-        name: currentState!.currentChartId ? 
-          currentState!.savedCharts.find(c => c.id === currentState!.currentChartId)?.name : 
-          undefined
+        birthData: currentState.birthData,
+        name: currentState.currentChartId
+          ? currentState.savedCharts.find((item) => item.id === currentState?.currentChartId)?.name
+          : undefined
       });
     },
-    
-    // Copy share URL to clipboard
+
     copyShareURL: async (): Promise<boolean> => {
       const shareURL = chartStore.generateShareURL();
       if (!shareURL) return false;
-      
+
       try {
         await URLSharingService.copyToClipboard(shareURL);
         return true;
@@ -162,12 +267,10 @@ function createChartStore() {
         return false;
       }
     },
-    
-    // Generate chart from birth data (for auto-generation from shared URL)
+
     generateChartFromBirthData: async (birthData: BirthData) => {
-      update(state => ({ ...state, isLoading: true, error: null }));
+      update((state) => ({ ...state, isLoading: true, error: null }));
       try {
-        // Prepare city data in the format expected by the server
         const cityData = {
           name: birthData.place.split(',')[0],
           fullLocation: birthData.place,
@@ -180,37 +283,33 @@ function createChartStore() {
         formData.set('birthDate', birthData.date);
         formData.set('birthTime', birthData.time);
         formData.set('cityData', JSON.stringify(cityData));
-        // POST to the server endpoint
         const response = await fetch('/chart?/calculate', {
           method: 'POST',
           body: formData
         });
         const result = await response.json();
-        let chartData: string | undefined, birthDataResult: BirthData | undefined;
-        // Handle SvelteKit action response (dehydrated array) or plain object
+        let chartData: string | undefined;
+        let birthDataResult: BirthData | undefined;
+
         if (result.data) {
           if (typeof result.data === 'string') {
-            // Try to parse as JSON
             try {
               const arr = JSON.parse(result.data);
-              // SvelteKit dehydrated array: [fieldMap, chartData, birthData, ...]
-              // Find chartData (string with newlines) and birthData (object with date/time/place/lat/lng)
-              // Heuristic: chartData is a string with newlines, birthData is an object with date/time
               for (const item of arr) {
                 if (typeof item === 'string' && item.includes('\n')) chartData = item;
                 if (typeof item === 'object' && item && item.date && item.time) birthDataResult = item;
               }
-            } catch (e) {
-              console.error('[generateChartFromBirthData] Failed to parse dehydrated array:', e);
+            } catch (parseError) {
+              console.error('[generateChartFromBirthData] Failed to parse dehydrated array:', parseError);
             }
           } else if (typeof result.data === 'object') {
-            // Plain object
             chartData = result.data.chartData;
             birthDataResult = result.data.birthData;
           }
         }
+
         if (chartData) {
-          update(state => ({
+          update((state) => ({
             ...state,
             chartData,
             birthData: birthDataResult || birthData,
@@ -219,8 +318,7 @@ function createChartStore() {
             version: state.version + 1
           }));
         } else {
-          console.error('[generateChartFromBirthData] No chartData in result:', result);
-          update(state => ({
+          update((state) => ({
             ...state,
             isLoading: false,
             error: result.error || 'Failed to generate chart',
@@ -228,8 +326,7 @@ function createChartStore() {
           }));
         }
       } catch (error) {
-        console.error('[generateChartFromBirthData] Exception:', error);
-        update(state => ({
+        update((state) => ({
           ...state,
           isLoading: false,
           error: error instanceof Error ? error.message : 'Failed to generate chart',
@@ -237,10 +334,9 @@ function createChartStore() {
         }));
       }
     },
-    
-    // Existing methods...
+
     setChartData: (chartData: string, birthData?: BirthData) => {
-      update(state => ({
+      update((state) => ({
         ...state,
         chartData,
         birthData: birthData || state.birthData,
@@ -249,9 +345,9 @@ function createChartStore() {
         version: state.version + 1
       }));
     },
-    
+
     setError: (error: string) => {
-      update(state => ({
+      update((state) => ({
         ...state,
         error,
         chartData: null,
@@ -259,16 +355,17 @@ function createChartStore() {
         version: state.version + 1
       }));
     },
-    
+
     setLoading: (isLoading: boolean) => {
-      update(state => ({
+      update((state) => ({
         ...state,
         isLoading,
         version: state.version + 1
       }));
     },
-    
+
     clear: () => {
+      const state = get(chartStore);
       set({
         chartData: null,
         birthData: null,
@@ -276,8 +373,10 @@ function createChartStore() {
         isLoading: false,
         version: 0,
         currentChartId: null,
-        savedCharts: chartStorageService.getAllCharts(),
-        isSaving: false
+        savedCharts: state.savedCharts,
+        isSaving: false,
+        authUser: state.authUser,
+        hasPendingLegacyImport: state.hasPendingLegacyImport
       });
     }
   };
@@ -285,10 +384,7 @@ function createChartStore() {
 
 export const chartStore = createChartStore();
 
-// Derived store for current chart info
 export const currentChart = derived(chartStore, ($chartStore) => {
   if (!$chartStore.currentChartId) return null;
-  return $chartStore.savedCharts.find(c => c.id === $chartStore.currentChartId) || null;
+  return $chartStore.savedCharts.find((item) => item.id === $chartStore.currentChartId) || null;
 });
-
- 

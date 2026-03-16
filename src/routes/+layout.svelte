@@ -1,6 +1,7 @@
 <script>
   import "../app.css";
   import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
   import * as NavigationMenu from "$lib/components/ui/navigation-menu";
   import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
@@ -8,6 +9,11 @@
   import { cn } from "$lib/utils";
   import { Home, Star, BookOpen, Calendar, Search, Moon, Sun, Users, LineChart } from 'lucide-svelte';
   import { page } from '$app/stores';
+  import { authStore } from '$lib/stores/auth-store';
+  import { chartStore } from '$lib/stores/chart-store';
+
+  export let data;
+
   let mobileMenuOpen = false;
   let theme = 'light';
 
@@ -115,13 +121,28 @@
     applyTheme(theme === 'dark' ? 'light' : 'dark');
   }
 
+  async function handleSignOut() {
+    await authStore.signOut();
+    await goto('/');
+  }
+
   onMount(() => {
+    authStore.initialize(data?.session ?? null, data?.user ?? null);
+
+    const unsubscribe = authStore.subscribe((auth) => {
+      void chartStore.setAuthUser(auth.user);
+    });
+
     const storedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const resolvedTheme = storedTheme === 'dark' || storedTheme === 'light'
       ? storedTheme
       : (prefersDark ? 'dark' : 'light');
     applyTheme(resolvedTheme);
+
+    return () => {
+      unsubscribe();
+    };
   });
 </script>
 
@@ -200,18 +221,33 @@
             <NavigationMenu.Viewport />
           </NavigationMenu.Root>
         </div>
-        <button
-          class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-amber-200/30 bg-amber-950/20 text-amber-50 hover:bg-amber-950/40 hover:border-amber-200/50 transition-colors"
-          on:click={toggleTheme}
-          aria-label="Toggle theme"
-          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {#if theme === 'dark'}
-            <Sun class="h-4 w-4" />
+        <div class="hidden lg:flex items-center gap-2">
+          {#if $authStore.user}
+            <span class="text-xs text-amber-100/90 max-w-[180px] truncate" title={$authStore.user.email || 'Signed in'}>{$authStore.user.email}</span>
+            <button
+              class="inline-flex h-9 items-center justify-center rounded-md border border-amber-200/30 bg-amber-950/20 px-3 text-xs text-amber-50 hover:bg-amber-950/40 hover:border-amber-200/50 transition-colors"
+              on:click={handleSignOut}
+            >
+              Sign out
+            </button>
           {:else}
-            <Moon class="h-4 w-4" />
+            <a href="/login" class="inline-flex h-9 items-center justify-center rounded-md border border-amber-200/30 bg-amber-950/20 px-3 text-xs text-amber-50 hover:bg-amber-950/40 hover:border-amber-200/50 transition-colors">Sign in</a>
+            <a href="/signup" class="inline-flex h-9 items-center justify-center rounded-md border border-amber-200/30 bg-amber-950/20 px-3 text-xs text-amber-50 hover:bg-amber-950/40 hover:border-amber-200/50 transition-colors">Sign up</a>
           {/if}
-        </button>
+
+          <button
+            class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-amber-200/30 bg-amber-950/20 text-amber-50 hover:bg-amber-950/40 hover:border-amber-200/50 transition-colors"
+            on:click={toggleTheme}
+            aria-label="Toggle theme"
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {#if theme === 'dark'}
+              <Sun class="h-4 w-4" />
+            {:else}
+              <Moon class="h-4 w-4" />
+            {/if}
+          </button>
+        </div>
         <!-- Mobile Hamburger -->
         <div class="lg:hidden">
           <button class="p-2 ml-2 text-amber-50 rounded-md hover:bg-amber-950/40 hover:text-amber-100 transition-colors" aria-label="Open menu" on:click={() => mobileMenuOpen = true}>
@@ -243,6 +279,19 @@
                   <div class="space-y-2">
                     <a href="/tarot" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Tarot Cards</a>
                     <a href="/tarot-layouts" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Tarot Layouts</a>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="font-display font-semibold text-primary mb-3 text-sm uppercase tracking-wide border-b border-border pb-2">Account</h3>
+                  <div class="space-y-2">
+                    {#if $authStore.user}
+                      <div class="py-3 px-4 rounded-lg bg-accent/10 text-sm text-foreground break-all">{$authStore.user.email}</div>
+                      <button on:click={handleSignOut} class="w-full text-left py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Sign out</button>
+                    {:else}
+                      <a href="/login" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Sign in</a>
+                      <a href="/signup" on:click={() => mobileMenuOpen = false} class="py-3 px-4 rounded-lg hover:bg-accent/20 text-foreground block transition-colors">Sign up</a>
+                    {/if}
                   </div>
                 </div>
               </nav>

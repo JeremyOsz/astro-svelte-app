@@ -22,11 +22,11 @@
   let currentHoroscope: any = null;
   let formError: string = '';
 
-  // Subscribe to chart store for saved charts
+  // Subscribe to chart store for saved people
   $: ({ savedCharts } = $chartStore);
 
   onMount(async () => {
-    // Auto-select the first saved chart if available
+    // Auto-select the first saved person if available
     if ($chartStore.savedCharts.length > 0 && !selectedBirthChart) {
       handleChartSelect($chartStore.savedCharts[0]);
     }
@@ -88,18 +88,18 @@
 
     <!-- Chart Selection -->
     <section class="mb-8">
-      <SectionHeader title="Select Your Birth Chart" symbol="dot" class="mb-4" />
+      <SectionHeader title="Select Person" symbol="dot" class="mb-4" />
       <OccultCard corners={true}>
       <div class="flex items-center gap-2 mb-4">
         <User class="w-5 h-5 text-muted-foreground" />
-        <span class="font-display text-sm uppercase tracking-wide text-muted-foreground">Saved Charts</span>
+        <span class="font-display text-sm uppercase tracking-wide text-muted-foreground">People</span>
       </div>
       
       {#if $chartStore.savedCharts.length === 0}
         <div class="text-center py-8">
-          <p class="text-muted-foreground mb-4">No saved birth charts found</p>
+          <p class="text-muted-foreground mb-4">No people saved yet. Sign in and save one first.</p>
           <Button href="/chart" class="bg-primary text-primary-foreground hover:opacity-90 font-medium">
-            Create Birth Chart
+            Open Birth Chart
           </Button>
         </div>
       {:else}
@@ -250,7 +250,7 @@
             <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
               <span class="text-primary-foreground font-bold">1</span>
             </div>
-            <p>Select your saved birth chart or create a new one</p>
+            <p>Select a saved person or create one first</p>
           </div>
           <div class="text-center">
             <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">

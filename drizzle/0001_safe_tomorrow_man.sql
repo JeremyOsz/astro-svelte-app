@@ -1,0 +1,5 @@
+-- 0001_safe_tomorrow_man
+-- This migration is intentionally left blank.
+-- The `people` table, its indexes, and foreign key constraint are
+-- already created by `0000_people.sql`, which uses IF NOT EXISTS
+-- guards to avoid conflicts when the table exists.

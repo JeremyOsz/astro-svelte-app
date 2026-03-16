@@ -193,7 +193,7 @@
         <div class="space-y-4">
           <div class="flex items-center gap-2">
             <User class="h-4 w-4 text-gray-600" />
-            <h3 class="font-medium text-gray-900">Birth Chart</h3>
+            <h3 class="font-medium text-gray-900">Person</h3>
           </div>
           
           {#if selectedBirthChart}
@@ -217,19 +217,19 @@
           {:else}
             <div class="space-y-4">
               {#if $chartStore.savedCharts.length > 0}
-                <p class="text-sm text-gray-600">Choose a saved birth chart:</p>
+                <p class="text-sm text-gray-600">Choose a saved person:</p>
                 <SavedChartsList onChartSelect={onChartSelect} />
               {:else}
                 <div class="text-center py-8">
                   <User class="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 class="text-lg font-semibold text-gray-900 mb-2">No Saved Charts</h3>
-                  <p class="text-gray-600 mb-4">You need to create and save a birth chart first.</p>
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">No People Saved</h3>
+                  <p class="text-gray-600 mb-4">Sign in and save a person from the Birth Chart page first.</p>
                   <button 
                     type="button"
                     on:click={() => window.location.href = '/chart'}
                     class="btn-occult px-6 py-3 bg-primary text-primary-foreground font-display font-semibold rounded-xl shadow-lg hover:opacity-90 focus:ring-4 focus:ring-ring transition-all duration-200 transform hover:scale-[1.02] active:scale-95 border border-primary/30"
                   >
-                    Create Birth Chart
+                    Open Birth Chart
                   </button>
                 </div>
               {/if}

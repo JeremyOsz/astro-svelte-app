@@ -35,12 +35,29 @@ cd astro-svelte-app
 pnpm install
 ```
 
-3. **Start the development server:**
+3. **Configure environment variables (`.env`):**
+```bash
+EPHEMERIS_URL=https://immanuel-astro.onrender.com
+EPHEMERIS_API_KEY=your-ephemeris-api-key
+OPENAI_API_KEY=your-openai-api-key
+
+# Supabase + Drizzle
+PUBLIC_SUPABASE_URL=your-supabase-url
+PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+DATABASE_URL=your-postgres-connection-string
+```
+
+4. **Run database migration (Supabase Postgres):**
+```bash
+pnpm db:migrate
+```
+
+5. **Start the development server:**
 ```bash
 pnpm dev
 ```
 
-4. **Open your browser and navigate to `http://localhost:5173`**
+6. **Open your browser and navigate to `http://localhost:5173`**
 
 ## 📡 API Endpoints
 

@@ -33,7 +33,12 @@ export function createMockRequestEvent(
     isDataRequest: false,
     isSubRequest: false,
     platform: undefined,
-    locals: {},
+    locals: {
+      supabase: null,
+      safeGetSession: async () => ({ session: null, user: null }),
+      session: null,
+      user: null,
+    },
     depends: vi.fn(),
   } as RequestEvent;
 }

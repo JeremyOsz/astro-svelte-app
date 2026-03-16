@@ -281,7 +281,7 @@ MC,Leo,10°14'`;
 
 <Sidebar.Provider bind:open={sidebarOpen}>
   <div class="flex flex-col md:flex-row min-h-screen w-full relative">
-    <!-- Mobile: Accordion for Birth Data and Saved Charts -->
+    <!-- Mobile: Accordion for Birth Data and People -->
     <div class="w-full max-w-xl mx-auto mt-2 px-2 md:hidden">
         <Accordion.Accordion type="single" bind:value={mobileAccordionValue}>
           <Accordion.AccordionItem value="birth-form">
@@ -295,7 +295,7 @@ MC,Leo,10°14'`;
           <Accordion.AccordionItem value="saved-charts">
             <Accordion.AccordionTrigger class="text-lg font-semibold">
               <BookOpen class="h-4 w-4 inline mr-1" />
-              Saved Charts ({$chartStore.savedCharts.length})
+              People ({$chartStore.savedCharts.length})
             </Accordion.AccordionTrigger>
             <Accordion.AccordionContent>
               <SavedChartsList onChartSelect={handleChartSelect} />
@@ -359,7 +359,7 @@ MC,Leo,10°14'`;
             on:click={() => activeTab = 'saved'}
           >
             <BookOpen class="h-4 w-4 inline mr-1" />
-            Saved ({$chartStore.savedCharts.length})
+            People ({$chartStore.savedCharts.length})
           </button>
         </div>
           
@@ -418,7 +418,7 @@ MC,Leo,10°14'`;
               </div>
             </div>
           {:else if activeTab === 'saved'}
-            <!-- Saved Charts -->
+            <!-- People -->
             <SavedChartsList onChartSelect={handleChartSelect} />
           {/if}
             </div>

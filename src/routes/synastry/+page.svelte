@@ -686,7 +686,7 @@ MC,Gemini,12°00'`;
                   Person 1 (Inner Wheel)
                 </h3>
                 
-                <!-- Saved Chart Selection -->
+                <!-- Saved Person Selection -->
                 <div class="space-y-3">
                   <div class="flex items-center gap-2">
                     <button
@@ -695,7 +695,7 @@ MC,Gemini,12°00'`;
                       on:click={() => showPerson1SavedCharts = !showPerson1SavedCharts}
                     >
                       <BookOpen class="h-4 w-4" />
-                      {selectedPerson1Chart ? selectedPerson1Chart.name : 'Select from saved charts'}
+                      {selectedPerson1Chart ? selectedPerson1Chart.name : 'Select from people'}
                     </button>
                     {#if selectedPerson1Chart}
                       <button
@@ -796,7 +796,7 @@ MC,Gemini,12°00'`;
                   Person 2 (Outer Wheel)
                 </h3>
                 
-                <!-- Saved Chart Selection -->
+                <!-- Saved Person Selection -->
                 <div class="space-y-3">
                   <div class="flex items-center gap-2">
                     <button
@@ -805,7 +805,7 @@ MC,Gemini,12°00'`;
                       on:click={() => showPerson2SavedCharts = !showPerson2SavedCharts}
                     >
                       <BookOpen class="h-4 w-4" />
-                      {selectedPerson2Chart ? selectedPerson2Chart.name : 'Select from saved charts'}
+                      {selectedPerson2Chart ? selectedPerson2Chart.name : 'Select from people'}
                     </button>
                     {#if selectedPerson2Chart}
                       <button
