@@ -17,6 +17,7 @@
     import SynastryInterpretation from '$lib/components/SynastryInterpretation.svelte';
   import SynastryLoadingState from '$lib/components/SynastryLoadingState.svelte';
   import { OccultDivider, SectionHeader } from '$lib/components/occult';
+  import { env as publicEnv } from '$env/dynamic/public';
 
   const ENABLE_DEBUG_LOGS = false;
   function debugLog(...args: unknown[]) {
@@ -113,6 +114,8 @@ MC,Gemini,12°00'`;
   let isSubmitting = false;
   let chatContext = '';
   let chatSuggestions: string[] = [];
+
+  const AI_CHAT_ENABLED = publicEnv.PUBLIC_ENABLE_AI_CHAT === 'true';
 
   // Categorize aspects into main, angular, and minor
   $: mainAspects = synastryAspects.filter(aspect => {
@@ -1089,14 +1092,16 @@ MC,Gemini,12°00'`;
     </Accordion.Root>
   {/if}
 
-  <div class="mb-8">
-    <PageInsightChat
-      title="Ask about this synastry chart"
-      description="Chat with the current relationship setup and calculated compatibility context."
-      contextSummary={chatContext}
-      suggestions={chatSuggestions}
-    />
-  </div>
+  {#if AI_CHAT_ENABLED}
+    <div class="mb-8">
+      <PageInsightChat
+        title="Ask about this synastry chart"
+        description="Chat with the current relationship setup and calculated compatibility context."
+        contextSummary={chatContext}
+        suggestions={chatSuggestions}
+      />
+    </div>
+  {/if}
   </div>
 </div>
 

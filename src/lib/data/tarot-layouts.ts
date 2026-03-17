@@ -531,6 +531,634 @@ export const TAROT_LAYOUTS: TarotLayout[] = [
       "Consider the journey as a whole"
     ],
     bestFor: ["Spiritual growth", "Soul purpose", "Past life insights", "Divine guidance"]
+  },
+  {
+    id: "funeral-for-a-future-self",
+    name: "Funeral for a Future Self",
+    description: "A ritual spread for honoring a version of you that is ending and welcoming what rises in its place.",
+    cardCount: 6,
+    difficulty: "Intermediate",
+    category: "Spiritual",
+    svg: `<rect x="40" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">1</text>
+          <rect x="150" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">2</text>
+          <rect x="260" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">3</text>
+          <rect x="40" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">4</text>
+          <rect x="150" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">5</text>
+          <rect x="260" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">6</text>`,
+    positions: [
+      {
+        number: 1,
+        name: "The Body",
+        description: "The self or chapter that is ending; what no longer fits.",
+        x: 40,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 2,
+        name: "Cause of Death",
+        description: "The pattern, belief, or event that brought this version of you to an end.",
+        x: 150,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 3,
+        name: "The Mourners",
+        description: "Who or what still clings to this self and resists its passing.",
+        x: 260,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 4,
+        name: "Grave Goods",
+        description: "What is worth keeping from this version of you and carrying forward.",
+        x: 40,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 5,
+        name: "The Epitaph",
+        description: "How this chapter will be remembered in the story of your life.",
+        x: 150,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 6,
+        name: "The Rebirth",
+        description: "The self that is quietly rising to take this one’s place.",
+        x: 260,
+        y: 210,
+        width: 90,
+        height: 150
+      }
+    ],
+    instructions: "Name the version of yourself that feels over. Shuffle while holding that self in mind. Lay the cards in two rows of three, reading the top row as the death and the bottom row as the ritual of remembrance and rebirth.",
+    tips: [
+      "Be specific about which self or chapter you are burying",
+      "Let yourself grieve what is ending before looking to the rebirth",
+      "Pay attention to any repeating suits or archetypes between the rows",
+      "Consider creating a physical small ritual after the reading to mark closure"
+    ],
+    bestFor: ["Endings and transitions", "Shedding outdated identities", "Ritual closure", "Conscious rebirth"]
+  },
+  {
+    id: "what-wont-stay-buried",
+    name: "What Won’t Stay Buried",
+    description: "A spread for recurring patterns, hauntings, and issues that keep resurfacing.",
+    cardCount: 6,
+    difficulty: "Intermediate",
+    category: "Problem-Solving",
+    svg: `<rect x="40" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">1</text>
+          <rect x="150" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">2</text>
+          <rect x="260" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">3</text>
+          <rect x="40" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">4</text>
+          <rect x="150" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">5</text>
+          <rect x="260" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">6</text>`,
+    positions: [
+      {
+        number: 1,
+        name: "The Hand Out of the Ground",
+        description: "The issue or pattern that keeps resurfacing and demanding attention.",
+        x: 40,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 2,
+        name: "The Original Wound",
+        description: "Where this haunting first began or what it echoes back to.",
+        x: 150,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 3,
+        name: "The Shovel",
+        description: "How you currently try to bury, avoid, or contain it.",
+        x: 260,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 4,
+        name: "The Bone in the Garden",
+        description: "How this energy shows up in everyday life despite your efforts.",
+        x: 40,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 5,
+        name: "The Exorcism",
+        description: "What would actually help you transform or release this haunting.",
+        x: 150,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 6,
+        name: "The Lesson in the Dirt",
+        description: "What this recurring issue is ultimately trying to teach you.",
+        x: 260,
+        y: 210,
+        width: 90,
+        height: 150
+      }
+    ],
+    instructions: "Name the situation, person, or feeling that never really seems to be over. Shuffle while acknowledging how tired you are of its return. Lay the cards in two rows of three and read them as the story of why it comes back and how to finally change your response.",
+    tips: [
+      "Be honest about how you participate in the pattern, not just how it happens to you",
+      "Notice differences between how the pattern began and how it manifests now",
+      "Treat the Exorcism card as guidance, not punishment",
+      "Return to the Lesson card when the issue resurfaces as a reminder"
+    ],
+    bestFor: ["Recurring patterns", "Shadow work", "Breaking cycles", "Emotional cleanup"]
+  },
+  {
+    id: "autopsy-of-a-relationship",
+    name: "Autopsy of a Relationship",
+    description: "A forensic-style spread for understanding why a relationship shifted or ended and how to release it.",
+    cardCount: 6,
+    difficulty: "Intermediate",
+    category: "Love",
+    svg: `<rect x="40" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">1</text>
+          <rect x="150" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">2</text>
+          <rect x="260" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">3</text>
+          <rect x="40" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">4</text>
+          <rect x="150" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">5</text>
+          <rect x="260" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">6</text>`,
+    positions: [
+      {
+        number: 1,
+        name: "Cause of Death",
+        description: "The central reason this relationship shifted or ended.",
+        x: 40,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 2,
+        name: "The Last Breath",
+        description: "The moment where it might have gone differently, if at all.",
+        x: 150,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 3,
+        name: "Shared Ghost",
+        description: "The energy that still exists between you, even now.",
+        x: 260,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 4,
+        name: "Your Haunting",
+        description: "How you still carry them or this story.",
+        x: 40,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 5,
+        name: "Their Haunting",
+        description: "How they may still carry you or the impact of the connection.",
+        x: 150,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 6,
+        name: "Release Rite",
+        description: "How to honor what was and gently release your grip on it.",
+        x: 260,
+        y: 210,
+        width: 90,
+        height: 150
+      }
+    ],
+    instructions: "Name the relationship you are reading on and its current status. Shuffle while acknowledging both your grief and your curiosity. Lay the cards in two rows of three, reading the top as the story of what happened and the bottom as the story of what remains and how to let it rest.",
+    tips: [
+      "Use this for romantic, platonic, or creative partnerships",
+      "Stay with your own experience rather than guessing theirs too literally",
+      "Let the Release Rite card inspire a small real-world action or ritual",
+      "Revisit the spread later to see how your feelings shift over time"
+    ],
+    bestFor: ["Processing breakups", "Closure after endings", "Understanding relational patterns", "Releasing old attachments"]
+  },
+  {
+    id: "talking-to-the-thing-under-the-bed",
+    name: "Talking to the Thing Under the Bed",
+    description: "A spread for personifying your fear and understanding what it is trying to protect.",
+    cardCount: 6,
+    difficulty: "Intermediate",
+    category: "Problem-Solving",
+    svg: `<rect x="40" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">1</text>
+          <rect x="150" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">2</text>
+          <rect x="260" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">3</text>
+          <rect x="40" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">4</text>
+          <rect x="150" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">5</text>
+          <rect x="260" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">6</text>`,
+    positions: [
+      {
+        number: 1,
+        name: "Its Shape",
+        description: "How this fear appears or feels when it visits you.",
+        x: 40,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 2,
+        name: "Its True Name",
+        description: "What the fear is really about beneath the surface story.",
+        x: 150,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 3,
+        name: "Its Demands",
+        description: "What this fear thinks it is protecting or insisting on.",
+        x: 260,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 4,
+        name: "Its Lies",
+        description: "What the fear tells you that is not actually true.",
+        x: 40,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 5,
+        name: "Its Gift",
+        description: "The skill, awareness, or sensitivity this fear has given you.",
+        x: 150,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 6,
+        name: "How to Tuck It In",
+        description: "How to soothe, integrate, or outgrow this fear without silencing yourself.",
+        x: 260,
+        y: 210,
+        width: 90,
+        height: 150
+      }
+    ],
+    instructions: "Choose one specific fear—big or small—and imagine it as a creature under the bed. Shuffle while inviting it to speak plainly. Lay the cards in two rows of three, reading the top as the fear’s own voice and the bottom as your clearer understanding of it.",
+    tips: [
+      "Name the fear in a single sentence before you pull cards",
+      "Let yourself write down what the fear would say in first person",
+      "Treat the Lies card as a gentle correction, not a scolding",
+      "Use the Tuck It In card to design a small grounding practice"
+    ],
+    bestFor: ["Anxiety and worry", "Inner child work", "Fear of change", "Self-soothing strategies"]
+  },
+  {
+    id: "contract-with-the-underworld",
+    name: "Contract with the Underworld",
+    description: "A pact-style spread for understanding the real cost, risks, and gifts of a desire.",
+    cardCount: 6,
+    difficulty: "Advanced",
+    category: "Spiritual",
+    svg: `<rect x="40" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">1</text>
+          <rect x="150" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">2</text>
+          <rect x="260" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">3</text>
+          <rect x="40" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="85" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">4</text>
+          <rect x="150" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="195" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">5</text>
+          <rect x="260" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">6</text>`,
+    positions: [
+      {
+        number: 1,
+        name: "Your Desire",
+        description: "What you are secretly or openly asking the dark for.",
+        x: 40,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 2,
+        name: "The Gatekeeper",
+        description: "The threshold, test, or inner guardian you must pass.",
+        x: 150,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 3,
+        name: "The Price",
+        description: "What must be surrendered, changed, or risked to move toward this desire.",
+        x: 260,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 4,
+        name: "The Fine Print",
+        description: "Hidden consequences, side effects, or unexpected shifts this path may bring.",
+        x: 40,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 5,
+        name: "The Boon",
+        description: "The power, gift, or transformation you gain by saying yes.",
+        x: 150,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 6,
+        name: "The Exit Clause",
+        description: "How to step back, renegotiate, or slow down if the cost is too high.",
+        x: 260,
+        y: 210,
+        width: 90,
+        height: 150
+      }
+    ],
+    instructions: "Name one desire clearly—as if it were the first line of a contract. Shuffle while imagining you are sitting across from the underworld itself, negotiating. Lay the cards in two rows of three, reading the top as the terms of the pact and the bottom as the risks, rewards, and escape route.",
+    tips: [
+      "Use this spread when you are seriously considering a big move, not for casual whims",
+      "Let the Price card highlight habits, identities, or comforts that may need to shift",
+      "Treat the Fine Print as a caution, not a curse",
+      "Revisit the Exit Clause if you later feel overcommitted or overwhelmed"
+    ],
+    bestFor: ["Big life decisions", "Ambitious goals", "Shadowed desires", "Risk assessment with soul"]
+  },
+  {
+    id: "month-ahead",
+    name: "Month Ahead",
+    description: "A simple four-card spread to read the energy and focus points for the next month.",
+    cardCount: 4,
+    difficulty: "Beginner",
+    category: "General",
+    svg: `<rect x="35" y="115" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="80" y="195" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">1</text>
+          <rect x="145" y="115" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="190" y="195" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">2</text>
+          <rect x="255" y="115" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="300" y="195" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">3</text>
+          <rect x="365" y="115" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="410" y="195" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">4</text>`,
+    positions: [
+      {
+        number: 1,
+        name: "Theme",
+        description: "The central energy shaping this month.",
+        x: 35,
+        y: 115,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 2,
+        name: "Support",
+        description: "What resources, allies, or strengths will support you.",
+        x: 145,
+        y: 115,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 3,
+        name: "Challenge",
+        description: "The main obstacle or friction point to navigate.",
+        x: 255,
+        y: 115,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 4,
+        name: "Best Focus",
+        description: "The most helpful practical focus for the month ahead.",
+        x: 365,
+        y: 115,
+        width: 90,
+        height: 150
+      }
+    ],
+    instructions: "Set your intention for the next four weeks and shuffle. Lay four cards left to right, then read the spread as a concise monthly roadmap.",
+    tips: [
+      "Pull this spread near the start of the month",
+      "Write one actionable goal from the Best Focus card",
+      "Revisit the Challenge card midway through the month",
+      "Compare next month's spread to track recurring themes"
+    ],
+    bestFor: ["Monthly planning", "Lightweight guidance", "Building consistency", "Short-term focus"]
+  },
+  {
+    id: "crossroads-choice",
+    name: "Crossroads Choice",
+    description: "A decision spread for comparing two paths and choosing your next move with clarity.",
+    cardCount: 5,
+    difficulty: "Intermediate",
+    category: "Problem-Solving",
+    svg: `<rect x="35" y="125" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="80" y="205" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">1</text>
+          <rect x="145" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="190" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">2</text>
+          <rect x="145" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="190" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">3</text>
+          <rect x="255" y="40" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="300" y="120" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">4</text>
+          <rect x="255" y="210" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="300" y="290" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">5</text>`,
+    positions: [
+      {
+        number: 1,
+        name: "Core Question",
+        description: "The truth at the center of this decision.",
+        x: 35,
+        y: 125,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 2,
+        name: "Path A Gift",
+        description: "What choosing Path A offers you.",
+        x: 145,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 3,
+        name: "Path A Cost",
+        description: "What choosing Path A may require or sacrifice.",
+        x: 145,
+        y: 210,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 4,
+        name: "Path B Gift",
+        description: "What choosing Path B offers you.",
+        x: 255,
+        y: 40,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 5,
+        name: "Path B Cost",
+        description: "What choosing Path B may require or sacrifice.",
+        x: 255,
+        y: 210,
+        width: 90,
+        height: 150
+      }
+    ],
+    instructions: "Name the two options clearly before you shuffle. Lay card 1 first for the core truth, then place cards 2-3 for Path A and cards 4-5 for Path B.",
+    tips: [
+      "Use specific language for each option",
+      "Treat cost cards as clarity, not warnings",
+      "Notice which path aligns more with your values",
+      "If still unclear, sleep on it and reread tomorrow"
+    ],
+    bestFor: ["Big decisions", "Choosing between options", "Strategic clarity", "Reducing indecision"]
+  },
+  {
+    id: "five-element-balance",
+    name: "Five Element Balance",
+    description: "A balancing spread to check your current mix of drive, emotion, thought, grounding, and spirit.",
+    cardCount: 5,
+    difficulty: "Intermediate",
+    category: "Spiritual",
+    svg: `<rect x="190" y="20" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="235" y="100" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">1</text>
+          <rect x="70" y="120" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="115" y="200" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">2</text>
+          <rect x="310" y="120" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="355" y="200" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">3</text>
+          <rect x="120" y="235" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="165" y="315" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">4</text>
+          <rect x="260" y="235" width="90" height="150" rx="8" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+          <text x="305" y="315" text-anchor="middle" fill="#374151" font-size="14" font-weight="bold">5</text>`,
+    positions: [
+      {
+        number: 1,
+        name: "Spirit",
+        description: "Your sense of meaning, trust, and higher perspective.",
+        x: 190,
+        y: 20,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 2,
+        name: "Fire",
+        description: "Your energy, motivation, and courage to act.",
+        x: 70,
+        y: 120,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 3,
+        name: "Water",
+        description: "Your emotional flow, sensitivity, and relationships.",
+        x: 310,
+        y: 120,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 4,
+        name: "Air",
+        description: "Your mental clarity, communication, and perspective.",
+        x: 120,
+        y: 235,
+        width: 90,
+        height: 150
+      },
+      {
+        number: 5,
+        name: "Earth",
+        description: "Your practical stability, body, and everyday foundation.",
+        x: 260,
+        y: 235,
+        width: 90,
+        height: 150
+      }
+    ],
+    instructions: "Ground yourself with three slow breaths, then shuffle while asking where your life is out of balance. Place cards in the five-point pattern and read where energy is abundant versus depleted.",
+    tips: [
+      "Look for one element that needs immediate care",
+      "Turn each card into one balancing action this week",
+      "Notice if Spirit supports or disconnects from the other four",
+      "Use this spread regularly during stressful periods"
+    ],
+    bestFor: ["Energy check-ins", "Holistic self-care", "Spiritual grounding", "Restoring balance"]
   }
 ];
 

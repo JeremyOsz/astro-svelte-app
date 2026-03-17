@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { env } from '$env/dynamic/private';
+import { env as publicEnv } from '$env/dynamic/public';
 import OpenAI from 'openai';
 import { checkRateLimit } from '$lib/server/rate-limit';
 import { getClientIp } from '$lib/server/request-utils';
@@ -11,6 +12,8 @@ const MAX_CONTEXT_CHARS = 8_000;
 const CHAT_RATE_LIMIT_PER_MINUTE = 30;
 const CHAT_RATE_WINDOW_MS = 60_000;
 const PASSCODE_PATTERN = /^\d{8}$/;
+
+const CHAT_FEATURE_ENABLED = publicEnv.PUBLIC_ENABLE_AI_CHAT === 'true';
 
 const SYSTEM_PROMPT = `You are a wise, thoughtful guide for Velvet Arcana—an app that helps people explore birth charts, celestial influences, and astrology-informed page insights. Your tone is sophisticated and reflective. Use clear language rooted in patterns, symbolism, and interpretation. Avoid technical jargon, overly casual language, and forced humor.
 
@@ -63,6 +66,10 @@ function sanitizeMessages(input: unknown): ChatMessage[] | null {
 }
 
 export const POST: RequestHandler = async ({ request }) => {
+  if (!CHAT_FEATURE_ENABLED) {
+    return json({ error: 'Chat is currently disabled.' }, { status: 404 });
+  }
+
   const apiKey = env.OPENAI_API_KEY;
   if (!apiKey) {
     return json(

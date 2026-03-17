@@ -19,6 +19,7 @@
   import * as Accordion from "$lib/components/ui/accordion";
   import { Input } from '$lib/components/ui/input';
   import ChartInstructions from '$lib/components/ChartInstructions.svelte';
+  import { env as publicEnv } from '$env/dynamic/public';
 
   // export let data: PageData;
 
@@ -53,6 +54,8 @@
   let showInstructions = false;
   let chatContext = '';
   let chatSuggestions: string[] = [];
+
+  const AI_CHAT_ENABLED = publicEnv.PUBLIC_ENABLE_AI_CHAT === 'true';
 
   // Loading progress tracking
   let loadingProgress = 0;
@@ -824,24 +827,26 @@ MC,Leo,10°14'`;
               bind:zoomLevel={zoomLevel}
             />
           </div>
-          <div class="mt-4 rounded-lg border border-border bg-card/60">
-            <details class="group" open>
-              <summary class="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium text-foreground">
-                <span>AI Chart Interpretation</span>
-                <span class="text-xs text-muted-foreground transition-transform group-open:rotate-180">▼</span>
-              </summary>
-              <div class="border-t border-border px-4 py-4">
-                <PageInsightChat
-                  title="Ask about this birth chart"
-                  description="Chat with the current chart, birth details, and interpretation filter as context."
-                  contextSummary={chatContext}
-                  suggestions={chatSuggestions}
-                  featuredPromptLabel="What does this chart mean?"
-                  featuredPrompt="What does this chart mean? Give me a clear overall interpretation of the main themes, strongest placements, and anything especially notable."
-                />
-              </div>
-            </details>
-          </div>
+          {#if AI_CHAT_ENABLED}
+            <div class="mt-4 rounded-lg border border-border bg-card/60">
+              <details class="group" open>
+                <summary class="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-medium text-foreground">
+                  <span>AI Chart Interpretation</span>
+                  <span class="text-xs text-muted-foreground transition-transform group-open:rotate-180">▼</span>
+                </summary>
+                <div class="border-t border-border px-4 py-4">
+                  <PageInsightChat
+                    title="Ask about this birth chart"
+                    description="Chat with the current chart, birth details, and interpretation filter as context."
+                    contextSummary={chatContext}
+                    suggestions={chatSuggestions}
+                    featuredPromptLabel="What does this chart mean?"
+                    featuredPrompt="What does this chart mean? Give me a clear overall interpretation of the main themes, strongest placements, and anything especially notable."
+                  />
+                </div>
+              </details>
+            </div>
+          {/if}
           <!-- Search bar for interpretations -->
           <div class="mt-4">
             <Input
@@ -883,7 +888,7 @@ MC,Leo,10°14'`;
   </div>
 </Sidebar.Provider> 
 
-{#if !showChart}
+{#if !showChart && AI_CHAT_ENABLED}
   <div class="mx-auto max-w-4xl px-4 pb-10">
     <PageInsightChat
       title="Ask about the birth chart tool"

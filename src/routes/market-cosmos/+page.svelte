@@ -17,6 +17,7 @@
     TimelinePlanet,
     TimelineRange
   } from '$lib/types/market-cosmos';
+  import { env as publicEnv } from '$env/dynamic/public';
 
   type Tab = 'overview' | 'timeline';
 
@@ -75,6 +76,8 @@
     | null = null;
   let chatContext = '';
   let chatSuggestions: string[] = [];
+
+  const AI_CHAT_ENABLED = publicEnv.PUBLIC_ENABLE_AI_CHAT === 'true';
 
   $: chartModel = timelineData ? buildTimelineChartModel(timelineData, primaryPlanet, secondaryPlanet) : null;
   $: chatContext = buildMarketCosmosChatContext({
@@ -638,11 +641,13 @@
   {/if}
 </div>
 
-<section class="mx-auto mt-6 max-w-6xl px-4 pb-10 md:px-6">
-  <PageInsightChat
-    title="Ask the Market Cosmos guide"
-    description="Chat about the current overview or timeline with the live page state supplied as context."
-    contextSummary={chatContext}
-    suggestions={chatSuggestions}
-  />
-</section>
+{#if AI_CHAT_ENABLED}
+  <section class="mx-auto mt-6 max-w-6xl px-4 pb-10 md:px-6">
+    <PageInsightChat
+      title="Ask the Market Cosmos guide"
+      description="Chat about the current overview or timeline with the live page state supplied as context."
+      contextSummary={chatContext}
+      suggestions={chatSuggestions}
+    />
+  </section>
+{/if}

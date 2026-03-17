@@ -13,6 +13,7 @@
   import UnifiedTransitForm from './components/UnifiedTransitForm.svelte';
   import { enhance } from '$app/forms';
   import TransitLoadingState from '$lib/components/TransitLoadingState.svelte';
+  import { env as publicEnv } from '$env/dynamic/public';
 
   // Core data
   let selectedBirthChart: any = null;
@@ -37,6 +38,8 @@
   let preparingChart = false;
   let chatContext = '';
   let chatSuggestions: string[] = [];
+
+  const AI_CHAT_ENABLED = publicEnv.PUBLIC_ENABLE_AI_CHAT === 'true';
 
   // Form validation
   let formError: string = '';
@@ -225,14 +228,16 @@
     <TransitDetails {natalChart} {currentTransits} />
   {/if}
 
-  <div class="mt-8">
-    <PageInsightChat
-      title="Ask about these transits"
-      description="Chat with the current transit moment, selected natal chart, and loaded transit results."
-      contextSummary={chatContext}
-      suggestions={chatSuggestions}
-    />
-  </div>
+  {#if AI_CHAT_ENABLED}
+    <div class="mt-8">
+      <PageInsightChat
+        title="Ask about these transits"
+        description="Chat with the current transit moment, selected natal chart, and loaded transit results."
+        contextSummary={chatContext}
+        suggestions={chatSuggestions}
+      />
+    </div>
+  {/if}
 </div>
 
 <style>

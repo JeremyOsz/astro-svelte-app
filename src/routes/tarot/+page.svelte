@@ -14,6 +14,7 @@
     type TarotCard
   } from '$lib/data/tarot-data';
   import { buildTarotPageContext } from '$lib/page-chat/context-builders';
+  import { env as publicEnv } from '$env/dynamic/public';
 
   let searchTerm = '';
   let selectedSuit = 'all';
@@ -22,6 +23,8 @@
   let modalOpen = false;
   let chatContext = '';
   let chatSuggestions: string[] = [];
+
+  const AI_CHAT_ENABLED = publicEnv.PUBLIC_ENABLE_AI_CHAT === 'true';
 
   const suits = [
     { value: 'all', label: 'All Cards' },
@@ -307,14 +310,16 @@
     <section class="mt-10">
       <SectionHeader title="Ask the Arcana" symbol="star" class="mb-4" />
       <OccultCard corners={true}>
-    <div>
-      <PageInsightChat
-        title="Ask the Arcana"
-        description="Chat with the current tarot filter state and selected card details as context."
-        contextSummary={chatContext}
-        suggestions={chatSuggestions}
-      />
-    </div>
+        {#if AI_CHAT_ENABLED}
+          <div>
+            <PageInsightChat
+              title="Ask the Arcana"
+              description="Chat with the current tarot filter state and selected card details as context."
+              contextSummary={chatContext}
+              suggestions={chatSuggestions}
+            />
+          </div>
+        {/if}
       </OccultCard>
     </section>
   </div>

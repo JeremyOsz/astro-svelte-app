@@ -13,20 +13,34 @@
   let selectedLayout: TarotLayout | null = null;
   let modalOpen = false;
 
+  const categoryLabels: Record<string, string> = {
+    General: 'General',
+    Love: 'Love & Relationships',
+    Career: 'Career & Work',
+    Spiritual: 'Spiritual Growth',
+    'Problem-Solving': 'Problem-Solving'
+  };
+
+  const difficultyLabels: Record<string, string> = {
+    Beginner: 'Beginner',
+    Intermediate: 'Intermediate',
+    Advanced: 'Advanced'
+  };
+
   const categories = [
     { value: 'all', label: 'All Categories' },
-    { value: 'General', label: 'General' },
-    { value: 'Love', label: 'Love & Relationships' },
-    { value: 'Career', label: 'Career & Work' },
-    { value: 'Spiritual', label: 'Spiritual Growth' },
-    { value: 'Problem-Solving', label: 'Problem-Solving' }
+    ...getAllCategories().map((category) => ({
+      value: category,
+      label: categoryLabels[category] ?? category
+    }))
   ];
 
   const difficulties = [
     { value: 'all', label: 'All Levels' },
-    { value: 'Beginner', label: 'Beginner' },
-    { value: 'Intermediate', label: 'Intermediate' },
-    { value: 'Advanced', label: 'Advanced' }
+    ...getAllDifficulties().map((difficulty) => ({
+      value: difficulty,
+      label: difficultyLabels[difficulty] ?? difficulty
+    }))
   ];
 
   /** Common words to ignore in search (e.g. "spread for love" → "spread", "love"). */
