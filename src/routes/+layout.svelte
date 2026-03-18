@@ -11,7 +11,7 @@
   import { page } from '$app/stores';
   import { authStore } from '$lib/stores/auth-store';
   import { chartStore } from '$lib/stores/chart-store';
-  import { Analytics } from '@vercel/analytics/svelte';
+  import { injectAnalytics } from '@vercel/analytics/sveltekit';
 
   export let data;
 
@@ -140,6 +140,9 @@
       ? storedTheme
       : (prefersDark ? 'dark' : 'light');
     applyTheme(resolvedTheme);
+
+    // Vercel Web Analytics: inject on the client only (avoid SSR build errors).
+    injectAnalytics({ debug: false });
 
     return () => {
       unsubscribe();
@@ -335,13 +338,12 @@
    </nav>
 
    <!-- Desktop Footer -->
-   <footer class="bg-card py-6 text-center text-muted-foreground border-t-2 border-border hidden lg:block flex-shrink-0 occult-border-thick">
-   <div class="max-w-5xl mx-auto px-4">
-       <OccultDivider symbol="star" class="mb-4 opacity-70" />
-       <p class="font-body text-sm">&copy; 2025 Astro Chart. Powered by Swiss Ephemeris and D3.js</p>
-     </div>
-   </footer>
-   <Analytics />
+  <footer class="bg-card py-6 text-center text-muted-foreground border-t-2 border-border hidden lg:block flex-shrink-0 occult-border-thick">
+    <div class="max-w-5xl mx-auto px-4">
+      <OccultDivider symbol="star" class="mb-4 opacity-70" />
+      <p class="font-body text-sm">&copy; 2025 Astro Chart. Powered by Swiss Ephemeris and D3.js</p>
+    </div>
+  </footer>
 </div><style>
   /* Ensure full viewport height */
   :global(html, body) {
