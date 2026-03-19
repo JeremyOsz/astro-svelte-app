@@ -2,28 +2,56 @@
   "version": 1,
   "transcripts": {
     "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/09af0a8f-873f-4ae8-bb7f-c80cd41789ef/09af0a8f-873f-4ae8-bb7f-c80cd41789ef.jsonl": {
-      "mtimeMs": 1773346027000,
-      "lastProcessedAt": "2026-03-14T00:00:00.000Z"
+      "mtimeMs": 1773346027716,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
     },
     "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/0b3d27d9-4322-48e1-b3bb-30e59316d481/0b3d27d9-4322-48e1-b3bb-30e59316d481.jsonl": {
-      "mtimeMs": 1773356318000,
-      "lastProcessedAt": "2026-03-14T00:00:00.000Z"
+      "mtimeMs": 1773356318310,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
     },
     "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/29847f5a-e233-4315-b6fd-99b64c3a197f/29847f5a-e233-4315-b6fd-99b64c3a197f.jsonl": {
-      "mtimeMs": 1773490824000,
-      "lastProcessedAt": "2026-03-14T00:00:00.000Z"
+      "mtimeMs": 1773490924937,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
+    },
+    "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/43b28a15-1681-495f-a0cb-04f005baba41/43b28a15-1681-495f-a0cb-04f005baba41.jsonl": {
+      "mtimeMs": 1773681210457,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
     },
     "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/5203bf43-a2da-40bc-8887-c300f783761c/5203bf43-a2da-40bc-8887-c300f783761c.jsonl": {
-      "mtimeMs": 1773346220000,
-      "lastProcessedAt": "2026-03-14T00:00:00.000Z"
+      "mtimeMs": 1773346220273,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
+    },
+    "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/6f209037-9a43-4fbb-8ba1-5178496fb835/6f209037-9a43-4fbb-8ba1-5178496fb835.jsonl": {
+      "mtimeMs": 1773681278365,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
+    },
+    "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/7bf2a3ad-1041-411c-bdf6-7d106e8c7202/7bf2a3ad-1041-411c-bdf6-7d106e8c7202.jsonl": {
+      "mtimeMs": 1773745182574,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
+    },
+    "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/8df84f43-bb82-4a02-93b3-5ae9bf2e5755/8df84f43-bb82-4a02-93b3-5ae9bf2e5755.jsonl": {
+      "mtimeMs": 1773491068158,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
+    },
+    "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/adcd7dcf-7f22-475f-8e3d-29d158ac1d0c/adcd7dcf-7f22-475f-8e3d-29d158ac1d0c.jsonl": {
+      "mtimeMs": 1773748276274,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
     },
     "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/b4158c09-6aca-4dc4-99ef-9e46e2e0b566/b4158c09-6aca-4dc4-99ef-9e46e2e0b566.jsonl": {
-      "mtimeMs": 1773490487000,
-      "lastProcessedAt": "2026-03-14T00:00:00.000Z"
+      "mtimeMs": 1773490487804,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
     },
     "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/b5ca7f93-913f-47bc-bf4a-30c42d32281d/b5ca7f93-913f-47bc-bf4a-30c42d32281d.jsonl": {
-      "mtimeMs": 1773346626000,
-      "lastProcessedAt": "2026-03-14T00:00:00.000Z"
+      "mtimeMs": 1773346626302,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
+    },
+    "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/d8459bc3-c900-47c0-92fa-11fda3f1b802/d8459bc3-c900-47c0-92fa-11fda3f1b802.jsonl": {
+      "mtimeMs": 1773744985350,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
+    },
+    "/Users/jeremy/.cursor/projects/Users-jeremy-Documents-Code-code-projects-astro-svelte-app/agent-transcripts/e67a68cb-f50f-4b4f-bbd9-59e9e14480fc/e67a68cb-f50f-4b4f-bbd9-59e9e14480fc.jsonl": {
+      "mtimeMs": 1773855393109,
+      "lastProcessedAt": "2026-03-18T17:38:20.000Z"
     }
   }
 }
