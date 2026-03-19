@@ -94,7 +94,7 @@
 </script>
 
 <svelte:head>
-  <title>Planetary Transits - Astro Chart</title>
+  <title>Planetary Transits - OsztrOlogy</title>
   <meta name="description" content="View planetary transits and their effects on your natal chart for any date and location" />
 </svelte:head>
 

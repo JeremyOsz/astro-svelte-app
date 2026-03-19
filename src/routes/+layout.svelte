@@ -158,7 +158,7 @@
               <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:pr-20 flex justify-between items-center py-3 relative overflow-visible">
         <a href="/" class="flex items-center gap-2 font-display text-xl font-semibold tracking-wide text-amber-50 transition-colors cursor-pointer px-2 py-1 rounded-md hover:bg-amber-950/40 hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60">
           <OccultEmblem size={32} class="shrink-0" />
-          <span>Astro Chart</span>
+          <span>OsztrOlogy</span>
         </a>
         <!-- Desktop Navigation -->
         <div class="hidden lg:block relative">
@@ -341,7 +341,7 @@
   <footer class="bg-card py-6 text-center text-muted-foreground border-t-2 border-border hidden lg:block flex-shrink-0 occult-border-thick">
     <div class="max-w-5xl mx-auto px-4">
       <OccultDivider symbol="star" class="mb-4 opacity-70" />
-      <p class="font-body text-sm">&copy; 2025 Astro Chart. Powered by Swiss Ephemeris and D3.js</p>
+      <p class="font-body text-sm">&copy; 2025 OsztrOlogy. Powered by Swiss Ephemeris and D3.js</p>
     </div>
   </footer>
 </div><style>

@@ -115,7 +115,7 @@
 </script>
 
 <svelte:head>
-  <title>Tarot Layouts & Spreads | Astro Chart</title>
+  <title>Tarot Layouts & Spreads | OsztrOlogy</title>
   <meta name="description" content="Explore tarot layouts and spreads for different purposes. From simple one-card readings to complex spreads like the Celtic Cross." />
 </svelte:head>
 

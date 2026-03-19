@@ -421,7 +421,7 @@ MC,Gemini,12°00'`;
 </script>
 
 <svelte:head>
-  <title>Synastry Chart - Astro Chart</title>
+  <title>Synastry Chart - OsztrOlogy</title>
   <meta name="description" content="Compare two birth charts to explore relationship compatibility and synastry aspects" />
 </svelte:head>
 

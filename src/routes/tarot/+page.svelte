@@ -134,7 +134,7 @@
 </script>
 
 <svelte:head>
-  <title>Tarot Card Meanings & Interpretations | Astro Chart</title>
+  <title>Tarot Card Meanings & Interpretations | OsztrOlogy</title>
   <meta name="description" content="Explore the meanings and interpretations of all 78 tarot cards. Find guidance for love, career, health, and general life questions." />
 </svelte:head>
 

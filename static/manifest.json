@@ -1,6 +1,6 @@
 {
-  "name": "Astro Chart - Your Personal Astrological Companion",
-  "short_name": "Astro Chart",
+  "name": "OsztrOlogy - Your Personal Astrological Companion",
+  "short_name": "OsztrOlogy",
   "description": "Calculate birth charts, view transits, and explore astrological interpretations with Swiss Ephemeris precision",
   "start_url": "/",
   "display": "standalone",

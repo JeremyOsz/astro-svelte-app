@@ -9,8 +9,8 @@
 </script>
 
 <svelte:head>
-  <title>Velvet Arcana - Your Personal Grimoire of Celestial Wisdom</title>
-  <meta name="description" content="Unlock the secrets of the cosmos with Velvet Arcana. Birth charts, transits, and tarot wisdom in an elegant, mysterious interface." />
+  <title>OsztrOlogy - Your Personal Grimoire of Celestial Wisdom</title>
+  <meta name="description" content="Unlock the secrets of the cosmos with OsztrOlogy. Birth charts, transits, and tarot wisdom in an elegant, mysterious interface." />
 </svelte:head>
 
 <!-- Loading state while redirecting -->
@@ -25,7 +25,7 @@
         </svg>
       </div>
     </div>
-    <h2 class="font-display text-xl font-semibold text-foreground mb-2">Loading Velvet Arcana</h2>
+    <h2 class="font-display text-xl font-semibold text-foreground mb-2">Loading OsztrOlogy</h2>
     <p class="text-muted-foreground font-body">Preparing your celestial journey...</p>
   </div>
 </div>

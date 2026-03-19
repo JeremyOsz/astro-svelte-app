@@ -100,7 +100,7 @@
 </script>
 
 <svelte:head>
-  <title>Astrological Interpretations - Astro Chart</title>
+  <title>Astrological Interpretations - OsztrOlogy</title>
   <meta name="description" content="Comprehensive astrological interpretations for planets, signs, houses, and aspects" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">

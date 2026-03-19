@@ -2020,7 +2020,7 @@ export function getRandomCard(): { card: TarotCard; reversed: boolean } {
   return { card, reversed };
 }
 
-/** Centralized astrological significance copy for tarot card dialog. Velvet Arcana tone. */
+/** Centralized astrological significance copy for tarot card dialog. OsztrOlogy tone. */
 export const TAROT_ELEMENT_DESCRIPTIONS: Record<string, string> = {
   Fire: "Dynamic energy, passion, and the spark of transformation.",
   Earth: "Stability, practicality, and connection to the material world.",

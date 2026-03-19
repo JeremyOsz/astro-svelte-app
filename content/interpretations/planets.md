@@ -644,3 +644,175 @@ With Vertex in Aquarius, your fated encounters come through innovative, independ
 
 ### Pisces
 With Vertex in Pisces, your fated encounters come through spiritual, compassionate individuals who help you develop intuition and connect with universal love.
+
+## ASC
+### Description
+Identity gateway, first impression, body language, instinctive style, approach to beginnings, rising sign filter. The Ascendant (ASC) describes how you enter life situations, how others first perceive you, and the style you use to navigate new territory. It colors your outer presentation and sets the tone for your chart.
+
+### Keywords
+Rising sign, Persona, First impression, Approach, Style, Presence, Instinct, Outlook, Visibility, Beginnings, Self-presentation
+
+### Aries
+With ASC in Aries, your presence is direct, bold, and action-oriented. You meet life head-on and project confidence, urgency, and competitive drive.
+
+### Taurus
+With ASC in Taurus, your presence is steady, calm, and grounded. You project reliability, patience, and a preference for consistency and tangible results.
+
+### Gemini
+With ASC in Gemini, your presence is curious, social, and mentally quick. You project adaptability, wit, and an eagerness to connect through ideas.
+
+### Cancer
+With ASC in Cancer, your presence is sensitive, protective, and intuitive. You project care, emotional awareness, and a strong need for safety and belonging.
+
+### Leo
+With ASC in Leo, your presence is warm, expressive, and charismatic. You project confidence, creativity, and a natural desire to lead and inspire.
+
+### Virgo
+With ASC in Virgo, your presence is thoughtful, precise, and service-minded. You project competence, discernment, and a practical approach to improvement.
+
+### Libra
+With ASC in Libra, your presence is diplomatic, graceful, and relationship-aware. You project fairness, charm, and a strong instinct for social balance.
+
+### Scorpio
+With ASC in Scorpio, your presence is intense, focused, and magnetic. You project depth, emotional power, and a private but perceptive demeanor.
+
+### Sagittarius
+With ASC in Sagittarius, your presence is optimistic, adventurous, and candid. You project enthusiasm, openness, and a strong pull toward growth and meaning.
+
+### Capricorn
+With ASC in Capricorn, your presence is composed, disciplined, and purposeful. You project authority, endurance, and a pragmatic long-term orientation.
+
+### Aquarius
+With ASC in Aquarius, your presence is independent, original, and future-facing. You project unconventional thinking, social awareness, and intellectual distance.
+
+### Pisces
+With ASC in Pisces, your presence is gentle, intuitive, and imaginative. You project empathy, spiritual sensitivity, and a fluid, adaptable style.
+
+## MC
+### Description
+Calling, vocation, reputation, life direction, authority path, public contribution, visible achievement. The Midheaven (MC) describes your public trajectory, career orientation, and the legacy you want to build. It shows how you pursue recognition, purpose, and meaningful contribution in the outer world.
+
+### Keywords
+Career, Vocation, Reputation, Ambition, Public image, Legacy, Authority, Achievement, Direction, Calling, Contribution
+
+### Aries
+With MC in Aries, your career path favors initiative, leadership, and bold decisions. You are seen as pioneering, decisive, and willing to take professional risks.
+
+### Taurus
+With MC in Taurus, your career path favors stability, value creation, and patient progress. You are seen as dependable, practical, and skilled at building lasting results.
+
+### Gemini
+With MC in Gemini, your career path favors communication, learning, and versatility. You are seen as informed, connected, and effective in dynamic information-driven roles.
+
+### Cancer
+With MC in Cancer, your career path favors care, stewardship, and emotional intelligence. You are seen as supportive, protective, and invested in meaningful human outcomes.
+
+### Leo
+With MC in Leo, your career path favors visibility, creative leadership, and strong personal expression. You are seen as confident, generous, and naturally influential.
+
+### Virgo
+With MC in Virgo, your career path favors mastery, service, and precision. You are seen as competent, detail-aware, and committed to quality and useful systems.
+
+### Libra
+With MC in Libra, your career path favors diplomacy, collaboration, and aesthetic judgment. You are seen as fair, refined, and skilled at partnership-centered leadership.
+
+### Scorpio
+With MC in Scorpio, your career path favors transformation, strategy, and depth. You are seen as powerful, perceptive, and effective in complex high-stakes environments.
+
+### Sagittarius
+With MC in Sagittarius, your career path favors expansion, teaching, and exploration. You are seen as visionary, candid, and motivated by purpose and possibility.
+
+### Capricorn
+With MC in Capricorn, your career path favors structure, authority, and long-range achievement. You are seen as disciplined, strategic, and capable of sustained leadership.
+
+### Aquarius
+With MC in Aquarius, your career path favors innovation, reform, and collective progress. You are seen as original, principled, and focused on future-oriented impact.
+
+### Pisces
+With MC in Pisces, your career path favors compassion, imagination, and spiritual or creative service. You are seen as empathic, inspired, and attuned to subtle realities.
+
+## DSC
+### Description
+Partnership axis, relationship mirror, attraction pattern, cooperation style, projection field, one-to-one bonds. The Descendant (DSC) describes how you engage close relationships and what qualities you seek in partners. It reveals the balancing traits you develop through intimacy, collaboration, and commitment.
+
+### Keywords
+Partnerships, Attraction, Mirrors, Bonding, Cooperation, Reciprocity, Intimacy, Projection, Relating, Commitment, Balance
+
+### Aries
+With DSC in Aries, you are drawn to direct, courageous, and independent partners. Relationships teach decisive action, honesty, and healthy assertion.
+
+### Taurus
+With DSC in Taurus, you are drawn to stable, loyal, and grounded partners. Relationships teach patience, trust, and the value of consistency.
+
+### Gemini
+With DSC in Gemini, you are drawn to curious, communicative, and flexible partners. Relationships teach dialogue, mental openness, and adaptability.
+
+### Cancer
+With DSC in Cancer, you are drawn to nurturing, protective, and emotionally present partners. Relationships teach vulnerability, care, and emotional security.
+
+### Leo
+With DSC in Leo, you are drawn to expressive, warm, and generous partners. Relationships teach heartfelt loyalty, confidence, and joyful self-expression.
+
+### Virgo
+With DSC in Virgo, you are drawn to practical, thoughtful, and reliable partners. Relationships teach discernment, service, and grounded mutual support.
+
+### Libra
+With DSC in Libra, you are drawn to diplomatic, fair-minded, and cooperative partners. Relationships teach balance, shared decision-making, and social grace.
+
+### Scorpio
+With DSC in Scorpio, you are drawn to intense, loyal, and transformative partners. Relationships teach trust, emotional depth, and authentic power-sharing.
+
+### Sagittarius
+With DSC in Sagittarius, you are drawn to adventurous, candid, and growth-oriented partners. Relationships teach freedom with commitment and shared meaning.
+
+### Capricorn
+With DSC in Capricorn, you are drawn to mature, dependable, and ambitious partners. Relationships teach responsibility, structure, and long-term integrity.
+
+### Aquarius
+With DSC in Aquarius, you are drawn to independent, unconventional, and ideal-driven partners. Relationships teach respect for individuality and shared vision.
+
+### Pisces
+With DSC in Pisces, you are drawn to compassionate, intuitive, and spiritually attuned partners. Relationships teach empathy, forgiveness, and soulful connection.
+
+## IC
+### Description
+Inner foundation, home base, emotional roots, ancestry, private self, belonging pattern, psychological base. The Imum Coeli (IC) describes your inner life, family imprint, and what makes you feel safe at the deepest level. It reveals how you restore yourself and build a grounded sense of home.
+
+### Keywords
+Roots, Home, Family, Foundation, Inner life, Security, Belonging, Past, Emotional base, Privacy, Nourishment
+
+### Aries
+With IC in Aries, your inner foundation is built through courage, autonomy, and self-starting energy. You restore yourself by taking action and reclaiming initiative.
+
+### Taurus
+With IC in Taurus, your inner foundation is built through stability, comfort, and sensory grounding. You restore yourself through rhythm, nature, and material security.
+
+### Gemini
+With IC in Gemini, your inner foundation is built through learning, conversation, and mental movement. You restore yourself through ideas, writing, and meaningful exchange.
+
+### Cancer
+With IC in Cancer, your inner foundation is built through emotional safety, family bonds, and nurturing care. You restore yourself through home, memory, and deep belonging.
+
+### Leo
+With IC in Leo, your inner foundation is built through warmth, pride, and creative heart-expression. You restore yourself by reconnecting with joy and personal vitality.
+
+### Virgo
+With IC in Virgo, your inner foundation is built through order, usefulness, and practical care. You restore yourself through routines, service, and clear organization.
+
+### Libra
+With IC in Libra, your inner foundation is built through harmony, beauty, and relational balance. You restore yourself through peaceful environments and fair emotional exchange.
+
+### Scorpio
+With IC in Scorpio, your inner foundation is built through depth, privacy, and emotional truth. You restore yourself through honest transformation and protected vulnerability.
+
+### Sagittarius
+With IC in Sagittarius, your inner foundation is built through meaning, freedom, and faith in growth. You restore yourself through perspective, learning, and open horizons.
+
+### Capricorn
+With IC in Capricorn, your inner foundation is built through structure, responsibility, and earned security. You restore yourself through discipline, boundaries, and steady progress.
+
+### Aquarius
+With IC in Aquarius, your inner foundation is built through independence, authenticity, and intellectual space. You restore yourself through freedom, innovation, and trusted community.
+
+### Pisces
+With IC in Pisces, your inner foundation is built through compassion, imagination, and spiritual connection. You restore yourself through solitude, creativity, and emotional surrender.

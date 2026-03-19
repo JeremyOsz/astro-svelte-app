@@ -250,7 +250,7 @@
 </script>
 
 <svelte:head>
-  <title>Market Cosmos Timeline | Astro Chart</title>
+  <title>Market Cosmos Timeline | OsztrOlogy</title>
   <meta
     name="description"
     content="Compare major index trends with planetary sign movement timelines in one focused view."

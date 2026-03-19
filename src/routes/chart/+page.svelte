@@ -273,7 +273,7 @@ MC,Leo,10°14'`;
 </script>
 
 <svelte:head>
-  <title>Astrological Birth Chart - Astro Chart</title>
+  <title>Astrological Birth Chart - OsztrOlogy</title>
   <meta name="description" content="Generate and visualize your astrological birth chart" />
   {#if isResizing}
     <style>
