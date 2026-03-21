@@ -14,6 +14,7 @@
   import { enhance } from '$app/forms';
   import TransitLoadingState from '$lib/components/TransitLoadingState.svelte';
   import { env as publicEnv } from '$env/dynamic/public';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
 
   // Core data
   let selectedBirthChart: any = null;
@@ -69,6 +70,12 @@
       ];
 
   onMount(async () => {
+    void logFeatureUsage({
+      feature: 'transits',
+      action: 'page_open',
+      route: '/transits'
+    });
+
     // Auto-select the first saved chart if available
     if ($chartStore.savedCharts.length > 0 && !selectedBirthChart) {
       handleChartSelect($chartStore.savedCharts[0]);
@@ -153,16 +160,32 @@
         formError = '';
         loading = true;
         error = null;
+        void logFeatureUsage({
+          feature: 'transits',
+          action: 'calculate_submit',
+          route: '/transits'
+        });
         
         return async ({ result }) => {
           loading = false;
           
           if (result.type === 'failure') {
             error = (result.data?.error as string) || 'An error occurred';
+            void logFeatureUsage({
+              feature: 'transits',
+              action: 'calculate_failure',
+              route: '/transits',
+              metadata: { reason: error }
+            });
           } else if (result.type === 'success' && result.data) {
             natalChart = result.data.natalChart;
             currentTransits = result.data.currentTransits;
             transitChartData = result.data.transitChartData as string;
+            void logFeatureUsage({
+              feature: 'transits',
+              action: 'calculate_success',
+              route: '/transits'
+            });
             
             // Show preparing chart state
             preparingChart = true;

@@ -3,6 +3,7 @@
   import { Button } from '$lib/components/ui/button';
   import { Trash2, Edit, Eye, Share2, Check } from 'lucide-svelte';
   import { URLSharingService } from '$lib/services/url-sharing';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
 
   export let onChartSelect: (chart: SavedChart) => void = () => {};
 
@@ -68,6 +69,22 @@
       name: chart.name
     });
     showShareDialog = true;
+    void logFeatureUsage({
+      feature: 'chart',
+      action: 'share_open',
+      route: '/chart',
+      metadata: { chartId: chart.id }
+    });
+  }
+
+  function handleSelectChart(chart: SavedChart) {
+    void logFeatureUsage({
+      feature: 'chart',
+      action: 'select_view',
+      route: typeof window !== 'undefined' ? window.location.pathname : '/chart',
+      metadata: { chartId: chart.id }
+    });
+    onChartSelect(chart);
   }
 
   async function copyShareUrl() {
@@ -117,7 +134,7 @@
         </svg>
       </div>
       <p class="text-muted-foreground text-sm">No saved people yet</p>
-      <p class="text-muted-foreground text-xs">Sign in and save a chart as a person profile.</p>
+      <p class="text-muted-foreground text-xs">Save a chart to keep it in your people list.</p>
     </div>
   {:else}
     <div class="space-y-2">
@@ -127,11 +144,11 @@
           class="flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer border {isSelected ? 'border-primary/55 bg-primary/10' : 'border-border bg-card hover:bg-accent/20'}"
           role="button"
           tabindex="0"
-          onclick={() => onChartSelect(chart)}
+          onclick={() => handleSelectChart(chart)}
           onkeydown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              onChartSelect(chart);
+              handleSelectChart(chart);
             }
           }}
         >
@@ -163,7 +180,7 @@
               size="sm"
               onclick={(e) => {
                 e.stopPropagation();
-                onChartSelect(chart);
+                handleSelectChart(chart);
               }}
               title={isSelected ? 'Currently viewing' : 'View person'}
               class="{isSelected ? 'text-primary bg-primary/15 hover:bg-primary/20' : 'text-muted-foreground hover:text-foreground hover:bg-accent/20'}"

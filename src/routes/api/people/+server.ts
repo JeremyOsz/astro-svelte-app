@@ -1,15 +1,14 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { requireUser } from '$lib/server/auth/require-user';
+import { resolveOwnerScope } from '$lib/server/auth/owner-scope';
 import { createPersonSchema } from '$lib/server/people-validation';
 import { createPerson, listPeople } from '$lib/server/people-repository';
 
 export const GET: RequestHandler = async (event) => {
-  const auth = requireUser(event);
-  if (!auth.ok) return auth.response;
+  const owner = resolveOwnerScope(event);
 
   try {
-    const people = await listPeople(auth.user.id);
+    const people = await listPeople(owner);
     return json({ people });
   } catch (error) {
     console.error('Failed to list people:', error);
@@ -18,8 +17,7 @@ export const GET: RequestHandler = async (event) => {
 };
 
 export const POST: RequestHandler = async (event) => {
-  const auth = requireUser(event);
-  if (!auth.ok) return auth.response;
+  const owner = resolveOwnerScope(event);
 
   let payload: unknown;
   try {
@@ -34,7 +32,7 @@ export const POST: RequestHandler = async (event) => {
   }
 
   try {
-    const person = await createPerson(auth.user.id, parsed.data);
+    const person = await createPerson(owner, parsed.data);
     return json({ person }, { status: 201 });
   } catch (error) {
     console.error('Failed to create person:', error);

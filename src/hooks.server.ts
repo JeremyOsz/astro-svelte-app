@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { env } from '$env/dynamic/public';
 import type { Handle } from '@sveltejs/kit';
+import { ensureAnonymousId } from '$lib/server/auth/owner-scope';
 
 const hasSupabaseConfig = Boolean(env.PUBLIC_SUPABASE_URL && env.PUBLIC_SUPABASE_ANON_KEY);
 
@@ -9,6 +10,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.supabase = null;
     event.locals.session = null;
     event.locals.user = null;
+    event.locals.anonymousId = ensureAnonymousId(event);
     event.locals.safeGetSession = async () => ({ session: null, user: null });
     return resolve(event);
   }
@@ -57,6 +59,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   const { session, user } = await event.locals.safeGetSession();
   event.locals.session = session;
   event.locals.user = user;
+  event.locals.anonymousId = user ? null : ensureAnonymousId(event);
 
   return resolve(event, {
     filterSerializedResponseHeaders(name) {

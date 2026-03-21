@@ -18,6 +18,7 @@
     TimelineRange
   } from '$lib/types/market-cosmos';
   import { env as publicEnv } from '$env/dynamic/public';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
 
   type Tab = 'overview' | 'timeline';
 
@@ -104,6 +105,11 @@
         ];
 
   onMount(async () => {
+    void logFeatureUsage({
+      feature: 'market_cosmos',
+      action: 'page_open',
+      route: '/market-cosmos'
+    });
     await Promise.all([loadOverview(), loadTimeline()]);
   });
 
@@ -120,8 +126,19 @@
       }
 
       overviewData = payload;
+      void logFeatureUsage({
+        feature: 'market_cosmos',
+        action: 'overview_success',
+        route: '/market-cosmos'
+      });
     } catch (error) {
       overviewError = error instanceof Error ? error.message : 'Failed to load market overview';
+      void logFeatureUsage({
+        feature: 'market_cosmos',
+        action: 'overview_failure',
+        route: '/market-cosmos',
+        metadata: { reason: overviewError }
+      });
     } finally {
       overviewLoading = false;
     }
@@ -137,6 +154,17 @@
     const requestId = ++timelineRequestId;
     timelineLoading = true;
     timelineError = null;
+    void logFeatureUsage({
+      feature: 'market_cosmos',
+      action: 'timeline_submit',
+      route: '/market-cosmos',
+      metadata: {
+        symbol: selectedIndex,
+        range: selectedRange,
+        primaryPlanet,
+        secondaryPlanet
+      }
+    });
 
     const timelineUrl = buildTimelineQuery({
       symbol: selectedIndex,
@@ -155,10 +183,22 @@
 
       if (requestId !== timelineRequestId) return;
       timelineData = payload;
+      void logFeatureUsage({
+        feature: 'market_cosmos',
+        action: 'timeline_success',
+        route: '/market-cosmos',
+        metadata: { symbol: selectedIndex, range: selectedRange }
+      });
     } catch (error) {
       if (requestId !== timelineRequestId) return;
       timelineError = error instanceof Error ? error.message : 'Failed to load timeline';
       timelineData = null;
+      void logFeatureUsage({
+        feature: 'market_cosmos',
+        action: 'timeline_failure',
+        route: '/market-cosmos',
+        metadata: { reason: timelineError }
+      });
     } finally {
       if (requestId === timelineRequestId) {
         timelineLoading = false;

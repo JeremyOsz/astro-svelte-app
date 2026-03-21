@@ -8,11 +8,6 @@
   let saveError = '';
 
   function openSaveDialog() {
-    if (!$chartStore.authUser) {
-      saveError = 'Sign in to save people to your account.';
-      return;
-    }
-
     saveError = '';
     showSaveDialog = true;
   }
@@ -62,9 +57,8 @@
     </Button>
   {/if}
 
-  {#if saveError && !$chartStore.authUser}
+  {#if saveError}
     <p class="mt-2 text-xs text-destructive">{saveError}</p>
-    <a href="/login" class="mt-1 inline-block text-xs underline text-foreground">Go to sign in</a>
   {/if}
 
   {#if showSaveDialog}

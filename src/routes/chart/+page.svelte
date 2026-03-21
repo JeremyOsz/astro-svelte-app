@@ -20,6 +20,7 @@
   import { Input } from '$lib/components/ui/input';
   import ChartInstructions from '$lib/components/ChartInstructions.svelte';
   import { env as publicEnv } from '$env/dynamic/public';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
 
   // export let data: PageData;
 
@@ -159,6 +160,12 @@ MC,Leo,10°14'`;
   $: mobileAccordionValue = !showChart ? 'birth-form' : 'saved-charts';
 
   onMount(() => {
+    void logFeatureUsage({
+      feature: 'chart',
+      action: 'page_open',
+      route: '/chart'
+    });
+
     // Mark as hydrated to enable mobile detection
     mounted = true;
     

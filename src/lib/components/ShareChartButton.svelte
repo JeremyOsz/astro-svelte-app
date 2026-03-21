@@ -2,6 +2,7 @@
     import { chartStore } from '$lib/stores/chart-store';
     import { Button } from '$lib/components/ui/button';
     import { Share2, Check } from 'lucide-svelte';
+    import { logFeatureUsage } from '$lib/services/usage-logger';
     
     let showShareDialog = false;
     let shareUrl = '';
@@ -10,6 +11,11 @@
     function handleShare() {
       shareUrl = chartStore.generateShareURL() || '';
       showShareDialog = true;
+      void logFeatureUsage({
+        feature: 'chart',
+        action: 'share_open',
+        route: '/chart'
+      });
     }
     
     async function copyShareUrl() {
@@ -17,6 +23,11 @@
       
       try {
         await chartStore.copyShareURL();
+        void logFeatureUsage({
+          feature: 'chart',
+          action: 'share_copy',
+          route: '/chart'
+        });
         copiedMessage = 'URL copied!';
         setTimeout(() => {
           copiedMessage = '';

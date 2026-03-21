@@ -38,6 +38,7 @@ export function createMockRequestEvent(
       safeGetSession: async () => ({ session: null, user: null }),
       session: null,
       user: null,
+      anonymousId: null
     },
     depends: vi.fn(),
   } as RequestEvent;

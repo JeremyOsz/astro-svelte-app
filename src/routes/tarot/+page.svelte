@@ -15,6 +15,7 @@
   } from '$lib/data/tarot-data';
   import { buildTarotPageContext } from '$lib/page-chat/context-builders';
   import { env as publicEnv } from '$env/dynamic/public';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
 
   let searchTerm = '';
   let selectedSuit = 'all';
@@ -114,6 +115,12 @@
     selectedCard = card;
     showReversed = false;
     modalOpen = true;
+    void logFeatureUsage({
+      feature: 'tarot',
+      action: 'card_open',
+      route: '/tarot',
+      metadata: { card: card.name }
+    });
   }
 
   function toggleReversed() {
@@ -130,7 +137,21 @@
     selectedCard = card;
     showReversed = reversed;
     modalOpen = true;
+    void logFeatureUsage({
+      feature: 'tarot',
+      action: 'random_pull',
+      route: '/tarot',
+      metadata: { card: card.name, reversed }
+    });
   }
+
+  onMount(() => {
+    void logFeatureUsage({
+      feature: 'tarot',
+      action: 'page_open',
+      route: '/tarot'
+    });
+  });
 </script>
 
 <svelte:head>

@@ -1,12 +1,11 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { requireUser } from '$lib/server/auth/require-user';
+import { resolveOwnerScope } from '$lib/server/auth/owner-scope';
 import { deletePerson, updatePerson } from '$lib/server/people-repository';
 import { updatePersonSchema } from '$lib/server/people-validation';
 
 export const PATCH: RequestHandler = async (event) => {
-  const auth = requireUser(event);
-  if (!auth.ok) return auth.response;
+  const owner = resolveOwnerScope(event);
 
   let payload: unknown;
   try {
@@ -21,7 +20,7 @@ export const PATCH: RequestHandler = async (event) => {
   }
 
   try {
-    const person = await updatePerson(auth.user.id, event.params.id, parsed.data);
+    const person = await updatePerson(owner, event.params.id, parsed.data);
     if (!person) {
       return json({ error: 'Person not found' }, { status: 404 });
     }
@@ -34,11 +33,10 @@ export const PATCH: RequestHandler = async (event) => {
 };
 
 export const DELETE: RequestHandler = async (event) => {
-  const auth = requireUser(event);
-  if (!auth.ok) return auth.response;
+  const owner = resolveOwnerScope(event);
 
   try {
-    const removed = await deletePerson(auth.user.id, event.params.id);
+    const removed = await deletePerson(owner, event.params.id);
     if (!removed) {
       return json({ error: 'Person not found' }, { status: 404 });
     }

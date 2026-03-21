@@ -3,6 +3,7 @@ import type { BirthData } from '$lib/stores/chart-store';
 export interface PersonRecord {
   id: string;
   userId?: string;
+  anonymousId?: string;
   name: string;
   birthData: BirthData;
   chartData: string;
@@ -26,16 +27,12 @@ export interface LegacyChartStorage {
 class ChartStorageService {
   private readonly LEGACY_STORAGE_KEY = 'astro-charts-data';
 
-  async saveChart(chart: Omit<PersonRecord, 'id' | 'createdAt' | 'updatedAt' | 'userId'>): Promise<PersonRecord> {
+  async saveChart(chart: Omit<PersonRecord, 'id' | 'createdAt' | 'updatedAt' | 'userId' | 'anonymousId'>): Promise<PersonRecord> {
     const response = await fetch('/api/people', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(chart)
     });
-
-    if (response.status === 401) {
-      throw new Error('Please sign in to save people');
-    }
 
     if (!response.ok) {
       throw new Error('Failed to save person');
@@ -51,10 +48,6 @@ class ChartStorageService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updates)
     });
-
-    if (response.status === 401) {
-      throw new Error('Please sign in to update people');
-    }
 
     if (response.status === 404) {
       return null;
@@ -73,10 +66,6 @@ class ChartStorageService {
       method: 'DELETE'
     });
 
-    if (response.status === 401) {
-      throw new Error('Please sign in to delete people');
-    }
-
     if (response.status === 404) {
       return false;
     }
@@ -90,10 +79,6 @@ class ChartStorageService {
 
   async getAllCharts(): Promise<PersonRecord[]> {
     const response = await fetch('/api/people');
-
-    if (response.status === 401) {
-      return [];
-    }
 
     if (!response.ok) {
       throw new Error('Failed to load people');
@@ -140,16 +125,12 @@ class ChartStorageService {
     localStorage.setItem(this.getLegacyImportFlagKey(userId), '1');
   }
 
-  async importLegacyCharts(people: Omit<PersonRecord, 'id' | 'createdAt' | 'updatedAt' | 'userId'>[]) {
+  async importLegacyCharts(people: Omit<PersonRecord, 'id' | 'createdAt' | 'updatedAt' | 'userId' | 'anonymousId'>[]) {
     const response = await fetch('/api/people/import-local', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ people })
     });
-
-    if (response.status === 401) {
-      throw new Error('Please sign in to import local people');
-    }
 
     if (!response.ok) {
       throw new Error('Failed to import local people');

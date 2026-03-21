@@ -18,6 +18,7 @@
   import SynastryLoadingState from '$lib/components/SynastryLoadingState.svelte';
   import { OccultDivider, SectionHeader } from '$lib/components/occult';
   import { env as publicEnv } from '$env/dynamic/public';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
 
   const ENABLE_DEBUG_LOGS = false;
   function debugLog(...args: unknown[]) {
@@ -211,6 +212,12 @@ MC,Gemini,12°00'`;
   }
 
   onMount(async () => {
+    void logFeatureUsage({
+      feature: 'synastry',
+      action: 'page_open',
+      route: '/synastry'
+    });
+
     // Set default locations
     person1CitySearch = 'London, United Kingdom';
     selectedPerson1CityData = {
@@ -594,6 +601,11 @@ MC,Gemini,12°00'`;
               isSubmitting = true;
               isFormCollapsed = true; // Collapse form on submit
               debugLog('Loading started:', loading);
+              void logFeatureUsage({
+                feature: 'synastry',
+                action: 'calculate_submit',
+                route: '/synastry'
+              });
               
               return async ({ result, update }) => {
                 loading = false;
@@ -640,6 +652,11 @@ MC,Gemini,12°00'`;
                     isChartReady = true;
                     error = null;
                     formError = '';
+                    void logFeatureUsage({
+                      feature: 'synastry',
+                      action: 'calculate_success',
+                      route: '/synastry'
+                    });
                     
                     debugInfo = {
                       p1Planets: person1Chart.planets?.length || 0,
@@ -656,6 +673,12 @@ MC,Gemini,12°00'`;
                   // Form submission failed
                   if (result.data?.error) {
                     error = String(result.data.error);
+                    void logFeatureUsage({
+                      feature: 'synastry',
+                      action: 'calculate_failure',
+                      route: '/synastry',
+                      metadata: { reason: error }
+                    });
                   }
                   
                   // Update the page

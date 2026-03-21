@@ -2,6 +2,7 @@ import { derived, get, writable } from 'svelte/store';
 import { chartStorageService, type SavedChart } from '../services/chart-storage';
 import { URLSharingService } from '../services/url-sharing';
 import type { User } from '@supabase/supabase-js';
+import { logFeatureUsage } from '$lib/services/usage-logger';
 
 export type { SavedChart } from '../services/chart-storage';
 
@@ -84,17 +85,6 @@ function createChartStore() {
     setAuthUser: async (user: User | null) => {
       update((state) => ({ ...state, authUser: user, error: null }));
 
-      if (!user) {
-        update((state) => ({
-          ...state,
-          savedCharts: [],
-          currentChartId: null,
-          hasPendingLegacyImport: false,
-          version: state.version + 1
-        }));
-        return;
-      }
-
       await refreshPeople();
       await syncLegacyImportState(user);
     },
@@ -129,6 +119,16 @@ function createChartStore() {
         version: state.version + 1
       }));
 
+      void logFeatureUsage({
+        feature: 'chart',
+        action: 'import_local',
+        route: '/chart',
+        metadata: {
+          importedCount: result.importedCount,
+          skippedCount: result.skippedCount
+        }
+      });
+
       return result;
     },
 
@@ -148,10 +148,6 @@ function createChartStore() {
       try {
         const snapshot = get(chartStore);
 
-        if (!snapshot.authUser) {
-          throw new Error('Please sign in to save people');
-        }
-
         if (!snapshot.chartData || !snapshot.birthData) {
           throw new Error('No chart data available to save');
         }
@@ -170,6 +166,13 @@ function createChartStore() {
           isSaving: false,
           version: state.version + 1
         }));
+
+        void logFeatureUsage({
+          feature: 'chart',
+          action: 'save',
+          route: '/chart',
+          metadata: { chartId: savedChart?.id ?? null }
+        });
       } catch (error) {
         update((state) => ({
           ...state,
@@ -206,11 +209,25 @@ function createChartStore() {
         currentChartId: state.currentChartId === chartId ? null : state.currentChartId,
         version: state.version + 1
       }));
+
+      void logFeatureUsage({
+        feature: 'chart',
+        action: 'delete',
+        route: '/chart',
+        metadata: { chartId }
+      });
     },
 
     updateChartName: async (chartId: string, name: string) => {
       await chartStorageService.updateChart(chartId, { name });
       await refreshPeople();
+
+      void logFeatureUsage({
+        feature: 'chart',
+        action: 'rename',
+        route: '/chart',
+        metadata: { chartId }
+      });
     },
 
     loadFromURL: async () => {
@@ -270,6 +287,11 @@ function createChartStore() {
 
     generateChartFromBirthData: async (birthData: BirthData) => {
       update((state) => ({ ...state, isLoading: true, error: null }));
+      void logFeatureUsage({
+        feature: 'chart',
+        action: 'generate_submit',
+        route: '/chart'
+      });
       try {
         const cityData = {
           name: birthData.place.split(',')[0],
@@ -317,6 +339,12 @@ function createChartStore() {
             error: null,
             version: state.version + 1
           }));
+
+          void logFeatureUsage({
+            feature: 'chart',
+            action: 'generate_success',
+            route: '/chart'
+          });
         } else {
           update((state) => ({
             ...state,
@@ -324,6 +352,13 @@ function createChartStore() {
             error: result.error || 'Failed to generate chart',
             version: state.version + 1
           }));
+
+          void logFeatureUsage({
+            feature: 'chart',
+            action: 'generate_failure',
+            route: '/chart',
+            metadata: { reason: result.error || 'missing_chart_data' }
+          });
         }
       } catch (error) {
         update((state) => ({
@@ -332,6 +367,15 @@ function createChartStore() {
           error: error instanceof Error ? error.message : 'Failed to generate chart',
           version: state.version + 1
         }));
+
+        void logFeatureUsage({
+          feature: 'chart',
+          action: 'generate_failure',
+          route: '/chart',
+          metadata: {
+            reason: error instanceof Error ? error.message : 'unknown_error'
+          }
+        });
       }
     },
 

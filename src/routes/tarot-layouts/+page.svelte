@@ -6,6 +6,7 @@
   import { OccultDivider, SectionHeader, OccultCard } from '$lib/components/occult';
   import TarotQuestionGenerator from '$lib/components/tarot/TarotQuestionGenerator.svelte';
   import { TAROT_LAYOUTS, type TarotLayout, getAllCategories, getAllDifficulties } from '$lib/data/tarot-layouts';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
 
   let searchTerm = '';
   let selectedCategory = 'all';
@@ -78,6 +79,12 @@
   function selectLayout(layout: TarotLayout) {
     selectedLayout = layout;
     modalOpen = true;
+    void logFeatureUsage({
+      feature: 'tarot',
+      action: 'layout_open',
+      route: '/tarot-layouts',
+      metadata: { layoutId: layout.id, layoutName: layout.name }
+    });
   }
 
   function closeLayoutDetail() {
@@ -112,6 +119,14 @@
         return 'bg-secondary text-secondary-foreground';
     }
   }
+
+  onMount(() => {
+    void logFeatureUsage({
+      feature: 'tarot',
+      action: 'page_open_layouts',
+      route: '/tarot-layouts'
+    });
+  });
 </script>
 
 <svelte:head>

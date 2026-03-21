@@ -8,7 +8,8 @@ function mockEvent(user: RequestEvent['locals']['user']): RequestEvent {
       supabase: null,
       safeGetSession: async () => ({ session: null, user: null }),
       session: null,
-      user
+      user,
+      anonymousId: null
     }
   } as RequestEvent;
 }

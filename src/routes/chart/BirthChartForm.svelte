@@ -2,6 +2,7 @@
   import { enhance } from '$app/forms';
   import { searchCities, type CitySearchResult } from '$lib/services/city-service';
   import { chartStore } from '$lib/stores/chart-store';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
  
   // Props to differentiate mobile vs desktop forms
   export let formPrefix: string = '';
@@ -121,6 +122,12 @@
       return false;
     }
     
+    void logFeatureUsage({
+      feature: 'chart',
+      action: 'generate_submit',
+      route: '/chart'
+    });
+
     // Set loading state immediately when form is valid and about to submit
     chartStore.setLoading(true);
     return true;
@@ -144,6 +151,11 @@
             // Update the chart store with the result data
             if (result.data?.chartData) {
               chartStore.setChartData(String(result.data.chartData), result.data.birthData as any);
+              void logFeatureUsage({
+                feature: 'chart',
+                action: 'generate_success',
+                route: '/chart'
+              });
             }
             
             // Update the page
@@ -154,6 +166,12 @@
             // Set error in chart store
             if (result.data?.error) {
               chartStore.setError(String(result.data.error));
+              void logFeatureUsage({
+                feature: 'chart',
+                action: 'generate_failure',
+                route: '/chart',
+                metadata: { reason: String(result.data.error) }
+              });
             }
             
             // Update the page

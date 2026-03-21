@@ -10,6 +10,7 @@
   import { OccultDivider, SectionHeader, OccultCard } from '$lib/components/occult';
   import type { BirthChart } from '$lib/types/types';
   import { enhance } from '$app/forms';
+  import { logFeatureUsage } from '$lib/services/usage-logger';
 
   // Chart selection
   let selectedBirthChart: BirthChart | null = null;
@@ -26,6 +27,12 @@
   $: ({ savedCharts } = $chartStore);
 
   onMount(async () => {
+    void logFeatureUsage({
+      feature: 'daily_horoscope',
+      action: 'page_open',
+      route: '/daily-horoscope'
+    });
+
     // Auto-select the first saved person if available
     if ($chartStore.savedCharts.length > 0 && !selectedBirthChart) {
       handleChartSelect($chartStore.savedCharts[0]);
@@ -97,7 +104,7 @@
       
       {#if $chartStore.savedCharts.length === 0}
         <div class="text-center py-8">
-          <p class="text-muted-foreground mb-4">No people saved yet. Sign in and save one first.</p>
+          <p class="text-muted-foreground mb-4">No people saved yet. Save one from the Birth Chart page first.</p>
           <Button href="/chart" class="bg-primary text-primary-foreground hover:opacity-90 font-medium">
             Open Birth Chart
           </Button>
@@ -130,14 +137,30 @@
           formError = '';
           loading = true;
           error = null;
+          void logFeatureUsage({
+            feature: 'daily_horoscope',
+            action: 'generate_submit',
+            route: '/daily-horoscope'
+          });
           
           return async ({ result }) => {
             loading = false;
             
             if (result.type === 'failure') {
               error = (result.data?.error as string) || 'An error occurred';
+              void logFeatureUsage({
+                feature: 'daily_horoscope',
+                action: 'generate_failure',
+                route: '/daily-horoscope',
+                metadata: { reason: error }
+              });
             } else if (result.type === 'success' && result.data) {
               currentHoroscope = result.data.dailyHoroscope;
+              void logFeatureUsage({
+                feature: 'daily_horoscope',
+                action: 'generate_success',
+                route: '/daily-horoscope'
+              });
             }
           };
         }}

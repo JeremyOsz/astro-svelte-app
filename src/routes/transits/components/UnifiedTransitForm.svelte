@@ -223,7 +223,7 @@
                 <div class="text-center py-8">
                   <User class="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <h3 class="text-lg font-semibold text-gray-900 mb-2">No People Saved</h3>
-                  <p class="text-gray-600 mb-4">Sign in and save a person from the Birth Chart page first.</p>
+                  <p class="text-gray-600 mb-4">Save a person from the Birth Chart page first.</p>
                   <button 
                     type="button"
                     on:click={() => window.location.href = '/chart'}

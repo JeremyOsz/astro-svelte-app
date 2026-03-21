@@ -1,8 +1,8 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { resolveOwnerScope } from '$lib/server/auth/owner-scope';
-import { importPeopleSchema } from '$lib/server/people-validation';
-import { importPeople } from '$lib/server/people-repository';
+import { usageEventSchema } from '$lib/server/usage-validation';
+import { logFeatureUsage } from '$lib/server/feature-usage-repository';
 
 export const POST: RequestHandler = async (event) => {
   const owner = resolveOwnerScope(event);
@@ -14,16 +14,17 @@ export const POST: RequestHandler = async (event) => {
     return json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const parsed = importPeopleSchema.safeParse(payload);
+  const parsed = usageEventSchema.safeParse(payload);
   if (!parsed.success) {
     return json({ error: 'Validation failed', details: parsed.error.flatten() }, { status: 400 });
   }
 
   try {
-    const result = await importPeople(owner, parsed.data.people);
-    return json(result);
+    const route = parsed.data.route ?? new URL(event.request.url).pathname;
+    await logFeatureUsage(owner, { ...parsed.data, route });
+    return json({ success: true }, { status: 201 });
   } catch (error) {
-    console.error('Failed to import local people:', error);
-    return json({ error: 'Failed to import local people' }, { status: 500 });
+    console.error('Failed to log feature usage:', error);
+    return json({ error: 'Failed to log feature usage' }, { status: 500 });
   }
 };
