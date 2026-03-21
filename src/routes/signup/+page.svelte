@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { GOOGLE_OAUTH_AVAILABLE } from '$lib/auth/oauth-config';
   import { getSupabaseBrowserClient } from '$lib/supabase/client';
 
   let email = '';
@@ -40,6 +41,8 @@
   }
 
   async function signUpWithGoogle() {
+    if (!GOOGLE_OAUTH_AVAILABLE) return;
+
     loading = true;
     error = '';
 
@@ -87,9 +90,20 @@
       {loading ? 'Creating account...' : 'Create account'}
     </button>
 
-    <button type="button" on:click={signUpWithGoogle} disabled={loading} class="w-full rounded-md border border-input px-4 py-2 text-foreground disabled:opacity-50">
-      Continue with Google
-    </button>
+    <div class="space-y-2">
+      <button
+        type="button"
+        on:click={signUpWithGoogle}
+        disabled={loading || !GOOGLE_OAUTH_AVAILABLE}
+        class="w-full rounded-md border border-input px-4 py-2 text-foreground disabled:opacity-50"
+        aria-disabled={!GOOGLE_OAUTH_AVAILABLE}
+      >
+        Continue with Google
+      </button>
+      {#if !GOOGLE_OAUTH_AVAILABLE}
+        <p class="text-center text-xs text-muted-foreground">Google sign-up is not available at the moment. Use email and password instead.</p>
+      {/if}
+    </div>
   </form>
 
   <p class="mt-6 text-sm text-muted-foreground">
