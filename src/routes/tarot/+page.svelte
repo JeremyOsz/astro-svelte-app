@@ -11,6 +11,7 @@
     getElementDescription,
     getPlanetDescription,
     getZodiacDescription,
+    getExpandedTarotMeaning,
     type TarotCard
   } from '$lib/data/tarot-data';
   import { buildTarotPageContext } from '$lib/page-chat/context-builders';
@@ -221,6 +222,78 @@
           </div>
         </div>
       </div>
+      </OccultCard>
+    </section>
+
+    <!-- Understanding the Minor Arcana -->
+    <section class="mb-10">
+      <SectionHeader title="Understanding the Minor Arcana" symbol="star" class="mb-4" />
+      <OccultCard corners={true}>
+        <div class="space-y-6 text-muted-foreground">
+          <p class="text-sm leading-relaxed">
+            The <strong class="text-foreground">Minor Arcana</strong> (56 cards) describe day-to-day life: how energy moves through emotions,
+            thoughts, work, relationships, and decisions. Where the Major Arcana marks life-defining turning points, the Minor Arcana shows
+            the practical details, habits, and conversations that shape those bigger moments.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="rounded-lg border border-border/60 bg-card/40 p-4">
+              <h3 class="font-semibold text-foreground mb-2">Wands (Fire)</h3>
+              <p class="text-sm leading-relaxed">
+                Wands speak to drive, ambition, creativity, confidence, and spiritual spark. Upright, they often signal momentum and inspired
+                action; reversed, they can point to burnout, impatience, or scattered effort.
+              </p>
+            </div>
+            <div class="rounded-lg border border-border/60 bg-card/40 p-4">
+              <h3 class="font-semibold text-foreground mb-2">Cups (Water)</h3>
+              <p class="text-sm leading-relaxed">
+                Cups reveal feelings, intuition, bonding, compassion, and emotional healing. Upright, they favor openness and connection;
+                reversed, they may show emotional overwhelm, avoidance, or blurred boundaries.
+              </p>
+            </div>
+            <div class="rounded-lg border border-border/60 bg-card/40 p-4">
+              <h3 class="font-semibold text-foreground mb-2">Swords (Air)</h3>
+              <p class="text-sm leading-relaxed">
+                Swords govern thought, communication, truth, conflict, and difficult choices. Upright, they bring clarity and decisive
+                action; reversed, they can indicate confusion, harsh self-talk, or unresolved tension.
+              </p>
+            </div>
+            <div class="rounded-lg border border-border/60 bg-card/40 p-4">
+              <h3 class="font-semibold text-foreground mb-2">Pentacles (Earth)</h3>
+              <p class="text-sm leading-relaxed">
+                Pentacles cover money, work, health, home, routine, and long-term stability. Upright, they support grounded progress;
+                reversed, they can highlight insecurity, over-attachment to outcomes, or material stress.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <h3 class="font-semibold text-foreground mb-2">Numbered Cards: Ace to Ten</h3>
+              <p class="text-sm leading-relaxed">
+                Each suit follows a developmental cycle. <strong class="text-foreground">Aces</strong> begin the theme, <strong class="text-foreground">Twos</strong>
+                and <strong class="text-foreground">Threes</strong> build it, <strong class="text-foreground">Fours</strong> stabilize it, <strong class="text-foreground">Fives</strong>
+                challenge it, <strong class="text-foreground">Sixes</strong> rebalance, <strong class="text-foreground">Sevens</strong> test commitment,
+                <strong class="text-foreground">Eights</strong> refine through action, <strong class="text-foreground">Nines</strong> mature, and
+                <strong class="text-foreground">Tens</strong> complete the cycle.
+              </p>
+            </div>
+            <div>
+              <h3 class="font-semibold text-foreground mb-2">Court Cards: Page, Knight, Queen, King</h3>
+              <p class="text-sm leading-relaxed">
+                Court cards can represent people, parts of your personality, or a style of response. <strong class="text-foreground">Pages</strong>
+                learn and observe, <strong class="text-foreground">Knights</strong> pursue and act, <strong class="text-foreground">Queens</strong>
+                internalize and master, and <strong class="text-foreground">Kings</strong> externalize and lead.
+              </p>
+            </div>
+          </div>
+
+          <p class="text-sm leading-relaxed">
+            Reading tip: start with the <strong class="text-foreground">suit</strong> (life area), then the <strong class="text-foreground">number or court rank</strong>
+            (development stage), and finally whether the card appears <strong class="text-foreground">upright or reversed</strong>. This layered approach
+            turns single-card meanings into a clear story.
+          </p>
+        </div>
       </OccultCard>
     </section>
 
@@ -528,25 +601,25 @@
           <div class="border border-border rounded-lg p-4 bg-card">
             <h4 class="font-semibold text-foreground mb-2">General Meaning</h4>
             <p class="text-foreground leading-relaxed">
-              {showReversed ? selectedCard.reversed.general : selectedCard.upright.general}
+              {getExpandedTarotMeaning(selectedCard, 'general', showReversed)}
             </p>
           </div>
           <div class="border border-border rounded-lg p-4 bg-card">
             <h4 class="font-semibold text-foreground mb-2">Love & Relationships</h4>
             <p class="text-foreground leading-relaxed">
-              {showReversed ? selectedCard.reversed.love : selectedCard.upright.love}
+              {getExpandedTarotMeaning(selectedCard, 'love', showReversed)}
             </p>
           </div>
           <div class="border border-border rounded-lg p-4 bg-card">
             <h4 class="font-semibold text-foreground mb-2">Career & Work</h4>
             <p class="text-foreground leading-relaxed">
-              {showReversed ? selectedCard.reversed.career : selectedCard.upright.career}
+              {getExpandedTarotMeaning(selectedCard, 'career', showReversed)}
             </p>
           </div>
           <div class="border border-border rounded-lg p-4 bg-card">
             <h4 class="font-semibold text-foreground mb-2">Health & Wellness</h4>
             <p class="text-foreground leading-relaxed">
-              {showReversed ? selectedCard.reversed.health : selectedCard.upright.health}
+              {getExpandedTarotMeaning(selectedCard, 'health', showReversed)}
             </p>
           </div>
         </div>

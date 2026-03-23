@@ -2066,4 +2066,153 @@ export function getPlanetDescription(planet: string): string {
 
 export function getZodiacDescription(zodiac: string): string {
   return TAROT_ZODIAC_DESCRIPTIONS[zodiac] ?? "";
-} 
+}
+
+type TarotMeaningContext = keyof TarotCard["upright"];
+
+const MINOR_NUMBER_LABELS: Record<number, string> = {
+  1: "Ace",
+  2: "Two",
+  3: "Three",
+  4: "Four",
+  5: "Five",
+  6: "Six",
+  7: "Seven",
+  8: "Eight",
+  9: "Nine",
+  10: "Ten"
+};
+
+const MINOR_RANK_THEMES: Record<string, { upright: string; reversed: string }> = {
+  Ace: {
+    upright: "As an Ace, this marks a seed moment: raw potential that grows when you act with intention.",
+    reversed: "As a reversed Ace, the seed is present but blocked, delayed, or difficult to trust."
+  },
+  Two: {
+    upright: "As a Two, this is about choice, balance, and learning to hold two truths at once.",
+    reversed: "As a reversed Two, indecision or imbalance may be draining your momentum."
+  },
+  Three: {
+    upright: "As a Three, the theme expands through collaboration, expression, and visible growth.",
+    reversed: "As a reversed Three, growth can stall through misalignment, isolation, or scattered effort."
+  },
+  Four: {
+    upright: "As a Four, this card emphasizes structure, grounding, and building something dependable.",
+    reversed: "As a reversed Four, rigidity or instability may be preventing healthy progress."
+  },
+  Five: {
+    upright: "As a Five, friction reveals what must change; challenge becomes a teacher.",
+    reversed: "As a reversed Five, old conflict patterns can repeat until a new response is chosen."
+  },
+  Six: {
+    upright: "As a Six, the energy seeks harmony, support, and a return to steadier ground.",
+    reversed: "As a reversed Six, imbalance in giving/receiving or unresolved tension asks for correction."
+  },
+  Seven: {
+    upright: "As a Seven, this is a test of conviction, patience, and strategic perspective.",
+    reversed: "As a reversed Seven, doubt or avoidance may undermine what you are trying to build."
+  },
+  Eight: {
+    upright: "As an Eight, mastery develops through repetition, refinement, and disciplined focus.",
+    reversed: "As a reversed Eight, momentum may be slowed by distraction, resistance, or misdirected effort."
+  },
+  Nine: {
+    upright: "As a Nine, this is a threshold of maturity where discernment and resilience matter most.",
+    reversed: "As a reversed Nine, fatigue or fear can blur judgment right before completion."
+  },
+  Ten: {
+    upright: "As a Ten, a cycle reaches culmination and asks how to carry its lessons forward.",
+    reversed: "As a reversed Ten, completion is complicated by baggage that still needs releasing."
+  },
+  Page: {
+    upright: "As a Page, this energy is curious, learning-oriented, and open to fresh signals.",
+    reversed: "As a reversed Page, inexperience can show up as mixed messages or inconsistent follow-through."
+  },
+  Knight: {
+    upright: "As a Knight, momentum builds through pursuit, courage, and decisive movement.",
+    reversed: "As a reversed Knight, haste or misdirected drive can create avoidable setbacks."
+  },
+  Queen: {
+    upright: "As a Queen, the lesson is inner mastery: steady influence rooted in emotional and practical intelligence.",
+    reversed: "As a reversed Queen, overcontrol or undernourishment can distort otherwise strong instincts."
+  },
+  King: {
+    upright: "As a King, this card asks for mature leadership, accountability, and long-view judgment.",
+    reversed: "As a reversed King, authority may become rigid, detached, or poorly grounded."
+  }
+};
+
+const MINOR_SUIT_THEMES: Record<string, { upright: string; reversed: string }> = {
+  Wands: {
+    upright: "In Wands, this points to directed fire: channeling passion into purposeful action.",
+    reversed: "In reversed Wands, fire can burn unevenly, showing burnout, impatience, or scattered will."
+  },
+  Cups: {
+    upright: "In Cups, this highlights emotional truth, empathy, and intuitive attunement.",
+    reversed: "In reversed Cups, emotional currents can become muddy through avoidance, overattachment, or overwhelm."
+  },
+  Swords: {
+    upright: "In Swords, clarity grows through honest thought, clean boundaries, and direct communication.",
+    reversed: "In reversed Swords, thinking can loop into anxiety, distortion, or conflict without resolution."
+  },
+  Pentacles: {
+    upright: "In Pentacles, the focus is tangible: resources, health, craft, and sustainable progress.",
+    reversed: "In reversed Pentacles, material pressure can surface as insecurity, overcontrol, or poor pacing."
+  }
+};
+
+const MINOR_CONTEXT_PROMPTS: Record<TarotMeaningContext, { upright: string; reversed: string }> = {
+  general: {
+    upright: "Read this as practical guidance you can apply immediately, not only a symbolic message.",
+    reversed: "Read this as a course-correction signal: adjust pace, boundaries, or expectations before forcing outcomes."
+  },
+  love: {
+    upright: "In love, favor honest dialogue, mutual effort, and actions that build trust over time.",
+    reversed: "In love, check for projection, mixed signals, or patterns that repeat when needs stay unspoken."
+  },
+  career: {
+    upright: "In career matters, this rewards clear priorities, dependable execution, and strategic timing.",
+    reversed: "In career matters, reassess assumptions, communication style, and workload before pushing harder."
+  },
+  health: {
+    upright: "For health, support steady routines and small consistent actions that restore capacity.",
+    reversed: "For health, treat this as a reminder to simplify, rest, and address what your body has been signaling."
+  }
+};
+
+function getMinorRankLabel(card: TarotCard): string | null {
+  if (!card.suit) return null;
+
+  if (card.number && MINOR_NUMBER_LABELS[card.number]) {
+    return MINOR_NUMBER_LABELS[card.number];
+  }
+
+  if (card.name.startsWith("Page")) return "Page";
+  if (card.name.startsWith("Knight")) return "Knight";
+  if (card.name.startsWith("Queen")) return "Queen";
+  if (card.name.startsWith("King")) return "King";
+  if (card.name.startsWith("Ace")) return "Ace";
+
+  return null;
+}
+
+/**
+ * Extends Minor Arcana copy with rank + suit + life-area nuance while preserving
+ * the original card-specific text as the lead sentence.
+ */
+export function getExpandedTarotMeaning(
+  card: TarotCard,
+  context: TarotMeaningContext,
+  reversed: boolean
+): string {
+  const base = reversed ? card.reversed[context] : card.upright[context];
+
+  if (!card.suit) return base;
+
+  const rank = getMinorRankLabel(card);
+  const rankTheme = rank ? MINOR_RANK_THEMES[rank]?.[reversed ? "reversed" : "upright"] : "";
+  const suitTheme = MINOR_SUIT_THEMES[card.suit]?.[reversed ? "reversed" : "upright"] ?? "";
+  const contextPrompt = MINOR_CONTEXT_PROMPTS[context][reversed ? "reversed" : "upright"];
+
+  return [base, rankTheme, suitTheme, contextPrompt].filter(Boolean).join(" ");
+}
