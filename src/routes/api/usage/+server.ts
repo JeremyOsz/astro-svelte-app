@@ -24,7 +24,8 @@ export const POST: RequestHandler = async (event) => {
     await logFeatureUsage(owner, { ...parsed.data, route });
     return json({ success: true }, { status: 201 });
   } catch (error) {
-    console.error('Failed to log feature usage:', error);
-    return json({ error: 'Failed to log feature usage' }, { status: 500 });
+    // Fail open for telemetry so analytics outages never impact UX.
+    console.warn('Feature usage logging skipped due to telemetry backend failure:', error);
+    return json({ success: true }, { status: 202 });
   }
 };

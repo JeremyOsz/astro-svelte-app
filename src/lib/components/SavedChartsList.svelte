@@ -78,6 +78,7 @@
   }
 
   function handleSelectChart(chart: SavedChart) {
+    chartStore.loadChart(chart.id);
     void logFeatureUsage({
       feature: 'chart',
       action: 'select_view',

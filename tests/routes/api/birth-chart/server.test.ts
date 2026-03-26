@@ -62,11 +62,12 @@ describe('/api/birth-chart', () => {
         date: mockChartData.date.toISOString(),
       });
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://immanuel-astro.onrender.com/birth-chart',
+        expect.stringContaining('/birth-chart'),
         expect.objectContaining({
           method: 'POST',
           headers: expect.objectContaining({
             'Content-Type': 'application/json',
+            'X-API-Key': expect.any(String),
           }),
           body: expect.stringContaining('New York, USA'),
         })

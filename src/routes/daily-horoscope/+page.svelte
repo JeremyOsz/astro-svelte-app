@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { chartStore } from '$lib/stores/chart-store';
+  import { chartStore, type SavedChart } from '$lib/stores/chart-store';
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import * as Accordion from '$lib/components/ui/accordion';
@@ -8,13 +8,13 @@
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import DailyHoroscopeDisplay from './DailyHoroscopeDisplay.svelte';
   import { OccultDivider, SectionHeader, OccultCard } from '$lib/components/occult';
-  import type { BirthChart } from '$lib/types/types';
   import { enhance } from '$app/forms';
   import { logFeatureUsage } from '$lib/services/usage-logger';
+  import { isSameChartSelection } from './chart-selection';
 
   // Chart selection
-  let selectedBirthChart: BirthChart | null = null;
-  let natalChart: BirthChart | null = null;
+  let selectedBirthChart: SavedChart | null = null;
+  let natalChart: SavedChart | null = null;
   let loading = false;
   let error: string | null = null;
 
@@ -41,13 +41,9 @@
 
   // Form handling will be done with enhance function
 
-  async function handleChartSelect(chart: any) {
-    // Only update if the chart is different (compare by date and location)
-    const isSameChart = selectedBirthChart && 
-      selectedBirthChart.date?.toISOString() === chart?.date?.toISOString() &&
-      selectedBirthChart.latitude === chart?.latitude &&
-      selectedBirthChart.longitude === chart?.longitude;
-    
+  async function handleChartSelect(chart: SavedChart) {
+    const isSameChart = isSameChartSelection(selectedBirthChart, chart);
+
     if (!isSameChart) {
       selectedBirthChart = chart;
       natalChart = chart;

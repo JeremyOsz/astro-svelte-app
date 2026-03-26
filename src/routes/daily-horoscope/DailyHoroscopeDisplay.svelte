@@ -5,9 +5,10 @@
   import { Button } from '$lib/components/ui/button';
   import type { DailyHoroscope } from '$lib/services/daily-horoscope';
   import type { BirthChart } from '$lib/types/types';
+  import type { SavedChart } from '$lib/stores/chart-store';
 
   export let currentHoroscope: DailyHoroscope;
-  export let natalChart: BirthChart | null = null;
+  export let natalChart: BirthChart | SavedChart | null = null;
 
   // Format date
   $: formattedDate = format(new Date(currentHoroscope.date), 'EEEE, MMMM d, yyyy');

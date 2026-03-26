@@ -20,6 +20,11 @@ const loadRoute = async (apiKey: string) => {
       OPENAI_API_KEY: apiKey
     }
   }));
+  vi.doMock('$env/dynamic/public', () => ({
+    env: {
+      PUBLIC_ENABLE_AI_CHAT: 'true'
+    }
+  }));
   const mod = await import('../../../../src/routes/api/chat/+server');
   return mod.POST;
 };
@@ -29,6 +34,11 @@ const loadRouteWithEnv = async (envOverrides: Record<string, string>) => {
     env: {
       OPENAI_API_KEY: 'test-key',
       ...envOverrides
+    }
+  }));
+  vi.doMock('$env/dynamic/public', () => ({
+    env: {
+      PUBLIC_ENABLE_AI_CHAT: 'true'
     }
   }));
   const mod = await import('../../../../src/routes/api/chat/+server');
