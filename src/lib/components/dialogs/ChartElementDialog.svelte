@@ -172,7 +172,7 @@
     // Use centralized symbols and colors
     const planetSymbol = PLANET_SYMBOLS[planet] || planet;
     const zodiacSymbol = ZODIAC_SYMBOLS[sign] || sign;
-    const planetColor = isTransit ? (TRANSIT_COLORS[planet] || '#ff9500') : '#333';
+    const planetColor = isTransit ? (TRANSIT_COLORS[planet] || '#ff9500') : 'var(--color-foreground)';
     const retrogradeText = isRetrograde ? ' (Retrograde)' : '';
 
     // Enhanced chart type specific handling
@@ -302,8 +302,8 @@
     const aspectSymbol = ASPECT_SYMBOLS[aspect] || aspect;
     const aspectColor = getAspectColorByChartType(aspect, detectedChartType);
     // For transit aspects: planet1 is transit (orange), planet2 is natal (gray)
-    const planet1Color = isTransitAspect ? '#ff9500' : '#333';
-    const planet2Color = '#333'; // Natal planet is always gray
+    const planet1Color = isTransitAspect ? '#ff9500' : 'var(--color-foreground)';
+    const planet2Color = 'var(--color-foreground)';
 
     // Enhanced chart type specific handling
     let typeLabel = isTransitAspect ? 'Transit Aspect' : 'Natal Aspect';
