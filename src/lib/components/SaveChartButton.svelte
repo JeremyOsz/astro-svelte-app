@@ -2,10 +2,40 @@
   import { chartStore, currentChart } from '$lib/stores/chart-store';
   import { Button } from '$lib/components/ui/button';
   import { Save, Check, Loader2 } from 'lucide-svelte';
+  import type { BirthData } from '$lib/stores/chart-store';
 
   let showSaveDialog = false;
   let chartName = '';
   let saveError = '';
+
+  function birthDataMatches(a: BirthData | null, b: BirthData | null): boolean {
+    if (!a || !b) return false;
+
+    return (
+      a.date === b.date &&
+      a.time === b.time &&
+      a.place === b.place &&
+      a.latitude === b.latitude &&
+      a.longitude === b.longitude
+    );
+  }
+
+  $: matchedSavedChart =
+    $chartStore.chartData && $chartStore.birthData
+      ? $chartStore.savedCharts.find(
+          (chart) =>
+            chart.chartData === $chartStore.chartData &&
+            birthDataMatches(chart.birthData, $chartStore.birthData)
+        ) ?? null
+      : null;
+
+  $: displayedSavedChart =
+    matchedSavedChart ??
+    ($currentChart &&
+    $chartStore.chartData === $currentChart.chartData &&
+    birthDataMatches($chartStore.birthData, $currentChart.birthData)
+      ? $currentChart
+      : null);
 
   function openSaveDialog() {
     saveError = '';
@@ -35,10 +65,10 @@
 </script>
 
 <div class="relative">
-  {#if $currentChart}
+  {#if displayedSavedChart}
     <Button variant="outline" size="sm" disabled>
       <Check class="h-4 w-4 mr-2" />
-      Saved as {$currentChart.name}
+      Saved as {displayedSavedChart.name}
     </Button>
   {:else}
     <Button
