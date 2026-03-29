@@ -12,6 +12,7 @@
   import { authStore } from '$lib/stores/auth-store';
   import { chartStore } from '$lib/stores/chart-store';
   import { injectAnalytics } from '@vercel/analytics/sveltekit';
+  import { env } from '$env/dynamic/public';
 
   export let data;
 
@@ -149,6 +150,12 @@
     };
   });
 </script>
+
+<svelte:head>
+  {#if env.PUBLIC_GOOGLE_SITE_VERIFICATION}
+    <meta name="google-site-verification" content={env.PUBLIC_GOOGLE_SITE_VERIFICATION} />
+  {/if}
+</svelte:head>
 
 <div class="min-h-screen flex flex-col relative z-[1]">
   <header class={`text-amber-50 shadow-lg flex-shrink-0 border-b ${isDark ? 'bg-gradient-to-r from-[#1a2520] via-[#2d3d35] to-[#1e2c24] border-amber-500/40' : 'bg-gradient-to-r from-[#2d4a3e] via-[#3D5C4A] to-[#2d4a3e] border-amber-900/30'}`}>
