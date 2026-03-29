@@ -7,7 +7,7 @@
   import * as Sheet from "$lib/components/ui/sheet";
   import { OccultDivider, OccultEmblem } from "$lib/components/occult";
   import { cn } from "$lib/utils";
-  import { Home, Star, BookOpen, Calendar, Search, Moon, Sun, Users, LineChart } from 'lucide-svelte';
+  import { Home, Star, BookOpen, Calendar, Search, Moon, Sun, Users, LineChart, Instagram, Linkedin } from 'lucide-svelte';
   import { page } from '$app/stores';
   import { authStore } from '$lib/stores/auth-store';
   import { chartStore } from '$lib/stores/chart-store';
@@ -337,10 +337,30 @@
      </div>
    </nav>
 
-   <!-- Desktop Footer -->
-  <footer class="bg-card py-6 text-center text-muted-foreground border-t-2 border-border hidden lg:block flex-shrink-0 occult-border-thick">
+   <!-- Footer -->
+  <footer class="bg-card py-6 pb-24 lg:pb-6 text-center text-muted-foreground border-t-2 border-border flex-shrink-0 occult-border-thick">
     <div class="max-w-5xl mx-auto px-4">
       <OccultDivider symbol="star" class="mb-4 opacity-70" />
+      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-3 text-sm">
+        <a
+          href="https://www.instagram.com/jeremyosz/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-foreground/80 hover:text-primary transition-colors"
+        >
+          <Instagram class="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span>@jeremyosz</span>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/jeremy-osztreicher-72236a125/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-foreground/80 hover:text-primary transition-colors"
+        >
+          <Linkedin class="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span>LinkedIn</span>
+        </a>
+      </div>
       <p class="font-body text-sm">&copy; 2025 OsztrOlogy. Powered by Swiss Ephemeris and D3.js</p>
     </div>
   </footer>
