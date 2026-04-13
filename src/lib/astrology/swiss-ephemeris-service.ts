@@ -16,6 +16,16 @@ interface SwissEphemerisResponse {
   [key: string]: any;
 }
 
+interface LocalDateTimeInput {
+  date: string;
+  time: string;
+}
+
+interface TransitCalculationOptions {
+  natalDateTime?: LocalDateTimeInput;
+  transitDateTime?: LocalDateTimeInput;
+}
+
 // Ensure this service is only used on the server side
 if (typeof window !== 'undefined') {
   throw new Error('SwissEphemerisService should only be used on the server side');
@@ -40,6 +50,42 @@ export class SwissEphemerisService {
     }
 
     return await response.json();
+  }
+
+  private static toDateString(input: Date): string {
+    return input.toISOString().split('T')[0];
+  }
+
+  private static toTimeString(input: Date): string {
+    return input.toTimeString().split(' ')[0];
+  }
+
+  private static normalizeTimeString(time: string): string {
+    return /^\d{2}:\d{2}$/.test(time) ? `${time}:00` : time;
+  }
+
+  private static getLocalDateTimeParts(
+    input: Date | LocalDateTimeInput,
+    fallback?: LocalDateTimeInput
+  ): LocalDateTimeInput {
+    if (fallback?.date && fallback?.time) {
+      return {
+        date: fallback.date,
+        time: this.normalizeTimeString(fallback.time)
+      };
+    }
+
+    if (input instanceof Date) {
+      return {
+        date: this.toDateString(input),
+        time: this.toTimeString(input)
+      };
+    }
+
+    return {
+      date: input.date,
+      time: this.normalizeTimeString(input.time)
+    };
   }
 
   static async calculateBirthChart(
@@ -140,7 +186,8 @@ export class SwissEphemerisService {
     natalChart: BirthChart,
     transitDate: Date,
     houseSystem: 'whole_sign' | 'placidus' = 'whole_sign',
-    transitLocation?: { latitude: number; longitude: number; name: string }
+    transitLocation?: { latitude: number; longitude: number; name: string },
+    options?: TransitCalculationOptions
   ): Promise<any> {
     // Validate dates
     if (!natalChart.date || isNaN(natalChart.date.getTime())) {
@@ -150,13 +197,16 @@ export class SwissEphemerisService {
       throw new Error('Invalid transit date');
     }
 
+    const natalDateTime = this.getLocalDateTimeParts(natalChart.date, options?.natalDateTime);
+    const transitDateTime = this.getLocalDateTimeParts(transitDate, options?.transitDateTime);
+
     const requestData = {
-      natal_date: natalChart.date.toISOString().split('T')[0],
-      natal_time: natalChart.date.toTimeString().split(' ')[0],
+      natal_date: natalDateTime.date,
+      natal_time: natalDateTime.time,
       natal_latitude: natalChart.latitude,
       natal_longitude: natalChart.longitude,
-      transit_date: transitDate.toISOString().split('T')[0],
-      transit_time: transitDate.toTimeString().split(' ')[0],
+      transit_date: transitDateTime.date,
+      transit_time: transitDateTime.time,
       house_system: houseSystem,
       ...(transitLocation && {
         transit_latitude: transitLocation.latitude,

@@ -1,1 +1,4 @@
-export { PLANET_INTERPRETATIONS, PLANET_IN_SIGN_INTERPRETATIONS } from './generated/planets';
+import { PLANET_INTERPRETATIONS, PLANET_IN_SIGN_INTERPRETATIONS } from './generated/planets';
+
+export type PlanetInterpretationKey = keyof typeof PLANET_INTERPRETATIONS;
+export { PLANET_INTERPRETATIONS, PLANET_IN_SIGN_INTERPRETATIONS };

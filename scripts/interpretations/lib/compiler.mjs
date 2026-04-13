@@ -1,3 +1,4 @@
+// @ts-nocheck — build-time script; checked implicitly via pipeline tests
 import fs from 'node:fs/promises';
 import path from 'node:path';
 

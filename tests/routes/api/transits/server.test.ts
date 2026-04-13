@@ -92,6 +92,52 @@ describe('/api/transits', () => {
       );
     });
 
+    it('should preserve the literal transit timestamp string from the request payload', async () => {
+      vi.mocked(SwissEphemerisService.calculateTransits).mockResolvedValue({
+        planets: [],
+        aspects: [],
+      });
+
+      const mockNatalChart = {
+        planets: [],
+        date: new Date('1990-01-01T12:00:00Z'),
+        latitude: 51.5072,
+        longitude: -0.1276,
+      };
+
+      const request = new Request('http://localhost:5173/api/transits', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          natalChart: mockNatalChart,
+          transitDate: '2026-04-15T10:13:00Z',
+          house_system: 'whole_sign',
+          transitLocation: {
+            latitude: 51.5072,
+            longitude: -0.1276,
+            name: 'London, GB'
+          }
+        }),
+      });
+
+      const response = await POST({ request } as any);
+
+      expect(response.status).toBe(200);
+      expect(SwissEphemerisService.calculateTransits).toHaveBeenCalledWith(
+        {
+          ...mockNatalChart,
+          date: new Date('1990-01-01T12:00:00Z')
+        },
+        new Date('2026-04-15T10:13:00Z'),
+        'whole_sign',
+        {
+          latitude: 51.5072,
+          longitude: -0.1276,
+          name: 'London, GB'
+        }
+      );
+    });
+
     it('should return 400 error when natalChart is missing', async () => {
       const request = new Request('http://localhost:5173/api/transits', {
         method: 'POST',

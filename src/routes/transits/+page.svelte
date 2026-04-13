@@ -24,8 +24,16 @@
   let error: string | null = null;
 
   // Transit settings
-  let transitDate = new Date().toISOString().split('T')[0];
-  let transitTime = new Date().toLocaleTimeString('en-US', { 
+  function formatLocalDateInputValue(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  const now = new Date();
+  let transitDate = formatLocalDateInputValue(now);
+  let transitTime = now.toLocaleTimeString('en-US', { 
     hour12: false, 
     hour: '2-digit', 
     minute: '2-digit' 

@@ -75,7 +75,11 @@ The conscious self and emotional life operate as one force, creating immediacy a
 
 describe('interpretation markdown parser', () => {
   it('parses synastry family markdown into the expected schema', () => {
-    const parsed = parseSynastryFamilyMarkdown(sampleSynastryMarkdown, 'Trine');
+    // compiler.mjs is @ts-nocheck; assert against runtime shape
+    const parsed = parseSynastryFamilyMarkdown(sampleSynastryMarkdown, 'Trine') as {
+      general: string;
+      planets: Record<string, { aspect: string; person1Planet: string; person2Planet: string; compatibility: string; intensity: string; romance?: string }>;
+    };
 
     expect(parsed.general).toBe('');
     expect(parsed.planets.Sun_Sun).toMatchObject({
@@ -101,15 +105,28 @@ describe('interpretation markdown parser', () => {
   });
 
   it('parses planets, houses, and aspects markdown', () => {
-    expect(parsePlanetsMarkdown(samplePlanetsMarkdown).PLANET_INTERPRETATIONS.Sun.description).toContain('Core identity');
-    expect(parseHousesMarkdown(sampleHousesMarkdown).Aries['1']).toContain('directness');
-    expect(parseAspectFamilyMarkdown(sampleAspectMarkdown).Conjunction.planets.Sun_Moon).toContain('conscious self');
+    const planetsDoc = parsePlanetsMarkdown(samplePlanetsMarkdown) as unknown as {
+      PLANET_INTERPRETATIONS: { Sun: { description: string } };
+    };
+    const housesDoc = parseHousesMarkdown(sampleHousesMarkdown) as unknown as { Aries: Record<string, string> };
+    const aspectsDoc = parseAspectFamilyMarkdown(sampleAspectMarkdown) as unknown as {
+      Conjunction: { planets: Record<string, string> };
+    };
+    expect(planetsDoc.PLANET_INTERPRETATIONS.Sun.description).toContain('Core identity');
+    expect(housesDoc.Aries['1']).toContain('directness');
+    expect(aspectsDoc.Conjunction.planets.Sun_Moon).toContain('conscious self');
   });
 });
 
 describe('interpretation compiler', () => {
   it('compiles all real content files into runtime datasets', async () => {
-    const compiled = await compileAllInterpretations();
+    const compiled = (await compileAllInterpretations()) as unknown as {
+      houses: Record<string, Record<string, string>>;
+      planets: { PLANET_INTERPRETATIONS: { Sun: { description: string } } };
+      synastry: Record<string, { planets: Record<string, { aspect: string }> }>;
+      transits: Record<string, Record<string, string>>;
+      aspects: Record<string, { general: string }>;
+    };
 
     expect(compiled.houses.Aries['1']).toContain('You present yourself');
     expect(compiled.planets.PLANET_INTERPRETATIONS.Sun.description).toContain('core identity');

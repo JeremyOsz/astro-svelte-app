@@ -41,8 +41,6 @@ export const actions = {
       };
 
       const natalChart = parseNatalChart(selectedBirthChart, formChartData);
-      
-      // Create transit date with time
       const transitDateTime = new Date(`${transitDate}T${transitTime}:00`);
       
       // Calculate transits using the Swiss Ephemeris Service directly
@@ -54,6 +52,16 @@ export const actions = {
           latitude: transitLat,
           longitude: transitLng,
           name: transitLocationName
+        },
+        {
+          natalDateTime: {
+            date: birthData.date,
+            time: birthData.time
+          },
+          transitDateTime: {
+            date: transitDate,
+            time: transitTime
+          }
         }
       );
 

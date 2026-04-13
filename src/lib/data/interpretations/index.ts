@@ -16,6 +16,8 @@ export type {
     PlanetInSignInterpretations,
     SignInHouseInterpretations
 } from './types';
+export type { AspectFamilyKey } from './aspects';
+export type { PlanetInterpretationKey } from './planets';
 
 // Re-export constants
 export {
@@ -49,17 +51,18 @@ export {
 } from './transits';
 
 // Import the data we need for utility functions
-import { ASPECT_INTERPRETATIONS } from './aspects';
+import { ASPECT_INTERPRETATIONS, type AspectFamilyKey } from './aspects';
 import { SYNASTRY_ASPECT_INTERPRETATIONS } from './synastry/synastry';
 import { PLANET_IN_SIGN_INTERPRETATIONS } from './planets';
 
 // Utility functions for accessing interpretations
 export function getDetailedAspectInterpretation(aspect: string, planet1: string, planet2: string): string {
-    const aspectData = ASPECT_INTERPRETATIONS[aspect];
+    const aspectData = ASPECT_INTERPRETATIONS[aspect as AspectFamilyKey];
     if (!aspectData) return '';
     
     const planetKey = `${planet1}_${planet2}`;
-    return aspectData.planets[planetKey] || aspectData.general;
+    const planets = aspectData.planets as Record<string, string>;
+    return planets[planetKey] || aspectData.general;
 }
 
 // Synastry utility functions

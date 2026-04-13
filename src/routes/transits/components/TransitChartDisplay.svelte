@@ -27,7 +27,9 @@
     PLANET_INTERPRETATIONS,
     HOUSES,
     PLANET_IN_SIGN_INTERPRETATIONS,
-    SIGN_IN_HOUSE_INTERPRETATIONS
+    SIGN_IN_HOUSE_INTERPRETATIONS,
+    type AspectFamilyKey,
+    type PlanetInterpretationKey
   } from '$lib/data/interpretations/index';
   import { SIGN_CHARACTERISTICS } from '$lib/data/astrological-data';
 
@@ -100,7 +102,7 @@
   }
 
   function getAspectNature(aspect: string): string {
-    const aspectData = ASPECT_INTERPRETATIONS[aspect];
+    const aspectData = ASPECT_INTERPRETATIONS[aspect as AspectFamilyKey];
     return aspectData?.nature || 'Aspect nature information not available';
   }
 
@@ -262,7 +264,7 @@
     });
     
     // 3. Natal Planet Core Meaning - using centralized data from interpretations
-    const planetData = PLANET_INTERPRETATIONS[data.planet];
+    const planetData = PLANET_INTERPRETATIONS[data.planet as PlanetInterpretationKey];
     const planetMeaning = planetData?.description || 'your core planetary energy';
     
     sections.push({
@@ -345,7 +347,7 @@
     });
     
     // 3. Current Transit Energy - using centralized data from interpretations
-    const planetData = PLANET_INTERPRETATIONS[data.planet];
+    const planetData = PLANET_INTERPRETATIONS[data.planet as PlanetInterpretationKey];
     const planetMeaning = planetData?.description || 'your current energy';
     
     sections.push({

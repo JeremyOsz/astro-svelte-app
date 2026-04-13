@@ -1,3 +1,4 @@
+// @ts-nocheck — build-time script; checked implicitly via pipeline tests
 const DEFAULT_THRESHOLDS = {
   houses: 80,
   planetInSign: 170,

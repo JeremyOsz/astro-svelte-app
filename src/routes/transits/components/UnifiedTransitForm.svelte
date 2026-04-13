@@ -26,6 +26,13 @@
   let transitSearchTimeout: ReturnType<typeof setTimeout> | null = null;
   let isCollapsed = false;
 
+  function formatLocalDateInputValue(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   onMount(async () => {
     await getCurrentLocation();
   });
@@ -99,7 +106,7 @@
 
   function useCurrentTimeAndLocation() {
     const now = new Date();
-    transitDate = now.toISOString().split('T')[0];
+    transitDate = formatLocalDateInputValue(now);
     transitTime = now.toLocaleTimeString('en-US', { 
       hour12: false, 
       hour: '2-digit', 

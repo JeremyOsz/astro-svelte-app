@@ -1,6 +1,6 @@
 // Transit interpretations and utility functions
 import type { TransitInterpretation } from './types';
-import { ASPECT_INTERPRETATIONS } from './aspects';
+import { ASPECT_INTERPRETATIONS, type AspectFamilyKey } from './aspects';
 
 // Import the new detailed transit interpretations
 import { CONJUNCTION_INTERPRETATIONS } from './transits/conjunction';
@@ -48,14 +48,15 @@ export function getTransitInterpretation(aspect: string, transitPlanet: string, 
     }
 
     // Fall back to the original aspect interpretations
-    const originalAspectData = ASPECT_INTERPRETATIONS[aspect];
+    const originalAspectData = ASPECT_INTERPRETATIONS[aspect as AspectFamilyKey];
     if (!originalAspectData) return '';
 
     // Try both possible planet key combinations
     const planetKey1 = `${transitPlanet}_${natalPlanet}`;
     const planetKey2 = `${natalPlanet}_${transitPlanet}`;
-    
-    const interpretation = originalAspectData.planets[planetKey1] || originalAspectData.planets[planetKey2];
+
+    const planets = originalAspectData.planets as Record<string, string>;
+    const interpretation = planets[planetKey1] || planets[planetKey2];
 
     if (interpretation) {
         return interpretation;

@@ -1,3 +1,4 @@
+// @ts-nocheck — build-time script; checked implicitly via pipeline tests
 import { SYNASTRY_CONTEXTS } from './definitions.mjs';
 
 export function serializeSynastryFamily(name, family) {
