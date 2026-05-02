@@ -319,14 +319,14 @@
 </script>
 
 {#if filteredPlanetInterpretations.length || filteredAspectInterpretations.length || filteredSignInterpretations.length}
-  <section class="interpretation-list mt-8 space-y-6 text-[15px]">
+  <section class="interpretation-list mt-8 space-y-6 text-[15px] sm:text-base">
     <h2 class="text-2xl font-bold text-foreground">Interpretations</h2>
 
     {#if filteredPlanetInterpretations.length}
       <div class="space-y-4">
         <h3 class="text-xl font-semibold text-foreground">Planets in Signs & Houses</h3>
         {#each filteredPlanetInterpretations as interpretation, i}
-          <div class="interpretation-card border border-border rounded-lg p-6 bg-card shadow-sm" class:mt-2={i !== 0}>
+          <div class="interpretation-card rounded-lg border border-border bg-card p-4 shadow-sm sm:p-6" class:mt-2={i !== 0}>
             <div class="space-y-4">
               <!-- Header -->
               <div class="border-b border-border pb-3">
@@ -354,7 +354,7 @@
               <!-- Strengths and Challenges -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {#if interpretation.strengths && interpretation.strengths.length > 0}
-                  <div class="strength-box rounded-lg p-4">
+                  <div class="strength-box rounded-lg p-3 sm:p-4">
                     <h5 class="font-semibold strength-heading mb-2">Strengths</h5>
                     <ul class="strength-copy space-y-1.5 leading-6">
                       {#each interpretation.strengths as strength}
@@ -368,7 +368,7 @@
                 {/if}
 
                 {#if interpretation.challenges && interpretation.challenges.length > 0}
-                  <div class="challenge-box rounded-lg p-4">
+                  <div class="challenge-box rounded-lg p-3 sm:p-4">
                     <h5 class="font-semibold challenge-heading mb-2">Challenges</h5>
                     <ul class="challenge-copy space-y-1.5 leading-6">
                       {#each interpretation.challenges as challenge}
@@ -391,7 +391,7 @@
       <div class="space-y-4">
         <h3 class="text-xl font-semibold text-foreground">Aspects</h3>
         {#each filteredAspectInterpretations as interpretation, i}
-          <div class="interpretation-card border border-border rounded-lg p-6 bg-card shadow-sm" class:mt-2={i !== 0}>
+          <div class="interpretation-card rounded-lg border border-border bg-card p-4 shadow-sm sm:p-6" class:mt-2={i !== 0}>
             <div class="space-y-4">
               <!-- Header -->
               <div class="border-b border-border pb-3">
@@ -408,14 +408,14 @@
               </div>
 
               {#if interpretation.general}
-                <div class="info-box rounded-lg p-4">
+                <div class="info-box rounded-lg p-3 sm:p-4">
                   <h5 class="font-medium info-heading mb-2">General Interpretation</h5>
                   <p class="info-copy leading-7">{interpretation.general}</p>
                 </div>
               {/if}
 
               {#if interpretation.specific}
-                <div class="specific-box rounded-lg p-4">
+                <div class="specific-box rounded-lg p-3 sm:p-4">
                   <h5 class="font-medium specific-heading mb-2">Specific Meaning</h5>
                   <p class="specific-copy leading-7">{interpretation.specific}</p>
                 </div>
@@ -430,7 +430,7 @@
       <div class="space-y-4">
         <h3 class="text-xl font-semibold text-foreground">Signs in Houses</h3>
         {#each filteredSignInterpretations as interpretation, i}
-          <div class="interpretation-card border border-border rounded-lg p-6 bg-card shadow-sm" class:mt-2={i !== 0}>
+          <div class="interpretation-card rounded-lg border border-border bg-card p-4 shadow-sm sm:p-6" class:mt-2={i !== 0}>
             <div class="space-y-4">
               <!-- Header -->
               <div class="border-b border-border pb-3">
@@ -443,7 +443,7 @@
               </div>
 
               <!-- House Information -->
-              <div class="house-box rounded-lg p-4">
+              <div class="house-box rounded-lg p-3 sm:p-4">
                 <h5 class="font-medium text-foreground mb-2">House {interpretation.title.split(' ').pop()} represents</h5>
                 <p class="text-muted-foreground leading-6">{interpretation.houseGeneral}</p>
               </div>
@@ -463,7 +463,7 @@
               <!-- Strengths and Challenges -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {#if interpretation.strengths && interpretation.strengths.length > 0}
-                  <div class="strength-box rounded-lg p-4">
+                  <div class="strength-box rounded-lg p-3 sm:p-4">
                     <h5 class="font-semibold strength-heading mb-2">Strengths</h5>
                     <ul class="strength-copy space-y-1.5 leading-6">
                       {#each interpretation.strengths as strength}
@@ -477,7 +477,7 @@
                 {/if}
 
                 {#if interpretation.challenges && interpretation.challenges.length > 0}
-                  <div class="challenge-box rounded-lg p-4">
+                  <div class="challenge-box rounded-lg p-3 sm:p-4">
                     <h5 class="font-semibold challenge-heading mb-2">Challenges</h5>
                     <ul class="challenge-copy space-y-1.5 leading-6">
                       {#each interpretation.challenges as challenge}

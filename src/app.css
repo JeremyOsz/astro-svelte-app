@@ -300,3 +300,39 @@ button, [role="button"] {
 .star-twinkle {
   animation: star-twinkle 2s ease-in-out infinite;
 }
+
+/* D3 charts: brief hover tooltip appended to document.body — must read clearly on dark wheels */
+.brief-chart-tooltip {
+  box-sizing: border-box;
+  z-index: 1100;
+  max-width: 260px;
+  white-space: normal;
+  line-height: 1.35;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+  color: var(--color-foreground);
+  background: color-mix(in oklch, var(--color-card) 82%, oklch(0.995 0.005 95));
+  border: 1px solid color-mix(in oklch, var(--color-border) 72%, var(--color-foreground));
+  box-shadow: 0 8px 26px rgb(0 0 0 / 0.2);
+}
+
+.dark .brief-chart-tooltip {
+  background: color-mix(in oklch, var(--color-foreground) 16%, var(--color-card));
+  border: 1px solid color-mix(in oklch, var(--color-primary) 48%, var(--color-border));
+  box-shadow:
+    0 12px 44px rgb(0 0 0 / 0.58),
+    0 0 0 1px color-mix(in oklch, var(--color-primary) 35%, transparent);
+}
+
+.brief-tooltip-content {
+  color: var(--color-foreground);
+  text-align: center;
+}
+
+.brief-tooltip-main {
+  color: var(--color-foreground);
+  font-weight: 500;
+}

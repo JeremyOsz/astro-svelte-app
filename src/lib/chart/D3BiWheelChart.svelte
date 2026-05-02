@@ -1568,32 +1568,7 @@
     margin-bottom: 0;
   }
 
-  /* Brief tooltip styles */
-  :global(.brief-chart-tooltip) {
-    position: absolute;
-    background: #fff;
-    color: #000;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    pointer-events: none;
-    z-index: 1000;
-    white-space: nowrap;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    min-width: 140px;
-  }
-
-  :global(.brief-tooltip-content) {
-    text-align: center;
-  }
-
-  :global(.brief-tooltip-main) {
-    opacity: 1;
-    font-weight: 600;
-  }
+  /* Brief hover tooltip: global styles in app.css (.brief-chart-tooltip) */
 
   /* Mobile tooltip adjustments */
   @media (max-width: 767px) {

@@ -1024,8 +1024,12 @@
           const filterUrl = ensureGlowFilterForSign(g, p.sign);
           d3.select(this.parentNode as SVGGElement).style('filter', filterUrl);
           d3.select(this)
-            .attr('stroke', zodiacColors[p.sign] || (isDarkTheme ? '#bba2ff' : '#5a6fa8'))
-            .attr('fill', isDarkTheme ? 'rgba(187, 162, 255, 0.08)' : 'rgba(90, 111, 168, 0.08)');
+            .attr('stroke', zodiacColors[p.sign] || (isDarkTheme ? '#dce6fc' : '#5a6fa8'))
+            .attr('stroke-width', '2')
+            .attr(
+              'fill',
+              isDarkTheme ? 'rgba(232, 224, 212, 0.22)' : 'rgba(90, 111, 168, 0.11)'
+            );
           
           // Add visual indicator for clustered planets
           if (clusterInfo.isInCluster) {
@@ -1045,6 +1049,7 @@
           d3.select(this.parentNode as SVGGElement).style('filter', null);
           d3.select(this)
             .attr('stroke', 'transparent')
+            .attr('stroke-width', '1.5')
             .attr('fill', 'transparent')
             .style('stroke-width', null)
             .style('stroke-dasharray', null);
@@ -1409,21 +1414,24 @@
     <!-- Chart controls - positioned outside the chart container -->
     <div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
       <button 
-        class="w-9 h-9 bg-card/95 border border-border rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-bold text-foreground backdrop-blur-sm shadow-md hover:bg-accent/25 hover:border-ring/60 hover:scale-105 hover:shadow-lg active:scale-95"
+        type="button"
+        class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-border bg-card text-base font-bold text-foreground shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:border-ring/70 hover:bg-accent/25 hover:shadow-lg active:scale-95 dark:border-primary/50 dark:bg-muted dark:shadow-[0_6px_20px_rgb(0_0_0/0.45)] dark:hover:bg-accent/30 dark:hover:border-ring/75"
         on:click={zoomIn}
         title="Zoom in"
       >
         +
       </button>
       <button 
-        class="w-9 h-9 bg-card/95 border border-border rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-bold text-foreground backdrop-blur-sm shadow-md hover:bg-accent/25 hover:border-ring/60 hover:scale-105 hover:shadow-lg active:scale-95"
+        type="button"
+        class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-border bg-card text-base font-bold text-foreground shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:border-ring/70 hover:bg-accent/25 hover:shadow-lg active:scale-95 dark:border-primary/50 dark:bg-muted dark:shadow-[0_6px_20px_rgb(0_0_0/0.45)] dark:hover:bg-accent/30 dark:hover:border-ring/75"
         on:click={zoomOut}
         title="Zoom out"
       >
         −
       </button>
       <button 
-        class="w-9 h-9 bg-card/95 border border-border rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-bold text-foreground backdrop-blur-sm shadow-md hover:bg-accent/25 hover:border-ring/60 hover:scale-105 hover:shadow-lg active:scale-95"
+        type="button"
+        class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-md border border-border bg-card text-sm font-bold text-foreground shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:border-ring/70 hover:bg-accent/25 hover:shadow-lg active:scale-95 dark:border-primary/50 dark:bg-muted dark:shadow-[0_6px_20px_rgb(0_0_0/0.45)] dark:hover:bg-accent/30 dark:hover:border-ring/75"
         on:click={zoomReset}
         title="Reset zoom and position"
       >
@@ -1455,29 +1463,4 @@
     background: color-mix(in oklch, var(--color-card) 90%, var(--color-background));
   }
 
-  /* Brief tooltip styles */
-  :global(.brief-chart-tooltip) {
-    background: color-mix(in oklch, var(--color-card) 96%, var(--color-background));
-    color: var(--color-foreground);
-    border: 1px solid color-mix(in oklch, var(--color-border) 86%, var(--color-foreground));
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    pointer-events: none;
-    z-index: 1100;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
-    max-width: 260px;
-    white-space: normal;
-    line-height: 1.35;
-  }
-
-  :global(.brief-tooltip-content) {
-    color: var(--color-foreground);
-  }
-
-  :global(.brief-tooltip-main) {
-    color: var(--color-foreground);
-    font-weight: 500;
-  }
 </style> 

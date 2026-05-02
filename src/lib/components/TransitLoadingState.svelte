@@ -42,7 +42,7 @@
 
 <div class="flex flex-col items-center justify-center py-16 px-4">
   <!-- Main Loading Container -->
-  <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-8 max-w-md w-full">
+  <div class="w-full max-w-md rounded-xl border border-border bg-card p-8 shadow-lg">
     <!-- Header with Icon -->
     <div class="text-center mb-6">
       <div class="relative inline-block">
@@ -53,18 +53,18 @@
           <Star class="h-3 w-3 text-yellow-800" />
         </div>
       </div>
-      <h3 class="text-xl font-semibold text-gray-900 mb-2">Planetary Transits</h3>
-      <p class="text-gray-600 text-sm">Analyzing celestial influences</p>
+      <h3 class="mb-2 text-xl font-semibold text-foreground">Planetary Transits</h3>
+      <p class="text-sm text-muted-foreground">Analyzing celestial influences</p>
     </div>
     
     <!-- Progress Bar -->
     {#if showProgress}
       <div class="mb-6">
-        <div class="flex justify-between text-xs text-gray-500 mb-2">
+        <div class="mb-2 flex justify-between text-xs text-muted-foreground">
           <span>Progress</span>
           <span>{Math.round(progress)}%</span>
         </div>
-        <div class="w-full bg-gray-200 rounded-full h-2">
+        <div class="h-2 w-full rounded-full bg-muted">
           <div 
             class="bg-primary h-2 rounded-full transition-all duration-300 ease-out"
             style="width: {progress}%"
@@ -77,9 +77,9 @@
     <div class="text-center mb-6">
       <div class="flex items-center justify-center gap-2 mb-2">
         <Loader2 class="h-5 w-5 animate-spin text-primary" />
-        <span class="text-sm font-medium text-gray-700">{steps[currentStep]}</span>
+        <span class="text-sm font-medium text-foreground">{steps[currentStep]}</span>
       </div>
-      <p class="text-xs text-gray-500">{message}</p>
+      <p class="text-xs text-muted-foreground">{message}</p>
     </div>
     
     <!-- Step Indicators -->
@@ -87,13 +87,13 @@
       <div class="space-y-2">
         {#each steps as step, index}
           <div class="flex items-center gap-3">
-            <div class="w-4 h-4 rounded-full flex items-center justify-center text-xs font-medium
+            <div class="flex h-4 w-4 items-center justify-center rounded-full text-xs font-medium
                         {index < currentStep ? 'bg-green-500 text-white' : 
                          index === currentStep ? 'bg-primary text-primary-foreground animate-pulse' : 
-                         'bg-gray-200 text-gray-400'}">
+                         'bg-muted text-muted-foreground/70'}">
               {index < currentStep ? '✓' : index + 1}
             </div>
-            <span class="text-xs {index <= currentStep ? 'text-gray-700' : 'text-gray-400'}">
+            <span class="text-xs {index <= currentStep ? 'text-foreground' : 'text-muted-foreground/70'}">
               {step}
             </span>
           </div>
@@ -102,8 +102,8 @@
     {/if}
     
     <!-- Astrological Elements -->
-    <div class="mt-6 pt-4 border-t border-gray-100">
-      <div class="flex justify-center gap-4 text-xs text-gray-500">
+    <div class="mt-6 border-t border-border pt-4">
+      <div class="flex justify-center gap-4 text-xs text-muted-foreground">
         <div class="flex items-center gap-1">
           <Clock class="h-3 w-3" />
           <span>Real-time data</span>

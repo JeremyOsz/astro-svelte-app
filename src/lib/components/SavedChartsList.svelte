@@ -169,16 +169,16 @@
                 {/if}
                 <div class="font-medium truncate text-foreground">{chart.name}</div>
               </div>
-              <div class="text-sm text-muted-foreground">
+              <div class="text-xs text-muted-foreground sm:text-sm">
                 {new Date(chart.createdAt).toLocaleDateString()} • {chart.birthData.place}
               </div>
             {/if}
           </div>
 
-          <div class="flex gap-1 ml-2">
+          <div class="ml-2 flex shrink-0 gap-0.5 sm:gap-1">
             <Button
               variant="ghost"
-              size="sm"
+              size="icon"
               onclick={(e) => {
                 e.stopPropagation();
                 handleSelectChart(chart);
@@ -191,7 +191,7 @@
 
             <Button
               variant="ghost"
-              size="sm"
+              size="icon"
               onclick={(e) => {
                 e.stopPropagation();
                 handleShare(chart);
@@ -205,7 +205,7 @@
             {#if editingChartId !== chart.id}
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon"
                 onclick={(e) => {
                   e.stopPropagation();
                   handleEdit(chart);
@@ -219,7 +219,7 @@
 
             <Button
               variant="ghost"
-              size="sm"
+              size="icon"
               onclick={(e) => {
                 e.stopPropagation();
                 handleDelete(chart.id);

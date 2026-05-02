@@ -335,7 +335,7 @@
        {#each mobileNavItems as item}
          <a
            href={item.href}
-           class="flex flex-col items-center py-3 px-2 min-w-0 flex-1 transition-colors {currentPath === item.href ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}"
+           class="flex min-w-0 flex-1 flex-col items-center px-2 py-3 transition-colors {currentPath === item.href ? 'text-primary' : 'text-muted-foreground/90 hover:text-foreground dark:text-muted-foreground'}"
          >
            <svelte:component this={item.icon} class="w-6 h-6 mb-1" />
            <span class="text-xs font-medium truncate">{item.title}</span>

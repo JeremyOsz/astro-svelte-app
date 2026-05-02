@@ -92,17 +92,19 @@
   {/if}
 
   {#if showSaveDialog}
-    <div class="absolute top-full mt-2 p-4 bg-white border rounded-lg shadow-lg z-50 min-w-64">
-      <h4 class="font-medium mb-2">Save Person</h4>
+    <div
+      class="absolute right-0 top-full z-50 mt-2 min-w-64 rounded-lg border border-border bg-popover p-4 text-popover-foreground shadow-lg sm:right-auto"
+    >
+      <h4 class="mb-2 font-medium text-popover-foreground">Save Person</h4>
       <input
         type="text"
         bind:value={chartName}
         placeholder="Enter person name"
-        class="w-full px-3 py-2 border rounded mb-3"
+        class="mb-3 w-full rounded-md border border-input bg-background px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         on:keydown={(e) => e.key === 'Enter' && handleSave()}
       />
       {#if saveError}
-        <p class="text-red-500 text-sm mb-3">{saveError}</p>
+        <p class="mb-3 text-sm text-destructive">{saveError}</p>
       {/if}
       <div class="flex gap-2">
         <Button size="sm" onclick={handleSave} disabled={!chartName.trim() || $chartStore.isSaving}>

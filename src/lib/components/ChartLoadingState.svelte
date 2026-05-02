@@ -69,17 +69,17 @@
           <div class="absolute inset-2 border-4 border-primary/30 rounded-full cosmic-spin" style="animation-duration: 2s; animation-direction: reverse;"></div>
           <!-- Center -->
           <div class="absolute inset-4 bg-primary rounded-full flex items-center justify-center">
-            <Loader2 class="h-6 w-6 text-white animate-spin" />
+            <Loader2 class="h-6 w-6 text-primary-foreground animate-spin" />
           </div>
         </div>
       </div>
       
       <!-- Loading message -->
       <div class="mb-4">
-        <h3 class="text-lg font-semibold text-gray-800 mb-2">
+        <h3 class="mb-2 text-lg font-semibold text-foreground">
           {stepMessages[currentStep]}
         </h3>
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-muted-foreground">
           {message}{dots}
         </p>
       </div>
@@ -87,20 +87,20 @@
       <!-- Progress bar -->
       {#if showProgress}
         <div class="mb-4">
-          <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+          <div class="h-2 w-full overflow-hidden rounded-full bg-muted">
             <div 
               class="h-2 bg-primary rounded-full transition-all duration-500 ease-out"
               style="width: {progress}%"
             ></div>
           </div>
-          <p class="text-xs text-gray-500 mt-2">
+          <p class="mt-2 text-xs text-muted-foreground">
             {Math.round(progress)}% complete
           </p>
         </div>
       {/if}
       
       <!-- Mystical tips -->
-      <div class="text-xs text-gray-500 space-y-1">
+      <div class="space-y-1 text-xs text-muted-foreground">
         <p>✨ Connecting to the celestial realm</p>
         <p>🌟 Mapping your unique cosmic fingerprint</p>
         <p>🌙 Revealing your astrological destiny</p>
@@ -110,7 +110,7 @@
   
   <!-- Additional info below -->
   <div class="mt-6 text-center">
-    <p class="text-sm text-gray-500 max-w-sm">
+    <p class="max-w-sm text-sm text-muted-foreground">
       This process involves complex astronomical calculations to determine the exact positions of planets at your moment of birth.
     </p>
   </div>

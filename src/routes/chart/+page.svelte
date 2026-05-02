@@ -292,7 +292,7 @@ MC,Leo,10°14'`;
 <Sidebar.Provider bind:open={sidebarOpen}>
   <div class="flex flex-col md:flex-row min-h-screen w-full relative">
     <!-- Mobile: Accordion for Birth Data and People -->
-    <div class="w-full max-w-xl mx-auto mt-2 px-2 md:hidden">
+    <div class="mt-2 w-full px-3 md:hidden">
         <Accordion.Accordion type="single" bind:value={mobileAccordionValue}>
           <Accordion.AccordionItem value="birth-form">
             <Accordion.AccordionTrigger class="text-lg font-semibold">
@@ -806,7 +806,7 @@ MC,Leo,10°14'`;
         </Sheet.Root>
 
       <!-- Chart Content -->
-      <div class="flex-1 p-2 sm:py-2 sm:py-4 m:p-4 min-h-0 relative">
+      <div class="relative min-h-0 flex-1 p-2 sm:p-4 md:p-4">
         <!-- Loading State -->
         {#if isLoading}
           <div class="flex items-center justify-center h-full min-h-[400px]">
@@ -823,8 +823,7 @@ MC,Leo,10°14'`;
           <div class="bg-card/70 border border-border rounded-lg shadow-md p-2 sm:p-4 md:p-4"
                class:px-0={isMobile}
                class:rounded-none={isMobile}
-               class:shadow-none={isMobile}
-               class:-mx-4={isMobile}>
+               class:shadow-none={isMobile}>
             <D3Chart 
               bind:this={chartComponent}
               {showDegreeMarkers}
