@@ -10,6 +10,7 @@
   } from '../components/tooltips/brief-tooltip';
   import ChartElementDialog from '../components/dialogs/ChartElementDialog.svelte';
   import { chartStore } from '../stores/chart-store';
+  import { calculateTransitAspectRows } from '../astrology/transit-aspects';
 
   const ENABLE_DEBUG_LOGS = false;
   function debugLog(...args: unknown[]) {
@@ -610,35 +611,19 @@
   }
 
   function calculateTransitToNatalAspects(natalPlanets: PlanetData[], transitPlanets: PlanetData[]) {
-    const aspects = [];
-    const natalCorePlanets = natalPlanets.filter(p => coreAspectBodies.includes(p.planet));
-    const transitCorePlanets = transitPlanets.filter(p => coreAspectBodies.includes(p.planet));
-    
-    // Calculate aspects from transit planets TO natal planets
-    for (const transitPlanet of transitCorePlanets) {
-      for (const natalPlanet of natalCorePlanets) {
-        const angleDiff = Math.abs(transitPlanet.angle - natalPlanet.angle);
-        const angleDiff2 = Math.abs(360 - angleDiff);
-        const minAngle = Math.min(angleDiff, angleDiff2);
-        
-        for (const [aspectName, aspectDef] of Object.entries(aspectDefs)) {
-          const orb = Math.abs(minAngle - aspectDef.angle);
-          if (orb <= aspectDef.orb && orb < 3) {
-            aspects.push({
-              planet1: transitPlanet.planet, // Transit planet (FROM)
-              planet2: natalPlanet.planet,   // Natal planet (TO)
-              aspect: aspectName,
-              orb: orb,
-              color: aspectDef.color,
-              weight: aspectDef.weight,
-              style: aspectDef.style
-            });
-          }
-        }
-      }
-    }
-    
-    return aspects;
+    const natalState = get(chartState);
+    return calculateTransitAspectRows(
+      { planets: natalPlanets as any, houses: natalState.houseCusps.map((cusp) => ({ house: cusp.house, longitude: cusp.angle })) },
+      { planets: transitPlanets as any }
+    ).map((row) => ({
+      planet1: row.transitPlanet,
+      planet2: row.natalPlanet,
+      aspect: row.aspect,
+      orb: row.orb,
+      color: row.color,
+      weight: row.weight,
+      style: row.style
+    }));
   }
 
   function createChart() {

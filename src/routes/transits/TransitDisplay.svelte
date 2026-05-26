@@ -1,81 +1,22 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
   import { formatDegrees } from '$lib/utils/chart-utils';
   import { getSignByDegree } from '$lib/astrology/astrology';
-  import type { NatalChart, TransitChart, TransitAspect, Planet } from '$lib/types/types';
-  import { ASPECT_DEFINITIONS, ZODIAC_SYMBOLS, PLANET_SYMBOLS } from '$lib/data/astrological-data';
+  import type { NatalChart, TransitChart, Planet } from '$lib/types/types';
+  import { ZODIAC_SYMBOLS, PLANET_SYMBOLS } from '$lib/data/astrological-data';
   import { 
-    getTransitInterpretation, 
     getEnhancedTransitInterpretation,
     getTransitPlanetInHouseMeaning,
     getTransitPlanetInSignMeaning,
   } from '$lib/data/interpretations/index';
+  import {
+    calculateTransitAspectRows,
+    formatTransitOrb,
+    MAJOR_TRANSIT_ASPECTS,
+    type TransitAspectRow
+  } from '$lib/astrology/transit-aspects';
 
   export let natalChart: NatalChart;
   export let currentTransits: TransitChart;
-
-  // Lifecycle
-  onMount(() => {
-    // Component mounted
-  });
-
-  onDestroy(() => {
-    // Component destroyed
-  });
-
-  $: transitAspects = calculateTransitAspects();
-
-  function calculateTransitAspects(): TransitAspect[] {
-    if (!natalChart || !currentTransits || !currentTransits.planets) return [];
-
-    const aspects: TransitAspect[] = [];
-
-    currentTransits.planets.forEach((transitPlanet) => {
-      natalChart.planets.forEach((natalPlanet) => {
-        if (natalPlanet.name === 'Vertex' || transitPlanet.name === 'Vertex') return;
-        
-        // Extract longitude values - handle both direct values and nested objects
-        let transitLongitude: number;
-        if (typeof transitPlanet.longitude === 'number') {
-          transitLongitude = transitPlanet.longitude;
-        } else if (transitPlanet.longitude && typeof transitPlanet.longitude === 'object' && transitPlanet.longitude.raw !== undefined) {
-          transitLongitude = transitPlanet.longitude.raw;
-        } else {
-          return; // Skip if no valid longitude
-        }
-        
-        const angleDiff = Math.abs(transitLongitude - (typeof natalPlanet.longitude === 'number' ? natalPlanet.longitude : natalPlanet.longitude.raw));
-        const diff = Math.min(angleDiff, 360 - angleDiff);
-
-        let closestAspect: (TransitAspect & { defOrb: number }) | null = null;
-
-        for (const aspectName in ASPECT_DEFINITIONS) {
-            const aspectDef = ASPECT_DEFINITIONS[aspectName as keyof typeof ASPECT_DEFINITIONS];
-            const orb = Math.abs(diff - aspectDef.angle);
-
-            if (orb <= aspectDef.orb) {
-                if (!closestAspect || orb < closestAspect.orb) {
-                    closestAspect = { 
-                        transitPlanet, 
-                        natalPlanet, 
-                        type: aspectName, 
-                        orb: orb, 
-                        color: aspectDef.color, 
-                        style: aspectDef.style,
-                        defOrb: aspectDef.orb
-                    };
-                }
-            }
-        }
-
-        if (closestAspect && closestAspect.orb < 3) {
-            aspects.push(closestAspect);
-        }
-      });
-    });
-
-    return aspects.sort((a, b) => a.orb - b.orb);
-  }
 
   function getPlanetSymbol(planetName: string): string {
     return PLANET_SYMBOLS[planetName] || planetName;
@@ -85,245 +26,24 @@
     return ZODIAC_SYMBOLS[signName] || signName;
   }
 
-  // Import centralized symbols
-  import { ASPECT_SYMBOLS } from '$lib/data/symbols';
-
-  function getAspectSymbol(aspectType: string): string {
-    return ASPECT_SYMBOLS[aspectType] || aspectType;
+  function getAspectKey(aspect: TransitAspectRow): string {
+    return `${aspect.transitPlanet}|${aspect.aspect}|${aspect.natalPlanet}`;
   }
 
-  function formatOrb(orb: number, transitLongitude: number, natalLongitude: number): string {
-    const degrees = Math.floor(orb);
-    const minutes = Math.floor((orb - degrees) * 60);
-    
-    const angleDiff = Math.abs(transitLongitude - natalLongitude);
-    const diff = Math.min(angleDiff, 360 - angleDiff);
-    
-    const isApplying = diff < orb;
-    const direction = isApplying ? '+' : '-';
-    const status = isApplying ? 'A' : 's';
-    
-    return `${direction}${degrees}°${minutes}'${status}`;
+  function getTransitInterpretationText(aspect: TransitAspectRow): string {
+    return getEnhancedTransitInterpretation(
+      aspect.aspect,
+      aspect.transitPlanet,
+      aspect.natalPlanet,
+      aspect.transitHouse ?? undefined,
+      aspect.transitSign
+    );
   }
 
-  function getMainPlanetAspects() {
-    if (!natalChart || !currentTransits || !currentTransits.planets) return [];
-    
-    const aspects: Array<{
-      transitPlanet: string;
-      aspect: string;
-      birthPlanet: string;
-      orb: number;
-      transitSymbol: string;
-      birthSymbol: string;
-      aspectSymbol: string;
-      transitLongitude: number;
-      natalLongitude: number;
-      transitHouse: number;
-      transitSign: string;
-      enhancedInterpretation: string;
-      aspectType: 'major' | 'minor' | 'angular';
-    }> = [];
-    const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
-    
-    currentTransits.planets.forEach((transitPlanet) => {
-      if (!mainPlanets.includes(transitPlanet.name)) return;
-      
-      natalChart.planets.forEach((natalPlanet) => {
-        if (!mainPlanets.includes(natalPlanet.name)) return;
-        
-        // Extract longitude values - handle both direct values and nested objects
-        let transitLongitude: number;
-        if (typeof transitPlanet.longitude === 'number') {
-          transitLongitude = transitPlanet.longitude;
-        } else if (transitPlanet.longitude && typeof transitPlanet.longitude === 'object' && transitPlanet.longitude.raw !== undefined) {
-          transitLongitude = transitPlanet.longitude.raw;
-        } else {
-          return; // Skip if no valid longitude
-        }
-        
-        const natalLongitude = typeof natalPlanet.longitude === 'number' ? natalPlanet.longitude : natalPlanet.longitude.raw;
-        const angleDiff = Math.abs(transitLongitude - natalLongitude);
-        const diff = Math.min(angleDiff, 360 - angleDiff);
-
-        for (const [aspectName, aspectDef] of Object.entries(ASPECT_DEFINITIONS)) {
-          const orb = Math.abs(diff - aspectDef.angle);
-          if (orb <= aspectDef.orb && orb < 3) {
-            // Extract sign for house calculation
-            let transitSign: string;
-            if (typeof transitPlanet.sign === 'string') {
-              transitSign = transitPlanet.sign;
-            } else if (transitPlanet.sign && typeof transitPlanet.sign === 'object' && transitPlanet.sign.name) {
-              transitSign = transitPlanet.sign.name;
-            } else {
-              const signNames = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-                                'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
-              const signIndex = Math.floor(transitLongitude / 30);
-              transitSign = signNames[signIndex];
-            }
-            
-            const transitHouse = getHouseForPlanet(transitPlanet, natalChart.houses);
-            const enhancedInterpretation = getEnhancedTransitInterpretation(
-              aspectName, 
-              transitPlanet.name, 
-              natalPlanet.name, 
-              transitHouse, 
-              transitSign
-            );
-            
-            // Determine aspect type
-            let aspectType: 'major' | 'minor' | 'angular' = 'major';
-            if (['SemiSextile', 'Quincunx', 'Quintile', 'BiQuintile', 'Septile'].includes(aspectName)) {
-              aspectType = 'minor';
-            } else if (transitHouse === 1 || transitHouse === 4 || transitHouse === 7 || transitHouse === 10) {
-              aspectType = 'angular';
-            }
-            
-            aspects.push({
-              transitPlanet: transitPlanet.name,
-              aspect: aspectName,
-              birthPlanet: natalPlanet.name,
-              orb: orb,
-              transitSymbol: getPlanetSymbol(transitPlanet.name),
-              birthSymbol: getPlanetSymbol(natalPlanet.name),
-              aspectSymbol: getAspectSymbol(aspectName),
-              transitLongitude: transitLongitude,
-              natalLongitude: natalLongitude,
-              transitHouse: transitHouse,
-              transitSign: transitSign,
-              enhancedInterpretation: enhancedInterpretation,
-              aspectType: aspectType
-            });
-            break;
-          }
-        }
-      });
-    });
-    
-    const planetOrder = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
-    return aspects.sort((a, b) => {
-      const aIndex = planetOrder.indexOf(a.transitPlanet);
-      const bIndex = planetOrder.indexOf(b.transitPlanet);
-      if (aIndex !== bIndex) {
-        return aIndex - bIndex;
-      }
-      return a.orb - b.orb;
-    });
-  }
-
-  function getMinorAspects() {
-    const allAspects = getMainPlanetAspects();
-    return allAspects.filter(aspect => aspect.aspectType === 'minor');
-  }
-
-  function getMajorAspects() {
-    const allAspects = getMainPlanetAspects();
-    return allAspects.filter(aspect => aspect.aspectType === 'major');
-  }
-
-  function getAngularAspects() {
-    const allAspects = getMainPlanetAspects();
-    return allAspects.filter(aspect => aspect.aspectType === 'angular');
-  }
-
-  function getAspectsToObjects() {
-    if (!natalChart || !currentTransits) return [];
-    
-    const aspects: Array<{
-      transitPlanet: string;
-      aspect: string;
-      birthObject: string;
-      orb: number;
-      transitSymbol: string;
-      birthSymbol: string;
-      aspectSymbol: string;
-      transitLongitude: number;
-      natalLongitude: number;
-      transitHouse: number;
-      transitSign: string;
-      enhancedInterpretation: string;
-    }> = [];
-    const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
-    const objects = ['ASC', 'MC', 'DSC', 'IC', 'Node', 'S.Node', 'Lilith', 'Chiron', 'Fortune', 'Vertex'];
-    
-    // Extract planets from the objects structure
-    let transitPlanets: any[] = [];
-    if (currentTransits.planets && Array.isArray(currentTransits.planets)) {
-      transitPlanets = currentTransits.planets;
-    } else if (currentTransits.objects && typeof currentTransits.objects === 'object') {
-      transitPlanets = Object.values(currentTransits.objects).filter((obj: any) => 
-        obj && typeof obj === 'object' && obj.name && obj.longitude !== undefined
-      );
-    } else {
-      return [];
-    }
-    
-    transitPlanets.forEach((transitPlanet) => {
-      if (!mainPlanets.includes(transitPlanet.name)) return;
-      
-      natalChart.planets.forEach((natalPlanet) => {
-        if (!objects.includes(natalPlanet.name)) return;
-        
-        // Extract longitude values - handle both direct values and nested objects
-        let transitLongitude: number;
-        if (typeof transitPlanet.longitude === 'number') {
-          transitLongitude = transitPlanet.longitude;
-        } else if (transitPlanet.longitude && typeof transitPlanet.longitude === 'object' && transitPlanet.longitude.raw !== undefined) {
-          transitLongitude = transitPlanet.longitude.raw;
-        } else {
-          return; // Skip if no valid longitude
-        }
-        
-        const natalLongitude = typeof natalPlanet.longitude === 'number' ? natalPlanet.longitude : natalPlanet.longitude.raw;
-        const angleDiff = Math.abs(transitLongitude - natalLongitude);
-        const diff = Math.min(angleDiff, 360 - angleDiff);
-
-        for (const [aspectName, aspectDef] of Object.entries(ASPECT_DEFINITIONS)) {
-          const orb = Math.abs(diff - aspectDef.angle);
-          if (orb <= aspectDef.orb && orb < 3) {
-            // Extract sign for house calculation
-            let transitSign: string;
-            if (typeof transitPlanet.sign === 'string') {
-              transitSign = transitPlanet.sign;
-            } else if (transitPlanet.sign && typeof transitPlanet.sign === 'object' && transitPlanet.sign.name) {
-              transitSign = transitPlanet.sign.name;
-            } else {
-              const signNames = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-                                'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
-              const signIndex = Math.floor(transitLongitude / 30);
-              transitSign = signNames[signIndex];
-            }
-            
-            const transitHouse = getHouseForPlanet(transitPlanet, natalChart.houses);
-            const enhancedInterpretation = getEnhancedTransitInterpretation(
-              aspectName, 
-              transitPlanet.name, 
-              natalPlanet.name, 
-              transitHouse, 
-              transitSign
-            );
-            
-            aspects.push({
-              transitPlanet: transitPlanet.name,
-              aspect: aspectName,
-              birthObject: natalPlanet.name,
-              orb: orb,
-              transitSymbol: getPlanetSymbol(transitPlanet.name),
-              birthSymbol: getPlanetSymbol(natalPlanet.name),
-              aspectSymbol: getAspectSymbol(aspectName),
-              transitLongitude: transitLongitude,
-              natalLongitude: natalLongitude,
-              transitHouse: transitHouse,
-              transitSign: transitSign,
-              enhancedInterpretation: enhancedInterpretation
-            });
-            break;
-          }
-        }
-      });
-    });
-    
-    return aspects.sort((a, b) => a.orb - b.orb);
+  function getOrbBadgeClass(strength: string): string {
+    if (strength === 'Exact') return 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/50 dark:text-emerald-200 dark:border-emerald-800';
+    if (strength === 'Strong') return 'bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-950/50 dark:text-blue-200 dark:border-blue-800';
+    return 'bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-950/50 dark:text-amber-200 dark:border-amber-800';
   }
 
   function getPlanetHouseData() {
@@ -439,15 +159,18 @@
     return 1;
   }
 
-  $: mainPlanetAspects = getMainPlanetAspects();
-  $: majorAspects = getMajorAspects();
-  $: minorAspects = getMinorAspects();
-  $: angularAspects = getAngularAspects();
+  $: mainPlanetAspects = calculateTransitAspectRows(natalChart, currentTransits);
+  $: priorityAspects = mainPlanetAspects.slice(0, 8);
+  $: interpretedAspects = priorityAspects.slice(0, 5);
+  $: mainAspectKeys = new Set(mainPlanetAspects.map(getAspectKey));
+  $: additionalAspects = calculateTransitAspectRows(natalChart, currentTransits, {
+    includeMinorAspects: true,
+    includeNatalPoints: true
+  }).filter((aspect) => !mainAspectKeys.has(getAspectKey(aspect)));
   $: planetHouseData = getPlanetHouseData();
-  $: aspectsToObjects = getAspectsToObjects();
 </script>
 
-<div class="text-sm p-4 bg-white rounded-lg">
+<div class="text-sm p-4 bg-white dark:bg-card rounded-lg">
   <!-- Planet House Placement Table -->
   {#if planetHouseData.length > 0}
     <div class="mb-8">
@@ -514,230 +237,117 @@
   {/if}
 
   <div class="mb-12">
-    <h3 class="text-xl font-semibold mb-4 text-gray-900 border-b border-gray-200 pb-3">Transit Aspects</h3>
-    
-    <!-- Transit Summary -->
-    {#if mainPlanetAspects.length > 0 || aspectsToObjects.length > 0}
-      <div class="mb-6 p-4 bg-gradient-to-r from-emerald-50 to-blue-50 border border-emerald-200 rounded-lg">
-        <h4 class="font-semibold text-gray-900 mb-2">Active Transits Summary:</h4>
-        <div class="text-sm text-gray-700 space-y-1">
-          {#if majorAspects.length > 0}
-            <p><strong class="text-emerald-600">{majorAspects.length}</strong> major aspect{majorAspects.length !== 1 ? 's' : ''} active</p>
-          {/if}
-          {#if minorAspects.length > 0}
-            <p><strong class="text-blue-600">{minorAspects.length}</strong> minor aspect{minorAspects.length !== 1 ? 's' : ''} active</p>
-          {/if}
-          {#if angularAspects.length > 0}
-            <p><strong class="text-primary">{angularAspects.length}</strong> angular aspect{angularAspects.length !== 1 ? 's' : ''} active</p>
-          {/if}
-          {#if aspectsToObjects.length > 0}
-            <p><strong class="text-gray-600">{aspectsToObjects.length}</strong> aspect{aspectsToObjects.length !== 1 ? 's' : ''} to sensitive points</p>
-          {/if}
-        </div>
-      </div>
-    {/if}
-    
-    <!-- Major aspects -->
-    {#if majorAspects.length > 0}
-      <div class="mb-8">
-        <h4 class="font-semibold text-gray-900 mb-3 text-base">Major Aspects:</h4>
-        <div class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-6">
-          <div class="grid grid-cols-4 p-3 bg-gray-50 font-semibold text-gray-700 border-b-2 border-gray-200">
-            <span>Transit Planet</span>
-            <span>Aspect</span>
-            <span>Birth Planet</span>
-            <span>Orb*</span>
-          </div>
-          <div class="p-3 bg-gray-100 text-xs text-gray-600 border-b border-gray-200">* &lt; 3°</div>
-          {#each majorAspects as aspect}
-            <div class="grid grid-cols-4 p-3 border-b border-gray-100 hover:bg-gray-50 items-center">
-              <span class="font-medium text-gray-700">
-                {aspect.transitSymbol} {aspect.transitPlanet}
-              </span>
-              <span class="text-emerald-600 font-medium">
-                {aspect.aspectSymbol} {aspect.aspect}
-              </span>
-              <span class="font-medium text-gray-700">
-                {aspect.birthSymbol} {aspect.birthPlanet}
-              </span>
-              <span class="font-mono text-gray-600 text-sm">
-                {formatOrb(aspect.orb, aspect.transitLongitude, aspect.natalLongitude)}
-              </span>
-            </div>
-          {/each}
-        </div>
-        
-        <!-- Detailed Major Aspect Interpretations -->
-        <div class="mt-6">
-          <h4 class="font-semibold text-gray-900 mb-3 text-base">Major Aspect Interpretations:</h4>
-          {#each majorAspects as aspect}
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
-              <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700">
-                <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
-                <span class="font-['Noto_Sans_Symbols'] text-xl text-emerald-600">{aspect.aspectSymbol}</span>
-                <span>{aspect.birthSymbol} {aspect.birthPlanet}</span>
-              </div>
-              <div class="text-sm leading-relaxed text-gray-700">
-                {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-600">$1</strong>')}
-              </div>
-            </div>
-          {/each}
-        </div>
-      </div>
-    {/if}
+    <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-foreground border-b border-gray-200 dark:border-border pb-3">Transit Aspects</h3>
 
-    <!-- Minor aspects -->
-    {#if minorAspects.length > 0}
-      <div class="mb-8">
-        <h4 class="font-semibold text-gray-900 mb-3 text-base">Minor Aspects:</h4>
-        <div class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-6">
-          <div class="grid grid-cols-4 p-3 bg-gray-50 font-semibold text-gray-700 border-b-2 border-gray-200">
-            <span>Transit Planet</span>
-            <span>Aspect</span>
-            <span>Birth Planet</span>
-            <span>Orb</span>
+    {#if mainPlanetAspects.length > 0}
+      <div class="mb-6 p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900 rounded-lg">
+        <h4 class="font-semibold text-gray-900 dark:text-foreground mb-2">Priority Transits</h4>
+        <p class="text-xs text-gray-600 dark:text-muted-foreground mb-3">
+          Main planets only. {MAJOR_TRANSIT_ASPECTS.join(', ')}. Major aspect orb limit 6°, sextile 4°.
+        </p>
+        <div class="overflow-x-auto bg-white dark:bg-card rounded-lg border border-gray-200 dark:border-border">
+          <div class="min-w-[720px]">
+            <div class="grid grid-cols-6 p-3 bg-gray-50 dark:bg-muted/40 font-semibold text-gray-700 dark:text-foreground border-b border-gray-200 dark:border-border">
+              <span>Transit</span>
+              <span>Aspect</span>
+              <span>Natal</span>
+              <span>Orb</span>
+              <span>Strength</span>
+              <span>House</span>
+            </div>
+            {#each priorityAspects as aspect}
+              <div class="grid grid-cols-6 p-3 border-b border-gray-100 dark:border-border hover:bg-gray-50 dark:hover:bg-muted/30 items-center">
+                <span class="font-medium text-gray-800 dark:text-foreground">{aspect.transitSymbol} {aspect.transitPlanet}</span>
+                <span class="font-medium text-emerald-700 dark:text-emerald-300">{aspect.aspectSymbol} {aspect.aspect}</span>
+                <span class="font-medium text-gray-800 dark:text-foreground">{aspect.natalSymbol} {aspect.natalPlanet}</span>
+                <span class="font-mono text-gray-700 dark:text-muted-foreground">{formatTransitOrb(aspect.orb)}</span>
+                <span>
+                  <span class="inline-flex px-2 py-0.5 rounded border text-xs font-medium {getOrbBadgeClass(aspect.orbStrength)}">{aspect.orbStrength}</span>
+                </span>
+                <span class="font-medium text-emerald-700 dark:text-emerald-300">{aspect.transitHouse ? `H${aspect.transitHouse}` : 'N/A'}</span>
+              </div>
+            {/each}
           </div>
-          {#each minorAspects as aspect}
-            <div class="grid grid-cols-4 p-3 border-b border-gray-100 hover:bg-gray-50 items-center">
-              <span class="font-medium text-gray-700">
-                {aspect.transitSymbol} {aspect.transitPlanet}
-              </span>
-              <span class="text-blue-600 font-medium">
-                {aspect.aspectSymbol} {aspect.aspect}
-              </span>
-              <span class="font-medium text-gray-700">
-                {aspect.birthSymbol} {aspect.birthPlanet}
-              </span>
-              <span class="font-mono text-gray-600 text-sm">
-                {formatOrb(aspect.orb, aspect.transitLongitude, aspect.natalLongitude)}
-              </span>
-            </div>
-          {/each}
-        </div>
-        
-        <!-- Detailed Minor Aspect Interpretations -->
-        <div class="mt-6">
-          <h4 class="font-semibold text-gray-900 mb-3 text-base">Minor Aspect Interpretations:</h4>
-          {#each minorAspects as aspect}
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-              <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700">
-                <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
-                <span class="font-['Noto_Sans_Symbols'] text-xl text-blue-600">{aspect.aspectSymbol}</span>
-                <span>{aspect.birthSymbol} {aspect.birthPlanet}</span>
-              </div>
-              <div class="text-sm leading-relaxed text-gray-700">
-                {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-blue-600">$1</strong>')}
-              </div>
-            </div>
-          {/each}
         </div>
       </div>
-    {/if}
 
-    <!-- Angular aspects -->
-    {#if angularAspects.length > 0}
       <div class="mb-8">
-        <h4 class="font-semibold text-gray-900 mb-3 text-base">Angular Aspects:</h4>
-        <div class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-6">
-          <div class="grid grid-cols-5 p-3 bg-gray-50 font-semibold text-gray-700 border-b-2 border-gray-200">
-            <span>Transit Planet</span>
-            <span>Aspect</span>
-            <span>Birth Planet</span>
-            <span>House</span>
-            <span>Orb</span>
+        <h4 class="font-semibold text-gray-900 dark:text-foreground mb-3 text-base">Full Main-Planet Aspect List</h4>
+        <div class="overflow-x-auto bg-white dark:bg-card rounded-lg border border-gray-200 dark:border-border">
+          <div class="min-w-[720px]">
+            <div class="grid grid-cols-6 p-3 bg-gray-50 dark:bg-muted/40 font-semibold text-gray-700 dark:text-foreground border-b border-gray-200 dark:border-border">
+              <span>Transit</span>
+              <span>Aspect</span>
+              <span>Natal</span>
+              <span>Orb</span>
+              <span>Limit</span>
+              <span>Strength</span>
+            </div>
+            {#each mainPlanetAspects as aspect}
+              <div class="grid grid-cols-6 p-3 border-b border-gray-100 dark:border-border hover:bg-gray-50 dark:hover:bg-muted/30 items-center">
+                <span class="font-medium text-gray-800 dark:text-foreground">{aspect.transitSymbol} {aspect.transitPlanet}</span>
+                <span class="font-medium text-emerald-700 dark:text-emerald-300">{aspect.aspectSymbol} {aspect.aspect}</span>
+                <span class="font-medium text-gray-800 dark:text-foreground">{aspect.natalSymbol} {aspect.natalPlanet}</span>
+                <span class="font-mono text-gray-700 dark:text-muted-foreground">{formatTransitOrb(aspect.orb)}</span>
+                <span class="font-mono text-gray-600 dark:text-muted-foreground">{aspect.maxOrb}°</span>
+                <span>
+                  <span class="inline-flex px-2 py-0.5 rounded border text-xs font-medium {getOrbBadgeClass(aspect.orbStrength)}">{aspect.orbStrength}</span>
+                </span>
+              </div>
+            {/each}
           </div>
-          {#each angularAspects as aspect}
-            <div class="grid grid-cols-5 p-3 border-b border-gray-100 hover:bg-gray-50 items-center">
-              <span class="font-medium text-gray-700">
-                {aspect.transitSymbol} {aspect.transitPlanet}
-              </span>
-              <span class="text-primary font-medium">
-                {aspect.aspectSymbol} {aspect.aspect}
-              </span>
-              <span class="font-medium text-gray-700">
-                {aspect.birthSymbol} {aspect.birthPlanet}
-              </span>
-              <span class="font-medium text-primary">
-                H{aspect.transitHouse}
-              </span>
-              <span class="font-mono text-gray-600 text-sm">
-                {formatOrb(aspect.orb, aspect.transitLongitude, aspect.natalLongitude)}
-              </span>
-            </div>
-          {/each}
-        </div>
-        
-        <!-- Detailed Angular Aspect Interpretations -->
-        <div class="mt-6">
-          <h4 class="font-semibold text-gray-900 mb-3 text-base">Angular Aspect Interpretations:</h4>
-          {#each angularAspects as aspect}
-            <div class="bg-primary/10 border border-primary/30 rounded-lg p-4 mb-4">
-              <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700 dark:text-foreground">
-                <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
-                <span class="font-['Noto_Sans_Symbols'] text-xl text-primary">{aspect.aspectSymbol}</span>
-                <span>{aspect.birthSymbol} {aspect.birthPlanet}</span>
-                <span class="text-primary">(House {aspect.transitHouse})</span>
-              </div>
-              <div class="text-sm leading-relaxed text-gray-700 dark:text-foreground">
-                {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary">$1</strong>')}
-              </div>
-            </div>
-          {/each}
         </div>
       </div>
-    {/if}
 
-    <!-- Aspects to objects -->
-    {#if aspectsToObjects.length > 0}
-      <div class="mb-8">
-        <h4 class="font-semibold text-gray-900 mb-3 text-base">Aspects to Objects:</h4>
-        <div class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-6">
-          <div class="grid grid-cols-4 p-3 bg-gray-50 font-semibold text-gray-700 border-b-2 border-gray-200">
-            <span>Transit Planet</span>
-            <span>Aspect</span>
-            <span>Birth Object</span>
-            <span>Orb</span>
+      <div class="mt-6">
+        <h4 class="font-semibold text-gray-900 dark:text-foreground mb-3 text-base">Top Transit Interpretations</h4>
+        {#each interpretedAspects as aspect}
+          <div class="bg-gray-50 dark:bg-muted/30 border border-gray-200 dark:border-border rounded-lg p-4 mb-4">
+            <div class="flex flex-wrap items-center gap-2 mb-3 font-semibold text-gray-800 dark:text-foreground">
+              <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
+              <span class="font-['Noto_Sans_Symbols'] text-xl text-emerald-700 dark:text-emerald-300">{aspect.aspectSymbol}</span>
+              <span>{aspect.natalSymbol} {aspect.natalPlanet}</span>
+              <span class="text-xs font-mono text-gray-600 dark:text-muted-foreground">{formatTransitOrb(aspect.orb)} {aspect.orbStrength}</span>
+            </div>
+            <div class="text-sm leading-relaxed text-gray-700 dark:text-foreground">
+              {@html getTransitInterpretationText(aspect).replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-700 dark:text-emerald-300">$1</strong>')}
+            </div>
           </div>
-          {#each aspectsToObjects as aspect}
-            <div class="grid grid-cols-4 p-3 border-b border-gray-100 hover:bg-gray-50 items-center">
-              <span class="font-medium text-gray-700">
-                {aspect.transitSymbol} {aspect.transitPlanet}
-              </span>
-              <span class="text-emerald-600 font-medium">
-                {aspect.aspectSymbol} {aspect.aspect}
-              </span>
-              <span class="font-medium text-gray-700">
-                {aspect.birthSymbol} {aspect.birthObject}
-              </span>
-              <span class="font-mono text-gray-600 text-sm">
-                {formatOrb(aspect.orb, aspect.transitLongitude, aspect.natalLongitude)}
-              </span>
-            </div>
-          {/each}
-        </div>
-        
-        <!-- Detailed Object Interpretations -->
-        <div class="mt-6">
-          <h4 class="font-semibold text-gray-900 mb-3 text-base">Object Interpretations:</h4>
-          {#each aspectsToObjects as aspect}
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
-              <div class="flex items-center gap-2 mb-3 font-semibold text-gray-700">
-                <span>{aspect.transitSymbol} {aspect.transitPlanet}</span>
-                <span class="font-['Noto_Sans_Symbols'] text-xl text-emerald-600">{aspect.aspectSymbol}</span>
-                <span>{aspect.birthSymbol} {aspect.birthObject}</span>
-              </div>
-              <div class="text-sm leading-relaxed text-gray-700">
-                {@html aspect.enhancedInterpretation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-600">$1</strong>')}
-              </div>
-            </div>
-          {/each}
-        </div>
+        {/each}
       </div>
-    {/if}
 
-    {#if mainPlanetAspects.length === 0 && aspectsToObjects.length === 0}
-      <div class="text-center py-8 text-gray-600 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-        <p>No notable transits with an orb of less than 3 degrees are currently active.</p>
+      {#if additionalAspects.length > 0}
+        <details class="mt-8 rounded-lg border border-gray-200 dark:border-border bg-white dark:bg-card">
+          <summary class="cursor-pointer p-4 font-semibold text-gray-900 dark:text-foreground">
+            Additional points ({additionalAspects.length})
+          </summary>
+          <div class="overflow-x-auto border-t border-gray-200 dark:border-border">
+            <div class="min-w-[640px]">
+              <div class="grid grid-cols-5 p-3 bg-gray-50 dark:bg-muted/40 font-semibold text-gray-700 dark:text-foreground border-b border-gray-200 dark:border-border">
+                <span>Transit</span>
+                <span>Aspect</span>
+                <span>Natal point</span>
+                <span>Orb</span>
+                <span>Strength</span>
+              </div>
+              {#each additionalAspects as aspect}
+                <div class="grid grid-cols-5 p-3 border-b border-gray-100 dark:border-border hover:bg-gray-50 dark:hover:bg-muted/30 items-center">
+                  <span class="font-medium text-gray-800 dark:text-foreground">{aspect.transitSymbol} {aspect.transitPlanet}</span>
+                  <span class="font-medium text-gray-700 dark:text-muted-foreground">{aspect.aspectSymbol} {aspect.aspect}</span>
+                  <span class="font-medium text-gray-800 dark:text-foreground">{aspect.natalSymbol} {aspect.natalPlanet}</span>
+                  <span class="font-mono text-gray-700 dark:text-muted-foreground">{formatTransitOrb(aspect.orb)}</span>
+                  <span>
+                    <span class="inline-flex px-2 py-0.5 rounded border text-xs font-medium {getOrbBadgeClass(aspect.orbStrength)}">{aspect.orbStrength}</span>
+                  </span>
+                </div>
+              {/each}
+            </div>
+          </div>
+        </details>
+      {/if}
+    {:else}
+      <div class="text-center py-8 text-gray-600 dark:text-muted-foreground bg-gray-50 dark:bg-muted/30 rounded-lg border border-dashed border-gray-300 dark:border-border">
+        <p>No main-planet major transits are currently active within the default orb limits.</p>
       </div>
     {/if}
   </div>
