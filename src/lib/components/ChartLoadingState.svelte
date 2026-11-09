@@ -1,117 +1,18 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { Loader2, Sparkles, Star, Moon, Sun } from 'lucide-svelte';
-  
+  import { Loader2 } from 'lucide-svelte';
+
   export let message = 'Calculating your birth chart...';
-  export let showProgress = true;
-  export let progress = 0;
-  
-  let currentStep = 0;
-  let stepMessages = [
-    'Aligning with the cosmos...',
-    'Calculating planetary positions...',
-    'Mapping your unique astrological signature...',
-    'Revealing your celestial blueprint...',
-    'Preparing your birth chart...'
-  ];
-  
-  let dots = '';
-  let dotCount = 0;
-  
-  onMount(() => {
-    // Animate dots
-    const dotInterval = setInterval(() => {
-      dotCount = (dotCount + 1) % 4;
-      dots = '.'.repeat(dotCount);
-    }, 500);
-    
-    // Animate progress steps
-    const stepInterval = setInterval(() => {
-      if (currentStep < stepMessages.length - 1) {
-        currentStep++;
-      }
-    }, 2000);
-    
-    return () => {
-      clearInterval(dotInterval);
-      clearInterval(stepInterval);
-    };
-  });
 </script>
 
-<div class="flex flex-col items-center justify-center py-12 px-4">
-  <!-- Main loading container with mystical styling -->
-  <div class="relative bg-card border border-border rounded-2xl p-8 shadow-lg max-w-md w-full occult-border">
-    <!-- Animated background elements -->
-    <div class="absolute inset-0 overflow-hidden rounded-2xl">
-      <div class="absolute top-4 left-4 star-twinkle">
-        <Sparkles class="h-6 w-6 text-primary opacity-60" />
-      </div>
-      <div class="absolute top-8 right-6 star-twinkle" style="animation-delay: 0.5s;">
-        <Star class="h-4 w-4 text-yellow-400 opacity-60" />
-      </div>
-      <div class="absolute bottom-6 left-8 star-twinkle" style="animation-delay: 1s;">
-        <Moon class="h-5 w-5 text-blue-400 opacity-60" />
-      </div>
-      <div class="absolute bottom-8 right-4 star-twinkle" style="animation-delay: 1.5s;">
-        <Sun class="h-5 w-5 text-orange-400 opacity-60" />
-      </div>
+<div role="status" class="flex min-h-[300px] items-center justify-center px-4 py-8">
+  <div class="w-full max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
+    <Loader2 aria-hidden="true" class="mx-auto mb-4 h-8 w-8 text-primary motion-safe:animate-spin" />
+    <p class="text-base font-medium text-foreground">{message}</p>
+    <p class="mt-2 text-sm text-muted-foreground">Your chart will appear here when it's ready.</p>
+    <div aria-hidden="true" class="mt-6 space-y-3 motion-safe:animate-pulse">
+      <div class="mx-auto h-24 w-24 rounded-full border-8 border-muted"></div>
+      <div class="mx-auto h-3 w-2/3 rounded bg-muted"></div>
+      <div class="mx-auto h-3 w-1/2 rounded bg-muted"></div>
     </div>
-    
-    <!-- Main content -->
-    <div class="relative z-10 text-center">
-      <!-- Spinning chart wheel -->
-      <div class="relative mb-6">
-        <div class="w-20 h-20 mx-auto relative mystical-glow">
-          <!-- Outer ring -->
-          <div class="absolute inset-0 border-4 border-primary/40 rounded-full cosmic-spin" style="animation-duration: 3s;"></div>
-          <!-- Inner ring -->
-          <div class="absolute inset-2 border-4 border-primary/30 rounded-full cosmic-spin" style="animation-duration: 2s; animation-direction: reverse;"></div>
-          <!-- Center -->
-          <div class="absolute inset-4 bg-primary rounded-full flex items-center justify-center">
-            <Loader2 class="h-6 w-6 text-primary-foreground animate-spin" />
-          </div>
-        </div>
-      </div>
-      
-      <!-- Loading message -->
-      <div class="mb-4">
-        <h3 class="mb-2 text-lg font-semibold text-foreground">
-          {stepMessages[currentStep]}
-        </h3>
-        <p class="text-sm text-muted-foreground">
-          {message}{dots}
-        </p>
-      </div>
-      
-      <!-- Progress bar -->
-      {#if showProgress}
-        <div class="mb-4">
-          <div class="h-2 w-full overflow-hidden rounded-full bg-muted">
-            <div 
-              class="h-2 bg-primary rounded-full transition-all duration-500 ease-out"
-              style="width: {progress}%"
-            ></div>
-          </div>
-          <p class="mt-2 text-xs text-muted-foreground">
-            {Math.round(progress)}% complete
-          </p>
-        </div>
-      {/if}
-      
-      <!-- Mystical tips -->
-      <div class="space-y-1 text-xs text-muted-foreground">
-        <p>✨ Connecting to the celestial realm</p>
-        <p>🌟 Mapping your unique cosmic fingerprint</p>
-        <p>🌙 Revealing your astrological destiny</p>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Additional info below -->
-  <div class="mt-6 text-center">
-    <p class="max-w-sm text-sm text-muted-foreground">
-      This process involves complex astronomical calculations to determine the exact positions of planets at your moment of birth.
-    </p>
   </div>
 </div>

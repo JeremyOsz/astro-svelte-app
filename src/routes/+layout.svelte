@@ -8,7 +8,7 @@
   import { OccultDivider, OccultEmblem } from "$lib/components/occult";
   import { cn } from "$lib/utils";
   import { Home, Star, BookOpen, Calendar, Search, Moon, Sun, Users, LineChart, Instagram, Linkedin } from 'lucide-svelte';
-  import { page } from '$app/stores';
+  import { page, navigating } from '$app/stores';
   import { authStore } from '$lib/stores/auth-store';
   import { chartStore } from '$lib/stores/chart-store';
   import { injectAnalytics } from '@vercel/analytics/sveltekit';
@@ -131,7 +131,12 @@
   onMount(() => {
     authStore.initialize(data?.session ?? null, data?.user ?? null);
 
+    /** @type {string | null | undefined} */
+    let syncedUserId;
     const unsubscribe = authStore.subscribe((auth) => {
+      const userId = auth.user?.id ?? null;
+      if (userId === syncedUserId) return;
+      syncedUserId = userId;
       void chartStore.setAuthUser(auth.user);
     });
 
@@ -158,6 +163,11 @@
 </svelte:head>
 
 <div class="min-h-screen flex flex-col relative z-[1]">
+  {#if $navigating}
+    <div role="status" class="fixed left-1/2 top-3 z-[100] -translate-x-1/2 rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground shadow-lg">
+      Loading page...
+    </div>
+  {/if}
   <header class={`text-amber-50 shadow-lg flex-shrink-0 border-b ${isDark ? 'bg-gradient-to-r from-[#1a2520] via-[#2d3d35] to-[#1e2c24] border-amber-500/40' : 'bg-gradient-to-r from-[#2d4a3e] via-[#3D5C4A] to-[#2d4a3e] border-amber-900/30'}`}>
     <!-- Ornamental top rule -->
     <div class={`h-1 w-full bg-gradient-to-r from-transparent to-transparent ${isDark ? 'via-amber-400/50' : 'via-amber-600/40'}`} aria-hidden="true"></div>

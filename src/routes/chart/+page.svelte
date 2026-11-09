@@ -3,8 +3,6 @@
   import { writable } from 'svelte/store';
   import PageInsightChat from '$lib/components/PageInsightChat.svelte';
   import { buildChartPageContext } from '$lib/page-chat/context-builders';
-  import D3Chart from '../../lib/chart/D3Chart.svelte';
-  import InterpretationList from '../../lib/components/interpretations/InterpretationList.svelte';
   import BirthChartForm from './BirthChartForm.svelte';
   import SavedChartsList from '$lib/components/SavedChartsList.svelte';
   import SaveChartButton from '$lib/components/SaveChartButton.svelte';
@@ -24,7 +22,6 @@
 
   // export let data: PageData;
 
-  let chartComponent: D3Chart;
   let showChart = false;
   let error: string | null = null;
 
@@ -57,9 +54,6 @@
   let chatSuggestions: string[] = [];
 
   const AI_CHAT_ENABLED = publicEnv.PUBLIC_ENABLE_AI_CHAT === 'true';
-
-  // Loading progress tracking
-  let loadingProgress = 0;
 
   // Constraints for sidebar width
   const MIN_SIDEBAR_WIDTH = 240;
@@ -132,28 +126,6 @@ MC,Leo,10°14'`;
         'How should I read this birth chart page?',
         'What can this chart tool help me discover?'
       ];
-
-  // Show loading state when API calls are in progress
-  $: if (isLoading) {
-    // Loading state active
-  } else {
-    loadingProgress = 0;
-  }
-
-  // Progress simulation
-  let progressInterval: ReturnType<typeof setInterval> | null = null;
-  
-  $: if (isLoading && !progressInterval) {
-    progressInterval = setInterval(() => {
-      if (loadingProgress < 90) {
-        loadingProgress += Math.random() * 15;
-      }
-    }, 500);
-  } else if (!isLoading && progressInterval) {
-    clearInterval(progressInterval);
-    progressInterval = null;
-    loadingProgress = 0;
-  }
 
   // Accordion open state for mobile
   let mobileAccordionValue = '';
@@ -305,7 +277,7 @@ MC,Leo,10°14'`;
           <Accordion.AccordionItem value="saved-charts">
             <Accordion.AccordionTrigger class="text-lg font-semibold">
               <BookOpen class="h-4 w-4 inline mr-1" />
-              People ({$chartStore.savedCharts.length})
+              People {$chartStore.peopleLoadState.status === 'loading' ? '(loading...)' : $chartStore.peopleLoadState.status === 'ready' ? `(${$chartStore.savedCharts.length})` : '(unavailable)'}
             </Accordion.AccordionTrigger>
             <Accordion.AccordionContent>
               <SavedChartsList onChartSelect={handleChartSelect} />
@@ -369,7 +341,7 @@ MC,Leo,10°14'`;
             on:click={() => activeTab = 'saved'}
           >
             <BookOpen class="h-4 w-4 inline mr-1" />
-            People ({$chartStore.savedCharts.length})
+            People {$chartStore.peopleLoadState.status === 'loading' ? '(loading...)' : $chartStore.peopleLoadState.status === 'ready' ? `(${$chartStore.savedCharts.length})` : '(unavailable)'}
           </button>
         </div>
           
@@ -811,9 +783,7 @@ MC,Leo,10°14'`;
         {#if isLoading}
           <div class="flex items-center justify-center h-full min-h-[400px]">
             <ChartLoadingState 
-              message="Connecting to the ephemeris service..."
-              showProgress={true}
-              progress={loadingProgress}
+              message="Calculating your birth chart..."
             />
           </div>
         {:else if showChart}
@@ -824,14 +794,19 @@ MC,Leo,10°14'`;
                class:px-0={isMobile}
                class:rounded-none={isMobile}
                class:shadow-none={isMobile}>
-            <D3Chart 
-              bind:this={chartComponent}
-              {showDegreeMarkers}
-              {showExtendedPlanets}
-              {showAspectLines}
-              {showPlanetLabels}
-              bind:zoomLevel={zoomLevel}
-            />
+            {#await import('$lib/chart/D3Chart.svelte')}
+              <ChartLoadingState message="Loading chart..." />
+            {:then { default: D3Chart }}
+              <D3Chart
+                {showDegreeMarkers}
+                {showExtendedPlanets}
+                {showAspectLines}
+                {showPlanetLabels}
+                bind:zoomLevel={zoomLevel}
+              />
+            {:catch}
+              <p role="alert">Unable to load the chart. Please reload the page to try again.</p>
+            {/await}
           </div>
           {#if AI_CHAT_ENABLED}
             <div class="mt-4 rounded-lg border border-border bg-card/60">
@@ -862,7 +837,13 @@ MC,Leo,10°14'`;
             />
           </div>
           <!-- Interpretations list -->
-          <InterpretationList filter={interpretationFilter} />
+          {#await import('$lib/components/interpretations/InterpretationList.svelte')}
+            <p class="text-muted-foreground" role="status">Loading interpretations...</p>
+          {:then { default: InterpretationList }}
+            <InterpretationList filter={interpretationFilter} />
+          {:catch}
+            <p role="alert">Unable to load interpretations. Please reload the page to try again.</p>
+          {/await}
         {:else}
           <div class="absolute inset-0 flex items-center justify-center top-5 bottom-auto">
             <div class="text-center p-8 max-w-md">

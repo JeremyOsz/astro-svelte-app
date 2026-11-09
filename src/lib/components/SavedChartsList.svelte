@@ -124,10 +124,29 @@
 
   <div class="flex items-center justify-between">
     <h3 class="text-lg font-semibold text-foreground">People</h3>
-    <span class="text-sm text-muted-foreground">{$chartStore.savedCharts.length} people</span>
+    {#if $chartStore.peopleLoadState.status === 'ready'}
+      <span class="text-sm text-muted-foreground">{$chartStore.savedCharts.length} people</span>
+    {/if}
   </div>
 
-  {#if $chartStore.savedCharts.length === 0}
+  {#if $chartStore.peopleLoadState.status === 'loading'}
+    <div role="status" class="space-y-3 py-3">
+      <p class="text-sm text-muted-foreground">Loading saved people...</p>
+      <div aria-hidden="true" class="space-y-2 motion-safe:animate-pulse">
+        {#each [1, 2, 3] as row}
+          <div class="rounded-lg border border-border bg-card p-3">
+            <div class="h-4 w-2/3 rounded bg-muted"></div>
+            <div class="mt-2 h-3 w-1/2 rounded bg-muted"></div>
+          </div>
+        {/each}
+      </div>
+    </div>
+  {:else if $chartStore.peopleLoadState.status === 'error'}
+    <div role="status" class="space-y-3 rounded-lg border border-border p-3">
+      <p class="text-sm text-muted-foreground">Saved people couldn't be loaded. You can still calculate a chart.</p>
+      <Button variant="outline" size="sm" onclick={() => chartStore.refreshPeople()}>Try again</Button>
+    </div>
+  {:else if $chartStore.savedCharts.length === 0}
     <div class="text-center py-8">
       <div class="text-muted-foreground mb-2">
         <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">

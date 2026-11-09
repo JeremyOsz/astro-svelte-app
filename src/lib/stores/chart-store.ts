@@ -22,6 +22,7 @@ export interface ChartState {
   version: number;
   currentChartId: string | null;
   savedCharts: SavedChart[];
+  peopleLoadState: { status: 'loading' } | { status: 'ready' } | { status: 'error'; message: string };
   isSaving: boolean;
   authUser: User | null;
   hasPendingLegacyImport: boolean;
@@ -36,17 +37,20 @@ function createChartStore() {
     version: 0,
     currentChartId: null,
     savedCharts: [],
+    peopleLoadState: { status: 'loading' },
     isSaving: false,
     authUser: null,
     hasPendingLegacyImport: false
   });
 
   async function refreshPeople() {
+    update((state) => ({ ...state, peopleLoadState: { status: 'loading' } }));
     try {
       const people = await chartStorageService.getAllCharts();
       update((state) => ({
         ...state,
         savedCharts: people,
+        peopleLoadState: { status: 'ready' },
         currentChartId:
           state.currentChartId && people.some((item) => item.id === state.currentChartId)
             ? state.currentChartId
@@ -56,7 +60,7 @@ function createChartStore() {
     } catch (error) {
       update((state) => ({
         ...state,
-        error: error instanceof Error ? error.message : 'Failed to load people',
+        peopleLoadState: { status: 'error', message: error instanceof Error ? error.message : 'Failed to load people' },
         savedCharts: [],
         currentChartId: null,
         version: state.version + 1
@@ -81,6 +85,7 @@ function createChartStore() {
 
   return {
     subscribe,
+    refreshPeople,
 
     setAuthUser: async (user: User | null) => {
       update((state) => ({ ...state, authUser: user, error: null }));
@@ -418,6 +423,7 @@ function createChartStore() {
         version: 0,
         currentChartId: null,
         savedCharts: state.savedCharts,
+        peopleLoadState: state.peopleLoadState,
         isSaving: false,
         authUser: state.authUser,
         hasPendingLegacyImport: state.hasPendingLegacyImport
