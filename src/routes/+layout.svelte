@@ -107,7 +107,7 @@
     }
   ];
 
-  $: currentPath = $page.url.pathname;
+  $: currentPath = $page.url.pathname === '/' ? '/chart' : $page.url.pathname;
   $: isDark = theme === 'dark';
 
   /**

@@ -442,15 +442,10 @@ MC,Leo,10°14'`;
             <SaveChartButton />
             <ShareChartButton />
           {/if}
-          <Sheet.Root bind:open={sheetOpen}>
-            <Sheet.Trigger>
-              <Button variant="outline" size="sm" class="h-10">
-                <Settings class="h-4 w-4 mr-2" />
-                <span class="hidden sm:inline">Controls & Legend</span>
-                <span class="sm:hidden">Controls & Legend</span>
-              </Button>
-            </Sheet.Trigger>
-          </Sheet.Root>
+          <Button variant="outline" size="sm" class="h-10" onclick={() => sheetOpen = true}>
+            <Settings class="h-4 w-4 mr-2" />
+            <span>Controls & Legend</span>
+          </Button>
         </div>
       </div>
 
